@@ -21,7 +21,7 @@ $ ./gradlew :cli:distribute
 (3) Execute remote shutter.
 
 ```
-$ ./cli/build/bin/theta
+$ ./cli/build/bin/theta-cli
 ```
 
 ## How to Use GUI tool
@@ -37,7 +37,7 @@ $ ./gradlew :gui:distribute
 (3) Launch the GUI tool.
 
 ```
-$ ./gui/build/bin/theta
+$ ./gui/build/bin/theta-gui
 ```
 
 ## License
