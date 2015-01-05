@@ -6,7 +6,7 @@ jdk:
   - oraclejdk7
 cache:
   directories:
-    - $HOME/.gradle/caches/
+    - $HOME/.gradle
 
 before_deploy: ./gradlew distribute
 deploy:
