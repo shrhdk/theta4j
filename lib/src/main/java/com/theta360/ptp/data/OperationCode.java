@@ -45,7 +45,7 @@ public enum OperationCode {
     }
 
     public OperationCode valueOf(UINT16 code) {
-        if(!operationCodeList.containsKey(code)) {
+        if (!operationCodeList.containsKey(code)) {
             throw new IllegalArgumentException();
         }
 

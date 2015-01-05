@@ -3,7 +3,6 @@ package com.theta360.ptp;
 import com.theta360.ptp.data.*;
 import com.theta360.ptp.packet.*;
 import com.theta360.ptp.type.ConvertException;
-import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
 import org.slf4j.Logger;
@@ -12,7 +11,8 @@ import org.slf4j.LoggerFactory;
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public final class PtpIpInitiator implements Closeable {
     private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInitiator.class);
@@ -111,7 +111,7 @@ public final class PtpIpInitiator implements Closeable {
                     try {
                         packet = ei.read();
                     } catch (final IOException e) {
-                        if(isClosed) {
+                        if (isClosed) {
                             LOGGER.info("Finished Event Listener Thread.");
                             return;
                         }

@@ -15,7 +15,7 @@ public final class ByteUtils {
         // join
         int pos = 0;
         for (byte[] src : byteArrays) {
-            if(src == null) {
+            if (src == null) {
                 throw new NullPointerException();
             }
 
