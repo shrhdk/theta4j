@@ -1,5 +1,7 @@
 language: java
 
+sudo: false
+
 jdk:
   - oraclejdk7
 cache:
@@ -11,7 +13,7 @@ deploy:
   provider: releases
   api_key:
     secure: E4WTglLw0H7biSfVDIBeG3Dv50WX3BadxingQNavop/QdnX1LAUhvJ2jexxfwRGq8wtQZucgXx95FmjrpmQl3/WiVrN3TqttG8/yaSNHESpQla7m6o3GB2Jcvejk6Tue/OirdIuNjmEowQUBa4CaFc9a4x8R9oEXf6k1BQtFQTU=
-  file: build/distribution/theta-$TRAVIS_TAG.zip
+  file: build/distributions/theta-$TRAVIS_TAG.zip
   skip_cleanup: true
   on:
     tags: true
