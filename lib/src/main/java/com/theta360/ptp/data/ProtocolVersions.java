@@ -6,5 +6,5 @@ public class ProtocolVersions {
     private ProtocolVersions() {
     }
 
-    public static UINT32 REV_1_0 = new UINT32(0x00, 0x01, 0x00, 0x00);
+    public static final UINT32 REV_1_0 = new UINT32(0x00, 0x01, 0x00, 0x00);
 }

@@ -1,11 +1,18 @@
 apply plugin: 'java'
+apply plugin: 'findbugs'
 
 sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
 archivesBaseName = 'theta-cli'
 version = '0.1'
 
 repositories {
     mavenCentral()
+}
+
+findbugs {
+    effort = 'max'
 }
 
 dependencies {

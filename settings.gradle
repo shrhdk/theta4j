@@ -1,6 +1,4 @@
 rootProject.name = 'theta'
 
-include 'lib'
-
-include 'cli'
+include 'lib', 'cli'
 

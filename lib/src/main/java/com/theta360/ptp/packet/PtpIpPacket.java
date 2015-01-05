@@ -20,7 +20,7 @@ public class PtpIpPacket {
         Validators.validateNonNull("payload", payload);
 
         this.type = type;
-        this.payload = payload;
+        this.payload = payload.clone();
     }
 
     public Type getType() {
