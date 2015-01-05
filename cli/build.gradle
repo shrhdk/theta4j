@@ -26,7 +26,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Implementation-Title': 'RICOH Theta CLI tools'
+        attributes 'Implementation-Title': 'RICOH Theta CLI tool'
         attributes 'Implementation-Version': version
         attributes "Main-Class": "com.theta360.cli.ThetaCLI"
     }
