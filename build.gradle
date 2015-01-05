@@ -1,10 +1,6 @@
 apply plugin: 'java'
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.2.1'
-}
-
-version = '0.1'
+version = '0.1.0'
 
 task distribute(type: Zip, dependsOn: [clean, ':lib:distribute', ':cli:distribute', ':gui:distribute']) {
     from 'lib/build/libs'
