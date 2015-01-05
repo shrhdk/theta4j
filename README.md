@@ -2,6 +2,8 @@
 
 Remote shutter tool for RICOH THETA.
 
+[![Build Status](https://travis-ci.org/shrhdk/theta.svg?branch=master)](https://travis-ci.org/shrhdk/theta)
+
 ## Requirements
 
 - JDK 1.7
