@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 apply plugin: 'java'
 apply plugin: 'findbugs'
 
@@ -29,4 +31,15 @@ jar {
         attributes "Main-Class": "com.theta360.cli.ThetaCLI"
     }
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+task scripts(type: Copy, dependsOn: jar) {
+    from 'src/main/script'
+    into 'build/bin'
+    filter(ReplaceTokens, tokens: [ARCHIVE_BASE_NAME: archivesBaseName, VERSION: version])
+}
+
+task distribute(type: Copy, dependsOn: scripts) {
+    from "build/libs"
+    into "build/bin"
 }
