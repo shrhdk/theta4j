@@ -17,29 +17,34 @@ import java.util.concurrent.Executors;
 public final class PtpIpInitiator implements Closeable {
     private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInitiator.class);
 
-    private volatile boolean isClosed = false;
+    // Property
 
     private final GUID guid;
     private final String host;
     private final int port;
 
-    // EventListener Executor
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    // State
 
-    // EventListener
-    private final PtpEventListenerSet listenerSet = new PtpEventListenerSet();
-
-    // Transaction ID
+    private volatile boolean isClosed = false;
     private TransactionID transactionID = new TransactionID();
 
+    // EventListener
+
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final PtpEventListenerSet listenerSet = new PtpEventListenerSet();
+
     // Command Data Connection
+
     private Socket commandDataConnection;
     private PtpIpInputStream ci;
     private PtpIpOutputStream co;
 
     // Event Connection
+
     private Socket eventConnection;
     private PtpIpInputStream ei;
+
+    // Connect
 
     public PtpIpInitiator(GUID guid, String host, int port) throws IOException {
         Validators.validateNonNull("guid", guid);
@@ -52,14 +57,6 @@ public final class PtpIpInitiator implements Closeable {
         UINT32 connectionNumber = establishCommandDataConnection();
         establishEventConnection(connectionNumber);
         startEventHandlerThread();
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public String getHost() {
-        return host;
     }
 
     private UINT32 establishCommandDataConnection() throws IOException {
@@ -150,6 +147,18 @@ public final class PtpIpInitiator implements Closeable {
         }).start();
     }
 
+    // Getter
+
+    public int getPort() {
+        return port;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    // Operations
+
     public DeviceInfo getDeviceInfo() throws IOException {
         // Send OperationRequest (GetDeviceInfo)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
@@ -209,27 +218,6 @@ public final class PtpIpInitiator implements Closeable {
         LOGGER.info("Received OperationResponse: " + operationResponse);
     }
 
-    public void initiateCapture() throws IOException {
-        // Send OperationRequest (InitiateCapture)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.INITIATE_CAPTURE.getCode(),
-                transactionID.next()
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (InitiateCapture): " + operationRequest);
-
-        // Receive OperationResponse
-        PtpIpPacket operationResponsePacket = ci.read();
-        OperationResponsePacket operationResponse;
-        try {
-            operationResponse = OperationResponsePacket.valueOf(operationResponsePacket);
-        } catch (PacketException e) {
-            throw new RuntimeException("Unexpected response from responder: " + operationResponsePacket, e);
-        }
-        LOGGER.info("Received OperationResponse: " + operationResponse);
-    }
-
     public void closeSession() throws IOException {
         // Send OperationRequest (CloseSession)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
@@ -251,6 +239,29 @@ public final class PtpIpInitiator implements Closeable {
         LOGGER.info("Received OperationResponse: " + operationResponse);
     }
 
+    public void initiateCapture() throws IOException {
+        // Send OperationRequest (InitiateCapture)
+        OperationRequestPacket operationRequest = new OperationRequestPacket(
+                new UINT32(1),
+                OperationCode.INITIATE_CAPTURE.getCode(),
+                transactionID.next()
+        );
+        co.write(operationRequest);
+        LOGGER.info("Sent OperationRequest (InitiateCapture): " + operationRequest);
+
+        // Receive OperationResponse
+        PtpIpPacket operationResponsePacket = ci.read();
+        OperationResponsePacket operationResponse;
+        try {
+            operationResponse = OperationResponsePacket.valueOf(operationResponsePacket);
+        } catch (PacketException e) {
+            throw new RuntimeException("Unexpected response from responder: " + operationResponsePacket, e);
+        }
+        LOGGER.info("Received OperationResponse: " + operationResponse);
+    }
+
+    // Listener
+
     public boolean addListener(PtpEventListener listener) {
         return listenerSet.add(listener);
     }
@@ -258,6 +269,8 @@ public final class PtpIpInitiator implements Closeable {
     public boolean removeListener(PtpEventListener listener) {
         return listenerSet.remove(listener);
     }
+
+    // Closeable
 
     @Override
     public void close() throws IOException {
