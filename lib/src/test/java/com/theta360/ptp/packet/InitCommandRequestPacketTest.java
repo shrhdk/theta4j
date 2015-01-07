@@ -3,14 +3,17 @@ package com.theta360.ptp.packet;
 import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
+import com.theta360.test.categories.UnitTest;
 import com.theta360.util.ByteUtils;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import static com.theta360.ptp.packet.PtpIpPacket.Type.INIT_COMMAND_ACK;
 import static com.theta360.ptp.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+@Category(UnitTest.class)
 public class InitCommandRequestPacketTest {
     private static final byte[] PAYLOAD = new byte[GUID.SIZE + STR.MIN_SIZE + UINT32.SIZE];
     private static final GUID GUID_ = new GUID(

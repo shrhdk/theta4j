@@ -1,12 +1,15 @@
 package com.theta360.ptp.type;
 
+import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.nio.charset.Charset;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+@Category(UnitTest.class)
 public class STRTest {
     private static Charset CHARSET = Charset.forName("UTF-16LE");
 

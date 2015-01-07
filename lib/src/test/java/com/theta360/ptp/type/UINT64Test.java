@@ -1,6 +1,8 @@
 package com.theta360.ptp.type;
 
+import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.math.BigInteger;
 
@@ -8,6 +10,7 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
+@Category(UnitTest.class)
 public class UINT64Test {
     private static final UINT64 V1 = new UINT64(0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
     private static final UINT64 V2 = new UINT64(0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);

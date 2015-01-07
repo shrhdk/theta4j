@@ -1,12 +1,15 @@
 package com.theta360.ptp.packet;
 
+import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import static com.theta360.ptp.packet.PtpIpPacket.Type.INIT_EVENT_ACK;
 import static com.theta360.ptp.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+@Category(UnitTest.class)
 public class InitEventAckPacketTest {
     // Constructor
 

@@ -1,7 +1,9 @@
 package com.theta360.ptp;
 
 import com.theta360.ptp.packet.PtpIpPacket;
+import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -9,6 +11,7 @@ import java.io.IOException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
+@Category(UnitTest.class)
 public class PtpIpOutputStreamTest {
     @Test
     public void initCommandRequest() throws IOException {

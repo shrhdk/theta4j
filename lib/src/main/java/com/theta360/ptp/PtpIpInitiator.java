@@ -18,6 +18,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * This test requires manual execution.
+ * Execute after connection with RICOH THETA is established.
+ */
 public final class PtpIpInitiator implements Closeable {
     private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInitiator.class);
 
