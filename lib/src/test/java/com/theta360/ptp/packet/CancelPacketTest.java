@@ -1,13 +1,16 @@
 package com.theta360.ptp.packet;
 
 import com.theta360.ptp.type.UINT32;
+import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import static com.theta360.ptp.packet.PtpIpPacket.Type.CANCEL;
 import static com.theta360.ptp.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+@Category(UnitTest.class)
 public class CancelPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE];
     private static final UINT32 TRANSACTION_ID = new UINT32(0);

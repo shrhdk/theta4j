@@ -2,14 +2,17 @@ package com.theta360.ptp.packet;
 
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
+import com.theta360.test.categories.UnitTest;
 import com.theta360.util.ByteUtils;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import static com.theta360.ptp.packet.PtpIpPacket.Type.EVENT;
 import static com.theta360.ptp.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+@Category(UnitTest.class)
 public class EventPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT16.SIZE + UINT32.SIZE + UINT32.SIZE * 3];
     private static final UINT16 EVENT_CODE = new UINT16(0);

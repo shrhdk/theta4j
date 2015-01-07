@@ -11,6 +11,15 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useJUnit {
+        // IntegrationTest is manual execution-only.
+        // Because these tests requires connection with real RICOH THETA.
+        // "integrationTest" task executes these tests.
+        excludeCategories 'com.theta360.test.categories.IntegrationTest'
+    }
+}
+
 findbugs {
     effort = 'max'
 }
@@ -23,6 +32,13 @@ dependencies {
 
 jar {
     mustRunAfter clean
+}
+
+task integrationTest(type: Test) {
+    useJUnit {
+        excludeCategories 'com.theta360.test.categories.UnitTest'
+        includeCategories 'com.theta360.test.categories.IntegrationTest'
+    }
 }
 
 task distribute(type: Copy, dependsOn: [clean, jar]) {

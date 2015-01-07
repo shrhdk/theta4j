@@ -1,11 +1,14 @@
 package com.theta360.ptp.type;
 
+import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
+@Category(UnitTest.class)
 public class UINT16Test {
     // Construct from int value
 
