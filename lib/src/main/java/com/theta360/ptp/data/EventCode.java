@@ -2,7 +2,7 @@ package com.theta360.ptp.data;
 
 import com.theta360.ptp.type.UINT16;
 
-public enum EventCode {
+public enum EventCode implements Code {
     UNDEFINED(new UINT16(0x4000)),
     CANCEL_TRANSACTION(new UINT16(0x4001)),
     OBJECT_ADDED(new UINT16(0x4002)),
@@ -25,8 +25,14 @@ public enum EventCode {
         this.code = code;
     }
 
+    @Override
     public UINT16 getCode() {
         return code;
+    }
+
+    @Override
+    public String getName() {
+        return name();
     }
 
     public static boolean isReservedCode(UINT16 code) {

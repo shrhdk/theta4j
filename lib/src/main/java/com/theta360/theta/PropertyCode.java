@@ -1,8 +1,9 @@
 package com.theta360.theta;
 
+import com.theta360.ptp.data.Code;
 import com.theta360.ptp.type.UINT16;
 
-public enum PropertyCode {
+public enum PropertyCode implements Code {
     BATTERY_LEVEL(new UINT16(0x5001)),
     WHITE_BALANCE(new UINT16(0x5005)),
     EXPOSURE_INDEX(new UINT16(0x500F)),
@@ -32,7 +33,13 @@ public enum PropertyCode {
         this.code = code;
     }
 
+    @Override
     public UINT16 getCode() {
         return code;
+    }
+
+    @Override
+    public String getName() {
+        return name();
     }
 }

@@ -5,7 +5,7 @@ import com.theta360.ptp.type.UINT16;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum ResponseCode {
+public enum ResponseCode implements Code {
     UNDEFINED(new UINT16(0x2000)),
     OK(new UINT16(0x2001)),
     GENERAL_ERROR(new UINT16(0x2002)),
@@ -58,9 +58,16 @@ public enum ResponseCode {
 
     private final UINT16 code;
 
+    @Override
     public UINT16 getCode() {
         return code;
     }
+
+    @Override
+    public String getName() {
+        return name();
+    }
+
 
     private ResponseCode(UINT16 code) {
         this.code = code;
