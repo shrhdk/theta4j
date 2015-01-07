@@ -3,14 +3,18 @@ package com.theta360.ptp;
 import com.theta360.ptp.data.*;
 import com.theta360.ptp.packet.*;
 import com.theta360.ptp.type.ConvertException;
+import com.theta360.ptp.type.GenericDataTypeInputStream;
+import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -193,6 +197,8 @@ public final class PtpIpInitiator implements Closeable {
     }
 
     public void openSession(UINT32 sessionID) throws IOException {
+        Validators.validateNonNull("sessionID", sessionID);
+
         if (sessionID.longValue() == 0) {
             throw new IllegalArgumentException("sessionID must be non-zero.");
         }
@@ -237,6 +243,43 @@ public final class PtpIpInitiator implements Closeable {
             throw new RuntimeException("Unexpected response from responder: " + operationResponsePacket, e);
         }
         LOGGER.info("Received OperationResponse: " + operationResponse);
+    }
+
+    public List<UINT32> getObjectHandles() throws IOException {
+        return getObjectHandles(new UINT32(0xFFFFFFFFL));
+    }
+
+    public List<UINT32> getObjectHandles(UINT32 storageID) throws IOException {
+        Validators.validateNonNull("storageID", storageID);
+
+        // Send OperationRequest (GetDeviceInfo)
+        OperationRequestPacket operationRequest = new OperationRequestPacket(
+                new UINT32(1),
+                OperationCode.GET_OBJECT_HANDLES.getCode(),
+                transactionID.next(),
+                storageID
+        );
+        co.write(operationRequest);
+        LOGGER.info("Sent OperationRequest (GetDeviceInfo): " + operationRequest);
+
+        // Receive Data
+        byte[] data = ci.readData();
+        List<UINT32> objectHandles;
+        GenericDataTypeInputStream is = new GenericDataTypeInputStream(data);
+        objectHandles = is.readAUINT32();
+        LOGGER.info("Received Object Handles: " + objectHandles);
+
+        // Receive OperationResponse
+        PtpIpPacket operationResponsePacket = ci.read();
+        OperationResponsePacket operationResponse;
+        try {
+            operationResponse = OperationResponsePacket.valueOf(operationResponsePacket);
+        } catch (PacketException e) {
+            throw new RuntimeException("Unexpected response from responder: " + operationResponsePacket, e);
+        }
+        LOGGER.info("Received OperationResponse: " + operationResponse);
+
+        return objectHandles;
     }
 
     public void initiateCapture() throws IOException {

@@ -185,8 +185,7 @@ public final class DeviceInfo {
     }
 
     public static DeviceInfo valueOf(byte[] bytes) throws ConvertException {
-        ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-        GenericDataTypeInputStream is = new GenericDataTypeInputStream(bais);
+        GenericDataTypeInputStream is = new GenericDataTypeInputStream(bytes);
 
         try {
             UINT16 standardVersion = is.readUINT16();

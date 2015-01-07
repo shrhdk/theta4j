@@ -4,6 +4,7 @@ import com.theta360.util.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +15,10 @@ public final class GenericDataTypeInputStream implements Closeable {
     private static Logger LOGGER = LoggerFactory.getLogger(GenericDataTypeInputStream.class);
 
     private final InputStream is;
+
+    public GenericDataTypeInputStream(byte[] bytes) {
+        this(new ByteArrayInputStream(bytes));
+    }
 
     public GenericDataTypeInputStream(InputStream inputStream) {
         Validators.validateNonNull("inputStream", inputStream);
@@ -44,6 +49,18 @@ public final class GenericDataTypeInputStream implements Closeable {
 
         for (int i = 0; i < length; i++) {
             list.add(readUINT16());
+        }
+
+        return list;
+    }
+
+    public List<UINT32> readAUINT32() throws IOException {
+        long length = readUINT32().longValue();
+
+        List<UINT32> list = new ArrayList<>((int) length);
+
+        for (int i = 0; i < length; i++) {
+            list.add(readUINT32());
         }
 
         return list;
