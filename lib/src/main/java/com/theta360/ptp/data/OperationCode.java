@@ -5,7 +5,7 @@ import com.theta360.ptp.type.UINT16;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum OperationCode {
+public enum OperationCode implements Code {
     UNDEFINED(new UINT16(0x1000)),
     GET_DEVICE_INFO(new UINT16(0x1001)),
     OPEN_SESSION(new UINT16(0x1002)),
@@ -54,8 +54,14 @@ public enum OperationCode {
 
     private final UINT16 code;
 
+    @Override
     public UINT16 getCode() {
         return code;
+    }
+
+    @Override
+    public String getName() {
+        return name();
     }
 
     private OperationCode(UINT16 code) {

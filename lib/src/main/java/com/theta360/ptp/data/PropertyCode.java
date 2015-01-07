@@ -2,7 +2,7 @@ package com.theta360.ptp.data;
 
 import com.theta360.ptp.type.UINT16;
 
-public enum PropertyCode {
+public enum PropertyCode implements Code {
     UNDEFINED(new UINT16(0x5000)),
     BATTERY_LEVEL(new UINT16(0x5001)),
     FUNCTIONAL_MODE(new UINT16(0x5002)),
@@ -46,9 +46,16 @@ public enum PropertyCode {
         this.code = code;
     }
 
+    @Override
     public UINT16 getCode() {
         return code;
     }
+
+    @Override
+    public String getName() {
+        return name();
+    }
+
 
     public static boolean isReservedCode(UINT16 code) {
         byte msn = (byte) (code.bytes()[0] & (byte) 0xF0);
