@@ -15,7 +15,7 @@ import java.util.UUID;
 public final class ThetaCLI {
     private static final Logger LOGGER = LoggerFactory.getLogger(ThetaCLI.class);
 
-    public static final UINT32 SESSION_ID = new UINT32(1);
+    private static final UINT32 SESSION_ID = new UINT32(1);
 
     private ThetaCLI() {
     }
