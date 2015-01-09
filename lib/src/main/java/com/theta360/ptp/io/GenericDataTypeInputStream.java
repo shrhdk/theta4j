@@ -1,5 +1,9 @@
-package com.theta360.ptp.type;
+package com.theta360.ptp.io;
 
+import com.theta360.ptp.type.ConvertException;
+import com.theta360.ptp.type.STR;
+import com.theta360.ptp.type.UINT16;
+import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
