@@ -1,7 +1,7 @@
 package com.theta360.ptp.data;
 
-import com.theta360.ptp.type.ConvertException;
 import com.theta360.ptp.io.GenericDataTypeInputStream;
+import com.theta360.ptp.type.ConvertException;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
