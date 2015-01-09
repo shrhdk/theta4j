@@ -1,10 +1,13 @@
 package com.theta360.ptp;
 
 import com.theta360.ptp.code.OperationCode;
-import com.theta360.ptp.data.*;
-import com.theta360.ptp.io.GenericDataTypeInputStream;
+import com.theta360.ptp.data.DeviceInfo;
+import com.theta360.ptp.data.GUID;
+import com.theta360.ptp.data.ProtocolVersions;
+import com.theta360.ptp.data.TransactionID;
 import com.theta360.ptp.io.PacketInputStream;
 import com.theta360.ptp.io.PacketOutputStream;
+import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.packet.*;
 import com.theta360.ptp.type.ConvertException;
 import com.theta360.ptp.type.UINT32;
@@ -270,7 +273,7 @@ public final class PtpIpInitiator implements Closeable {
         // Receive Data
         byte[] data = ci.readData();
         List<UINT32> objectHandles;
-        GenericDataTypeInputStream is = new GenericDataTypeInputStream(data);
+        PtpInputStream is = new PtpInputStream(data);
         objectHandles = is.readAUINT32();
         LOGGER.info("Received Object Handles: " + objectHandles);
 
