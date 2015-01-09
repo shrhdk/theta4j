@@ -36,7 +36,7 @@ public class PtpIpPacket {
         byte[] payload = getPayload();
 
         byte[] lengthBytes = new UINT32(8 + payload.length).bytes();
-        byte[] typeBytes = type.getBytes();
+        byte[] typeBytes = type.getCode().bytes();
         byte[] packetBytes = new byte[8 + payload.length];
         System.arraycopy(lengthBytes, 0, packetBytes, 0, 4);
         System.arraycopy(typeBytes, 0, packetBytes, 4, 4);
@@ -74,50 +74,47 @@ public class PtpIpPacket {
     }
 
     public enum Type {
-        INIT_COMMAND_REQUEST(1),
-        INIT_COMMAND_ACK(2),
-        INIT_EVENT_REQUEST(3),
-        INIT_EVENT_ACK(4),
-        INIT_FAIL(5),
-        OPERATION_REQUEST(6),
-        OPERATION_RESPONSE(7),
-        EVENT(8),
-        START_DATA(9),
-        DATA(10),
-        CANCEL(11),
-        END_DATA(12),
-        PROBE_REQUEST(13),
-        PROBE_RESPONSE(13);
+        INIT_COMMAND_REQUEST(new UINT32(0x0001)),
+        INIT_COMMAND_ACK(new UINT32(0x0002)),
+        INIT_EVENT_REQUEST(new UINT32(0x0003)),
+        INIT_EVENT_ACK(new UINT32(0x0004)),
+        INIT_FAIL(new UINT32(0x0005)),
+        OPERATION_REQUEST(new UINT32(0x0006)),
+        OPERATION_RESPONSE(new UINT32(0x0007)),
+        EVENT(new UINT32(0x0008)),
+        START_DATA(new UINT32(0x0009)),
+        DATA(new UINT32(0x000A)),
+        CANCEL(new UINT32(0x000B)),
+        END_DATA(new UINT32(0x000C)),
+        PROBE_REQUEST(new UINT32(0x000D)),
+        PROBE_RESPONSE(new UINT32(0x000D));
 
-        private static final Map<Integer, Type> numbers = new HashMap<>();
+        private static final Map<UINT32, Type> numbers = new HashMap<>();
 
         static {
             for (Type type : Type.values()) {
-                numbers.put((int) type.getBytes()[0], type);
+                numbers.put(type.code, type);
             }
         }
 
-        private final byte[] bytes;
+        private final UINT32 code;
 
-        private Type(int number) {
-            this.bytes = new byte[]{(byte) number, 0x00, 0x00, 0x00};
+        private Type(UINT32 code) {
+            this.code = code;
         }
 
-        public static Type valueOf(byte[] bytes) {
-            if (bytes.length != 4) {
+        public static Type valueOf(UINT32 value) {
+            Validators.validateNonNull("value", value);
+
+            if (!numbers.containsKey(value)) {
                 throw new IllegalArgumentException();
             }
 
-            int number = bytes[0];
-            if (!numbers.containsKey(number)) {
-                throw new IllegalArgumentException();
-            }
-
-            return numbers.get(number);
+            return numbers.get(value);
         }
 
-        public byte[] getBytes() {
-            return bytes.clone();
+        public UINT32 getCode() {
+            return code;
         }
     }
 }
