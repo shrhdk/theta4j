@@ -18,6 +18,23 @@ public final class PacketInputStream implements Closeable {
         this.is = new PtpInputStream(is);
     }
 
+    public long nextLength() throws IOException {
+        is.mark(UINT32.SIZE);
+        UINT32 length = is.readUINT32();
+        is.reset();
+
+        return length.longValue();
+    }
+
+    public PtpIpPacket.Type nextType() throws IOException {
+        is.mark(UINT32.SIZE + UINT32.SIZE);
+        is.skip(UINT32.SIZE); // skip length header
+        UINT32 typeValue = is.readUINT32();
+        is.reset();
+
+        return PtpIpPacket.Type.valueOf(typeValue);
+    }
+
     public PtpIpPacket read() throws IOException {
         // Read length
         long packetLength = is.readUINT32().longValue();
@@ -34,6 +51,12 @@ public final class PacketInputStream implements Closeable {
         }
 
         return new PtpIpPacket(type, payload);
+    }
+
+    public InitCommandRequestPacket readInitCommandRequestPacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.INIT_COMMAND_REQUEST);
+
+        throw new UnsupportedOperationException();
     }
 
     public byte[] readData() throws IOException {
@@ -68,6 +91,12 @@ public final class PacketInputStream implements Closeable {
     @Override
     public void close() throws IOException {
         is.close();
+    }
+
+    private void assertNextTypeIs(PtpIpPacket.Type expected) throws IOException {
+        if (nextType() != expected) {
+            throw new RuntimeException();
+        }
     }
 
     private static byte[] getDataPayload(PtpIpPacket packet) {
