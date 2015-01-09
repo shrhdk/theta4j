@@ -1,6 +1,6 @@
 package com.theta360.theta;
 
-import com.theta360.ptp.data.Code;
+import com.theta360.ptp.code.Code;
 import com.theta360.ptp.type.UINT16;
 
 public enum PropertyCode implements Code {
