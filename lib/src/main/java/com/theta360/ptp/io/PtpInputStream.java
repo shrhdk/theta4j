@@ -30,6 +30,18 @@ public final class PtpInputStream implements Closeable {
         this.is = inputStream;
     }
 
+    public void mark(int readlimit) {
+        is.mark(readlimit);
+    }
+
+    public void reset() throws IOException {
+        is.reset();
+    }
+
+    public long skip(long n) throws IOException {
+        return is.skip(n);
+    }
+
     public int read() throws IOException {
         return is.read();
     }
