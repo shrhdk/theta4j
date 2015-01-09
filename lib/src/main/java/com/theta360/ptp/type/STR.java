@@ -2,6 +2,7 @@ package com.theta360.ptp.type;
 
 import com.theta360.util.Validators;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 public final class STR {
@@ -18,18 +19,18 @@ public final class STR {
         return (str + "\u0000").getBytes(CHARSET);
     }
 
-    public static String toString(byte[] bytes) throws ConvertException {
+    public static String toString(byte[] bytes) throws IOException {
         Validators.validateNonNull("bytes", bytes);
 
         // Larger than min length?
         if (bytes.length < MIN_SIZE) {
-            throw new ConvertException("String must be at least 2 bytes, but actual is 0 byte.");
+            throw new IOException("String must be at least 2 bytes, but actual is 0 byte.");
         }
 
         // End with NULL?
         boolean endWithNull = bytes[bytes.length - 1] == 0x00 && bytes[bytes.length - 2] == 0x00;
         if (!endWithNull) {
-            throw new ConvertException("String bytes must be end with NULL, but actual is not.");
+            throw new IOException("String bytes must be end with NULL, but actual is not.");
         }
 
         // Decode without NUll at the end

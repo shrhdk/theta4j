@@ -1,7 +1,6 @@
 package com.theta360.ptp.data;
 
 import com.theta360.ptp.io.PtpInputStream;
-import com.theta360.ptp.type.ConvertException;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
@@ -183,10 +182,8 @@ public final class DeviceInfo {
                 '}';
     }
 
-    public static DeviceInfo valueOf(byte[] bytes) throws ConvertException {
-        PtpInputStream is = new PtpInputStream(bytes);
-
-        try {
+    public static DeviceInfo valueOf(byte[] bytes) {
+        try (PtpInputStream is = new PtpInputStream(bytes)) {
             UINT16 standardVersion = is.readUINT16();
             UINT32 vendorExtensionID = is.readUINT32();
             UINT16 vendorExtensionVersion = is.readUINT16();

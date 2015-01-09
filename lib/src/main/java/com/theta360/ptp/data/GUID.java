@@ -1,5 +1,8 @@
 package com.theta360.ptp.data;
 
+import com.theta360.ptp.io.PtpInputStream;
+
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.UUID;
@@ -56,5 +59,15 @@ public final class GUID {
     @Override
     public String toString() {
         return "GUID{" + Arrays.toString(bytes) + "}";
+    }
+
+    public static GUID read(PtpInputStream pis) throws IOException {
+        byte[] bytes = new byte[SIZE];
+
+        if (pis.read(bytes) == -1) {
+            throw new IOException();
+        }
+
+        return new GUID(bytes);
     }
 }

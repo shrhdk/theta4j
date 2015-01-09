@@ -1,13 +1,13 @@
 package com.theta360.ptp.packet;
 
 import com.theta360.ptp.data.GUID;
-import com.theta360.ptp.type.ConvertException;
+import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
 
-import java.nio.ByteBuffer;
+import java.io.IOException;
 
 public final class InitCommandAckPacket extends PtpIpPacket {
     private static final int MIN_SIZE = UINT32.SIZE + GUID.SIZE + STR.MIN_SIZE + UINT32.SIZE;
@@ -84,39 +84,20 @@ public final class InitCommandAckPacket extends PtpIpPacket {
                 '}';
     }
 
-    public static InitCommandAckPacket valueOf(PtpIpPacket packet) throws PacketException {
-        Validators.validateNonNull("packet", packet);
-        PacketUtils.checkType(Type.INIT_COMMAND_ACK, packet.getType());
+    public static InitCommandAckPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        ByteBuffer buffer = ByteBuffer.wrap(packet.getPayload());
-        PacketUtils.checkMinLength(MIN_SIZE, buffer.remaining());
+        PacketUtils.asseertType(type, Type.INIT_COMMAND_ACK);
+        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
 
-        // Get Connection Number
-        byte[] connectionNumberBytes = new byte[UINT32.SIZE];
-        buffer.get(connectionNumberBytes);
-        UINT32 connectionNumber = new UINT32(connectionNumberBytes);
+        long nameLength = payloadLength - UINT32.SIZE - GUID.SIZE - UINT32.SIZE;
 
-        // Get GUID
-        byte[] guidBytes = new byte[GUID.SIZE];
-        buffer.get(guidBytes);
-        GUID guid = new GUID(guidBytes);
-
-        // Get Name
-        byte[] nameBytes = new byte[buffer.remaining() - UINT32.SIZE];
-        buffer.get(nameBytes);
-
-        // Get Protocol Version
-        byte[] protocolVersionBytes = new byte[UINT32.SIZE];
-        buffer.get(protocolVersionBytes);
-        UINT32 protocolVersion = new UINT32(protocolVersionBytes);
-
-        // Convert bytes to String
-        String name;
-        try {
-            name = STR.toString(nameBytes);
-        } catch (ConvertException e) {
-            throw new PacketException(e.getMessage(), e);
-        }
+        UINT32 connectionNumber = pis.readUINT32();
+        GUID guid = GUID.read(pis);
+        String name = pis.readString((int) nameLength);
+        UINT32 protocolVersion = pis.readUINT32();
 
         return new InitCommandAckPacket(connectionNumber, guid, name, protocolVersion);
     }

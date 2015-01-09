@@ -1,6 +1,9 @@
 package com.theta360.ptp.packet;
 
-import com.theta360.util.Validators;
+import com.theta360.ptp.io.PtpInputStream;
+import com.theta360.ptp.type.UINT32;
+
+import java.io.IOException;
 
 public final class ProbeResponsePacket extends PtpIpPacket {
     private static final int SIZE = 0;
@@ -26,10 +29,13 @@ public final class ProbeResponsePacket extends PtpIpPacket {
         return "ProbeResponsePacket{}";
     }
 
-    public static ProbeResponsePacket valueOf(PtpIpPacket packet) throws PacketException {
-        Validators.validateNonNull("packet", packet);
-        PacketUtils.checkType(Type.PROBE_RESPONSE, packet.getType());
-        PacketUtils.checkLength(SIZE, packet.getPayload().length);
+    public static ProbeResponsePacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        PacketUtils.asseertType(type, Type.PROBE_RESPONSE);
+        PacketUtils.checkLength((int) payloadLength, SIZE);
 
         return new ProbeResponsePacket();
     }

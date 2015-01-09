@@ -1,10 +1,11 @@
 package com.theta360.ptp.packet;
 
+import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
 
-import java.nio.ByteBuffer;
+import java.io.IOException;
 import java.util.Arrays;
 
 public final class DataPacket extends PtpIpPacket {
@@ -64,21 +65,22 @@ public final class DataPacket extends PtpIpPacket {
                 '}';
     }
 
-    public static DataPacket valueOf(PtpIpPacket packet) throws PacketException {
-        Validators.validateNonNull("packet", packet);
-        PacketUtils.checkType(Type.DATA, packet.getType());
+    public static DataPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        ByteBuffer buffer = ByteBuffer.wrap(packet.getPayload());
-        PacketUtils.checkMinLength(MIN_SIZE, buffer.remaining());
+        PacketUtils.asseertType(type, Type.DATA);
+        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
 
-        // Get Transaction ID
-        byte[] transactionIDBytes = new byte[UINT32.SIZE];
-        buffer.get(transactionIDBytes);
-        UINT32 transactionID = new UINT32(transactionIDBytes);
+        long dataLength = payloadLength - UINT32.SIZE;              // -TransactionID
 
-        // Get Data Payload
-        byte[] dataPayload = new byte[buffer.remaining()];
-        buffer.get(dataPayload);
+        UINT32 transactionID = pis.readUINT32();
+        byte[] dataPayload = new byte[(int) dataLength];
+
+        if (pis.read(dataPayload) == -1) {
+            throw new IOException();
+        }
 
         return new DataPacket(transactionID, dataPayload);
     }

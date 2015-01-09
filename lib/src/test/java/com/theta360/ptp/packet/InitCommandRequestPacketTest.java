@@ -1,12 +1,16 @@
 package com.theta360.ptp.packet;
 
 import com.theta360.ptp.data.GUID;
+import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.UnitTest;
 import com.theta360.util.ByteUtils;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 import static com.theta360.ptp.packet.PtpIpPacket.Type.INIT_COMMAND_ACK;
 import static com.theta360.ptp.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
@@ -82,64 +86,68 @@ public class InitCommandRequestPacketTest {
         assertThat(packet.getPayload(), is(expectedPayload));
     }
 
-    // valueOf with error
+    // read with error
 
     @Test(expected = NullPointerException.class)
-    public void valueOfNull() throws PacketException {
+    public void readNull() throws IOException {
         // act
-        InitCommandRequestPacket.valueOf(null);
+        InitCommandRequestPacket.read(null);
     }
 
-    @Test(expected = PacketException.class)
-    public void valueOfInvalidType() throws PacketException {
+    @Test(expected = IOException.class)
+    public void readInvalidType() throws IOException {
         // given
         PtpIpPacket.Type invalidType = INIT_COMMAND_ACK;
 
         // arrange
         PtpIpPacket givenPacket = new PtpIpPacket(invalidType, PAYLOAD);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
 
         // act
-        InitCommandRequestPacket.valueOf(givenPacket);
+        InitCommandRequestPacket.read(givenInputStream);
     }
 
-    @Test(expected = PacketException.class)
-    public void valueOfTooShortPayload() throws PacketException {
+    @Test(expected = IOException.class)
+    public void readTooShortPayload() throws IOException {
         // given
         byte[] givenPayload = new byte[PAYLOAD.length - 1]; // min length - 1
 
         // arrange
         PtpIpPacket givenPacket = new PtpIpPacket(INIT_COMMAND_REQUEST, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
 
         // act
-        InitCommandRequestPacket.valueOf(givenPacket);
+        InitCommandRequestPacket.read(givenInputStream);
     }
 
-    @Test(expected = PacketException.class)
-    public void valueOfInvalidName() throws PacketException {
+    @Test(expected = IOException.class)
+    public void readInvalidName() throws IOException {
         // given
         byte[] invalidNameBytes = new byte[]{0x01};  // Not end with 0x00
         byte[] givenPayload = ByteUtils.join(GUID_.bytes(), invalidNameBytes, PROTOCOL_VERSION.bytes());
 
         // arrange
         PtpIpPacket givenPacket = new PtpIpPacket(INIT_COMMAND_REQUEST, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
 
         // act
-        InitCommandRequestPacket.valueOf(givenPacket);
+        InitCommandRequestPacket.read(givenInputStream);
     }
 
-    // valueOf
+    // read
 
     @Test
-    public void valueOf() throws PacketException {
+    public void read() throws IOException {
         // given
         String givenName = "test";
         byte[] givenPayload = ByteUtils.join(GUID_.bytes(), STR.toBytes(givenName), PROTOCOL_VERSION.bytes());
 
         // arrange
         PtpIpPacket givenPacket = new PtpIpPacket(INIT_COMMAND_REQUEST, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
 
         // act
-        InitCommandRequestPacket actual = InitCommandRequestPacket.valueOf(givenPacket);
+        InitCommandRequestPacket actual = InitCommandRequestPacket.read(givenInputStream);
 
         // verify
         assertThat(actual.getType(), is(INIT_COMMAND_REQUEST));

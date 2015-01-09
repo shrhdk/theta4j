@@ -1,8 +1,10 @@
 package com.theta360.ptp.packet;
 
+import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -111,6 +113,12 @@ public class PtpIpPacket {
             }
 
             return numbers.get(value);
+        }
+
+        public static Type read(PtpInputStream pis) throws IOException {
+            Validators.validateNonNull("pis", pis);
+            UINT32 typeValue = pis.readUINT32();
+            return valueOf(typeValue);
         }
 
         public UINT32 getCode() {
