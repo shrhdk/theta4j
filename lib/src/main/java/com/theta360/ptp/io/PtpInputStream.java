@@ -15,16 +15,16 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class GenericDataTypeInputStream implements Closeable {
-    private static Logger LOGGER = LoggerFactory.getLogger(GenericDataTypeInputStream.class);
+public final class PtpInputStream implements Closeable {
+    private static Logger LOGGER = LoggerFactory.getLogger(PtpInputStream.class);
 
     private final InputStream is;
 
-    public GenericDataTypeInputStream(byte[] bytes) {
+    public PtpInputStream(byte[] bytes) {
         this(new ByteArrayInputStream(bytes));
     }
 
-    public GenericDataTypeInputStream(InputStream inputStream) {
+    public PtpInputStream(InputStream inputStream) {
         Validators.validateNonNull("inputStream", inputStream);
 
         this.is = inputStream;
