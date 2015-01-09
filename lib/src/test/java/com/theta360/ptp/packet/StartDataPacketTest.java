@@ -1,11 +1,15 @@
 package com.theta360.ptp.packet;
 
+import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.ptp.type.UINT64;
 import com.theta360.test.categories.UnitTest;
 import com.theta360.util.ByteUtils;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 import static com.theta360.ptp.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static com.theta360.ptp.packet.PtpIpPacket.Type.START_DATA;
@@ -52,42 +56,44 @@ public class StartDataPacketTest {
         assertThat(packet.getPayload(), is(expectedPayload));
     }
 
-    // valueOf with error
+    // read with error
 
     @Test(expected = NullPointerException.class)
-    public void valueOfNull() throws PacketException {
+    public void readNull() throws IOException {
         // act
-        StartDataPacket.valueOf(null);
+        StartDataPacket.read(null);
     }
 
-    @Test(expected = PacketException.class)
-    public void valueOfInvalidType() throws PacketException {
+    @Test(expected = IOException.class)
+    public void readInvalidType() throws IOException {
         // given
         PtpIpPacket.Type invalidType = INIT_EVENT_REQUEST;
 
         // arrange
         PtpIpPacket givenPacket = new PtpIpPacket(invalidType, PAYLOAD);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
 
         // act
-        StartDataPacket.valueOf(givenPacket);
+        StartDataPacket.read(givenInputStream);
     }
 
-    @Test(expected = PacketException.class)
-    public void valueOfInvalidLengthPayload() throws PacketException {
+    @Test(expected = IOException.class)
+    public void readInvalidLengthPayload() throws IOException {
         // given
         byte[] givenPayload = new byte[PAYLOAD.length - 1];  // expected length - 1
 
         // arrange
         PtpIpPacket givenPacket = new PtpIpPacket(START_DATA, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
 
         // act
-        StartDataPacket.valueOf(givenPacket);
+        StartDataPacket.read(givenInputStream);
     }
 
-    // valueOf
+    // read
 
     @Test
-    public void valueOf() throws PacketException {
+    public void read() throws IOException {
         // given
         byte[] givenPayload = ByteUtils.join(
                 TRANSACTION_ID.bytes(),
@@ -96,9 +102,10 @@ public class StartDataPacketTest {
 
         // arrange
         PtpIpPacket givenPacket = new PtpIpPacket(START_DATA, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
 
         // act
-        StartDataPacket actual = StartDataPacket.valueOf(givenPacket);
+        StartDataPacket actual = StartDataPacket.read(givenInputStream);
 
         // verify
         assertThat(actual.getType(), is(START_DATA));

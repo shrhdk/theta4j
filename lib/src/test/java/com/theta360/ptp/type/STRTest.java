@@ -4,6 +4,7 @@ import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 import static org.hamcrest.core.Is.is;
@@ -54,12 +55,12 @@ public class STRTest {
     // toString
 
     @Test(expected = NullPointerException.class)
-    public void toStringWithNull() throws ConvertException {
+    public void toStringWithNull() throws IOException {
         STR.toString(null);
     }
 
     @Test
-    public void toStringWithEmpty() throws ConvertException {
+    public void toStringWithEmpty() throws IOException {
         // given
         byte[] given = "\u0000".getBytes(CHARSET);
 
@@ -74,7 +75,7 @@ public class STRTest {
     }
 
     @Test
-    public void testToString() throws ConvertException {
+    public void testToString() throws IOException {
         // given
         byte[] given = "test\u0000".getBytes(CHARSET);
 

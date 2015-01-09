@@ -1,9 +1,10 @@
 package com.theta360.ptp.packet;
 
+import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
 
-import java.nio.ByteBuffer;
+import java.io.IOException;
 
 public final class InitEventRequestPacket extends PtpIpPacket {
     private static final int SIZE = UINT32.SIZE;
@@ -47,17 +48,15 @@ public final class InitEventRequestPacket extends PtpIpPacket {
                 '}';
     }
 
-    public static InitEventRequestPacket valueOf(PtpIpPacket packet) throws PacketException {
-        Validators.validateNonNull("packet", packet);
-        PacketUtils.checkType(Type.INIT_EVENT_REQUEST, packet.getType());
+    public static InitEventRequestPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        ByteBuffer buffer = ByteBuffer.wrap(packet.getPayload());
-        PacketUtils.checkLength(SIZE, buffer.remaining());
+        PacketUtils.asseertType(type, Type.INIT_EVENT_REQUEST);
+        PacketUtils.checkLength((int) payloadLength, SIZE);
 
-        // Get Session ID
-        byte[] connectionNumberBytes = new byte[UINT32.SIZE];
-        buffer.get(connectionNumberBytes);
-        UINT32 connectionNumber = new UINT32(connectionNumberBytes);
+        UINT32 connectionNumber = pis.readUINT32();
 
         return new InitEventRequestPacket(connectionNumber);
     }

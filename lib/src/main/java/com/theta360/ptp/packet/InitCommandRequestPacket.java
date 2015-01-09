@@ -1,13 +1,13 @@
 package com.theta360.ptp.packet;
 
 import com.theta360.ptp.data.GUID;
-import com.theta360.ptp.type.ConvertException;
+import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
 
-import java.nio.ByteBuffer;
+import java.io.IOException;
 
 public final class InitCommandRequestPacket extends PtpIpPacket {
     private static final int MIN_SIZE = GUID.SIZE + STR.MIN_SIZE + UINT32.SIZE;
@@ -74,34 +74,19 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
                 '}';
     }
 
-    public static InitCommandRequestPacket valueOf(PtpIpPacket packet) throws PacketException {
-        Validators.validateNonNull("packet", packet);
-        PacketUtils.checkType(Type.INIT_COMMAND_REQUEST, packet.getType());
+    public static InitCommandRequestPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        ByteBuffer buffer = ByteBuffer.wrap(packet.getPayload());
-        PacketUtils.checkMinLength(MIN_SIZE, buffer.remaining());
+        PacketUtils.asseertType(type, Type.INIT_COMMAND_REQUEST);
+        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
 
-        // Get GUID
-        byte[] guidBytes = new byte[GUID.SIZE];
-        buffer.get(guidBytes);
-        GUID guid = new GUID(guidBytes);
+        long nameLength = payloadLength - GUID.SIZE - UINT32.SIZE;
 
-        // Get Name Bytes
-        byte[] nameBytes = new byte[buffer.remaining() - UINT32.SIZE];
-        buffer.get(nameBytes);
-
-        // Get Protocol Version
-        byte[] protocolVersionBytes = new byte[UINT32.SIZE];
-        buffer.get(protocolVersionBytes);
-        UINT32 protocolVersion = new UINT32(protocolVersionBytes);
-
-        // Convert bytes to String
-        String name;
-        try {
-            name = STR.toString(nameBytes);
-        } catch (ConvertException e) {
-            throw new PacketException(e.getMessage(), e);
-        }
+        GUID guid = GUID.read(pis);
+        String name = pis.readString((int) nameLength);
+        UINT32 protocolVersion = pis.readUINT32();
 
         return new InitCommandRequestPacket(guid, name, protocolVersion);
     }

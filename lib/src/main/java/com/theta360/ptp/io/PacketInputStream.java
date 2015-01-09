@@ -12,75 +12,140 @@ import java.io.InputStream;
 public final class PacketInputStream implements Closeable {
     private static final Logger LOGGER = LoggerFactory.getLogger(PacketInputStream.class);
 
-    private final PtpInputStream is;
+    private final PtpInputStream pis;
 
     public PacketInputStream(InputStream is) {
-        this.is = new PtpInputStream(is);
+        this.pis = new PtpInputStream(is);
     }
 
+    // Check Next
+
     public long nextLength() throws IOException {
-        is.mark(UINT32.SIZE);
-        UINT32 length = is.readUINT32();
-        is.reset();
+        pis.mark(UINT32.SIZE);
+        UINT32 length = pis.readUINT32();
+        pis.reset();
 
         return length.longValue();
     }
 
     public PtpIpPacket.Type nextType() throws IOException {
-        is.mark(UINT32.SIZE + UINT32.SIZE);
-        is.skip(UINT32.SIZE); // skip length header
-        UINT32 typeValue = is.readUINT32();
-        is.reset();
+        pis.mark(UINT32.SIZE + UINT32.SIZE);
+
+        // Skip Length Value on Header
+        long sizeToSkip = UINT32.SIZE;
+        if (pis.skip(sizeToSkip) != sizeToSkip) {
+            throw new IOException();
+        }
+
+        UINT32 typeValue = pis.readUINT32();
+
+        pis.reset();
 
         return PtpIpPacket.Type.valueOf(typeValue);
     }
 
-    public PtpIpPacket read() throws IOException {
-        // Read length
-        long packetLength = is.readUINT32().longValue();
-        long payloadLength = packetLength - 8;
-
-        // Read type
-        UINT32 typeValue = is.readUINT32();
-        PtpIpPacket.Type type = PtpIpPacket.Type.valueOf(typeValue);
-
-        // Read payload
-        byte[] payload = new byte[(int) payloadLength];
-        for (int pos = 0; pos < payloadLength; pos++) {
-            payload[pos] = (byte) is.read();
-        }
-
-        return new PtpIpPacket(type, payload);
-    }
+    // Read Packet
 
     public InitCommandRequestPacket readInitCommandRequestPacket() throws IOException {
         assertNextTypeIs(PtpIpPacket.Type.INIT_COMMAND_REQUEST);
 
-        throw new UnsupportedOperationException();
+        return InitCommandRequestPacket.read(pis);
     }
 
+    public InitCommandAckPacket readInitCommandAckPacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.INIT_COMMAND_ACK);
+
+        return InitCommandAckPacket.read(pis);
+    }
+
+    public InitEventRequestPacket readInitEventRequestPacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.INIT_EVENT_REQUEST);
+
+        return InitEventRequestPacket.read(pis);
+    }
+
+    public InitEventAckPacket readInitEventAckPacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.INIT_EVENT_ACK);
+
+        return InitEventAckPacket.read(pis);
+    }
+
+    public InitFailPacket readInitFailPacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.INIT_FAIL);
+
+        return InitFailPacket.read(pis);
+    }
+
+    public OperationRequestPacket readOperationRequestPacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.OPERATION_REQUEST);
+
+        return OperationRequestPacket.read(pis);
+    }
+
+    public OperationResponsePacket readOperationResponsePacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.OPERATION_RESPONSE);
+
+        return OperationResponsePacket.read(pis);
+    }
+
+    public EventPacket readEventPacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.EVENT);
+
+        return EventPacket.read(pis);
+    }
+
+    public StartDataPacket readStartDataPacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.START_DATA);
+
+        return StartDataPacket.read(pis);
+    }
+
+    public DataPacket readDataPacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.DATA);
+
+        return DataPacket.read(pis);
+    }
+
+    public EndDataPacket readEndDataPacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.END_DATA);
+
+        return EndDataPacket.read(pis);
+    }
+
+    public CancelPacket readCancelPacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.CANCEL);
+
+        return CancelPacket.read(pis);
+    }
+
+    public ProbeRequestPacket readProbeRequestPacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.PROBE_REQUEST);
+
+        return ProbeRequestPacket.read(pis);
+    }
+
+    public ProbeResponsePacket readProbeResponsePacket() throws IOException {
+        assertNextTypeIs(PtpIpPacket.Type.PROBE_RESPONSE);
+
+        return ProbeResponsePacket.read(pis);
+    }
+
+    // Public Utility
+
     public byte[] readData() throws IOException {
-        // Receive StartData
-        PtpIpPacket startDataPacket = read();
-        StartDataPacket startData;
-        try {
-            startData = StartDataPacket.valueOf(startDataPacket);
-        } catch (PacketException e) {
-            throw new RuntimeException("Unexpected response from responder: " + startDataPacket, e);
-        }
-        LOGGER.info("Received StartData: " + startData);
+        StartDataPacket startDataPacket = readStartDataPacket();
 
         // Receive Data
-        int length = startData.getTotalDataLength().bigInteger().intValue();
+        int length = startDataPacket.getTotalDataLength().bigInteger().intValue();
         int pos = 0;
         byte[] data = new byte[length];
         for (; ; ) {
-            PtpIpPacket packet = read();
-            byte[] dataPayload = getDataPayload(packet);
+            PtpIpPacket.Type type = nextType();
+            byte[] dataPayload = readDataPayload();
             System.arraycopy(dataPayload, 0, data, pos, dataPayload.length);
             pos += dataPayload.length;
 
-            if (packet.getType() == PtpIpPacket.Type.END_DATA) {
+            if (type == PtpIpPacket.Type.END_DATA) {
                 break;
             }
         }
@@ -88,10 +153,14 @@ public final class PacketInputStream implements Closeable {
         return data;
     }
 
+    // Closeable
+
     @Override
     public void close() throws IOException {
-        is.close();
+        pis.close();
     }
+
+    // Utility
 
     private void assertNextTypeIs(PtpIpPacket.Type expected) throws IOException {
         if (nextType() != expected) {
@@ -99,22 +168,20 @@ public final class PacketInputStream implements Closeable {
         }
     }
 
-    private static byte[] getDataPayload(PtpIpPacket packet) {
-        try {
-            switch (packet.getType()) {
-                case DATA:
-                    DataPacket data = DataPacket.valueOf(packet);
-                    LOGGER.info("Received EndData: " + data);
-                    return data.getDataPayload();
-                case END_DATA:
-                    EndDataPacket endData = EndDataPacket.valueOf(packet);
-                    LOGGER.info("Received EndData: " + endData);
-                    return endData.getDataPayload();
-                default:
-                    throw new RuntimeException("Unexpected Packet: " + packet);
-            }
-        } catch (PacketException e) {
-            throw new RuntimeException(e);
+    private byte[] readDataPayload() throws IOException {
+        PtpIpPacket.Type type = nextType();
+
+        switch (type) {
+            case DATA:
+                DataPacket data = readDataPacket();
+                LOGGER.info("Received Data: " + data);
+                return data.getDataPayload();
+            case END_DATA:
+                EndDataPacket endData = readEndDataPacket();
+                LOGGER.info("Received EndData: " + endData);
+                return endData.getDataPayload();
+            default:
+                throw new IOException("Unexpected Packet Type: " + nextType());
         }
     }
 }

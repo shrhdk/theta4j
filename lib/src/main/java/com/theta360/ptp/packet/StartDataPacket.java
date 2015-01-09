@@ -1,11 +1,12 @@
 package com.theta360.ptp.packet;
 
+import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.ptp.type.UINT64;
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
 
-import java.nio.ByteBuffer;
+import java.io.IOException;
 
 public final class StartDataPacket extends PtpIpPacket {
     private static final int SIZE = UINT32.SIZE + UINT64.SIZE;
@@ -64,22 +65,16 @@ public final class StartDataPacket extends PtpIpPacket {
                 '}';
     }
 
-    public static StartDataPacket valueOf(PtpIpPacket packet) throws PacketException {
-        Validators.validateNonNull("packet", packet);
-        PacketUtils.checkType(Type.START_DATA, packet.getType());
+    public static StartDataPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        ByteBuffer buffer = ByteBuffer.wrap(packet.getPayload());
-        PacketUtils.checkLength(SIZE, buffer.remaining());
+        PacketUtils.asseertType(type, Type.START_DATA);
+        PacketUtils.checkLength((int) payloadLength, SIZE);
 
-        // Get Transaction ID
-        byte[] transactionIDBytes = new byte[UINT32.SIZE];
-        buffer.get(transactionIDBytes);
-        UINT32 transactionID = new UINT32(transactionIDBytes);
-
-        // Get Total Data Length
-        byte[] totalDataLengthBytes = new byte[UINT64.SIZE];
-        buffer.get(totalDataLengthBytes);
-        UINT64 totalDataLength = new UINT64(totalDataLengthBytes);
+        UINT32 transactionID = pis.readUINT32();
+        UINT64 totalDataLength = pis.readUINT64();
 
         return new StartDataPacket(transactionID, totalDataLength);
     }

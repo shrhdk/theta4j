@@ -1,11 +1,12 @@
 package com.theta360.ptp.packet;
 
+import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
 
-import java.nio.ByteBuffer;
+import java.io.IOException;
 
 public final class OperationResponsePacket extends PtpIpPacket {
     private static final int SIZE = UINT16.SIZE + UINT32.SIZE + UINT32.SIZE * 5;
@@ -131,47 +132,21 @@ public final class OperationResponsePacket extends PtpIpPacket {
                 '}';
     }
 
-    public static OperationResponsePacket valueOf(PtpIpPacket packet) throws PacketException {
-        Validators.validateNonNull("packet", packet);
-        PacketUtils.checkType(Type.OPERATION_RESPONSE, packet.getType());
+    public static OperationResponsePacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        ByteBuffer buffer = ByteBuffer.wrap(packet.getPayload());
-        PacketUtils.checkLength(SIZE, buffer.remaining());
+        PacketUtils.asseertType(type, Type.OPERATION_RESPONSE);
+        PacketUtils.checkLength((int) payloadLength, SIZE);
 
-        // Get Response Code
-        byte[] responseCodeBytes = new byte[UINT16.SIZE];
-        buffer.get(responseCodeBytes);
-        UINT16 responseCode = new UINT16(responseCodeBytes);
-
-        // Get Transaction ID
-        byte[] transactionIDBytes = new byte[UINT32.SIZE];
-        buffer.get(transactionIDBytes);
-        UINT32 transactionID = new UINT32(transactionIDBytes);
-
-        // Get P1
-        byte[] p1Bytes = new byte[UINT32.SIZE];
-        buffer.get(p1Bytes);
-        UINT32 p1 = new UINT32(p1Bytes);
-
-        // Get P2
-        byte[] p2Bytes = new byte[UINT32.SIZE];
-        buffer.get(p2Bytes);
-        UINT32 p2 = new UINT32(p2Bytes);
-
-        // Get P3
-        byte[] p3Bytes = new byte[UINT32.SIZE];
-        buffer.get(p3Bytes);
-        UINT32 p3 = new UINT32(p3Bytes);
-
-        // Get P4
-        byte[] p4Bytes = new byte[UINT32.SIZE];
-        buffer.get(p4Bytes);
-        UINT32 p4 = new UINT32(p4Bytes);
-
-        // Get P5
-        byte[] p5Bytes = new byte[UINT32.SIZE];
-        buffer.get(p5Bytes);
-        UINT32 p5 = new UINT32(p5Bytes);
+        UINT16 responseCode = pis.readUINT16();
+        UINT32 transactionID = pis.readUINT32();
+        UINT32 p1 = pis.readUINT32();
+        UINT32 p2 = pis.readUINT32();
+        UINT32 p3 = pis.readUINT32();
+        UINT32 p4 = pis.readUINT32();
+        UINT32 p5 = pis.readUINT32();
 
         return new OperationResponsePacket(responseCode, transactionID, p1, p2, p3, p4, p5);
     }

@@ -18,7 +18,7 @@ class RangedInputStream extends InputStream {
         int max = length - counter;
         int actual = is.available();
 
-        if(max < actual) {
+        if (max < actual) {
             return max;
         }
 
@@ -27,7 +27,7 @@ class RangedInputStream extends InputStream {
 
     @Override
     public int read() throws IOException {
-        if(length <= counter++) {
+        if (length <= counter++) {
             return -1;
         }
 
