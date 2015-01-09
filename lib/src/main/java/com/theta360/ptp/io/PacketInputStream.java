@@ -1,4 +1,4 @@
-package com.theta360.ptp;
+package com.theta360.ptp.io;
 
 import com.theta360.ptp.packet.*;
 import com.theta360.ptp.type.UINT32;
@@ -9,12 +9,12 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 
-final class PtpIpInputStream implements Closeable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInputStream.class);
+public final class PacketInputStream implements Closeable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PacketInputStream.class);
 
     private final InputStream is;
 
-    public PtpIpInputStream(InputStream is) {
+    public PacketInputStream(InputStream is) {
         this.is = is;
     }
 

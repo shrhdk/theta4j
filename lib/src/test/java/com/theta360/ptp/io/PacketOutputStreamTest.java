@@ -1,4 +1,4 @@
-package com.theta360.ptp;
+package com.theta360.ptp.io;
 
 import com.theta360.ptp.packet.PtpIpPacket;
 import com.theta360.test.categories.UnitTest;
@@ -12,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 @Category(UnitTest.class)
-public class PtpIpOutputStreamTest {
+public class PacketOutputStreamTest {
     @Test
     public void initCommandRequest() throws IOException {
         // given
@@ -27,7 +27,7 @@ public class PtpIpOutputStreamTest {
 
         // arrange
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PtpIpOutputStream out = new PtpIpOutputStream(baos);
+        PacketOutputStream out = new PacketOutputStream(baos);
 
         // Act
         out.write(new PtpIpPacket(PtpIpPacket.Type.INIT_COMMAND_REQUEST, given));

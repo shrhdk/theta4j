@@ -1,4 +1,4 @@
-package com.theta360.ptp;
+package com.theta360.ptp.io;
 
 import com.theta360.ptp.packet.PtpIpPacket;
 
@@ -6,10 +6,10 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 
-final class PtpIpOutputStream implements Closeable {
+public final class PacketOutputStream implements Closeable {
     private final OutputStream os;
 
-    public PtpIpOutputStream(OutputStream os) {
+    public PacketOutputStream(OutputStream os) {
         this.os = os;
     }
 

@@ -1,16 +1,16 @@
 package com.theta360.ptp;
 
 import com.theta360.ptp.data.*;
+import com.theta360.ptp.io.PacketInputStream;
+import com.theta360.ptp.io.PacketOutputStream;
 import com.theta360.ptp.packet.*;
 import com.theta360.ptp.type.ConvertException;
-import com.theta360.ptp.type.GenericDataTypeInputStream;
-import com.theta360.ptp.type.UINT16;
+import com.theta360.ptp.io.GenericDataTypeInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.Socket;
@@ -44,13 +44,13 @@ public final class PtpIpInitiator implements Closeable {
     // Command Data Connection
 
     private Socket commandDataConnection;
-    private PtpIpInputStream ci;
-    private PtpIpOutputStream co;
+    private PacketInputStream ci;
+    private PacketOutputStream co;
 
     // Event Connection
 
     private Socket eventConnection;
-    private PtpIpInputStream ei;
+    private PacketInputStream ei;
 
     // Connect
 
@@ -69,8 +69,8 @@ public final class PtpIpInitiator implements Closeable {
 
     private UINT32 establishCommandDataConnection() throws IOException {
         commandDataConnection = new Socket(host, port);
-        ci = new PtpIpInputStream(commandDataConnection.getInputStream());
-        co = new PtpIpOutputStream(commandDataConnection.getOutputStream());
+        ci = new PacketInputStream(commandDataConnection.getInputStream());
+        co = new PacketOutputStream(commandDataConnection.getOutputStream());
 
         InitCommandRequestPacket initCommandRequest = new InitCommandRequestPacket(guid, "test", ProtocolVersions.REV_1_0);
         co.write(initCommandRequest);
@@ -90,8 +90,8 @@ public final class PtpIpInitiator implements Closeable {
 
     private void establishEventConnection(UINT32 connectionNumber) throws IOException {
         eventConnection = new Socket(host, port);
-        ei = new PtpIpInputStream(eventConnection.getInputStream());
-        PtpIpOutputStream eo = new PtpIpOutputStream(eventConnection.getOutputStream());
+        ei = new PacketInputStream(eventConnection.getInputStream());
+        PacketOutputStream eo = new PacketOutputStream(eventConnection.getOutputStream());
 
         InitEventRequestPacket initEventRequest = new InitEventRequestPacket(connectionNumber);
         eo.write(initEventRequest);
