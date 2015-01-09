@@ -30,6 +30,10 @@ public final class PtpInputStream implements Closeable {
         this.is = inputStream;
     }
 
+    public int read() throws IOException {
+        return is.read();
+    }
+
     public UINT16 readUINT16() throws IOException {
         byte b0 = (byte) is.read();
         byte b1 = (byte) is.read();

@@ -12,27 +12,20 @@ import java.io.InputStream;
 public final class PacketInputStream implements Closeable {
     private static final Logger LOGGER = LoggerFactory.getLogger(PacketInputStream.class);
 
-    private final InputStream is;
+    private final PtpInputStream is;
 
     public PacketInputStream(InputStream is) {
-        this.is = is;
+        this.is = new PtpInputStream(is);
     }
 
     public PtpIpPacket read() throws IOException {
         // Read length
-        byte[] lengthBytes = new byte[4];
-        for (int pos = 0; pos < 4; pos++) {
-            lengthBytes[pos] = (byte) is.read();
-        }
-        long packetLength = new UINT32(lengthBytes).longValue();
+        long packetLength = is.readUINT32().longValue();
         long payloadLength = packetLength - 8;
 
         // Read type
-        byte[] typeBytes = new byte[4];
-        for (int pos = 0; pos < 4; pos++) {
-            typeBytes[pos] = (byte) is.read();
-        }
-        PtpIpPacket.Type type = PtpIpPacket.Type.valueOf(typeBytes);
+        UINT32 typeValue = is.readUINT32();
+        PtpIpPacket.Type type = PtpIpPacket.Type.valueOf(typeValue);
 
         // Read payload
         byte[] payload = new byte[(int) payloadLength];
