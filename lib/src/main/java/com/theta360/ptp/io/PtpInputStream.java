@@ -33,30 +33,30 @@ public final class PtpInputStream extends InputStream {
     // PTP Generic Type
 
     public UINT16 readUINT16() throws IOException {
-        byte b0 = (byte) is.read();
-        byte b1 = (byte) is.read();
+        byte b0 = (byte) read();
+        byte b1 = (byte) read();
 
         return new UINT16(b0, b1);
     }
 
     public UINT32 readUINT32() throws IOException {
-        byte b0 = (byte) is.read();
-        byte b1 = (byte) is.read();
-        byte b2 = (byte) is.read();
-        byte b3 = (byte) is.read();
+        byte b0 = (byte) read();
+        byte b1 = (byte) read();
+        byte b2 = (byte) read();
+        byte b3 = (byte) read();
 
         return new UINT32(b0, b1, b2, b3);
     }
 
     public UINT64 readUINT64() throws IOException {
-        byte b0 = (byte) is.read();
-        byte b1 = (byte) is.read();
-        byte b2 = (byte) is.read();
-        byte b3 = (byte) is.read();
-        byte b4 = (byte) is.read();
-        byte b5 = (byte) is.read();
-        byte b6 = (byte) is.read();
-        byte b7 = (byte) is.read();
+        byte b0 = (byte) read();
+        byte b1 = (byte) read();
+        byte b2 = (byte) read();
+        byte b3 = (byte) read();
+        byte b4 = (byte) read();
+        byte b5 = (byte) read();
+        byte b6 = (byte) read();
+        byte b7 = (byte) read();
 
         return new UINT64(b0, b1, b2, b3, b4, b5, b6, b7);
     }
