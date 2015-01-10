@@ -163,8 +163,10 @@ public final class PacketInputStream implements Closeable {
     // Utility
 
     private void assertNextTypeIs(PtpIpPacket.Type expected) throws IOException {
-        if (nextType() != expected) {
-            throw new RuntimeException();
+        PtpIpPacket.Type actual = nextType();
+
+        if (actual != expected) {
+            throw new RuntimeException(String.format("Unexpected packet type: Actual=%s, Expected=%s.", actual, expected));
         }
     }
 
