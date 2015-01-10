@@ -3,6 +3,7 @@ package com.theta360.ptp.type;
 import com.theta360.util.Validators;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 
 public final class STR {
@@ -37,5 +38,25 @@ public final class STR {
         int offset = 0;
         int length = bytes.length - UINT16.SIZE;
         return new String(bytes, offset, length, CHARSET);
+    }
+
+    public static String read(InputStream is) throws IOException {
+        Validators.validateNonNull("is", is);
+
+        int numChars = is.read();
+        int length = numChars * UINT16.SIZE;
+
+        return read(is, length);
+    }
+
+    public static String read(InputStream is, int length) throws IOException {
+        Validators.validateNonNull("is", is);
+
+        byte[] bytes = new byte[length];
+        if (is.read(bytes) == -1) {
+            throw new IOException();
+        }
+
+        return STR.toString(bytes);
     }
 }

@@ -1,5 +1,7 @@
 package com.theta360.ptp.type;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.Arrays;
 
@@ -72,5 +74,15 @@ public final class UINT64 implements Comparable<UINT64> {
     @Override
     public String toString() {
         return "UINT64{" + bigInteger + "}";
+    }
+
+    public static UINT64 read(InputStream is) throws IOException {
+        byte[] bytes = new byte[SIZE];
+
+        if (is.read(bytes) == -1) {
+            throw new IOException();
+        }
+
+        return new UINT64(bytes);
     }
 }
