@@ -12,14 +12,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class PtpOutputStream extends OutputStream {
-    private static Logger LOGGER = LoggerFactory.getLogger(PtpInputStream.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(PtpOutputStream.class);
 
     private final OutputStream os;
 
-    public PtpOutputStream(OutputStream outputStream) {
-        Validators.validateNonNull("outputStream", outputStream);
+    public PtpOutputStream(OutputStream os) {
+        Validators.validateNonNull("os", os);
 
-        this.os = outputStream;
+        this.os = os;
     }
 
     // PTP Generic Type
