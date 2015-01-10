@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PtpIpPacket {
-    private final UINT32 length;
     private final Type type;
     byte[] payload;
 
@@ -24,7 +23,6 @@ public class PtpIpPacket {
         Validators.validateNonNull("type", type);
         Validators.validateNonNull("payload", payload);
 
-        this.length = new UINT32(UINT32.SIZE + UINT32.SIZE + payload.length);
         this.type = type;
         this.payload = payload.clone();
     }
@@ -38,6 +36,8 @@ public class PtpIpPacket {
     }
 
     public final byte[] bytes() {
+        UINT32 length = new UINT32(UINT32.SIZE + UINT32.SIZE + payload.length);
+
         try (
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 PtpOutputStream pos = new PtpOutputStream(baos);
