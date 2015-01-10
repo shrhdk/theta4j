@@ -2,7 +2,7 @@ package com.theta360.ptp;
 
 import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.test.categories.IntegrationTest;
+import com.theta360.test.categories.UnitTest;
 import com.theta360.theta.Theta;
 import com.theta360.theta.ThetaEventListener;
 import org.junit.After;
@@ -12,10 +12,13 @@ import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
-@Category(IntegrationTest.class)
+@Category(UnitTest.class)
 public class PtpIpInitiatorTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInitiator.class);
     private static final UINT32 SESSION_ID = new UINT32(1);
@@ -74,6 +77,17 @@ public class PtpIpInitiatorTest {
         initiator.openSession(SESSION_ID);
         initiator.getObjectHandles();
         initiator.closeSession();
+    }
+
+    @Test
+    public void getThumb() throws IOException {
+        initiator.openSession(SESSION_ID);
+        List<UINT32> objectHandles = initiator.getObjectHandles();
+        byte[] data = initiator.getThumb(objectHandles.get(4));
+        initiator.closeSession();
+
+        FileOutputStream file = new FileOutputStream(new File("thumb.jpg"));
+        file.write(data);
     }
 
     @Test
