@@ -5,6 +5,7 @@ import com.theta360.ptp.type.UINT32;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -137,20 +138,18 @@ public final class PacketInputStream implements Closeable {
 
         // Receive Data
         int length = startDataPacket.getTotalDataLength().bigInteger().intValue();
-        int pos = 0;
-        byte[] data = new byte[length];
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(length);
         for (; ; ) {
             PtpIpPacket.Type type = nextType();
             byte[] dataPayload = readDataPayload();
-            System.arraycopy(dataPayload, 0, data, pos, dataPayload.length);
-            pos += dataPayload.length;
+            baos.write(dataPayload);
 
             if (type == PtpIpPacket.Type.END_DATA) {
                 break;
             }
         }
 
-        return data;
+        return baos.toByteArray();
     }
 
     // Closeable
@@ -176,11 +175,9 @@ public final class PacketInputStream implements Closeable {
         switch (type) {
             case DATA:
                 DataPacket data = readDataPacket();
-                LOGGER.info("Received Data: " + data);
                 return data.getDataPayload();
             case END_DATA:
                 EndDataPacket endData = readEndDataPacket();
-                LOGGER.info("Received EndData: " + endData);
                 return endData.getDataPayload();
             default:
                 throw new IOException("Unexpected Packet Type: " + nextType());
