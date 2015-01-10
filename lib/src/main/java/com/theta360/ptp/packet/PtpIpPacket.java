@@ -1,15 +1,18 @@
 package com.theta360.ptp.packet;
 
 import com.theta360.ptp.io.PtpInputStream;
+import com.theta360.ptp.io.PtpOutputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PtpIpPacket {
+    private final UINT32 length;
     final Type type;
     byte[] payload;
 
@@ -21,6 +24,7 @@ public class PtpIpPacket {
         Validators.validateNonNull("type", type);
         Validators.validateNonNull("payload", payload);
 
+        this.length = new UINT32(UINT32.SIZE + UINT32.SIZE + payload.length);
         this.type = type;
         this.payload = payload.clone();
     }
@@ -34,17 +38,17 @@ public class PtpIpPacket {
     }
 
     public final byte[] bytes() {
-        Type type = getType();
-        byte[] payload = getPayload();
-
-        byte[] lengthBytes = new UINT32(8 + payload.length).bytes();
-        byte[] typeBytes = type.getCode().bytes();
-        byte[] packetBytes = new byte[8 + payload.length];
-        System.arraycopy(lengthBytes, 0, packetBytes, 0, 4);
-        System.arraycopy(typeBytes, 0, packetBytes, 4, 4);
-        System.arraycopy(payload, 0, packetBytes, 8, payload.length);
-
-        return packetBytes;
+        try (
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                PtpOutputStream pos = new PtpOutputStream(baos);
+        ) {
+            pos.write(length);
+            pos.write(type.code);
+            pos.write(payload);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
