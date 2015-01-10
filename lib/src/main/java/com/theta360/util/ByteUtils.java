@@ -16,9 +16,9 @@ public final class ByteUtils {
 
         // Join Byte Arrays
         ByteArrayOutputStream baos = new ByteArrayOutputStream(length);
-        for (byte[] byteArray : byteArrays) {
+        for (byte[] bytes : byteArrays) {
             try {
-                baos.write(byteArray);
+                baos.write(bytes);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
