@@ -25,19 +25,19 @@ public class PtpOutputStream extends OutputStream {
     // PTP Generic Type
 
     public void write(UINT16 uint16) throws IOException {
-        os.write(uint16.bytes());
+        write(uint16.bytes());
     }
 
     public void write(UINT32 uint32) throws IOException {
-        os.write(uint32.bytes());
+        write(uint32.bytes());
     }
 
     public void write(UINT64 uint64) throws IOException {
-        os.write(uint64.bytes());
+        write(uint64.bytes());
     }
 
     public void write(String str) throws IOException {
-        os.write(STR.toBytes(str));
+        write(STR.toBytes(str));
     }
 
     // OutputStream
