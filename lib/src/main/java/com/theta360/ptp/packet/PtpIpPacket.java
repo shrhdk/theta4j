@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class PtpIpPacket {
     private final UINT32 length;
-    final Type type;
+    private final Type type;
     byte[] payload;
 
     public PtpIpPacket(Type type) {
