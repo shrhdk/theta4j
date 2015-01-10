@@ -1,5 +1,7 @@
 package com.theta360.ptp.type;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 public final class UINT32 implements Comparable<UINT32> {
@@ -93,5 +95,15 @@ public final class UINT32 implements Comparable<UINT32> {
     @Override
     public String toString() {
         return String.format("0x%02x%02x%02x%02x", bytes[3], bytes[2], bytes[1], bytes[0]);
+    }
+
+    public static UINT32 read(InputStream is) throws IOException {
+        byte[] bytes = new byte[SIZE];
+
+        if (is.read(bytes) == -1) {
+            throw new IOException();
+        }
+
+        return new UINT32(bytes);
     }
 }

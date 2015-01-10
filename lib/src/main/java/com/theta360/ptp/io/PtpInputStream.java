@@ -24,41 +24,24 @@ public final class PtpInputStream extends InputStream {
         this(new ByteArrayInputStream(bytes));
     }
 
-    public PtpInputStream(InputStream inputStream) {
-        Validators.validateNonNull("inputStream", inputStream);
+    public PtpInputStream(InputStream is) {
+        Validators.validateNonNull("is", is);
 
-        this.is = new BufferedInputStream(inputStream);
+        this.is = new BufferedInputStream(is);
     }
 
     // PTP Generic Type
 
     public UINT16 readUINT16() throws IOException {
-        byte b0 = (byte) read();
-        byte b1 = (byte) read();
-
-        return new UINT16(b0, b1);
+        return UINT16.read(is);
     }
 
     public UINT32 readUINT32() throws IOException {
-        byte b0 = (byte) read();
-        byte b1 = (byte) read();
-        byte b2 = (byte) read();
-        byte b3 = (byte) read();
-
-        return new UINT32(b0, b1, b2, b3);
+        return UINT32.read(is);
     }
 
     public UINT64 readUINT64() throws IOException {
-        byte b0 = (byte) read();
-        byte b1 = (byte) read();
-        byte b2 = (byte) read();
-        byte b3 = (byte) read();
-        byte b4 = (byte) read();
-        byte b5 = (byte) read();
-        byte b6 = (byte) read();
-        byte b7 = (byte) read();
-
-        return new UINT64(b0, b1, b2, b3, b4, b5, b6, b7);
+        return UINT64.read(is);
     }
 
     public List<UINT16> readAUINT16() throws IOException {
@@ -86,19 +69,11 @@ public final class PtpInputStream extends InputStream {
     }
 
     public String readString() throws IOException {
-        int numChars = new UINT16(is.read(), 0x00).intValue();
-        int length = numChars * UINT16.SIZE;
-        return readString(length);
+        return STR.read(is);
     }
 
     public String readString(int length) throws IOException {
-        byte[] bytes = new byte[length];
-
-        if (read(bytes) == -1) {
-            throw new IOException();
-        }
-
-        return STR.toString(bytes);
+        return STR.read(is, length);
     }
 
     // InputStream
