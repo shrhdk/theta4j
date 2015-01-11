@@ -82,13 +82,14 @@ public class PtpIpInitiatorTest {
 
     @Test
     public void getThumb() throws IOException {
+        try (FileOutputStream file = new FileOutputStream(new File("thumb.jpg"))) {
         initiator.openSession(SESSION_ID);
         List<UINT32> objectHandles = initiator.getObjectHandles();
-        byte[] data = initiator.getThumb(objectHandles.get(4));
+            initiator.getThumb(objectHandles.get(4), file);
         initiator.closeSession();
+        }
+    }
 
-        FileOutputStream file = new FileOutputStream(new File("thumb.jpg"));
-        file.write(data);
     }
 
     @Test
