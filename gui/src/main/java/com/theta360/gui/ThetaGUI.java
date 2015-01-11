@@ -1,8 +1,6 @@
 package com.theta360.gui;
 
 import com.theta360.ptp.PtpEventListener;
-import com.theta360.ptp.PtpIpInitiator;
-import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.theta.Theta;
 import com.theta360.theta.ThetaEventListener;
@@ -13,7 +11,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.UUID;
 
 public class ThetaGUI extends JFrame {
     private static final Logger LOGGER = LoggerFactory.getLogger(ThetaGUI.class);
@@ -54,13 +51,13 @@ public class ThetaGUI extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        PtpIpInitiator initiator = new PtpIpInitiator(new GUID(UUID.randomUUID()), Theta.IP_ADDRESS, Theta.TCP_PORT);
-                        initiator.addListener(listener);
-                        initiator.getDeviceInfo();
-                        initiator.openSession(SESSION_ID);
-                        initiator.initiateCapture();
-                        initiator.closeSession();
-                        initiator.close();
+                        Theta theta = new Theta();
+                        theta.addListener(listener);
+                        theta.getDeviceInfo();
+                        theta.openSession(SESSION_ID);
+                        theta.initiateCapture();
+                        theta.closeSession();
+                        theta.close();
                     } catch (IOException e2) {
                         LOGGER.error(e2.getMessage(), e2);
                     }
