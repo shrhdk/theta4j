@@ -4,6 +4,7 @@ import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpInitiator;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
+import com.theta360.test.categories.UnitTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-@Category(IntegrationTest.class)
+@Category(UnitTest.class)
 public class ThetaTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(PtpInitiator.class);
     private static final UINT32 SESSION_ID = new UINT32(1);
@@ -60,6 +61,8 @@ public class ThetaTest {
     public void close() throws IOException {
         theta.close();
     }
+
+    // Operations
 
     @Test
     public void getDeviceInfo() throws IOException {
@@ -112,5 +115,14 @@ public class ThetaTest {
             theta.getResizedImageObject(objectHandles.get(2), file);
             theta.closeSession();
         }
+    }
+
+    // Properties
+
+    @Test
+    public void getBatteryLevel() throws IOException {
+        theta.openSession(SESSION_ID);
+        System.out.println("Battery Level: " + theta.getBatteryLevel());
+        theta.closeSession();
     }
 }

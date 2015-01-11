@@ -1,6 +1,8 @@
 package com.theta360.ptp;
 
+import com.theta360.ptp.code.Code;
 import com.theta360.ptp.code.OperationCode;
+import com.theta360.ptp.code.PropertyCode;
 import com.theta360.ptp.data.DeviceInfo;
 import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.data.ProtocolVersions;
@@ -9,6 +11,7 @@ import com.theta360.ptp.io.PacketInputStream;
 import com.theta360.ptp.io.PacketOutputStream;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.packet.*;
+import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
 import org.slf4j.Logger;
@@ -294,6 +297,28 @@ public class PtpInitiator implements Closeable {
         // Receive OperationResponse
         OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
         LOGGER.info("Received OperationResponse: " + operationResponse);
+    }
+
+    // Properties
+
+    private void sendGetDevicePropValue(UINT16 devicePropCode) throws IOException {
+        // Send OperationRequest (InitiateCapture)
+        OperationRequestPacket operationRequest = new OperationRequestPacket(
+                new UINT32(1),
+                OperationCode.GET_DEVICE_PROP_VALUE.getCode(),
+                transactionID.next(),
+                new UINT32(devicePropCode.intValue())
+        );
+        co.write(operationRequest);
+        LOGGER.info("Sent OperationRequest (GetDevicePropValue): " + operationRequest);
+    }
+
+    public int getBatteryLevel() throws IOException {
+        sendGetDevicePropValue(PropertyCode.BATTERY_LEVEL.getCode());
+
+        byte[] data = ci.readData();
+
+        return data[0];
     }
 
     // Listener
