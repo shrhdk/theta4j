@@ -152,7 +152,7 @@ public final class OperationRequestPacket extends PtpIpPacket {
         long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        PacketUtils.asseertType(type, Type.OPERATION_REQUEST);
+        PacketUtils.assertType(type, Type.OPERATION_REQUEST);
         PacketUtils.checkLength((int) payloadLength, SIZE);
 
         UINT32 dataPhaseInfo = pis.readUINT32();

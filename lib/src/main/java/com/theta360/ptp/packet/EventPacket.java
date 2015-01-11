@@ -111,7 +111,7 @@ public final class EventPacket extends PtpIpPacket {
         long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        PacketUtils.asseertType(type, Type.EVENT);
+        PacketUtils.assertType(type, Type.EVENT);
         PacketUtils.checkLength((int) payloadLength, SIZE);
 
         UINT16 eventCode = pis.readUINT16();

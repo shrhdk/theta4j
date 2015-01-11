@@ -53,7 +53,7 @@ public final class InitFailPacket extends PtpIpPacket {
         long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        PacketUtils.asseertType(type, Type.INIT_FAIL);
+        PacketUtils.assertType(type, Type.INIT_FAIL);
         PacketUtils.checkLength((int) payloadLength, SIZE);
 
         UINT32 reason = pis.readUINT32();

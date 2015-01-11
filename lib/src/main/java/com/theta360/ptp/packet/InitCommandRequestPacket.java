@@ -79,7 +79,7 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
         long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        PacketUtils.asseertType(type, Type.INIT_COMMAND_REQUEST);
+        PacketUtils.assertType(type, Type.INIT_COMMAND_REQUEST);
         PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
 
         long nameLength = payloadLength - GUID.SIZE - UINT32.SIZE;

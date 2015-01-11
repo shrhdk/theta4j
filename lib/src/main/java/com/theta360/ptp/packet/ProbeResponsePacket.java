@@ -34,7 +34,7 @@ public final class ProbeResponsePacket extends PtpIpPacket {
         long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        PacketUtils.asseertType(type, Type.PROBE_RESPONSE);
+        PacketUtils.assertType(type, Type.PROBE_RESPONSE);
         PacketUtils.checkLength((int) payloadLength, SIZE);
 
         return new ProbeResponsePacket();

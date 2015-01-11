@@ -53,7 +53,7 @@ public final class InitEventRequestPacket extends PtpIpPacket {
         long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        PacketUtils.asseertType(type, Type.INIT_EVENT_REQUEST);
+        PacketUtils.assertType(type, Type.INIT_EVENT_REQUEST);
         PacketUtils.checkLength((int) payloadLength, SIZE);
 
         UINT32 connectionNumber = pis.readUINT32();

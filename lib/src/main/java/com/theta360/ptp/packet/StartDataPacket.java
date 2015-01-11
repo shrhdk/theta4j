@@ -70,7 +70,7 @@ public final class StartDataPacket extends PtpIpPacket {
         long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        PacketUtils.asseertType(type, Type.START_DATA);
+        PacketUtils.assertType(type, Type.START_DATA);
         PacketUtils.checkLength((int) payloadLength, SIZE);
 
         UINT32 transactionID = pis.readUINT32();

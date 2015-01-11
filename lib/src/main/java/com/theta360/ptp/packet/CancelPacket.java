@@ -54,7 +54,7 @@ public final class CancelPacket extends PtpIpPacket {
         long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        PacketUtils.asseertType(type, Type.CANCEL);
+        PacketUtils.assertType(type, Type.CANCEL);
         PacketUtils.checkLength((int) payloadLength, SIZE);
 
         UINT32 transactionID = pis.readUINT32();
