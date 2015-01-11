@@ -5,10 +5,7 @@ import com.theta360.ptp.type.UINT32;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 public final class PacketInputStream implements Closeable {
     private static final Logger LOGGER = LoggerFactory.getLogger(PacketInputStream.class);
@@ -131,25 +128,29 @@ public final class PacketInputStream implements Closeable {
         return ProbeResponsePacket.read(pis);
     }
 
-    // Public Utility
+    // Read Data
 
     public byte[] readData() throws IOException {
-        StartDataPacket startDataPacket = readStartDataPacket();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        readData(baos);
+        return baos.toByteArray();
+    }
 
-        // Receive Data
-        int length = startDataPacket.getTotalDataLength().bigInteger().intValue();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(length);
+    public void readData(OutputStream dst) throws IOException {
+        readStartDataPacket();
+
         for (; ; ) {
-            PtpIpPacket.Type type = nextType();
-            byte[] dataPayload = readDataPayload();
-            baos.write(dataPayload);
-
-            if (type == PtpIpPacket.Type.END_DATA) {
-                break;
+            switch (nextType()) {
+                case DATA:
+                    dst.write(readDataPacket().getDataPayload());
+                    break;
+                case END_DATA:
+                    dst.write(readEndDataPacket().getDataPayload());
+                    return;
+                default:
+                    throw new IOException("Unexpected Packet Type: " + nextType());
             }
         }
-
-        return baos.toByteArray();
     }
 
     // Closeable
@@ -166,21 +167,6 @@ public final class PacketInputStream implements Closeable {
 
         if (actual != expected) {
             throw new RuntimeException(String.format("Unexpected packet type: Actual=%s, Expected=%s.", actual, expected));
-        }
-    }
-
-    private byte[] readDataPayload() throws IOException {
-        PtpIpPacket.Type type = nextType();
-
-        switch (type) {
-            case DATA:
-                DataPacket data = readDataPacket();
-                return data.getDataPayload();
-            case END_DATA:
-                EndDataPacket endData = readEndDataPacket();
-                return endData.getDataPayload();
-            default:
-                throw new IOException("Unexpected Packet Type: " + nextType());
         }
     }
 }
