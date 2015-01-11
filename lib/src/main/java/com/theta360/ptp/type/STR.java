@@ -3,7 +3,6 @@ package com.theta360.ptp.type;
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -27,11 +26,11 @@ public final class STR {
         Validators.validateNonNull("is", is);
 
         int numChars = is.read();
-        if(numChars == -1) {
+        if (numChars == -1) {
             throw new IOException();
         }
 
-        if(numChars == 0) {
+        if (numChars == 0) {
             return "";
         }
 

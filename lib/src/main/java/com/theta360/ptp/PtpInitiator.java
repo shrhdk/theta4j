@@ -1,6 +1,5 @@
 package com.theta360.ptp;
 
-import com.theta360.ptp.code.Code;
 import com.theta360.ptp.code.OperationCode;
 import com.theta360.ptp.code.PropertyCode;
 import com.theta360.ptp.data.DeviceInfo;
@@ -299,10 +298,9 @@ public class PtpInitiator implements Closeable {
         LOGGER.info("Received OperationResponse: " + operationResponse);
     }
 
-    // Properties
+    // Property Getter
 
     private void sendGetDevicePropValue(UINT16 devicePropCode) throws IOException {
-        // Send OperationRequest (InitiateCapture)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
                 OperationCode.GET_DEVICE_PROP_VALUE.getCode(),
@@ -319,6 +317,19 @@ public class PtpInitiator implements Closeable {
         byte[] data = ci.readData();
 
         return data[0];
+    }
+
+    // Property Setter
+
+    private void sendSetDevicePropValue(UINT16 devicePropCode) throws IOException {
+        OperationRequestPacket operationRequest = new OperationRequestPacket(
+                new UINT32(1),
+                OperationCode.SET_DEVICE_PROP_VALUE.getCode(),
+                transactionID.next(),
+                new UINT32(devicePropCode.intValue())
+        );
+        co.write(operationRequest);
+        LOGGER.info("Sent OperationRequest (GetDevicePropValue): " + operationRequest);
     }
 
     // Listener
