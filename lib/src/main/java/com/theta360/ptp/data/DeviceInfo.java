@@ -191,29 +191,37 @@ public final class DeviceInfo {
     // Static Factory Method
 
     public static DeviceInfo valueOf(byte[] bytes) {
-        try (PtpInputStream is = new PtpInputStream(bytes)) {
-            UINT16 standardVersion = is.readUINT16();
-            UINT32 vendorExtensionID = is.readUINT32();
-            UINT16 vendorExtensionVersion = is.readUINT16();
-            String vendorExtensionDesc = is.readString();
-            UINT16 functionalMode = is.readUINT16();
-            List<UINT16> operationsSupported = is.readAUINT16();
-            List<UINT16> eventsSupported = is.readAUINT16();
-            List<UINT16> devicePropertiesSupported = is.readAUINT16();
-            List<UINT16> captureFormats = is.readAUINT16();
-            List<UINT16> imageFormats = is.readAUINT16();
-            String manufacturer = is.readString();
-            String model = is.readString();
-            String deviceVersion = is.readString();
-            String serialNumber = is.readString();
+        Validators.validateNonNull("bytes", bytes);
 
-            return new DeviceInfo(standardVersion,
-                    vendorExtensionID, vendorExtensionVersion, vendorExtensionDesc,
-                    functionalMode, operationsSupported, eventsSupported, devicePropertiesSupported,
-                    captureFormats, imageFormats,
-                    manufacturer, model, deviceVersion, serialNumber);
+        try (PtpInputStream pis = new PtpInputStream(bytes)) {
+            return read(pis);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static DeviceInfo read(PtpInputStream pis) throws IOException {
+        Validators.validateNonNull("pis", pis);
+
+        UINT16 standardVersion = pis.readUINT16();
+        UINT32 vendorExtensionID = pis.readUINT32();
+        UINT16 vendorExtensionVersion = pis.readUINT16();
+        String vendorExtensionDesc = pis.readString();
+        UINT16 functionalMode = pis.readUINT16();
+        List<UINT16> operationsSupported = pis.readAUINT16();
+        List<UINT16> eventsSupported = pis.readAUINT16();
+        List<UINT16> devicePropertiesSupported = pis.readAUINT16();
+        List<UINT16> captureFormats = pis.readAUINT16();
+        List<UINT16> imageFormats = pis.readAUINT16();
+        String manufacturer = pis.readString();
+        String model = pis.readString();
+        String deviceVersion = pis.readString();
+        String serialNumber = pis.readString();
+
+        return new DeviceInfo(standardVersion,
+                vendorExtensionID, vendorExtensionVersion, vendorExtensionDesc,
+                functionalMode, operationsSupported, eventsSupported, devicePropertiesSupported,
+                captureFormats, imageFormats,
+                manufacturer, model, deviceVersion, serialNumber);
     }
 }
