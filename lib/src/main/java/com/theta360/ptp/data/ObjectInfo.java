@@ -38,6 +38,26 @@ public class ObjectInfo {
                       UINT32 parentObject, UINT16 associationType, UINT32 associationDesc, UINT32 sequenceNumber,
                       String fileName, String captureDate, String modificationDate, String keywords
     ) {
+        Validators.validateNonNull("storageID", storageID);
+        Validators.validateNonNull("objectFormat", objectFormat);
+        Validators.validateNonNull("protectionStatus", protectionStatus);
+        Validators.validateNonNull("objectCompressedSize", objectCompressedSize);
+        Validators.validateNonNull("thumbFormat", thumbFormat);
+        Validators.validateNonNull("thumbCompressedSize", thumbCompressedSize);
+        Validators.validateNonNull("thumbPixWidth", thumbPixWidth);
+        Validators.validateNonNull("thumbPixHeight", thumbPixHeight);
+        Validators.validateNonNull("imagePixWidth", imagePixWidth);
+        Validators.validateNonNull("imagePixHeight", imagePixHeight);
+        Validators.validateNonNull("imageBitDepth", imageBitDepth);
+        Validators.validateNonNull("parentObject", parentObject);
+        Validators.validateNonNull("associationType", associationType);
+        Validators.validateNonNull("associationDesc", associationDesc);
+        Validators.validateNonNull("sequenceNumber", sequenceNumber);
+        Validators.validateNonNull("fileName", fileName);
+        Validators.validateNonNull("captureDate", captureDate);
+        Validators.validateNonNull("modificationDate", modificationDate);
+        Validators.validateNonNull("keywords", keywords);
+
         this.storageID = storageID;
         this.objectFormat = objectFormat;
         this.protectionStatus = protectionStatus;

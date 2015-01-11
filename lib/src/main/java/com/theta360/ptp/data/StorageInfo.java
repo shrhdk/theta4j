@@ -24,6 +24,15 @@ public class StorageInfo {
                        UINT16 accessCapability, UINT64 maxCapacity, UINT64 freeSpaceInBytes, UINT32 freeSpaceInImages,
                        String storageDescription, String volumeLabel
     ) {
+        Validators.validateNonNull("storageType", storageType);
+        Validators.validateNonNull("fileSystemType", fileSystemType);
+        Validators.validateNonNull("accessCapability", accessCapability);
+        Validators.validateNonNull("maxCapacity", maxCapacity);
+        Validators.validateNonNull("freeSpaceInBytes", freeSpaceInBytes);
+        Validators.validateNonNull("freeSpaceInImages", freeSpaceInImages);
+        Validators.validateNonNull("storageDescription", storageDescription);
+        Validators.validateNonNull("volumeLabel", volumeLabel);
+
         this.storageType = storageType;
         this.fileSystemType = fileSystemType;
         this.accessCapability = accessCapability;
