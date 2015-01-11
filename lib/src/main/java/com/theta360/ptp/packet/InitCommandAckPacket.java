@@ -10,6 +10,9 @@ import com.theta360.util.Validators;
 
 import java.io.IOException;
 
+/**
+ * InitCommandAck Packet defined in PTP-IP
+ */
 public final class InitCommandAckPacket extends PtpIpPacket {
     private static final int MIN_SIZE = UINT32.SIZE + GUID.SIZE + STR.MIN_SIZE + UINT32.SIZE;
 

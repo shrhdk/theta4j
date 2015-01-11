@@ -8,6 +8,9 @@ import com.theta360.util.Validators;
 
 import java.io.IOException;
 
+/**
+ * StartData Packet defined in PTP-IP
+ */
 public final class StartDataPacket extends PtpIpPacket {
     private static final int SIZE = UINT32.SIZE + UINT64.SIZE;
 

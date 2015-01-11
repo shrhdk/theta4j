@@ -5,6 +5,9 @@ import com.theta360.ptp.type.UINT32;
 
 import java.io.IOException;
 
+/**
+ * InitEventAck Packet defined in PTP-IP
+ */
 public final class InitEventAckPacket extends PtpIpPacket {
     private static final int SIZE = 0;
 

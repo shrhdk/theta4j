@@ -8,6 +8,11 @@ import com.theta360.util.Validators;
 
 import java.io.IOException;
 
+/**
+ * StorageInfo data set
+ * <p/>
+ * The StorageInfo data set defined in PTP
+ */
 public class StorageInfo {
     private final UINT16 storageType;
     private final UINT16 fileSystemType;
@@ -128,6 +133,9 @@ public class StorageInfo {
 
     // Static Factory Method
 
+    /**
+     * Construct StorageInfo from byte array.
+     */
     public static StorageInfo valueOf(byte[] bytes) {
         try (PtpInputStream pis = new PtpInputStream(bytes)) {
             return read(pis);
@@ -136,6 +144,11 @@ public class StorageInfo {
         }
     }
 
+    /**
+     * Construct StorageInfo from PtpInputStream.
+     *
+     * @throws IOException
+     */
     public static StorageInfo read(PtpInputStream pis) throws IOException {
         Validators.validateNonNull("pis", pis);
 

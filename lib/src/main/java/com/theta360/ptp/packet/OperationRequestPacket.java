@@ -8,6 +8,9 @@ import com.theta360.util.Validators;
 
 import java.io.IOException;
 
+/**
+ * OperationRequest Packet defined in PTP-IP
+ */
 public final class OperationRequestPacket extends PtpIpPacket {
     private static final int SIZE = UINT32.SIZE + UINT16.SIZE + UINT32.SIZE + UINT32.SIZE * 5;
 

@@ -9,6 +9,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * ObjectInfo data set
+ * <p/>
+ * The ObjectInfo data set defined in PTP
+ */
 public class ObjectInfo {
     private final UINT32 storageID;
     private final UINT16 objectFormat;
@@ -242,6 +247,9 @@ public class ObjectInfo {
 
     // Static Factory Method
 
+    /**
+     * Construct ObjectInfo from byte array.
+     */
     public static ObjectInfo valueOf(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
 
@@ -252,6 +260,11 @@ public class ObjectInfo {
         }
     }
 
+    /**
+     * Construct ObjectInfo from PtpInputStream.
+     *
+     * @throws IOException
+     */
     public static ObjectInfo read(PtpInputStream pis) throws IOException {
         Validators.validateNonNull("pis", pis);
 
@@ -285,6 +298,9 @@ public class ObjectInfo {
 
     // Related Classes
 
+    /**
+     * ProtectionStatus in ObjectInfo defined in PTP
+     */
     public static enum ProtectionStatus {
         NO_PROTECTION(new UINT16(0x0000)),
         READ_ONLY(new UINT16(0x0001));
@@ -303,6 +319,11 @@ public class ObjectInfo {
             this.value = value;
         }
 
+        /**
+         * Get ProtectionStatus from value.
+         *
+         * @param value
+         */
         public static ProtectionStatus valueOf(UINT16 value) {
             Validators.validateNonNull("value", value);
 

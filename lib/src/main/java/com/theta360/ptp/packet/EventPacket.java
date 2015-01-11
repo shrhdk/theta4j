@@ -8,6 +8,9 @@ import com.theta360.util.Validators;
 
 import java.io.IOException;
 
+/**
+ * Event Packet defined in PTP-IP
+ */
 public final class EventPacket extends PtpIpPacket {
     private static final int SIZE = UINT16.SIZE + UINT32.SIZE + UINT32.SIZE * 3;
 

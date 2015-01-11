@@ -5,7 +5,13 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+/**
+ * 64 bit unsigned integer value defined in PTP
+ */
 public final class UINT64 implements Comparable<UINT64> {
+    /**
+     * Size of type in bytes.
+     */
     public static final int SIZE = 8;
 
     public static final UINT64 ZERO = new UINT64(0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);

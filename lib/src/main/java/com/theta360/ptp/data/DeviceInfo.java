@@ -8,6 +8,11 @@ import com.theta360.util.Validators;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * DeviceInfo data set
+ * <p/>
+ * The DeviceInfo data set defined in PTP
+ */
 public final class DeviceInfo {
     private final UINT16 standardVersion;
     private final UINT32 vendorExtensionID;
@@ -190,6 +195,9 @@ public final class DeviceInfo {
 
     // Static Factory Method
 
+    /**
+     * Construct DeviceInfo from byte array.
+     */
     public static DeviceInfo valueOf(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
 
@@ -200,6 +208,11 @@ public final class DeviceInfo {
         }
     }
 
+    /**
+     * Construct DeviceInfo from PtpInputStream.
+     *
+     * @throws IOException
+     */
     public static DeviceInfo read(PtpInputStream pis) throws IOException {
         Validators.validateNonNull("pis", pis);
 

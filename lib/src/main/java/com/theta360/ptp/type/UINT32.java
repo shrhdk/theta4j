@@ -4,8 +4,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
+/**
+ * 32 bit unsigned integer value defined in PTP
+ */
 public final class UINT32 implements Comparable<UINT32> {
+    /**
+     * Size of type in bytes.
+     */
     public static final int SIZE = 4;
+
     public static final long MIN_VALUE = 0L;
     public static final long MAX_VALUE = 4294967295L;
 
