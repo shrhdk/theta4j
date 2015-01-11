@@ -12,7 +12,7 @@ dependencies {
 }
 
 archivesBaseName = 'theta-cli'
-version = '0.1.0'
+version = rootProject.version
 
 jar {
     mustRunAfter clean
