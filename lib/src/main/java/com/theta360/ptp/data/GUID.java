@@ -12,6 +12,8 @@ public final class GUID {
 
     private final byte[] bytes;
 
+    // Constructor
+
     public GUID(int b15, int b14, int b13, int b12, int b11, int b10, int b9, int b8,
                 int b7, int b6, int b5, int b4, int b3, int b2, int b1, int b0) {
         this.bytes = new byte[]{
@@ -35,9 +37,13 @@ public final class GUID {
         this.bytes = buffer.array();
     }
 
+    // Converter
+
     public byte[] bytes() {
         return bytes.clone();
     }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
