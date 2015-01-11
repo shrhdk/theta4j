@@ -24,6 +24,8 @@ public final class Theta extends PtpInitiator {
         super(new GUID(UUID.randomUUID()), IP_ADDRESS, TCP_PORT);
     }
 
+    // Operation
+
     public void getResizedImageObject(UINT32 objectHandle, OutputStream dst) throws IOException {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
