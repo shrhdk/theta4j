@@ -8,36 +8,24 @@ Remote shutter tool for RICOH THETA.
 
 - JDK 1.7
 
-## How to Use CLI tool
+## How to Use the CLI Tool
 
-(1) Build the CLI tool.
+(1) Set up Wi-Fi to connect to RICOH THETA.
 
-```
-$ ./gradlew :cli:distribute
-```
-
-(2) Set up Wi-Fi to connect to RICOH THETA.
-
-(3) Execute remote shutter.
+(2) Execute remote shutter.
 
 ```
-$ ./cli/build/bin/theta-cli
+$ ./theta-cli -o captured.jpg
 ```
 
-## How to Use GUI tool
+## How to Use the GUI Tool
 
-(1) Build the GUI tool.
+(1) Set up Wi-Fi to connect to RICOH THETA.
 
-```
-$ ./gradlew :gui:distribute
-```
-
-(2) Set up Wi-Fi to connect to RICOH THETA.
-
-(3) Launch the GUI tool.
+(2) Launch the GUI tool.
 
 ```
-$ ./gui/build/bin/theta-gui
+$ ./theta-gui
 ```
 
 ## License

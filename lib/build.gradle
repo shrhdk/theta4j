@@ -8,7 +8,7 @@ dependencies {
 }
 
 archivesBaseName = 'theta'
-version = '0.1.0'
+version = rootProject.version
 
 test {
     useJUnit {
