@@ -1,11 +1,9 @@
-package com.theta360.ptp;
+package com.theta360.theta;
 
-import com.theta360.ptp.data.GUID;
+import com.theta360.ptp.PtpEventListener;
+import com.theta360.ptp.PtpIpInitiator;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
-import com.theta360.test.categories.UnitTest;
-import com.theta360.theta.Theta;
-import com.theta360.theta.ThetaEventListener;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,10 +15,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Category(IntegrationTest.class)
-public class PtpIpInitiatorTest {
+public class ThetaTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInitiator.class);
     private static final UINT32 SESSION_ID = new UINT32(1);
 
@@ -46,12 +43,12 @@ public class PtpIpInitiatorTest {
         }
     };
 
-    private PtpIpInitiator initiator;
+    private Theta theta;
 
     @Before
     public void connect() throws IOException {
-        initiator = new PtpIpInitiator(new GUID(UUID.randomUUID()), Theta.IP_ADDRESS, Theta.TCP_PORT);
-        initiator.addListener(listener);
+        theta = new Theta();
+        theta.addListener(listener);
     }
 
     @After
@@ -61,12 +58,12 @@ public class PtpIpInitiatorTest {
 
     @After
     public void close() throws IOException {
-        initiator.close();
+        theta.close();
     }
 
     @Test
     public void getDeviceInfo() throws IOException {
-        initiator.getDeviceInfo();
+        theta.getDeviceInfo();
     }
 
     @Test
@@ -75,45 +72,45 @@ public class PtpIpInitiatorTest {
 
     @Test
     public void getObjectHandles() throws IOException {
-        initiator.openSession(SESSION_ID);
-        initiator.getObjectHandles();
-        initiator.closeSession();
+        theta.openSession(SESSION_ID);
+        theta.getObjectHandles();
+        theta.closeSession();
     }
 
     @Test
     public void getObject() throws IOException {
         try (FileOutputStream file = new FileOutputStream(new File("raw.jpg"))) {
-            initiator.openSession(SESSION_ID);
-            List<UINT32> objectHandles = initiator.getObjectHandles();
-            initiator.getObject(objectHandles.get(4), file);
-            initiator.closeSession();
+            theta.openSession(SESSION_ID);
+            List<UINT32> objectHandles = theta.getObjectHandles();
+            theta.getObject(objectHandles.get(4), file);
+            theta.closeSession();
         }
     }
 
     @Test
     public void getThumb() throws IOException {
         try (FileOutputStream file = new FileOutputStream(new File("thumb.jpg"))) {
-            initiator.openSession(SESSION_ID);
-            List<UINT32> objectHandles = initiator.getObjectHandles();
-            initiator.getThumb(objectHandles.get(4), file);
-            initiator.closeSession();
-        }
-    }
-
-    @Test
-    public void getResizedImageObject() throws IOException {
-        try (FileOutputStream file = new FileOutputStream(new File("resized.jpg"))) {
-            initiator.openSession(SESSION_ID);
-            List<UINT32> objectHandles = initiator.getObjectHandles();
-            initiator.getResizedImageObject(objectHandles.get(4), file);
-            initiator.closeSession();
+            theta.openSession(SESSION_ID);
+            List<UINT32> objectHandles = theta.getObjectHandles();
+            theta.getThumb(objectHandles.get(4), file);
+            theta.closeSession();
         }
     }
 
     @Test
     public void initiateCapture() throws IOException {
-        initiator.openSession(SESSION_ID);
-        initiator.initiateCapture();
-        initiator.closeSession();
+        theta.openSession(SESSION_ID);
+        theta.initiateCapture();
+        theta.closeSession();
+    }
+
+    @Test
+    public void getResizedImageObject() throws IOException {
+        try (FileOutputStream file = new FileOutputStream(new File("resized.jpg"))) {
+            theta.openSession(SESSION_ID);
+            List<UINT32> objectHandles = theta.getObjectHandles();
+            theta.getResizedImageObject(objectHandles.get(4), file);
+            theta.closeSession();
+        }
     }
 }
