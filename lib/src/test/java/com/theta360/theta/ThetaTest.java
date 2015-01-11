@@ -1,7 +1,7 @@
 package com.theta360.theta;
 
 import com.theta360.ptp.PtpEventListener;
-import com.theta360.ptp.PtpIpInitiator;
+import com.theta360.ptp.PtpInitiator;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
 import org.junit.After;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Category(IntegrationTest.class)
 public class ThetaTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInitiator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PtpInitiator.class);
     private static final UINT32 SESSION_ID = new UINT32(1);
 
     private static PtpEventListener listener = new ThetaEventListener() {
