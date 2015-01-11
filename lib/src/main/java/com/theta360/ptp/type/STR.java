@@ -31,6 +31,10 @@ public final class STR {
             throw new IOException();
         }
 
+        if(numChars == 0) {
+            return "";
+        }
+
         int length = numChars * UINT16.SIZE;
 
         byte[] bytes = new byte[length];
