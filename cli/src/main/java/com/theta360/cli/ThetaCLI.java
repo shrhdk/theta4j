@@ -1,8 +1,6 @@
 package com.theta360.cli;
 
 import com.theta360.ptp.PtpEventListener;
-import com.theta360.ptp.PtpIpInitiator;
-import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.theta.Theta;
 import com.theta360.theta.ThetaEventListener;
@@ -10,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.UUID;
 
 public final class ThetaCLI {
     private static final Logger LOGGER = LoggerFactory.getLogger(ThetaCLI.class);

@@ -26,8 +26,8 @@ import java.util.concurrent.Executors;
  * This test requires manual execution.
  * Execute after connection with RICOH THETA is established.
  */
-public class PtpIpInitiator implements Closeable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInitiator.class);
+public class PtpInitiator implements Closeable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PtpInitiator.class);
 
     // Property
 
@@ -58,7 +58,7 @@ public class PtpIpInitiator implements Closeable {
 
     // Connect
 
-    public PtpIpInitiator(GUID guid, String host, int port) throws IOException {
+    public PtpInitiator(GUID guid, String host, int port) throws IOException {
         Validators.validateNonNull("guid", guid);
         Validators.validateNonNull("host", host);
 
