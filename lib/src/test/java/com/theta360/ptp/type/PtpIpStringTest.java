@@ -54,7 +54,7 @@ public class PtpIpStringTest {
         assertThat(actual, is(expected));
     }
 
-    // toString
+    // read
 
     @Test(expected = NullPointerException.class)
     public void readWithNull() throws IOException {
