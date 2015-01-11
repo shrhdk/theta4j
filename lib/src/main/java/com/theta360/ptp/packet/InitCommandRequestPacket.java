@@ -2,6 +2,7 @@ package com.theta360.ptp.packet;
 
 import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.io.PtpInputStream;
+import com.theta360.ptp.type.PtpIpString;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.ByteUtils;
@@ -23,12 +24,14 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
         Validators.validateNonNull("name", name);
         Validators.validateNonNull("protocolVersion", protocolVersion);
 
-        byte[] nameBytes = STR.toBytes(name);
-
         this.guid = guid;
         this.name = name;
         this.protocolVersion = protocolVersion;
-        super.payload = ByteUtils.join(guid.bytes(), nameBytes, protocolVersion.bytes());
+        super.payload = ByteUtils.join(
+                guid.bytes(),
+                PtpIpString.toBytes(name),
+                protocolVersion.bytes()
+        );
     }
 
     public GUID getGUID() {
@@ -82,10 +85,8 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
         PacketUtils.assertType(type, Type.INIT_COMMAND_REQUEST);
         PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
 
-        long nameLength = payloadLength - GUID.SIZE - UINT32.SIZE;
-
         GUID guid = GUID.read(pis);
-        String name = pis.readString((int) nameLength);
+        String name = pis.readPtpIpString();
         UINT32 protocolVersion = pis.readUINT32();
 
         return new InitCommandRequestPacket(guid, name, protocolVersion);

@@ -2,6 +2,7 @@ package com.theta360.ptp.packet;
 
 import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.io.PtpInputStream;
+import com.theta360.ptp.type.PtpIpString;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.ByteUtils;
@@ -25,13 +26,16 @@ public final class InitCommandAckPacket extends PtpIpPacket {
         Validators.validateNonNull("name", name);
         Validators.validateNonNull("protocolVersion", protocolVersion);
 
-        byte[] nameBytes = STR.toBytes(name);
-
         this.connectionNumber = connectionNumber;
         this.guid = guid;
         this.name = name;
         this.protocolVersion = protocolVersion;
-        super.payload = ByteUtils.join(connectionNumber.bytes(), guid.bytes(), nameBytes, protocolVersion.bytes());
+        super.payload = ByteUtils.join(
+                connectionNumber.bytes(),
+                guid.bytes(),
+                PtpIpString.toBytes(name),
+                protocolVersion.bytes()
+        );
     }
 
     public UINT32 getConnectionNumber() {
@@ -92,11 +96,9 @@ public final class InitCommandAckPacket extends PtpIpPacket {
         PacketUtils.assertType(type, Type.INIT_COMMAND_ACK);
         PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
 
-        long nameLength = payloadLength - UINT32.SIZE - GUID.SIZE - UINT32.SIZE;
-
         UINT32 connectionNumber = pis.readUINT32();
         GUID guid = GUID.read(pis);
-        String name = pis.readString((int) nameLength);
+        String name = pis.readPtpIpString();
         UINT32 protocolVersion = pis.readUINT32();
 
         return new InitCommandAckPacket(connectionNumber, guid, name, protocolVersion);
