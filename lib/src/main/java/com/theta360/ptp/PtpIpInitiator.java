@@ -273,7 +273,7 @@ public final class PtpIpInitiator implements Closeable {
                 new UINT32(1024)
         );
         co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (GetThumb): " + operationRequest);
+        LOGGER.info("Sent OperationRequest (GetResizedImageObject): " + operationRequest);
 
         // Receive Data
         ci.readData(dst);
