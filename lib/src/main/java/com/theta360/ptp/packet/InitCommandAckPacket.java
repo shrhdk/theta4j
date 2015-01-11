@@ -89,7 +89,7 @@ public final class InitCommandAckPacket extends PtpIpPacket {
         long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        PacketUtils.asseertType(type, Type.INIT_COMMAND_ACK);
+        PacketUtils.assertType(type, Type.INIT_COMMAND_ACK);
         PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
 
         long nameLength = payloadLength - UINT32.SIZE - GUID.SIZE - UINT32.SIZE;

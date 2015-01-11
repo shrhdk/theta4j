@@ -70,7 +70,7 @@ public final class DataPacket extends PtpIpPacket {
         long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        PacketUtils.asseertType(type, Type.DATA);
+        PacketUtils.assertType(type, Type.DATA);
         PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
 
         long dataLength = payloadLength - UINT32.SIZE;              // -TransactionID

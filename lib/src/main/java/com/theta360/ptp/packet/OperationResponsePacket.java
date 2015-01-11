@@ -137,7 +137,7 @@ public final class OperationResponsePacket extends PtpIpPacket {
         long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
-        PacketUtils.asseertType(type, Type.OPERATION_RESPONSE);
+        PacketUtils.assertType(type, Type.OPERATION_RESPONSE);
         PacketUtils.checkLength((int) payloadLength, SIZE);
 
         UINT16 responseCode = pis.readUINT16();

@@ -8,13 +8,13 @@ class PacketUtils {
     private PacketUtils() {
     }
 
-    public static void asseertType(PtpIpPacket.Type actual, PtpIpPacket.Type expected) throws IOException {
+    public static void assertType(PtpIpPacket.Type actual, PtpIpPacket.Type expected) throws IOException {
         if (actual != expected) {
             throw new IOException(String.format("Unexpected packet type: Actual=%s, Expected=%s.", actual, expected));
         }
     }
 
-    public static void asseertType(PtpIpPacket.Type actual, UINT32 expected, PtpIpPacket.Type label) throws IOException {
+    public static void assertType(PtpIpPacket.Type actual, UINT32 expected, PtpIpPacket.Type label) throws IOException {
         if (!actual.getCode().equals(expected)) {
             throw new IOException(String.format("Unexpected packet type: Actual=%s, Expected=%s.", actual, label));
         }
