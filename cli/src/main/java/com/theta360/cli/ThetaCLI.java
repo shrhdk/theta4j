@@ -43,12 +43,12 @@ public final class ThetaCLI {
     };
 
     public static void main(String[] args) throws IOException {
-        PtpIpInitiator initiator = new PtpIpInitiator(new GUID(UUID.randomUUID()), Theta.IP_ADDRESS, Theta.TCP_PORT);
-        initiator.addListener(listener);
-        initiator.getDeviceInfo();
-        initiator.openSession(SESSION_ID);
-        initiator.initiateCapture();
-        initiator.closeSession();
-        initiator.close();
+        Theta theta = new Theta();
+        theta.addListener(listener);
+        theta.getDeviceInfo();
+        theta.openSession(SESSION_ID);
+        theta.initiateCapture();
+        theta.closeSession();
+        theta.close();
     }
 }
