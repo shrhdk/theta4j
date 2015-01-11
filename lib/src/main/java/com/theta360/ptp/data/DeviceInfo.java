@@ -24,6 +24,8 @@ public final class DeviceInfo {
     private final String deviceVersion;
     private final String serialNumber;
 
+    // Constructor
+
     public DeviceInfo(
             UINT16 standardVersion,
             UINT32 vendorExtensionID, UINT16 vendorExtensionVersion, String vendorExtensionDesc,
@@ -61,6 +63,8 @@ public final class DeviceInfo {
         this.deviceVersion = deviceVersion;
         this.serialNumber = serialNumber;
     }
+
+    // Getter
 
     public UINT16 getStandardVersion() {
         return standardVersion;
@@ -117,6 +121,8 @@ public final class DeviceInfo {
     public String getSerialNumber() {
         return serialNumber;
     }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -181,6 +187,8 @@ public final class DeviceInfo {
                 ", serialNumber='" + serialNumber + '\'' +
                 '}';
     }
+
+    // Static Factory Method
 
     public static DeviceInfo valueOf(byte[] bytes) {
         try (PtpInputStream is = new PtpInputStream(bytes)) {
