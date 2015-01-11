@@ -2,6 +2,7 @@ package com.theta360.ptp.packet;
 
 import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.io.PtpInputStream;
+import com.theta360.ptp.type.PtpIpString;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.UnitTest;
@@ -52,7 +53,11 @@ public class InitCommandRequestPacketTest {
         String givenName = "";
 
         // expected
-        byte[] expectedPayload = ByteUtils.join(GUID_.bytes(), STR.toBytes(givenName), PROTOCOL_VERSION.bytes());
+        byte[] expectedPayload = ByteUtils.join(
+                GUID_.bytes(),
+                PtpIpString.toBytes(givenName),
+                PROTOCOL_VERSION.bytes()
+        );
 
         // arrange
         InitCommandRequestPacket packet = new InitCommandRequestPacket(GUID_, givenName, PROTOCOL_VERSION);
@@ -73,7 +78,11 @@ public class InitCommandRequestPacketTest {
         String givenName = "test";
 
         // expected
-        byte[] expectedPayload = ByteUtils.join(GUID_.bytes(), STR.toBytes(givenName), PROTOCOL_VERSION.bytes());
+        byte[] expectedPayload = ByteUtils.join(
+                GUID_.bytes(),
+                PtpIpString.toBytes(givenName),
+                PROTOCOL_VERSION.bytes()
+        );
 
         // arrange
         InitCommandRequestPacket packet = new InitCommandRequestPacket(GUID_, givenName, PROTOCOL_VERSION);
@@ -140,7 +149,11 @@ public class InitCommandRequestPacketTest {
     public void read() throws IOException {
         // given
         String givenName = "test";
-        byte[] givenPayload = ByteUtils.join(GUID_.bytes(), STR.toBytes(givenName), PROTOCOL_VERSION.bytes());
+        byte[] givenPayload = ByteUtils.join(
+                GUID_.bytes(),
+                PtpIpString.toBytes(givenName),
+                PROTOCOL_VERSION.bytes()
+        );
 
         // arrange
         PtpIpPacket givenPacket = new PtpIpPacket(INIT_COMMAND_REQUEST, givenPayload);

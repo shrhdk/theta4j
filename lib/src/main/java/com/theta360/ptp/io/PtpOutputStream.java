@@ -1,9 +1,6 @@
 package com.theta360.ptp.io;
 
-import com.theta360.ptp.type.STR;
-import com.theta360.ptp.type.UINT16;
-import com.theta360.ptp.type.UINT32;
-import com.theta360.ptp.type.UINT64;
+import com.theta360.ptp.type.*;
 import com.theta360.util.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +35,10 @@ public class PtpOutputStream extends OutputStream {
 
     public void write(String str) throws IOException {
         write(STR.toBytes(str));
+    }
+
+    public void writePtpIpString(String str) throws IOException {
+        write(PtpIpString.toBytes(str));
     }
 
     // OutputStream

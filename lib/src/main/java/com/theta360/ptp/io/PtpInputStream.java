@@ -1,9 +1,6 @@
 package com.theta360.ptp.io;
 
-import com.theta360.ptp.type.STR;
-import com.theta360.ptp.type.UINT16;
-import com.theta360.ptp.type.UINT32;
-import com.theta360.ptp.type.UINT64;
+import com.theta360.ptp.type.*;
 import com.theta360.util.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,8 +69,8 @@ public final class PtpInputStream extends InputStream {
         return STR.read(is);
     }
 
-    public String readString(int length) throws IOException {
-        return STR.read(is, length);
+    public String readPtpIpString() throws IOException {
+        return PtpIpString.read(is);
     }
 
     // InputStream

@@ -4,14 +4,16 @@ import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 @Category(UnitTest.class)
-public class STRTest {
+public class PtpIpStringTest {
     private static Charset CHARSET = Charset.forName("UTF-16LE");
 
     // toBytes
@@ -19,7 +21,7 @@ public class STRTest {
     @Test(expected = NullPointerException.class)
     public void toBytesWithNull() {
         // act
-        STR.toBytes(null);
+        PtpIpString.toBytes(null);
     }
 
     @Test
@@ -31,7 +33,7 @@ public class STRTest {
         byte[] expected = (given + "\u0000").getBytes(CHARSET);
 
         // act
-        byte[] actual = STR.toBytes("");
+        byte[] actual = PtpIpString.toBytes("");
 
         // verify
         assertThat(actual, is(expected));
@@ -46,7 +48,7 @@ public class STRTest {
         byte[] expected = (given + "\u0000").getBytes(CHARSET);
 
         // act
-        byte[] actual = STR.toBytes(given);
+        byte[] actual = PtpIpString.toBytes(given);
 
         // verify
         assertThat(actual, is(expected));
@@ -55,35 +57,41 @@ public class STRTest {
     // toString
 
     @Test(expected = NullPointerException.class)
-    public void toStringWithNull() throws IOException {
-        STR.toString(null);
+    public void readWithNull() throws IOException {
+        PtpIpString.read(null);
     }
 
     @Test
-    public void toStringWithEmpty() throws IOException {
+    public void readWithEmpty() throws IOException {
         // given
         byte[] given = "\u0000".getBytes(CHARSET);
 
         // expected
         String expected = "";
 
+        // arrange
+        InputStream givenInputStream = new ByteArrayInputStream(given);
+
         // act
-        String actual = STR.toString(given);
+        String actual = PtpIpString.read(givenInputStream);
 
         // verify
         assertThat(actual, is(expected));
     }
 
     @Test
-    public void testToString() throws IOException {
+    public void read() throws IOException {
         // given
         byte[] given = "test\u0000".getBytes(CHARSET);
+
+        // arrange
+        InputStream givenInputStream = new ByteArrayInputStream(given);
 
         // expected
         String expected = "test";
 
         // act
-        String actual = STR.toString(given);
+        String actual = PtpIpString.read(givenInputStream);
 
         // verify
         assertThat(actual, is(expected));
