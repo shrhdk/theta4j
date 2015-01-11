@@ -7,8 +7,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
+/**
+ * Converter for java.lang.String and PTP String
+ */
 public final class STR {
-    public static final int MIN_SIZE = UINT16.SIZE;
+    /**
+     * Minimum size of type in bytes.
+     */
+    public static final int MIN_SIZE = 1;
 
     private static Charset CHARSET = Charset.forName("UTF-16LE");
 

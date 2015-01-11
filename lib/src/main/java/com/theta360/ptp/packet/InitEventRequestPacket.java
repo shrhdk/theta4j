@@ -6,6 +6,9 @@ import com.theta360.util.Validators;
 
 import java.io.IOException;
 
+/**
+ * InitEventRequest Packet defined in PTP-IP
+ */
 public final class InitEventRequestPacket extends PtpIpPacket {
     private static final int SIZE = UINT32.SIZE;
 

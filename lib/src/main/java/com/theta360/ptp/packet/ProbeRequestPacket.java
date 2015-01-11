@@ -5,6 +5,9 @@ import com.theta360.ptp.type.UINT32;
 
 import java.io.IOException;
 
+/**
+ * ProbeRequest Packet defined in PTP-IP
+ */
 public final class ProbeRequestPacket extends PtpIpPacket {
     private static final int SIZE = 0;
 

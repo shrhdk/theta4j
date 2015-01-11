@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * PTP-IP Packet
+ */
 public class PtpIpPacket {
     private final Type type;
     byte[] payload;

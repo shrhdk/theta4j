@@ -137,16 +137,27 @@ public class PtpInitiator implements Closeable {
 
     // Getter
 
-    public int getPort() {
-        return port;
-    }
-
+    /**
+     * Get the host of responder which the initiator is connecting.
+     */
     public String getHost() {
         return host;
     }
 
+    /**
+     * Get the TCP port of responder which the initiator is connecting.
+     */
+    public int getPort() {
+        return port;
+    }
+
     // Operations
 
+    /**
+     * Get the DeviceInfo of the responder.
+     *
+     * @throws IOException
+     */
     public DeviceInfo getDeviceInfo() throws IOException {
         // Send OperationRequest (GetDeviceInfo)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
@@ -170,6 +181,12 @@ public class PtpInitiator implements Closeable {
         return deviceInfo;
     }
 
+    /**
+     * Open the session with the responder.
+     *
+     * @param sessionID
+     * @throws IOException
+     */
     public void openSession(UINT32 sessionID) throws IOException {
         Validators.validateNonNull("sessionID", sessionID);
 
@@ -192,6 +209,11 @@ public class PtpInitiator implements Closeable {
         LOGGER.info("Received OperationResponse: " + operationResponse);
     }
 
+    /**
+     * Open the session with the responder.
+     *
+     * @throws IOException
+     */
     public void closeSession() throws IOException {
         // Send OperationRequest (CloseSession)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
@@ -207,6 +229,11 @@ public class PtpInitiator implements Closeable {
         LOGGER.info("Received OperationResponse: " + operationResponse);
     }
 
+    /**
+     * Get object handles from the responder.
+     *
+     * @throws IOException
+     */
     public List<UINT32> getObjectHandles() throws IOException {
         return getObjectHandles(new UINT32(0xFFFFFFFFL));
     }
@@ -239,6 +266,13 @@ public class PtpInitiator implements Closeable {
         return objectHandles;
     }
 
+    /**
+     * Get the object from the responder.
+     *
+     * @param objectHandle
+     * @param dst
+     * @throws IOException
+     */
     public void getObject(UINT32 objectHandle, OutputStream dst) throws IOException {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
@@ -261,6 +295,13 @@ public class PtpInitiator implements Closeable {
         LOGGER.info("Received OperationResponse: " + operationResponse);
     }
 
+    /**
+     * Get the thumbnail of specified object handle from the responder.
+     *
+     * @param objectHandle
+     * @param dst
+     * @throws IOException
+     */
     public void getThumb(UINT32 objectHandle, OutputStream dst) throws IOException {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
@@ -283,6 +324,11 @@ public class PtpInitiator implements Closeable {
         LOGGER.info("Received OperationResponse: " + operationResponse);
     }
 
+    /**
+     * Send initiate capture request to the responder.
+     *
+     * @throws IOException
+     */
     public void initiateCapture() throws IOException {
         // Send OperationRequest (InitiateCapture)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
@@ -311,6 +357,11 @@ public class PtpInitiator implements Closeable {
         LOGGER.info("Sent OperationRequest (GetDevicePropValue): " + operationRequest);
     }
 
+    /**
+     * Get the battery level of the responder.
+     *
+     * @throws IOException
+     */
     public int getBatteryLevel() throws IOException {
         sendGetDevicePropValue(PropertyCode.BATTERY_LEVEL.getCode());
 
@@ -334,10 +385,22 @@ public class PtpInitiator implements Closeable {
 
     // Listener
 
+    /**
+     * Add the listener for PTP event.
+     *
+     * @param listener
+     * @return true if this initiator did not already contain the specified listener
+     */
     public boolean addListener(PtpEventListener listener) {
         return listenerSet.add(listener);
     }
 
+    /**
+     * Remove the listener for PTP event.
+     *
+     * @param listener
+     * @return true if this initiator contained the specified listener
+     */
     public boolean removeListener(PtpEventListener listener) {
         return listenerSet.remove(listener);
     }

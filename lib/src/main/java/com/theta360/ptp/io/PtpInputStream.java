@@ -12,6 +12,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * InputStream of the generic data type of PTP.
+ */
 public final class PtpInputStream extends InputStream {
     private static Logger LOGGER = LoggerFactory.getLogger(PtpInputStream.class);
 
@@ -21,6 +24,11 @@ public final class PtpInputStream extends InputStream {
         this(new ByteArrayInputStream(bytes));
     }
 
+    /**
+     * Wrap InputStream by PtpInputStream.
+     *
+     * @param is
+     */
     public PtpInputStream(InputStream is) {
         Validators.validateNonNull("is", is);
 
@@ -29,18 +37,38 @@ public final class PtpInputStream extends InputStream {
 
     // PTP Generic Type
 
+    /**
+     * Read UINT16 value from the stream.
+     *
+     * @throws IOException
+     */
     public UINT16 readUINT16() throws IOException {
         return UINT16.read(is);
     }
 
+    /**
+     * Read UINT32 value from the stream.
+     *
+     * @throws IOException
+     */
     public UINT32 readUINT32() throws IOException {
         return UINT32.read(is);
     }
 
+    /**
+     * Read UINT64 value from the stream.
+     *
+     * @throws IOException
+     */
     public UINT64 readUINT64() throws IOException {
         return UINT64.read(is);
     }
 
+    /**
+     * Read list of UINT16 from the stream.
+     *
+     * @throws IOException
+     */
     public List<UINT16> readAUINT16() throws IOException {
         long length = readUINT32().longValue();
 
@@ -53,6 +81,11 @@ public final class PtpInputStream extends InputStream {
         return list;
     }
 
+    /**
+     * Read list of UINT32 from the stream.
+     *
+     * @throws IOException
+     */
     public List<UINT32> readAUINT32() throws IOException {
         long length = readUINT32().longValue();
 
@@ -65,10 +98,22 @@ public final class PtpInputStream extends InputStream {
         return list;
     }
 
+    /**
+     * Read list of String from the stream as PTP String.
+     *
+     * @throws IOException
+     */
     public String readString() throws IOException {
         return STR.read(is);
     }
 
+    // PTP-IP Type
+
+    /**
+     * Read list of String from the stream as PTP-IP String.
+     *
+     * @throws IOException
+     */
     public String readPtpIpString() throws IOException {
         return PtpIpString.read(is);
     }

@@ -3,6 +3,9 @@ package com.theta360.ptp;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 
+/**
+ * Listener Set for PTP Event.
+ */
 public interface PtpEventListener {
     void onCancelTransaction();
 

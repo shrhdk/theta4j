@@ -4,14 +4,24 @@ import com.theta360.ptp.type.UINT32;
 
 import java.util.Iterator;
 
+/**
+ * Iterator of Transaction ID for PTP-IP Packet
+ */
 public final class TransactionID implements Iterator<UINT32> {
     private UINT32 current = new UINT32(0);
 
+    /**
+     * Always returns true.
+     */
     @Override
     public boolean hasNext() {
         return true;
     }
 
+    /**
+     * Returns the following values from initial state.
+     * 1, 2, ..., [Max value of UINT32], 1, 2, ...
+     */
     @Override
     public UINT32 next() {
         if (current.longValue() == UINT32.MAX_VALUE) {
@@ -23,6 +33,9 @@ public final class TransactionID implements Iterator<UINT32> {
         return current;
     }
 
+    /**
+     * Unsupported
+     */
     @Override
     public void remove() {
         throw new UnsupportedOperationException();

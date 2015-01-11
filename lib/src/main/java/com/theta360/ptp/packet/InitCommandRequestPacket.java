@@ -10,6 +10,9 @@ import com.theta360.util.Validators;
 
 import java.io.IOException;
 
+/**
+ * InitCommandRequest Packet defined in PTP-IP
+ */
 public final class InitCommandRequestPacket extends PtpIpPacket {
     private static final int MIN_SIZE = GUID.SIZE + STR.MIN_SIZE + UINT32.SIZE;
 

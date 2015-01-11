@@ -6,6 +6,9 @@ import com.theta360.util.Validators;
 
 import java.io.IOException;
 
+/**
+ * Cancel Packet defined in PTP-IP
+ */
 public final class CancelPacket extends PtpIpPacket {
     private static final int SIZE = UINT32.SIZE;
 

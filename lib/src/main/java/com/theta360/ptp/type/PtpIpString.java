@@ -7,7 +7,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
+/**
+ * Converter for java.lang.String and PTP-IP String
+ */
 public class PtpIpString {
+    /**
+     * Minimum size of type in bytes.
+     */
     public static final int MIN_SIZE = UINT16.SIZE;
 
     private static Charset CHARSET = Charset.forName("UTF-16LE");

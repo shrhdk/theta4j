@@ -8,6 +8,9 @@ import com.theta360.util.Validators;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * Data Packet defined in PTP-IP
+ */
 public final class DataPacket extends PtpIpPacket {
     private static final int MIN_SIZE = UINT32.SIZE;
 

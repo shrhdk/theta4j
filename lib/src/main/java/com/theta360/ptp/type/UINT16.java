@@ -4,8 +4,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
+/**
+ * 16 bit unsigned integer value defined in PTP
+ */
 public final class UINT16 implements Comparable<UINT16> {
+    /**
+     * Size of type in bytes.
+     */
     public static final int SIZE = 2;
+
     public static final int MIN_VALUE = 0;
     public static final int MAX_VALUE = 65535;
 
