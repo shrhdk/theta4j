@@ -2,6 +2,7 @@ package com.theta360.ptp;
 
 import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.type.UINT32;
+import com.theta360.test.categories.IntegrationTest;
 import com.theta360.test.categories.UnitTest;
 import com.theta360.theta.Theta;
 import com.theta360.theta.ThetaEventListener;
@@ -18,7 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-@Category(UnitTest.class)
+@Category(IntegrationTest.class)
 public class PtpIpInitiatorTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInitiator.class);
     private static final UINT32 SESSION_ID = new UINT32(1);
