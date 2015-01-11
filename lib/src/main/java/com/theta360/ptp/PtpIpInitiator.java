@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -236,8 +237,9 @@ public final class PtpIpInitiator implements Closeable {
         return objectHandles;
     }
 
-    public byte[] getThumb(UINT32 objectHandle) throws IOException {
+    public void getThumb(UINT32 objectHandle, OutputStream dst) throws IOException {
         Validators.validateNonNull("objectHandle", objectHandle);
+        Validators.validateNonNull("dst", dst);
 
         // Send OperationRequest (GetThumb)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
@@ -250,13 +252,13 @@ public final class PtpIpInitiator implements Closeable {
         LOGGER.info("Sent OperationRequest (GetThumb): " + operationRequest);
 
         // Receive Data
-        byte[] data = ci.readData();
+        ci.readData(dst);
 
         // Receive OperationResponse
         OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
         LOGGER.info("Received OperationResponse: " + operationResponse);
+    }
 
-        return data;
     }
 
     public void initiateCapture() throws IOException {
