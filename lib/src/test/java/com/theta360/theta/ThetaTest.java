@@ -82,7 +82,7 @@ public class ThetaTest {
         try (FileOutputStream file = new FileOutputStream(new File("raw.jpg"))) {
             theta.openSession(SESSION_ID);
             List<UINT32> objectHandles = theta.getObjectHandles();
-            theta.getObject(objectHandles.get(4), file);
+            theta.getObject(objectHandles.get(2), file);
             theta.closeSession();
         }
     }
@@ -92,7 +92,7 @@ public class ThetaTest {
         try (FileOutputStream file = new FileOutputStream(new File("thumb.jpg"))) {
             theta.openSession(SESSION_ID);
             List<UINT32> objectHandles = theta.getObjectHandles();
-            theta.getThumb(objectHandles.get(4), file);
+            theta.getThumb(objectHandles.get(2), file);
             theta.closeSession();
         }
     }
@@ -109,7 +109,7 @@ public class ThetaTest {
         try (FileOutputStream file = new FileOutputStream(new File("resized.jpg"))) {
             theta.openSession(SESSION_ID);
             List<UINT32> objectHandles = theta.getObjectHandles();
-            theta.getResizedImageObject(objectHandles.get(4), file);
+            theta.getResizedImageObject(objectHandles.get(2), file);
             theta.closeSession();
         }
     }
