@@ -237,6 +237,28 @@ public final class PtpIpInitiator implements Closeable {
         return objectHandles;
     }
 
+    public void getObject(UINT32 objectHandle, OutputStream dst) throws IOException {
+        Validators.validateNonNull("objectHandle", objectHandle);
+        Validators.validateNonNull("dst", dst);
+
+        // Send OperationRequest (GetObject)
+        OperationRequestPacket operationRequest = new OperationRequestPacket(
+                new UINT32(1),
+                OperationCode.GET_OBJECT.getCode(),
+                transactionID.next(),
+                objectHandle
+        );
+        co.write(operationRequest);
+        LOGGER.info("Sent OperationRequest (GetObject): " + operationRequest);
+
+        // Receive Data
+        ci.readData(dst);
+
+        // Receive OperationResponse
+        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
+        LOGGER.info("Received OperationResponse: " + operationResponse);
+    }
+
     public void getThumb(UINT32 objectHandle, OutputStream dst) throws IOException {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
