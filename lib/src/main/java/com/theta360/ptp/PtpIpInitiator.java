@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
  * This test requires manual execution.
  * Execute after connection with RICOH THETA is established.
  */
-public final class PtpIpInitiator implements Closeable {
+public class PtpIpInitiator implements Closeable {
     private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInitiator.class);
 
     // Property
@@ -38,7 +38,7 @@ public final class PtpIpInitiator implements Closeable {
     // State
 
     private volatile boolean isClosed = false;
-    private TransactionID transactionID = new TransactionID();
+    protected TransactionID transactionID = new TransactionID();
 
     // EventListener
 
@@ -48,8 +48,8 @@ public final class PtpIpInitiator implements Closeable {
     // Command Data Connection
 
     private Socket commandDataConnection;
-    private PacketInputStream ci;
-    private PacketOutputStream co;
+    protected PacketInputStream ci;
+    protected PacketOutputStream co;
 
     // Event Connection
 
@@ -272,30 +272,6 @@ public final class PtpIpInitiator implements Closeable {
         );
         co.write(operationRequest);
         LOGGER.info("Sent OperationRequest (GetThumb): " + operationRequest);
-
-        // Receive Data
-        ci.readData(dst);
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
-    }
-
-    public void getResizedImageObject(UINT32 objectHandle, OutputStream dst) throws IOException{
-        Validators.validateNonNull("objectHandle", objectHandle);
-        Validators.validateNonNull("dst", dst);
-
-        // Send OperationRequest (GetResizedImageObject)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                com.theta360.theta.OperationCode.GET_RESIZED_IMAGE_OBJECT.getCode(),
-                transactionID.next(),
-                objectHandle,
-                new UINT32(2048),
-                new UINT32(1024)
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (GetResizedImageObject): " + operationRequest);
 
         // Receive Data
         ci.readData(dst);
