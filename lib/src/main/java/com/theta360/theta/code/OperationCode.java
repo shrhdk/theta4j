@@ -1,4 +1,4 @@
-package com.theta360.theta;
+package com.theta360.theta.code;
 
 import com.theta360.ptp.code.Code;
 import com.theta360.ptp.type.UINT16;

@@ -5,6 +5,7 @@ import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.packet.OperationRequestPacket;
 import com.theta360.ptp.packet.OperationResponsePacket;
 import com.theta360.ptp.type.UINT32;
+import com.theta360.theta.code.OperationCode;
 import com.theta360.util.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public final class Theta extends PtpIpInitiator {
         // Send OperationRequest (GetResizedImageObject)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                com.theta360.theta.OperationCode.GET_RESIZED_IMAGE_OBJECT.getCode(),
+                OperationCode.GET_RESIZED_IMAGE_OBJECT.getCode(),
                 transactionID.next(),
                 objectHandle,
                 new UINT32(2048),
