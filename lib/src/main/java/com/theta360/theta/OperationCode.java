@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum OperationCode implements Code {
+    GET_RESIZED_IMAGE_OBJECT(new UINT16(0x1022)),
     WLAN_POWER_CONTROL(new UINT16(0x99A1));
 
     private static final Map<UINT16, OperationCode> operationCodeList = new HashMap<>();
@@ -28,7 +29,6 @@ public enum OperationCode implements Code {
     public String getName() {
         return name();
     }
-
 
     private OperationCode(UINT16 code) {
         this.code = code;
