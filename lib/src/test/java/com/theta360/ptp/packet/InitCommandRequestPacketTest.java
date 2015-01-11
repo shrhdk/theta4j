@@ -129,20 +129,6 @@ public class InitCommandRequestPacketTest {
         InitCommandRequestPacket.read(givenInputStream);
     }
 
-    @Test(expected = IOException.class)
-    public void readInvalidName() throws IOException {
-        // given
-        byte[] invalidNameBytes = new byte[]{0x01};  // Not end with 0x00
-        byte[] givenPayload = ByteUtils.join(GUID_.bytes(), invalidNameBytes, PROTOCOL_VERSION.bytes());
-
-        // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(INIT_COMMAND_REQUEST, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
-
-        // act
-        InitCommandRequestPacket.read(givenInputStream);
-    }
-
     // read
 
     @Test
