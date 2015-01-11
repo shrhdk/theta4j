@@ -2,6 +2,8 @@ package com.theta360.ptp.io;
 
 import com.theta360.ptp.packet.PtpIpPacket;
 import com.theta360.test.categories.UnitTest;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -13,8 +15,22 @@ import static org.hamcrest.core.Is.is;
 
 @Category(UnitTest.class)
 public class PacketOutputStreamTest {
+    private ByteArrayOutputStream baos;
+    private PacketOutputStream pos;
+
+    @Before
+    public void setUp() {
+        baos = new ByteArrayOutputStream();
+        pos = new PacketOutputStream(baos);
+    }
+
+    @After
+    public void cleanUp() throws IOException {
+        pos.close();
+    }
+
     @Test
-    public void initCommandRequest() throws IOException {
+    public void write() throws IOException {
         // given
         byte[] given = new byte[]{0x12, 0x34};
 
@@ -25,12 +41,8 @@ public class PacketOutputStreamTest {
                 0x12, 0x34
         };
 
-        // arrange
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PacketOutputStream out = new PacketOutputStream(baos);
-
-        // Act
-        out.write(new PtpIpPacket(PtpIpPacket.Type.INIT_COMMAND_REQUEST, given));
+        // act
+        pos.write(new PtpIpPacket(PtpIpPacket.Type.INIT_COMMAND_REQUEST, given));
 
         // verify
         byte[] actual = baos.toByteArray();
