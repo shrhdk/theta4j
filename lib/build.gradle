@@ -19,6 +19,10 @@ test {
     }
 }
 
+javadoc {
+    mustRunAfter clean
+}
+
 jar {
     mustRunAfter clean
 }
@@ -30,7 +34,8 @@ task integrationTest(type: Test) {
     }
 }
 
-task distribute(type: Copy, dependsOn: [clean, jar]) {
+task distribute(type: Copy, dependsOn: [clean, javadoc, jar]) {
+    from "build/docs/"
     from "build/libs"
     into "build/bin"
 }
