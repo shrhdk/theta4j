@@ -344,7 +344,8 @@ public class PtpInitiator implements Closeable {
 
     // Property Getter
 
-    private void sendGetDevicePropValue(UINT16 devicePropCode) throws IOException {
+    private byte[] getDevicePropValue(UINT16 devicePropCode) throws IOException {
+        // Send OperationRequest (GetDevicePropValue)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
                 OperationCode.GET_DEVICE_PROP_VALUE.getCode(),
@@ -353,20 +354,22 @@ public class PtpInitiator implements Closeable {
         );
         co.write(operationRequest);
         LOGGER.info("Sent OperationRequest (GetDevicePropValue): " + operationRequest);
+
+        byte[] value = ci.readData();
+
+        // Receive OperationResponse
+        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
+        LOGGER.info("Received OperationResponse: " + operationResponse);
+
+        return value;
     }
 
     public byte getDevicePropValueAsUINT8(UINT16 devicePropCode) throws IOException {
-        sendGetDevicePropValue(devicePropCode);
-
-        byte[] data = ci.readData();
-
-        return data[0];
+        return getDevicePropValue(PropertyCode.BATTERY_LEVEL.getCode())[0];
     }
 
     public UINT16 getDevicePropValueAsUINT16(UINT16 devicePropCode) throws IOException {
-        sendGetDevicePropValue(devicePropCode);
-
-        byte[] data = ci.readData();
+        byte[] data = getDevicePropValue(PropertyCode.WHITE_BALANCE.getCode());
 
         try (InputStream is = new ByteArrayInputStream(data)) {
             return UINT16.read(is);
@@ -388,7 +391,7 @@ public class PtpInitiator implements Closeable {
 
     // Property Setter
 
-    private void sendSetDevicePropValue(UINT16 devicePropCode) throws IOException {
+    private void setDevicePropValue(UINT16 devicePropCode, byte[] value) throws IOException {
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
                 OperationCode.SET_DEVICE_PROP_VALUE.getCode(),
@@ -397,6 +400,12 @@ public class PtpInitiator implements Closeable {
         );
         co.write(operationRequest);
         LOGGER.info("Sent OperationRequest (GetDevicePropValue): " + operationRequest);
+
+        co.writeData(transactionID, value);
+
+        // Receive OperationResponse
+        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
+        LOGGER.info("Received OperationResponse: " + operationResponse);
     }
 
     // Listener
