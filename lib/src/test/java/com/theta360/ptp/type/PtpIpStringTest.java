@@ -1,10 +1,7 @@
 package com.theta360.ptp.type;
 
 import com.theta360.ptp.io.PtpInputStream;
-import com.theta360.ptp.packet.InitCommandRequestPacket;
-import com.theta360.ptp.packet.PtpIpPacket;
 import com.theta360.test.categories.UnitTest;
-import com.theta360.util.ByteUtils;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -13,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
-import static com.theta360.ptp.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
