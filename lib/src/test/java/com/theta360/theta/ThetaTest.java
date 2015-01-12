@@ -1,12 +1,11 @@
 package com.theta360.theta;
 
 import com.theta360.ptp.PtpEventListener;
-import com.theta360.ptp.PtpInitiator;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
 import com.theta360.theta.property.WhiteBalance;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -20,7 +19,7 @@ import java.util.List;
 
 @Category(IntegrationTest.class)
 public class ThetaTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PtpInitiator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ThetaTest.class);
     private static final UINT32 SESSION_ID = new UINT32(1);
 
     private static PtpEventListener listener = new ThetaEventListener() {
@@ -45,22 +44,19 @@ public class ThetaTest {
         }
     };
 
-    private Theta theta;
+    private static Theta theta;
 
-    @Before
-    public void connect() throws IOException {
+    @BeforeClass
+    public static void connect() throws IOException {
         theta = new Theta();
         theta.addListener(listener);
         theta.openSession(SESSION_ID);
     }
 
-    @After
-    public void close() throws IOException, InterruptedException {
-        Thread.sleep(8000);
+    @AfterClass
+    public static void close() throws IOException, InterruptedException {
         theta.closeSession();
-        Thread.sleep(8000);
         theta.close();
-        Thread.sleep(8000);
     }
 
     // Operations
@@ -94,11 +90,6 @@ public class ThetaTest {
         try (FileOutputStream file = new FileOutputStream(new File("thumb.jpg"))) {
             theta.getThumb(objectHandles.get(2), file);
         }
-    }
-
-    @Test
-    public void initiateCapture() throws IOException {
-        theta.initiateCapture();
     }
 
     @Test
