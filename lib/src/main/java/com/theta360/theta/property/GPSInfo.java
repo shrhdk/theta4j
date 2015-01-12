@@ -81,8 +81,8 @@ public class GPSInfo {
     @Override
     public String toString() {
         // TODO Implement
-        String dateTimeString = new SimpleDateFormat("").format(dateTime);
-        String timeZoneString = "";
+        // String dateTimeString = new SimpleDateFormat("").format(dateTime);
+        // String timeZoneString = "";
 
         throw new UnsupportedOperationException();
         // return String.format("%2.6f,%2.6f%+3.2fm@%s%s,%s", latitude, longitude, altitude, dateTimeString, timeZoneString, DATUM);
