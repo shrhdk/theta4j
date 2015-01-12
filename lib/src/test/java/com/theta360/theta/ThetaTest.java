@@ -124,4 +124,11 @@ public class ThetaTest {
         System.out.println("Battery Level: " + theta.getBatteryLevel());
         theta.closeSession();
     }
+
+    @Test
+    public void getWhiteBalance() throws IOException {
+        theta.openSession(SESSION_ID);
+        System.out.println("White Balance: " + theta.getWhiteBalance());
+        theta.closeSession();
+    }
 }
