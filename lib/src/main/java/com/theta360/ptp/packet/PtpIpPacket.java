@@ -98,6 +98,8 @@ public class PtpIpPacket {
         PROBE_REQUEST(new UINT32(0x000D)),
         PROBE_RESPONSE(new UINT32(0x000D));
 
+        public static final int SIZE = 4;
+
         private static final Map<UINT32, Type> numbers = new HashMap<>();
 
         static {
