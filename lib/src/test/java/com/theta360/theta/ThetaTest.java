@@ -2,6 +2,7 @@ package com.theta360.theta;
 
 import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpInitiator;
+import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
 import org.junit.After;
@@ -116,7 +117,7 @@ public class ThetaTest {
         }
     }
 
-    // Properties
+    // Property Getter
 
     @Test
     public void getBatteryLevel() throws IOException {
@@ -129,6 +130,15 @@ public class ThetaTest {
     public void getWhiteBalance() throws IOException {
         theta.openSession(SESSION_ID);
         System.out.println("White Balance: " + theta.getWhiteBalance());
+        theta.closeSession();
+    }
+
+    // Property Setter
+
+    @Test
+    public void setWhiteBalance() throws IOException {
+        theta.openSession(SESSION_ID);
+        theta.setWhiteBalance(new UINT16(0x0004));
         theta.closeSession();
     }
 }

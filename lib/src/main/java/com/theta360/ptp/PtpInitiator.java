@@ -408,6 +408,14 @@ public class PtpInitiator implements Closeable {
         LOGGER.info("Received OperationResponse: " + operationResponse);
     }
 
+    public void setDevicePropValue(UINT16 devicePropValue, UINT16 value) throws IOException {
+        setDevicePropValue(devicePropValue, value.bytes());
+    }
+
+    public void setWhiteBalance(UINT16 value) throws IOException {
+        setDevicePropValue(PropertyCode.WHITE_BALANCE.getCode(), value);
+    }
+
     // Listener
 
     /**
