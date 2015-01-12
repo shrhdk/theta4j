@@ -3,14 +3,12 @@ package com.theta360.ptp.io;
 import com.theta360.ptp.data.TransactionID;
 import com.theta360.ptp.packet.PtpIpPacket;
 import com.theta360.ptp.packet.StartDataPacket;
-import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.ptp.type.UINT64;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.math.BigInteger;
 
 /**
  * OutputStream of PTP-IP Packet.
