@@ -253,6 +253,10 @@ public final class PacketInputStream implements Closeable {
      * @throws IOException
      */
     public void readData(OutputStream dst) throws IOException {
+        if (nextType() == PtpIpPacket.Type.OPERATION_RESPONSE) {
+            throw new RuntimeException("Unexpected Operation Response: " + readOperationResponsePacket());
+        }
+
         readStartDataPacket();
 
         for (; ; ) {

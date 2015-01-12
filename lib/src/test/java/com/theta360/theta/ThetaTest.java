@@ -2,11 +2,12 @@ package com.theta360.theta;
 
 import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpInitiator;
-import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
+import com.theta360.theta.property.WhiteBalance;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
@@ -50,16 +51,16 @@ public class ThetaTest {
     public void connect() throws IOException {
         theta = new Theta();
         theta.addListener(listener);
+        theta.openSession(SESSION_ID);
     }
 
     @After
-    public void sleep() throws InterruptedException {
-        Thread.sleep(500);
-    }
-
-    @After
-    public void close() throws IOException {
+    public void close() throws IOException, InterruptedException {
+        Thread.sleep(8000);
+        theta.closeSession();
+        Thread.sleep(8000);
         theta.close();
+        Thread.sleep(8000);
     }
 
     // Operations
@@ -71,49 +72,40 @@ public class ThetaTest {
 
     @Test
     public void openAndCloseSession() throws IOException {
+        // After and Before
     }
 
     @Test
     public void getObjectHandles() throws IOException {
-        theta.openSession(SESSION_ID);
         theta.getObjectHandles();
-        theta.closeSession();
     }
 
     @Test
     public void getObject() throws IOException {
+        List<UINT32> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(new File("raw.jpg"))) {
-            theta.openSession(SESSION_ID);
-            List<UINT32> objectHandles = theta.getObjectHandles();
             theta.getObject(objectHandles.get(2), file);
-            theta.closeSession();
         }
     }
 
     @Test
     public void getThumb() throws IOException {
+        List<UINT32> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(new File("thumb.jpg"))) {
-            theta.openSession(SESSION_ID);
-            List<UINT32> objectHandles = theta.getObjectHandles();
             theta.getThumb(objectHandles.get(2), file);
-            theta.closeSession();
         }
     }
 
     @Test
     public void initiateCapture() throws IOException {
-        theta.openSession(SESSION_ID);
         theta.initiateCapture();
-        theta.closeSession();
     }
 
     @Test
     public void getResizedImageObject() throws IOException {
+        List<UINT32> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(new File("resized.jpg"))) {
-            theta.openSession(SESSION_ID);
-            List<UINT32> objectHandles = theta.getObjectHandles();
             theta.getResizedImageObject(objectHandles.get(2), file);
-            theta.closeSession();
         }
     }
 
@@ -121,24 +113,99 @@ public class ThetaTest {
 
     @Test
     public void getBatteryLevel() throws IOException {
-        theta.openSession(SESSION_ID);
         System.out.println("Battery Level: " + theta.getBatteryLevel());
-        theta.closeSession();
     }
 
     @Test
     public void getWhiteBalance() throws IOException {
-        theta.openSession(SESSION_ID);
         System.out.println("White Balance: " + theta.getWhiteBalance());
-        theta.closeSession();
     }
+
+    @Test
+    public void getExposureIndex() throws IOException {
+        System.out.println("Exposure Index: " + theta.getExposureIndex());
+    }
+
+    @Test
+    public void getExposureBiasCompensation() throws IOException {
+        System.out.println("Exposure Bias Compensation: " + theta.getExposureIndex());
+    }
+
+    @Ignore
+    public void getDateTime() throws IOException {
+        // TODO Implement
+    }
+
+    @Test
+    public void getStillCaptureMode() throws IOException {
+        System.out.println("Still Capture Mode: " + theta.getStillCaptureMode());
+    }
+
+    @Test
+    public void getTimelapseNumber() throws IOException {
+        System.out.println("Timelapse Number: " + theta.getTimelapseNumber());
+    }
+
+    @Test
+    public void getTimelapseInterval() throws IOException {
+        System.out.println("Timelapse Interval: " + theta.getTimelapseInterval());
+    }
+
+    @Test
+    public void getAudioVolume() throws IOException {
+        System.out.println("Audio Volume: " + theta.getAudioVolume());
+    }
+
+    @Test
+    public void getErrorInfo() throws IOException {
+        System.out.println("Error Info: " + theta.getErrorInfo());
+    }
+
+    @Test
+    public void getShutterSpeed() throws IOException {
+        System.out.println("Shutter Speed: " + theta.getShutterSpeed());
+    }
+
+    @Ignore
+    public void getGPSInfo() throws IOException {
+        System.out.println("GPS Info: " + theta.getGPSInfo());
+    }
+
+    @Test
+    public void getAutoPowerOffDelay() throws IOException {
+        System.out.println("Auto Power Delay: " + theta.getAutoPowerOffDelay());
+    }
+
+    @Test
+    public void getSleepDelay() throws IOException {
+        System.out.println("Sleep Delay: " + theta.getSleepDelay());
+    }
+
+    @Test
+    public void getChannelNumber() throws IOException {
+        System.out.println("Channel Number: " + theta.getChannelNumber());
+    }
+
+    @Test
+    public void getCaptureStatus() throws IOException {
+        System.out.println("Capture Status: " + theta.getCaptureStatus());
+    }
+
+    @Test
+    public void getRecordingTime() throws IOException {
+        System.out.println("Recording Time: " + theta.getRecordingTime());
+    }
+
+    @Test
+    public void getRemainingRecordingTime() throws IOException {
+        System.out.println("Remaining Recording Time: " + theta.getRemainingRecordingTime());
+    }
+
 
     // Property Setter
 
     @Test
     public void setWhiteBalance() throws IOException {
-        theta.openSession(SESSION_ID);
-        theta.setWhiteBalance(new UINT16(0x0004));
-        theta.closeSession();
+        theta.setWhiteBalance(WhiteBalance.COOL_WHITE_FLUORESCENT_LAMP);
     }
 }
