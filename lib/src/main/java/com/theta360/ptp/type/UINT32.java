@@ -8,13 +8,16 @@ import java.nio.ByteBuffer;
  * 32 bit unsigned integer value defined in PTP
  */
 public final class UINT32 implements Comparable<UINT32> {
+    private static final long MIN_LONG_VALUE = 0L;
+    private static final long MAX_LONG_VALUE = 4294967295L;
+
     /**
      * Size of type in bytes.
      */
     public static final int SIZE = 4;
 
-    public static final long MIN_VALUE = 0L;
-    public static final long MAX_VALUE = 4294967295L;
+    public static final UINT32 MIN_VALUE = new UINT32(MIN_LONG_VALUE);
+    public static final UINT32 MAX_VALUE = new UINT32(MAX_LONG_VALUE);
 
     private final byte[] bytes;
     private final long longValue;
@@ -22,11 +25,11 @@ public final class UINT32 implements Comparable<UINT32> {
     // Constructor
 
     public UINT32(long longValue) {
-        if (longValue < MIN_VALUE) {
+        if (longValue < MIN_LONG_VALUE) {
             throw new IllegalArgumentException();
         }
 
-        if (MAX_VALUE < longValue) {
+        if (MAX_LONG_VALUE < longValue) {
             throw new IllegalArgumentException();
         }
 

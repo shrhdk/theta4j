@@ -61,10 +61,10 @@ public class UINT16Test {
     @Test
     public void constructWithMaxValueAndGet() {
         // given
-        int given = UINT16.MAX_VALUE;
+        int given = UINT16.MAX_VALUE.intValue();
 
         // expected
-        int expectedInt = UINT16.MAX_VALUE;
+        int expectedInt = UINT16.MAX_VALUE.intValue();
         byte[] expectedBytes = new byte[]{(byte) 0xFF, (byte) 0xFF};
 
         // act
@@ -181,10 +181,10 @@ public class UINT16Test {
     @Test
     public void readMaxValue() throws IOException {
         // given
-        InputStream given = new ByteArrayInputStream(new UINT16(UINT16.MAX_VALUE).bytes());
+        InputStream given = new ByteArrayInputStream(UINT16.MAX_VALUE.bytes());
 
         // expected
-        UINT16 expected = new UINT16(UINT16.MAX_VALUE);
+        UINT16 expected = UINT16.MAX_VALUE;
 
         // act
         UINT16 actual = UINT16.read(given);

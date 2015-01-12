@@ -32,7 +32,7 @@ public class PtpOutputStreamTest {
     @Test
     public void writeUINT16() throws IOException {
         // given
-        UINT16 uint16 = new UINT16(UINT16.MAX_VALUE);
+        UINT16 uint16 = UINT16.MAX_VALUE;
 
         // expected
         byte[] expected = uint16.bytes();
@@ -48,7 +48,7 @@ public class PtpOutputStreamTest {
     @Test
     public void writeUINT32() throws IOException {
         // given
-        UINT32 uint32 = new UINT32(UINT32.MAX_VALUE);
+        UINT32 uint32 = UINT32.MAX_VALUE;
 
         // expected
         byte[] expected = uint32.bytes();
