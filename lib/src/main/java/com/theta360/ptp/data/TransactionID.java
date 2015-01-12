@@ -24,7 +24,7 @@ public final class TransactionID implements Iterator<UINT32> {
      */
     @Override
     public UINT32 next() {
-        if (current.longValue() == UINT32.MAX_VALUE) {
+        if (current.equals(UINT32.MAX_VALUE)) {
             current = new UINT32(1);
         } else {
             current = new UINT32(current.longValue() + 1);

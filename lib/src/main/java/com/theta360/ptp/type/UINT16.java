@@ -8,13 +8,16 @@ import java.nio.ByteBuffer;
  * 16 bit unsigned integer value defined in PTP
  */
 public final class UINT16 implements Comparable<UINT16> {
+    private static final int MIN_INTEGER_VALUE = 0;
+    private static final int MAX_INTEGER_VALUE = 65535;
+
     /**
      * Size of type in bytes.
      */
     public static final int SIZE = 2;
 
-    public static final int MIN_VALUE = 0;
-    public static final int MAX_VALUE = 65535;
+    public static final UINT16 MIN_VALUE = new UINT16(MIN_INTEGER_VALUE);
+    public static final UINT16 MAX_VALUE = new UINT16(MAX_INTEGER_VALUE);
 
     private final byte[] bytes;
     private final int intValue;
@@ -22,11 +25,11 @@ public final class UINT16 implements Comparable<UINT16> {
     // Constructor
 
     public UINT16(int intValue) {
-        if (intValue < MIN_VALUE) {
+        if (intValue < MIN_INTEGER_VALUE) {
             throw new IllegalArgumentException();
         }
 
-        if (MAX_VALUE < intValue) {
+        if (MAX_INTEGER_VALUE < intValue) {
             throw new IllegalArgumentException();
         }
 

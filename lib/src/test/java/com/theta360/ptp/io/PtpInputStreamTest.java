@@ -20,7 +20,7 @@ public class PtpInputStreamTest {
     @Test
     public void readUINT16() throws IOException {
         // given
-        UINT16 given = new UINT16(UINT16.MAX_VALUE);
+        UINT16 given = UINT16.MAX_VALUE;
         InputStream givenInputStream = new ByteArrayInputStream(given.bytes());
 
         // arrange
@@ -36,7 +36,7 @@ public class PtpInputStreamTest {
     @Test
     public void readUINT32() throws IOException {
         // given
-        UINT32 given = new UINT32(UINT32.MAX_VALUE);
+        UINT32 given = UINT32.MAX_VALUE;
         InputStream givenInputStream = new ByteArrayInputStream(given.bytes());
 
         // arrange
@@ -70,16 +70,16 @@ public class PtpInputStreamTest {
         // given
         byte[] given = ByteUtils.join(
                 new UINT32(3).bytes(),
-                new UINT16(UINT16.MAX_VALUE).bytes(),
-                new UINT16(UINT16.MAX_VALUE).bytes(),
-                new UINT16(UINT16.MAX_VALUE).bytes()
+                UINT16.MAX_VALUE.bytes(),
+                UINT16.MAX_VALUE.bytes(),
+                UINT16.MAX_VALUE.bytes()
         );
 
         // expected
         List<UINT16> expected = new ArrayList<>();
-        expected.add(new UINT16(UINT16.MAX_VALUE));
-        expected.add(new UINT16(UINT16.MAX_VALUE));
-        expected.add(new UINT16(UINT16.MAX_VALUE));
+        expected.add(UINT16.MAX_VALUE);
+        expected.add(UINT16.MAX_VALUE);
+        expected.add(UINT16.MAX_VALUE);
 
         // arrange
         InputStream givenInputStream = new ByteArrayInputStream(given);
@@ -97,16 +97,16 @@ public class PtpInputStreamTest {
         // given
         byte[] given = ByteUtils.join(
                 new UINT32(3).bytes(),
-                new UINT32(UINT32.MAX_VALUE).bytes(),
-                new UINT32(UINT32.MAX_VALUE).bytes(),
-                new UINT32(UINT32.MAX_VALUE).bytes()
+                UINT32.MAX_VALUE.bytes(),
+                UINT32.MAX_VALUE.bytes(),
+                UINT32.MAX_VALUE.bytes()
         );
 
         // expected
         List<UINT32> expected = new ArrayList<>();
-        expected.add(new UINT32(UINT32.MAX_VALUE));
-        expected.add(new UINT32(UINT32.MAX_VALUE));
-        expected.add(new UINT32(UINT32.MAX_VALUE));
+        expected.add(UINT32.MAX_VALUE);
+        expected.add(UINT32.MAX_VALUE);
+        expected.add(UINT32.MAX_VALUE);
 
         // arrange
         InputStream givenInputStream = new ByteArrayInputStream(given);

@@ -61,10 +61,10 @@ public class UINT32Test {
     @Test
     public void constructWithMaxValueAndGet() {
         // given
-        long given = UINT32.MAX_VALUE;
+        long given = UINT32.MAX_VALUE.longValue();
 
         // expected
-        long expectedLong = UINT32.MAX_VALUE;
+        long expectedLong = UINT32.MAX_VALUE.longValue();
         byte[] expectedBytes = new byte[]{(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
 
         // given
@@ -181,10 +181,10 @@ public class UINT32Test {
     @Test
     public void readMaxValue() throws IOException {
         // given
-        InputStream given = new ByteArrayInputStream(new UINT32(UINT32.MAX_VALUE).bytes());
+        InputStream given = new ByteArrayInputStream(UINT32.MAX_VALUE.bytes());
 
         // expected
-        UINT32 expected = new UINT32(UINT32.MAX_VALUE);
+        UINT32 expected = UINT32.MAX_VALUE;
 
         // act
         UINT32 actual = UINT32.read(given);
