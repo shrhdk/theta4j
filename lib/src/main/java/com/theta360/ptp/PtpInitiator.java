@@ -16,9 +16,7 @@ import com.theta360.util.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -357,17 +355,35 @@ public class PtpInitiator implements Closeable {
         LOGGER.info("Sent OperationRequest (GetDevicePropValue): " + operationRequest);
     }
 
+    public byte getDevicePropValueAsUINT8(UINT16 devicePropCode) throws IOException {
+        sendGetDevicePropValue(devicePropCode);
+
+        byte[] data = ci.readData();
+
+        return data[0];
+    }
+
+    public UINT16 getDevicePropValueAsUINT16(UINT16 devicePropCode) throws IOException {
+        sendGetDevicePropValue(devicePropCode);
+
+        byte[] data = ci.readData();
+
+        try (InputStream is = new ByteArrayInputStream(data)) {
+            return UINT16.read(is);
+        }
+    }
+
     /**
      * Get the battery level of the responder.
      *
      * @throws IOException
      */
     public int getBatteryLevel() throws IOException {
-        sendGetDevicePropValue(PropertyCode.BATTERY_LEVEL.getCode());
+        return getDevicePropValueAsUINT8(PropertyCode.BATTERY_LEVEL.getCode());
+    }
 
-        byte[] data = ci.readData();
-
-        return data[0];
+    public UINT16 getWhiteBalance() throws IOException {
+        return getDevicePropValueAsUINT16(PropertyCode.WHITE_BALANCE.getCode());
     }
 
     // Property Setter
