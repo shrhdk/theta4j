@@ -21,12 +21,12 @@ import static org.junit.Assert.assertThat;
 @Category(UnitTest.class)
 public class InitCommandAckPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE + GUID.SIZE + STR.MIN_SIZE + UINT32.SIZE];
-    private static final UINT32 CONNECTION_NUMBER = new UINT32(0x00, 0x01, 0x02, 0x03);
+    private static final UINT32 CONNECTION_NUMBER = new UINT32(0x00112233);
     private static final GUID GUID_ = new GUID(
             0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
             0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
     );
-    private static final UINT32 PROTOCOL_VERSION = new UINT32(0x00, 0x01, 0x02, 0x03);
+    private static final UINT32 PROTOCOL_VERSION = new UINT32(0x00112233);
 
     // Constructor with error
 

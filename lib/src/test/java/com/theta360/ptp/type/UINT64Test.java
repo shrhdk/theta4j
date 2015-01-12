@@ -4,6 +4,9 @@ import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 
 import static org.hamcrest.core.Is.is;
@@ -12,25 +15,80 @@ import static org.junit.Assert.*;
 
 @Category(UnitTest.class)
 public class UINT64Test {
-    private static final UINT64 V1 = new UINT64(0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-    private static final UINT64 V2 = new UINT64(0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-    private static final UINT64 V3 = new UINT64(0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+    private static final BigInteger MAX_INTEGER_VALUE = new BigInteger("00FFFFFFFFFFFFFFFF", 16);
 
-    // Constructor
+    private static final UINT64 V1 = new UINT64(BigInteger.valueOf(1));
+    private static final UINT64 V2 = new UINT64(BigInteger.valueOf(2));
+    private static final UINT64 V3 = new UINT64(BigInteger.valueOf(3));
+
+    // Construct with error
+
+    @Test(expected = NullPointerException.class)
+    public void constructWithNull() {
+        // act
+        new UINT64(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void constructWithNegativeValue() {
+        new UINT64(BigInteger.valueOf(-1));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void constructWithTooBigValue() {
+        new UINT64(MAX_INTEGER_VALUE.add(BigInteger.ONE));
+    }
+
+    // Construct and Get
+    @Test
+    public void constructWithZeroAndGet() {
+        // given
+        BigInteger given = BigInteger.valueOf(0);
+
+        // expected
+        BigInteger expectedInteger = BigInteger.valueOf(0);
+        byte[] expectedBytes = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+        // act
+        UINT64 actual = new UINT64(given);
+
+        // verify
+        assertThat(actual.bigInteger(), is(expectedInteger));
+        assertThat(actual.bytes(), is(expectedBytes));
+    }
 
     @Test
-    public void constructAndGet() {
-        // verify
-        assertThat(V1.bytes(), is(new byte[]{0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}));
-        assertThat(V1.bigInteger(), is(new BigInteger("1")));
+    public void constructWithPositiveValueAndGet() {
+        // given
+        BigInteger given = BigInteger.valueOf(1);
+
+        // expected
+        BigInteger expectedInteger = BigInteger.valueOf(1);
+        byte[] expectedBytes = new byte[]{0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+        // act
+        UINT64 actual = new UINT64(given);
 
         // verify
-        assertThat(V2.bytes(), is(new byte[]{0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}));
-        assertThat(V2.bigInteger(), is(new BigInteger("2")));
+        assertThat(actual.bigInteger(), is(expectedInteger));
+        assertThat(actual.bytes(), is(expectedBytes));
+    }
+
+    @Test
+    public void constructWithMaxValueAndGet() {
+        // given
+        BigInteger given = MAX_INTEGER_VALUE;
+
+        // expected
+        BigInteger expectedInteger = MAX_INTEGER_VALUE;
+        byte[] expectedBytes = new byte[]{(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
+
+        // act
+        UINT64 actual = new UINT64(given);
 
         // verify
-        assertThat(V3.bytes(), is(new byte[]{0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}));
-        assertThat(V3.bigInteger(), is(new BigInteger("3")));
+        assertThat(actual.bigInteger(), is(expectedInteger));
+        assertThat(actual.bytes(), is(expectedBytes));
     }
 
     // Basic method
@@ -87,5 +145,52 @@ public class UINT64Test {
         assertFalse(V3.equals(V1));
         assertFalse(V3.equals(V2));
         assertTrue(V3.equals(V3));
+    }
+
+    // read
+
+    @Test
+    public void readZero() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new UINT64(BigInteger.valueOf(0)).bytes());
+
+        // expected
+        UINT64 expected = new UINT64(BigInteger.valueOf(0));
+
+        // act
+        UINT64 actual = UINT64.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readPositiveValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new UINT64(BigInteger.valueOf(1)).bytes());
+
+        // expected
+        UINT64 expected = new UINT64(BigInteger.valueOf(1));
+
+        // act
+        UINT64 actual = UINT64.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readMaxValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(UINT64.MAX_VALUE.bytes());
+
+        // expected
+        UINT64 expected = UINT64.MAX_VALUE;
+
+        // act
+        UINT64 actual = UINT64.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
     }
 }
