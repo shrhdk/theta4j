@@ -18,7 +18,7 @@ public final class UINT64 implements Comparable<UINT64> {
      */
     public static final int SIZE = 8;
 
-    public static final UINT64 ZERO = new UINT64(BigInteger.valueOf(0));
+    public static final UINT64 ZERO = new UINT64(0);
     public static final UINT64 MIN_VALUE = ZERO;
     public static final UINT64 MAX_VALUE = new UINT64(MAX_INTEGER_VALUE);
 
@@ -26,6 +26,10 @@ public final class UINT64 implements Comparable<UINT64> {
     private final byte[] bytes;
 
     // Constructor
+
+    public UINT64(long value) {
+        this(BigInteger.valueOf(value));
+    }
 
     public UINT64(BigInteger value) {
         Validators.validateNonNull("value", value);
