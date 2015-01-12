@@ -1,7 +1,6 @@
 package com.theta360.ptp;
 
 import com.theta360.ptp.code.OperationCode;
-import com.theta360.ptp.code.PropertyCode;
 import com.theta360.ptp.data.DeviceInfo;
 import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.data.ProtocolVersions;
@@ -344,7 +343,7 @@ public class PtpInitiator implements Closeable {
 
     // Property Getter
 
-    private byte[] getDevicePropValue(UINT16 devicePropCode) throws IOException {
+    public byte[] getDevicePropValue(UINT16 devicePropCode) throws IOException {
         // Send OperationRequest (GetDevicePropValue)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
@@ -365,33 +364,28 @@ public class PtpInitiator implements Closeable {
     }
 
     public byte getDevicePropValueAsUINT8(UINT16 devicePropCode) throws IOException {
-        return getDevicePropValue(PropertyCode.BATTERY_LEVEL.getCode())[0];
+        return getDevicePropValue(devicePropCode)[0];
     }
 
     public UINT16 getDevicePropValueAsUINT16(UINT16 devicePropCode) throws IOException {
-        byte[] data = getDevicePropValue(PropertyCode.WHITE_BALANCE.getCode());
+        byte[] data = getDevicePropValue(devicePropCode);
 
         try (InputStream is = new ByteArrayInputStream(data)) {
             return UINT16.read(is);
         }
     }
 
-    /**
-     * Get the battery level of the responder.
-     *
-     * @throws IOException
-     */
-    public int getBatteryLevel() throws IOException {
-        return getDevicePropValueAsUINT8(PropertyCode.BATTERY_LEVEL.getCode());
-    }
+    public UINT32 getDevicePropValueAsUINT32(UINT16 devicePropCode) throws IOException {
+        byte[] data = getDevicePropValue(devicePropCode);
 
-    public UINT16 getWhiteBalance() throws IOException {
-        return getDevicePropValueAsUINT16(PropertyCode.WHITE_BALANCE.getCode());
+        try (InputStream is = new ByteArrayInputStream(data)) {
+            return UINT32.read(is);
+        }
     }
 
     // Property Setter
 
-    private void setDevicePropValue(UINT16 devicePropCode, byte[] value) throws IOException {
+    public void setDevicePropValue(UINT16 devicePropCode, byte[] value) throws IOException {
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
                 OperationCode.SET_DEVICE_PROP_VALUE.getCode(),
@@ -408,12 +402,16 @@ public class PtpInitiator implements Closeable {
         LOGGER.info("Received OperationResponse: " + operationResponse);
     }
 
+    public void setDevicePropValue(UINT16 devicePropValue, byte value) throws IOException {
+        setDevicePropValue(devicePropValue, new byte[]{value});
+    }
+
     public void setDevicePropValue(UINT16 devicePropValue, UINT16 value) throws IOException {
         setDevicePropValue(devicePropValue, value.bytes());
     }
 
-    public void setWhiteBalance(UINT16 value) throws IOException {
-        setDevicePropValue(PropertyCode.WHITE_BALANCE.getCode(), value);
+    public void setDevicePropValue(UINT16 devicePropValue, UINT32 value) throws IOException {
+        setDevicePropValue(devicePropValue, value.bytes());
     }
 
     // Listener
