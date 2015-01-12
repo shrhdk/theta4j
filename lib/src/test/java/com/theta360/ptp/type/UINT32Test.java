@@ -4,119 +4,37 @@ import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 @Category(UnitTest.class)
 public class UINT32Test {
-    // Construct from long value
+    // Construct with error
 
     @Test(expected = IllegalArgumentException.class)
-    public void fromNegativeLong() {
+    public void constructWithNegativeValue() {
         // act
         new UINT32(-1);
     }
 
-    @Test
-    public void zeroFromLong() {
-        // given
-        UINT32 actual = new UINT32(0);
-
-        // expected
-        long expectedLong = 0;
-        byte[] expectedBytes = new byte[]{0x00, 0x00, 0x00, 0x00};
-
-        // verify
-        assertThat(actual.longValue(), is(expectedLong));
-        assertThat(actual.bytes(), is(expectedBytes));
-    }
+    // Construct and Get
 
     @Test
-    public void positiveValueFromLong() {
+    public void constructWithZeroAndGet() {
         // given
-        UINT32 actual = new UINT32(1);
-
-        // expected
-        long expectedLong = 1;
-        byte[] expectedBytes = new byte[]{0x01, 0x00, 0x00, 0x00};
-
-        // verify
-        assertThat(actual.longValue(), is(expectedLong));
-        assertThat(actual.bytes(), is(expectedBytes));
-    }
-
-    @Test
-    public void maxValueFromLong() {
-        // given
-        UINT32 actual = new UINT32(UINT32.MAX_VALUE);
-
-        // expected
-        long expectedLong = UINT32.MAX_VALUE;
-        byte[] expectedBytes = new byte[]{(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
-
-        // verify
-        assertThat(actual.longValue(), is(expectedLong));
-        assertThat(actual.bytes(), is(expectedBytes));
-    }
-
-    // Construct from bytes
-
-    @Test
-    public void zeroFromBytes() {
-        // given
-        UINT32 actual = new UINT32(0x00, 0x00, 0x00, 0x00);
-
-        // expected
-        long expectedLong = 0;
-        byte[] expectedBytes = new byte[]{0x00, 0x00, 0x00, 0x00};
-
-        // verify
-        assertThat(actual.longValue(), is(expectedLong));
-        assertThat(actual.bytes(), is(expectedBytes));
-    }
-
-    @Test
-    public void positiveValueFromBytes() {
-        // given
-        UINT32 actual = new UINT32(0x01, 0x00, 0x00, 0x00);
-
-        // expected
-        long expectedLong = 1;
-        byte[] expectedBytes = new byte[]{0x01, 0x00, 0x00, 0x00};
-
-        // verify
-        assertThat(actual.longValue(), is(expectedLong));
-        assertThat(actual.bytes(), is(expectedBytes));
-    }
-
-    @Test
-    public void maxValueFromBytes() {
-        // given
-        UINT32 actual = new UINT32(0xFF, 0xFF, 0xFF, 0xFF);
-
-        // expected
-        long expectedLong = UINT32.MAX_VALUE;
-        byte[] expectedBytes = new byte[]{(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
-
-        // verify
-        assertThat(actual.longValue(), is(expectedLong));
-        assertThat(actual.bytes(), is(expectedBytes));
-    }
-
-    // Construct from byte array
-
-    @Test
-    public void zeroFromByteArray() {
-        // given
-        byte[] givenArray = new byte[]{0x00, 0x00, 0x00, 0x00};
+        long given = 0;
 
         // expected
         long expectedLong = 0;
         byte[] expectedBytes = new byte[]{0x00, 0x00, 0x00, 0x00};
 
         // act
-        UINT32 actual = new UINT32(givenArray);
+        UINT32 actual = new UINT32(given);
 
         // verify
         assertThat(actual.longValue(), is(expectedLong));
@@ -124,16 +42,16 @@ public class UINT32Test {
     }
 
     @Test
-    public void positiveValueFromByteArray() {
+    public void constructWithPositiveValueAndGet() {
         // given
-        byte[] givenArray = new byte[]{0x01, 0x00, 0x00, 0x00};
+        long given = 1;
 
         // expected
         long expectedLong = 1;
         byte[] expectedBytes = new byte[]{0x01, 0x00, 0x00, 0x00};
 
         // act
-        UINT32 actual = new UINT32(givenArray);
+        UINT32 actual = new UINT32(given);
 
         // verify
         assertThat(actual.longValue(), is(expectedLong));
@@ -141,16 +59,16 @@ public class UINT32Test {
     }
 
     @Test
-    public void maxValueFromByteArray() {
+    public void constructWithMaxValueAndGet() {
         // given
-        byte[] givenArray = new byte[]{(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
+        long given = UINT32.MAX_VALUE;
 
         // expected
         long expectedLong = UINT32.MAX_VALUE;
         byte[] expectedBytes = new byte[]{(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
 
-        // act
-        UINT32 actual = new UINT32(givenArray);
+        // given
+        UINT32 actual = new UINT32(given);
 
         // verify
         assertThat(actual.longValue(), is(expectedLong));
@@ -226,5 +144,52 @@ public class UINT32Test {
         assertFalse(v3.equals(v1));
         assertFalse(v3.equals(v2));
         assertTrue(v3.equals(v3));
+    }
+
+    // read
+
+    @Test
+    public void readZero() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new UINT32(0).bytes());
+
+        // expected
+        UINT32 expected = new UINT32(0);
+
+        // act
+        UINT32 actual = UINT32.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readPositiveValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new UINT32(1).bytes());
+
+        // expected
+        UINT32 expected = new UINT32(1);
+
+        // act
+        UINT32 actual = UINT32.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readMaxValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new UINT32(UINT32.MAX_VALUE).bytes());
+
+        // expected
+        UINT32 expected = new UINT32(UINT32.MAX_VALUE);
+
+        // act
+        UINT32 actual = UINT32.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
     }
 }

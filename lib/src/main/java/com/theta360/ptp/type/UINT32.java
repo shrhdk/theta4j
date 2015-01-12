@@ -19,6 +19,8 @@ public final class UINT32 implements Comparable<UINT32> {
     private final byte[] bytes;
     private final long longValue;
 
+    // Constructor
+
     public UINT32(long longValue) {
         if (longValue < MIN_VALUE) {
             throw new IllegalArgumentException();
@@ -42,16 +44,6 @@ public final class UINT32 implements Comparable<UINT32> {
         this.longValue = longValue;
     }
 
-    public UINT32(int b3, int b2, int b1, int b0) {
-        // byte[]
-        this.bytes = new byte[]{(byte) b3, (byte) b2, (byte) b1, (byte) b0};
-
-        // long
-        byte[] base = new byte[]{0x00, 0x00, 0x00, 0x00, (byte) b0, (byte) b1, (byte) b2, (byte) b3};
-        ByteBuffer byteBuffer = ByteBuffer.wrap(base);
-        this.longValue = byteBuffer.getLong();
-    }
-
     public UINT32(byte[] bytes) {
         if (bytes.length != 4) {
             throw new IllegalArgumentException();
@@ -66,6 +58,8 @@ public final class UINT32 implements Comparable<UINT32> {
         this.longValue = byteBuffer.getLong();
     }
 
+    // Getter
+
     public long longValue() {
         return longValue;
     }
@@ -73,6 +67,8 @@ public final class UINT32 implements Comparable<UINT32> {
     public byte[] bytes() {
         return bytes.clone();
     }
+
+    // Basic Method
 
     @Override
     public int compareTo(UINT32 o) {
@@ -103,6 +99,8 @@ public final class UINT32 implements Comparable<UINT32> {
     public String toString() {
         return String.format("0x%02x%02x%02x%02x", bytes[3], bytes[2], bytes[1], bytes[0]);
     }
+
+    // Static Factory Method
 
     public static UINT32 read(InputStream is) throws IOException {
         byte[] bytes = new byte[SIZE];

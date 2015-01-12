@@ -4,119 +4,37 @@ import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 @Category(UnitTest.class)
 public class UINT16Test {
-    // Construct from int value
+    // Construct with error
 
     @Test(expected = IllegalArgumentException.class)
-    public void fromNegativeInt() {
+    public void constructWithNegativeValue() {
         // act
         new UINT16(-1);
     }
 
-    @Test
-    public void zeroFromInt() {
-        // expected
-        int expectedInt = 0;
-        byte[] expectedBytes = new byte[]{0x00, 0x00};
-
-        // act
-        UINT16 actual = new UINT16(0);
-
-        // verify
-        assertThat(actual.intValue(), is(expectedInt));
-        assertThat(actual.bytes(), is(expectedBytes));
-    }
+    // Construct and Get
 
     @Test
-    public void positiveValueFromInt() {
-        // expected
-        int expectedInt = 1;
-        byte[] expectedBytes = new byte[]{0x01, 0x00};
-
-        // act
-        UINT16 actual = new UINT16(1);
-
-        // verify
-        assertThat(actual.intValue(), is(expectedInt));
-        assertThat(actual.bytes(), is(expectedBytes));
-    }
-
-    @Test
-    public void maxValueFromInt() {
-        // expected
-        int expectedInt = UINT16.MAX_VALUE;
-        byte[] expectedBytes = new byte[]{(byte) 0xFF, (byte) 0xFF};
-
-        // act
-        UINT16 actual = new UINT16(UINT16.MAX_VALUE);
-
-        // verify
-        assertThat(actual.intValue(), is(expectedInt));
-        assertThat(actual.bytes(), is(expectedBytes));
-    }
-
-    // Construct from bytes
-
-    @Test
-    public void zeroFromBytes() {
-        // expected
-        int expectedInt = 0;
-        byte[] expectedBytes = new byte[]{0x00, 0x00};
-
-        // act
-        UINT16 actual = new UINT16(0x00, 0x00);
-
-        // verify
-        assertThat(actual.intValue(), is(expectedInt));
-        assertThat(actual.bytes(), is(expectedBytes));
-    }
-
-    @Test
-    public void positiveValueFromBytes() {
-        // expected
-        int expectedInt = 1;
-        byte[] expectedBytes = new byte[]{0x01, 0x00};
-
-        // act
-        UINT16 actual = new UINT16(0x01, 0x00);
-
-        // verify
-        assertThat(actual.intValue(), is(expectedInt));
-        assertThat(actual.bytes(), is(expectedBytes));
-    }
-
-    @Test
-    public void maxValueFromBytes() {
-        // expected
-        int expectedInt = UINT16.MAX_VALUE;
-        byte[] expectedBytes = new byte[]{(byte) 0xFF, (byte) 0xFF};
-
-        // act
-        UINT16 actual = new UINT16(0xFF, 0xFF);
-
-        // verify
-        assertThat(actual.intValue(), is(expectedInt));
-        assertThat(actual.bytes(), is(expectedBytes));
-    }
-
-    // Construct from byte array
-
-    @Test
-    public void zeroFromByteArray() {
+    public void constructWithZeroAndGet() {
         // given
-        byte[] givenArray = new byte[]{0x00, 0x00};
+        int given = 0;
 
         // expected
         int expectedInt = 0;
         byte[] expectedBytes = new byte[]{0x00, 0x00};
 
         // act
-        UINT16 actual = new UINT16(givenArray);
+        UINT16 actual = new UINT16(given);
 
         // verify
         assertThat(actual.intValue(), is(expectedInt));
@@ -124,16 +42,16 @@ public class UINT16Test {
     }
 
     @Test
-    public void positiveValueFromByteArray() {
+    public void constructWithPositiveValueAndGet() {
         // given
-        byte[] givenArray = new byte[]{0x01, 0x00};
+        int given = 1;
 
         // expected
         int expectedInt = 1;
         byte[] expectedBytes = new byte[]{0x01, 0x00};
 
         // act
-        UINT16 actual = new UINT16(givenArray);
+        UINT16 actual = new UINT16(given);
 
         // verify
         assertThat(actual.intValue(), is(expectedInt));
@@ -141,16 +59,16 @@ public class UINT16Test {
     }
 
     @Test
-    public void maxValueFromByteArray() {
+    public void constructWithMaxValueAndGet() {
         // given
-        byte[] givenArray = new byte[]{(byte) 0xFF, (byte) 0xFF};
+        int given = UINT16.MAX_VALUE;
 
         // expected
         int expectedInt = UINT16.MAX_VALUE;
         byte[] expectedBytes = new byte[]{(byte) 0xFF, (byte) 0xFF};
 
         // act
-        UINT16 actual = new UINT16(givenArray);
+        UINT16 actual = new UINT16(given);
 
         // verify
         assertThat(actual.intValue(), is(expectedInt));
@@ -226,5 +144,52 @@ public class UINT16Test {
         assertFalse(v3.equals(v1));
         assertFalse(v3.equals(v2));
         assertTrue(v3.equals(v3));
+    }
+
+    // read
+
+    @Test
+    public void readZero() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new UINT16(0).bytes());
+
+        // expected
+        UINT16 expected = new UINT16(0);
+
+        // act
+        UINT16 actual = UINT16.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readPositiveValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new UINT16(1).bytes());
+
+        // expected
+        UINT16 expected = new UINT16(1);
+
+        // act
+        UINT16 actual = UINT16.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readMaxValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new UINT16(UINT16.MAX_VALUE).bytes());
+
+        // expected
+        UINT16 expected = new UINT16(UINT16.MAX_VALUE);
+
+        // act
+        UINT16 actual = UINT16.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
     }
 }

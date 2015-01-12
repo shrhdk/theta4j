@@ -19,6 +19,8 @@ public final class UINT16 implements Comparable<UINT16> {
     private final byte[] bytes;
     private final int intValue;
 
+    // Constructor
+
     public UINT16(int intValue) {
         if (intValue < MIN_VALUE) {
             throw new IllegalArgumentException();
@@ -40,17 +42,9 @@ public final class UINT16 implements Comparable<UINT16> {
         this.intValue = intValue;
     }
 
-    public UINT16(int b1, int b0) {
-        // byte[]
-        this.bytes = new byte[]{(byte) b1, (byte) b0};
+    // Private Constructor
 
-        // long
-        byte[] base = new byte[]{0x00, 0x00, (byte) b0, (byte) b1};
-        ByteBuffer byteBuffer = ByteBuffer.wrap(base);
-        this.intValue = byteBuffer.getInt();
-    }
-
-    public UINT16(byte[] bytes) {
+    private UINT16(byte[] bytes) {
         if (bytes.length != 2) {
             throw new IllegalArgumentException();
         }
@@ -64,6 +58,8 @@ public final class UINT16 implements Comparable<UINT16> {
         this.intValue = byteBuffer.getInt();
     }
 
+    // Getter
+
     public int intValue() {
         return intValue;
     }
@@ -71,6 +67,8 @@ public final class UINT16 implements Comparable<UINT16> {
     public byte[] bytes() {
         return bytes.clone();
     }
+
+    // Basic Method
 
     @Override
     public int compareTo(UINT16 o) {
@@ -101,6 +99,8 @@ public final class UINT16 implements Comparable<UINT16> {
     public String toString() {
         return String.format("0x%02x%02x", bytes[1], bytes[0]);
     }
+
+    // Static Factory Method
 
     public static UINT16 read(InputStream is) throws IOException {
         byte[] bytes = new byte[SIZE];

@@ -1,5 +1,7 @@
 package com.theta360.ptp.type;
 
+import com.theta360.util.Validators;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -9,30 +11,40 @@ import java.util.Arrays;
  * 64 bit unsigned integer value defined in PTP
  */
 public final class UINT64 implements Comparable<UINT64> {
+    private static final BigInteger MAX_INTEGER_VALUE = new BigInteger("00FFFFFFFFFFFFFFFF", 16);
+
     /**
      * Size of type in bytes.
      */
     public static final int SIZE = 8;
 
-    public static final UINT64 ZERO = new UINT64(0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+    public static final UINT64 ZERO = new UINT64(BigInteger.valueOf(0));
+    public static final UINT64 MIN_VALUE = ZERO;
+    public static final UINT64 MAX_VALUE = new UINT64(MAX_INTEGER_VALUE);
 
     private final BigInteger bigInteger;
     private final byte[] bytes;
 
-    public UINT64(int b0, int b1, int b2, int b3, int b4, int b5, int b6, int b7) {
-        this.bytes = new byte[]{
-                (byte) b0, (byte) b1, (byte) b2, (byte) b3, (byte) b4, (byte) b5, (byte) b6, (byte) b7
-        };
+    // Constructor
 
-        // UINT64 constructor arguments are little endian and are not two's complement.
-        // BigInteger constructor needs big endian two's complement value.
-        // So it need to reverse order of arguments and add 0x00 to top.
-        this.bigInteger = new BigInteger(new byte[]{
-                0x00, (byte) b7, (byte) b6, (byte) b5, (byte) b4, (byte) b3, (byte) b2, (byte) b1, (byte) b0
-        });
+    public UINT64(BigInteger value) {
+        Validators.validateNonNull("value", value);
+
+        if (value.signum() == -1) {
+            throw new IllegalArgumentException();
+        }
+
+        if (0 < value.compareTo(MAX_INTEGER_VALUE)) {
+            throw new IllegalArgumentException();
+        }
+
+        this.bytes = UINT.toLittleEndian(8, value.toByteArray());
+        this.bigInteger = value;
     }
 
-    public UINT64(byte[] bytes) {
+    // Private Constructor
+
+    private UINT64(byte[] bytes) {
         if (bytes.length != 8) {
             throw new IllegalArgumentException();
         }
@@ -47,6 +59,8 @@ public final class UINT64 implements Comparable<UINT64> {
         });
     }
 
+    // Getter
+
     public byte[] bytes() {
         return bytes.clone();
     }
@@ -54,6 +68,8 @@ public final class UINT64 implements Comparable<UINT64> {
     public BigInteger bigInteger() {
         return bigInteger;
     }
+
+    // Basic Method
 
     @Override
     public int compareTo(UINT64 o) {
@@ -81,6 +97,8 @@ public final class UINT64 implements Comparable<UINT64> {
     public String toString() {
         return "UINT64{" + bigInteger + "}";
     }
+
+    // Static Factory Method
 
     public static UINT64 read(InputStream is) throws IOException {
         byte[] bytes = new byte[SIZE];
