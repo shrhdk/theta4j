@@ -17,9 +17,9 @@ import static org.junit.Assert.*;
 public class UINT64Test {
     private static final BigInteger MAX_INTEGER_VALUE = new BigInteger("00FFFFFFFFFFFFFFFF", 16);
 
-    private static final UINT64 V1 = new UINT64(BigInteger.valueOf(1));
-    private static final UINT64 V2 = new UINT64(BigInteger.valueOf(2));
-    private static final UINT64 V3 = new UINT64(BigInteger.valueOf(3));
+    private static final UINT64 V1 = new UINT64(1);
+    private static final UINT64 V2 = new UINT64(2);
+    private static final UINT64 V3 = new UINT64(3);
 
     // Construct with error
 
@@ -31,7 +31,7 @@ public class UINT64Test {
 
     @Test(expected = IllegalArgumentException.class)
     public void constructWithNegativeValue() {
-        new UINT64(BigInteger.valueOf(-1));
+        new UINT64(-1);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -167,10 +167,10 @@ public class UINT64Test {
     @Test
     public void readPositiveValue() throws IOException {
         // given
-        InputStream given = new ByteArrayInputStream(new UINT64(BigInteger.valueOf(1)).bytes());
+        InputStream given = new ByteArrayInputStream(new UINT64(1).bytes());
 
         // expected
-        UINT64 expected = new UINT64(BigInteger.valueOf(1));
+        UINT64 expected = new UINT64(1);
 
         // act
         UINT64 actual = UINT64.read(given);

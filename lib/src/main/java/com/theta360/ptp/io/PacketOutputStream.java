@@ -47,7 +47,7 @@ public final class PacketOutputStream implements Closeable {
      */
     public void writeData(TransactionID transactionID, byte[] data) throws IOException {
         // Send StartData
-        StartDataPacket startDataPacket = new StartDataPacket(transactionID.next(), new UINT64(BigInteger.valueOf(data.length)));
+        StartDataPacket startDataPacket = new StartDataPacket(transactionID.next(), new UINT64(data.length));
         write(startDataPacket);
 
         // Send EndData

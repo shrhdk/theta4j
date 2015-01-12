@@ -63,7 +63,7 @@ public class PacketOutputStreamTest {
 
         // expected
         byte[] expected = ByteUtils.join(
-                new StartDataPacket(new UINT32(1), new UINT64(BigInteger.valueOf(given.length))).bytes(),
+                new StartDataPacket(new UINT32(1), new UINT64(given.length)).bytes(),
                 new EndDataPacket(new UINT32(2), given).bytes()
         );
 
