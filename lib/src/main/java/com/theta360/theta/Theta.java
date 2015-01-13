@@ -30,6 +30,13 @@ public final class Theta extends PtpInitiator {
 
     // Operation
 
+    /**
+     * Get resized image.
+     *
+     * @param objectHandle
+     * @param dst
+     * @throws IOException
+     */
     public void getResizedImageObject(UINT32 objectHandle, OutputStream dst) throws IOException {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
@@ -48,6 +55,26 @@ public final class Theta extends PtpInitiator {
 
         // Receive Data
         ci.readData(dst);
+
+        // Receive OperationResponse
+        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
+        LOGGER.info("Received OperationResponse: " + operationResponse);
+    }
+
+    /**
+     * Turn of the wireless LAN
+     *
+     * @throws IOException
+     */
+    public void turnOffWLAN() throws IOException {
+        // Send OperationRequest (WlanPowerControl)
+        OperationRequestPacket operationRequest = new OperationRequestPacket(
+                new UINT32(1),
+                OperationCode.WLAN_POWER_CONTROL.getCode(),
+                transactionID.next()
+        );
+        co.write(operationRequest);
+        LOGGER.info("Sent OperationRequest (WlanPowerControl): " + operationRequest);
 
         // Receive OperationResponse
         OperationResponsePacket operationResponse = ci.readOperationResponsePacket();

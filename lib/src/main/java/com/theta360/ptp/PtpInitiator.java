@@ -1,10 +1,7 @@
 package com.theta360.ptp;
 
 import com.theta360.ptp.code.OperationCode;
-import com.theta360.ptp.data.DeviceInfo;
-import com.theta360.ptp.data.GUID;
-import com.theta360.ptp.data.ProtocolVersions;
-import com.theta360.ptp.data.TransactionID;
+import com.theta360.ptp.data.*;
 import com.theta360.ptp.io.PacketInputStream;
 import com.theta360.ptp.io.PacketOutputStream;
 import com.theta360.ptp.io.PtpInputStream;
@@ -167,8 +164,7 @@ public class PtpInitiator implements Closeable {
 
         // Receive Data
         byte[] data = ci.readData();
-        DeviceInfo deviceInfo;
-        deviceInfo = DeviceInfo.valueOf(data);
+        DeviceInfo deviceInfo = DeviceInfo.valueOf(data);
         LOGGER.info("Received DeviceInfo: " + deviceInfo);
 
         // Receive OperationResponse
@@ -179,7 +175,7 @@ public class PtpInitiator implements Closeable {
     }
 
     /**
-     * Open the session with the responder.
+     * Open the session.
      *
      * @param sessionID
      * @throws IOException
@@ -207,7 +203,7 @@ public class PtpInitiator implements Closeable {
     }
 
     /**
-     * Open the session with the responder.
+     * Close the session.
      *
      * @throws IOException
      */
@@ -227,7 +223,94 @@ public class PtpInitiator implements Closeable {
     }
 
     /**
-     * Get object handles from the responder.
+     * Get list of storage ID
+     *
+     * @throws IOException
+     */
+    public List<UINT32> getStorageIDs() throws IOException {
+        // Send OperationRequest (GetStorageIDs)
+        OperationRequestPacket operationRequest = new OperationRequestPacket(
+                new UINT32(1),
+                OperationCode.GET_STORAGE_IDS.getCode(),
+                transactionID.next()
+        );
+        co.write(operationRequest);
+        LOGGER.info("Sent OperationRequest (GetStorageIDs): " + operationRequest);
+
+        // Receive Data
+        byte[] data = ci.readData();
+        List<UINT32> storageIDs;
+        try (PtpInputStream pis = new PtpInputStream(data)) {
+            storageIDs = pis.readAUINT32();
+            LOGGER.info("Received Storage IDs: " + storageIDs);
+        }
+
+        // Receive OperationResponse
+        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
+        LOGGER.info("Received OperationResponse: " + operationResponse);
+
+        return storageIDs;
+    }
+
+    /**
+     * Get storage info
+     *
+     * @param storageID
+     * @throws IOException
+     */
+    public StorageInfo getStorageInfo(UINT32 storageID) throws IOException {
+        Validators.validateNonNull("storageID", storageID);
+
+        // Send OperationRequest (GetStorageInfo)
+        OperationRequestPacket operationRequest = new OperationRequestPacket(
+                new UINT32(1),
+                OperationCode.GET_STORAGE_INFO.getCode(),
+                transactionID.next(),
+                storageID
+        );
+
+        // Receive Data
+        byte[] data = ci.readData();
+        StorageInfo storageInfo = StorageInfo.valueOf(data);
+        LOGGER.info("Received Storage Info: " + storageInfo);
+
+        // Receive OperationResponse
+        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
+        LOGGER.info("Received OperationResponse: " + operationResponse);
+
+        return storageInfo;
+    }
+
+    /**
+     * Get number of objects.
+     *
+     * @throws IOException
+     */
+    public UINT32 getNumObjects() throws IOException {
+        // Send OperationRequest (GetNumObjects)
+        OperationRequestPacket operationRequest = new OperationRequestPacket(
+                new UINT32(1),
+                OperationCode.GET_NUM_OBJECTS.getCode(),
+                transactionID.next()
+        );
+
+        // Receive Data
+        byte[] data = ci.readData();
+        UINT32 numObjects;
+        try (PtpInputStream pis = new PtpInputStream(data)) {
+            numObjects = pis.readUINT32();
+            LOGGER.info("Received Num Objects: " + numObjects);
+        }
+
+        // Receive OperationResponse
+        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
+        LOGGER.info("Received OperationResponse: " + operationResponse);
+
+        return numObjects;
+    }
+
+    /**
+     * Get list of object handle.
      *
      * @throws IOException
      */
@@ -235,6 +318,12 @@ public class PtpInitiator implements Closeable {
         return getObjectHandles(new UINT32(0xFFFFFFFFL));
     }
 
+    /**
+     * Get list of object handle.
+     *
+     * @param storageID
+     * @throws IOException
+     */
     public List<UINT32> getObjectHandles(UINT32 storageID) throws IOException {
         Validators.validateNonNull("storageID", storageID);
 
@@ -261,6 +350,37 @@ public class PtpInitiator implements Closeable {
         LOGGER.info("Received OperationResponse: " + operationResponse);
 
         return objectHandles;
+    }
+
+    /**
+     * Get the information of the object.
+     *
+     * @param objectHandle
+     * @throws IOException
+     */
+    public ObjectInfo getObjectInfo(UINT32 objectHandle) throws IOException {
+        Validators.validateNonNull("objectHandle", objectHandle);
+
+        // Send OperationRequest (GetObjectInfo)
+        OperationRequestPacket operationRequest = new OperationRequestPacket(
+                new UINT32(1),
+                OperationCode.GET_OBJECT_INFO.getCode(),
+                transactionID.next(),
+                objectHandle
+        );
+        co.write(operationRequest);
+        LOGGER.info("Sent OperationRequest (GetObjectInfo): " + operationRequest);
+
+        // Receive Data
+        byte[] data = ci.readData();
+        ObjectInfo objectInfo = ObjectInfo.valueOf(data);
+        LOGGER.info("Received Object Info: " + objectInfo);
+
+        // Receive OperationResponse
+        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
+        LOGGER.info("Received OperationResponse: " + operationResponse);
+
+        return objectInfo;
     }
 
     /**
