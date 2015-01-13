@@ -67,11 +67,6 @@ public class ThetaTest {
     }
 
     @Test
-    public void openAndCloseSession() throws IOException {
-        // After and Before
-    }
-
-    @Test
     public void getObjectHandles() throws IOException {
         theta.getObjectHandles();
     }
