@@ -58,6 +58,11 @@ public final class ThetaCLI {
         o.setType(String.class);
         options.addOption(o);
 
+        // time
+        Option t = new Option("t", false, "Get the date time of RICOH THETA.");
+        o.setLongOpt("datetime");
+        options.addOption(t);
+
         CommandLineParser parser = new PosixParser();
         return parser.parse(options, args);
     }
@@ -65,12 +70,16 @@ public final class ThetaCLI {
     public static void main(String[] args) throws IOException, ParseException, InterruptedException {
         CommandLine cmd = parseArgs(args);
 
-        System.out.println("Option Value: " + cmd.getOptionValue("o"));
-
         try (Theta theta = new Theta()) {
             theta.addListener(listener);
             theta.getDeviceInfo();
             theta.openSession(SESSION_ID);
+
+            if (cmd.hasOption("t")) {
+                System.out.println(theta.getDateTime());
+                return;
+            }
+
             theta.initiateCapture();
 
             if (!cmd.hasOption("o")) {
