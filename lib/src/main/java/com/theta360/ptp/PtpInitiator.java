@@ -206,7 +206,7 @@ public class PtpInitiator implements Closeable {
             throw new IllegalArgumentException("sessionID must be non-zero.");
         }
 
-        sendOperationRequest(OperationCode.OPEN_SESSION);
+        sendOperationRequest(OperationCode.OPEN_SESSION, sessionID);
         receiveOperationResponse();
     }
 

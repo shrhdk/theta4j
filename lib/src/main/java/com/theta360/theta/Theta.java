@@ -180,17 +180,17 @@ public final class Theta extends PtpInitiator {
         setDevicePropValue(PropertyCode.TIMELAPSE_INTERVAL.value(), value);
     }
 
-    public int getAudioVolume() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.AUDIO_VOLUME.value());
-        return value.intValue();
+    public long getAudioVolume() throws IOException {
+        UINT32 value = getDevicePropValueAsUINT32(PropertyCode.AUDIO_VOLUME.value());
+        return value.longValue();
     }
 
-    public void setAudioVolume(int audioVolume) throws IOException {
+    public void setAudioVolume(long audioVolume) throws IOException {
         if (audioVolume < 0 || 100 < audioVolume) {
             throw new IllegalArgumentException();
         }
 
-        UINT16 value = new UINT16(audioVolume);
+        UINT32 value = new UINT32(audioVolume);
         setDevicePropValue(PropertyCode.AUDIO_VOLUME.value(), value);
     }
 
