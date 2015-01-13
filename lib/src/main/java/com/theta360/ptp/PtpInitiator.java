@@ -396,6 +396,17 @@ public class PtpInitiator implements Closeable {
         return transactionID;
     }
 
+    // Property
+
+    /**
+     * Get the description of the device property.
+     *
+     * @throws IOException
+     */
+    public void getDevicePropDesc() throws IOException {
+        throw new UnsupportedOperationException();
+    }
+
     // Property Getter
 
     protected final byte[] getDevicePropValue(Code<UINT16> devicePropCode) throws IOException {
