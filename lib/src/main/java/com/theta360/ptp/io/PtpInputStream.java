@@ -9,7 +9,6 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,15 +69,7 @@ public final class PtpInputStream extends InputStream {
      * @throws IOException
      */
     public List<UINT16> readAUINT16() throws IOException {
-        long length = readUINT32().longValue();
-
-        List<UINT16> list = new ArrayList<>((int) length);
-
-        for (int i = 0; i < length; i++) {
-            list.add(readUINT16());
-        }
-
-        return list;
+        return AUINT16.read(is);
     }
 
     /**
@@ -87,15 +78,7 @@ public final class PtpInputStream extends InputStream {
      * @throws IOException
      */
     public List<UINT32> readAUINT32() throws IOException {
-        long length = readUINT32().longValue();
-
-        List<UINT32> list = new ArrayList<>((int) length);
-
-        for (int i = 0; i < length; i++) {
-            list.add(readUINT32());
-        }
-
-        return list;
+        return AUINT32.read(is);
     }
 
     /**
