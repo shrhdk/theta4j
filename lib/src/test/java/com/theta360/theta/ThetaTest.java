@@ -192,7 +192,6 @@ public class ThetaTest {
         System.out.println("Remaining Recording Time: " + theta.getRemainingRecordingTime());
     }
 
-
     // Property Setter
 
     @Test
