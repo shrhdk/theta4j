@@ -44,7 +44,7 @@ public final class Theta extends PtpInitiator {
         // Send OperationRequest (GetResizedImageObject)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.GET_RESIZED_IMAGE_OBJECT.getCode(),
+                OperationCode.GET_RESIZED_IMAGE_OBJECT.value(),
                 transactionID.next(),
                 objectHandle,
                 new UINT32(2048),
@@ -70,7 +70,7 @@ public final class Theta extends PtpInitiator {
         // Send OperationRequest (WlanPowerControl)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.WLAN_POWER_CONTROL.getCode(),
+                OperationCode.WLAN_POWER_CONTROL.value(),
                 transactionID.next()
         );
         co.write(operationRequest);
@@ -89,7 +89,7 @@ public final class Theta extends PtpInitiator {
      * @throws IOException
      */
     public int getBatteryLevel() throws IOException {
-        return getDevicePropValueAsUINT8(PropertyCode.BATTERY_LEVEL.getCode());
+        return getDevicePropValueAsUINT8(PropertyCode.BATTERY_LEVEL.value());
     }
 
     /**
@@ -98,7 +98,7 @@ public final class Theta extends PtpInitiator {
      * @throws IOException
      */
     public WhiteBalance getWhiteBalance() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.WHITE_BALANCE.getCode());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.WHITE_BALANCE.value());
         return WhiteBalance.valueOf(value);
     }
 
@@ -110,27 +110,27 @@ public final class Theta extends PtpInitiator {
     public void setWhiteBalance(WhiteBalance whiteBalance) throws IOException {
         Validators.validateNonNull("whiteBalance", whiteBalance);
 
-        setDevicePropValue(PropertyCode.WHITE_BALANCE.getCode(), whiteBalance.getValue());
+        setDevicePropValue(PropertyCode.WHITE_BALANCE.value(), whiteBalance.getValue());
     }
 
     public int getExposureIndex() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.EXPOSURE_INDEX.getCode());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.EXPOSURE_INDEX.value());
         return value.intValue();
     }
 
     public void setExposureIndex(int exposureIndex) throws IOException {
         UINT16 value = new UINT16(exposureIndex);
-        setDevicePropValue(PropertyCode.EXPOSURE_INDEX.getCode(), value);
+        setDevicePropValue(PropertyCode.EXPOSURE_INDEX.value(), value);
     }
 
     public int getExposureBiasCompensation() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.EXPOSURE_BIAS_COMPENSATION.getCode());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.EXPOSURE_BIAS_COMPENSATION.value());
         return value.intValue();
     }
 
     public void setExposureBiasCompensation(int exposureBiasCompensation) throws IOException {
         UINT16 value = new UINT16(exposureBiasCompensation);
-        setDevicePropValue(PropertyCode.EXPOSURE_BIAS_COMPENSATION.getCode(), value);
+        setDevicePropValue(PropertyCode.EXPOSURE_BIAS_COMPENSATION.value(), value);
     }
 
     public Date getDateTime() throws IOException {
@@ -146,18 +146,18 @@ public final class Theta extends PtpInitiator {
     }
 
     public StillCaptureMode getStillCaptureMode() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.STILL_CAPTURE_MODE.getCode());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.STILL_CAPTURE_MODE.value());
         return StillCaptureMode.valueOf(value);
     }
 
     public void setStillCaptureMode(StillCaptureMode stillCaptureMode) throws IOException {
         Validators.validateNonNull("stillCaptureMode", stillCaptureMode);
 
-        setDevicePropValue(PropertyCode.STILL_CAPTURE_MODE.getCode(), stillCaptureMode.getValue());
+        setDevicePropValue(PropertyCode.STILL_CAPTURE_MODE.value(), stillCaptureMode.getValue());
     }
 
     public int getTimelapseNumber() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.TIMELAPSE_NUMBER.getCode());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.TIMELAPSE_NUMBER.value());
         return value.intValue();
     }
 
@@ -167,21 +167,21 @@ public final class Theta extends PtpInitiator {
         }
 
         UINT16 value = new UINT16(timelapseNumber);
-        setDevicePropValue(PropertyCode.TIMELAPSE_NUMBER.getCode(), value);
+        setDevicePropValue(PropertyCode.TIMELAPSE_NUMBER.value(), value);
     }
 
     public long getTimelapseInterval() throws IOException {
-        UINT32 value = getDevicePropValueAsUINT32(PropertyCode.TIMELAPSE_INTERVAL.getCode());
+        UINT32 value = getDevicePropValueAsUINT32(PropertyCode.TIMELAPSE_INTERVAL.value());
         return value.longValue();
     }
 
     public void setTimelapseInterval(long timelapseInterval) throws IOException {
         UINT32 value = new UINT32(timelapseInterval);
-        setDevicePropValue(PropertyCode.TIMELAPSE_INTERVAL.getCode(), value);
+        setDevicePropValue(PropertyCode.TIMELAPSE_INTERVAL.value(), value);
     }
 
     public int getAudioVolume() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.AUDIO_VOLUME.getCode());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.AUDIO_VOLUME.value());
         return value.intValue();
     }
 
@@ -191,23 +191,23 @@ public final class Theta extends PtpInitiator {
         }
 
         UINT16 value = new UINT16(audioVolume);
-        setDevicePropValue(PropertyCode.AUDIO_VOLUME.getCode(), value);
+        setDevicePropValue(PropertyCode.AUDIO_VOLUME.value(), value);
     }
 
     public ErrorInfo getErrorInfo() throws IOException {
-        UINT32 value = getDevicePropValueAsUINT32(PropertyCode.ERROR_INFO.getCode());
+        UINT32 value = getDevicePropValueAsUINT32(PropertyCode.ERROR_INFO.value());
         return ErrorInfo.valueOf(value);
     }
 
     public Rational getShutterSpeed() throws IOException {
-        byte[] value = getDevicePropValue(PropertyCode.SHUTTER_SPEED.getCode());
+        byte[] value = getDevicePropValue(PropertyCode.SHUTTER_SPEED.value());
         return Rational.valueOf(value);
     }
 
     public void setShutterSpeed(Rational shutterSpeed) throws IOException {
         Validators.validateNonNull("shutterSpeed", shutterSpeed);
 
-        setDevicePropValue(PropertyCode.SHUTTER_SPEED.getCode(), shutterSpeed.bytes());
+        setDevicePropValue(PropertyCode.SHUTTER_SPEED.value(), shutterSpeed.bytes());
     }
 
     public GPSInfo getGPSInfo() throws IOException {
@@ -223,7 +223,7 @@ public final class Theta extends PtpInitiator {
     }
 
     public short getAutoPowerOffDelay() throws IOException {
-        return getDevicePropValueAsUINT8(PropertyCode.AUTO_POWER_OFF_DELAY.getCode());
+        return getDevicePropValueAsUINT8(PropertyCode.AUTO_POWER_OFF_DELAY.value());
     }
 
     public void setAutoPowerOffDelay(short autoPowerOffDelay) throws IOException {
@@ -231,11 +231,11 @@ public final class Theta extends PtpInitiator {
             throw new IllegalArgumentException();
         }
 
-        setDevicePropValue(PropertyCode.AUTO_POWER_OFF_DELAY.getCode(), (byte) autoPowerOffDelay);
+        setDevicePropValue(PropertyCode.AUTO_POWER_OFF_DELAY.value(), (byte) autoPowerOffDelay);
     }
 
     public short getSleepDelay() throws IOException {
-        return getDevicePropValueAsUINT8(PropertyCode.SLEEP_DELAY.getCode());
+        return getDevicePropValueAsUINT8(PropertyCode.SLEEP_DELAY.value());
     }
 
     public void setSleepDelay(short sleepDelay) throws IOException {
@@ -243,11 +243,11 @@ public final class Theta extends PtpInitiator {
             throw new IllegalArgumentException();
         }
 
-        setDevicePropValue(PropertyCode.SLEEP_DELAY.getCode(), (byte) sleepDelay);
+        setDevicePropValue(PropertyCode.SLEEP_DELAY.value(), (byte) sleepDelay);
     }
 
     public ChannelNumber getChannelNumber() throws IOException {
-        byte value = getDevicePropValueAsUINT8(PropertyCode.CHANNEL_NUMBER.getCode());
+        byte value = getDevicePropValueAsUINT8(PropertyCode.CHANNEL_NUMBER.value());
         return ChannelNumber.valueOf(value);
     }
 
@@ -256,17 +256,17 @@ public final class Theta extends PtpInitiator {
     }
 
     public CaptureStatus getCaptureStatus() throws IOException {
-        byte value = getDevicePropValueAsUINT8(PropertyCode.CAPTURE_STATUS.getCode());
+        byte value = getDevicePropValueAsUINT8(PropertyCode.CAPTURE_STATUS.value());
         return CaptureStatus.valueOf(value);
     }
 
     public int getRecordingTime() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.RECORDING_TIME.getCode());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.RECORDING_TIME.value());
         return value.intValue();
     }
 
     public int getRemainingRecordingTime() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.REMAINING_RECORDING_TIME.getCode());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.REMAINING_RECORDING_TIME.value());
         return value.intValue();
     }
 }
