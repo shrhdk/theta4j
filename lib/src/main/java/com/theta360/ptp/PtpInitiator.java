@@ -150,27 +150,31 @@ public class PtpInitiator implements Closeable {
 
     // Helper
 
-    protected final void sendOperationRequest(Code<UINT16> code) throws IOException {
-        sendOperationRequest(code, UINT32.ZERO);
+    protected final UINT32 sendOperationRequest(Code<UINT16> code) throws IOException {
+        return sendOperationRequest(code, UINT32.ZERO);
     }
 
-    protected final void sendOperationRequest(Code<UINT16> code, UINT32 p1) throws IOException {
-        sendOperationRequest(code, p1, UINT32.ZERO);
+    protected final UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1) throws IOException {
+        return sendOperationRequest(code, p1, UINT32.ZERO);
     }
 
-    protected final void sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2) throws IOException {
-        sendOperationRequest(code, p1, p2, UINT32.ZERO);
+    protected final UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2) throws IOException {
+        return sendOperationRequest(code, p1, p2, UINT32.ZERO);
     }
 
-    protected final void sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3) throws IOException {
+    protected final UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3) throws IOException {
+        UINT32 transactionID = this.transactionID.next();
+
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
                 code.value(),
-                transactionID.next(),
+                transactionID,
                 p1, p2, p3
         );
         co.write(operationRequest);
         LOGGER.debug("Sent OperationRequest: " + operationRequest);
+
+        return transactionID;
     }
 
     protected final void receiveOperationResponse() throws IOException {
@@ -343,6 +347,40 @@ public class PtpInitiator implements Closeable {
     public void initiateCapture() throws IOException {
         sendOperationRequest(OperationCode.INITIATE_CAPTURE);
         receiveOperationResponse();
+    }
+
+    /**
+     * Terminate all capture.
+     *
+     * @throws IOException
+     */
+    public void terminateOpenCapture() throws IOException {
+        terminateOpenCapture(UINT32.MAX_VALUE);
+    }
+
+    /**
+     * Terminate specified capture.
+     *
+     * @param transactionID
+     * @throws IOException
+     */
+    public void terminateOpenCapture(UINT32 transactionID) throws IOException {
+        sendOperationRequest(OperationCode.TERMINATE_OPEN_CAPTURE, transactionID);
+        receiveOperationResponse();
+    }
+
+    /**
+     * Initiate open capture.
+     *
+     * @return Transaction ID
+     * @throws IOException
+     * @see #terminateOpenCapture
+     */
+    public UINT32 initiateOpenCapture() throws IOException {
+        UINT32 transactionID = sendOperationRequest(OperationCode.INITIATE_OPEN_CAPTURER);
+        receiveOperationResponse();
+
+        return transactionID;
     }
 
     // Property Getter
