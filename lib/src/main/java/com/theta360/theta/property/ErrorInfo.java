@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ErrorInfo {
+    NONE(0x0000_0000L, Level.NONE),
     OUT_OF_MEMORY(0x0000_0001L, Level.WARN),
     FILE_NUMBER_OVER(0x0000_0004L, Level.WARN),
     MISSING_TIME_SETTINGS(0x0000_0008L, Level.WARN),
@@ -54,7 +55,7 @@ public enum ErrorInfo {
 
     public static ErrorInfo valueOf(UINT32 value) {
         if (!errorInfoMap.containsKey(value)) {
-            throw new RuntimeException();
+            throw new RuntimeException("Unknown ErrorInfo Value:" + value);
         }
 
         return errorInfoMap.get(value);
@@ -63,6 +64,6 @@ public enum ErrorInfo {
     // Related Enum
 
     public enum Level {
-        WARN, ERROR;
+        NONE, WARN, ERROR;
     }
 }
