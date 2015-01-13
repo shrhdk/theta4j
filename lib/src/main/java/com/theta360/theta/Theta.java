@@ -89,7 +89,7 @@ public final class Theta extends PtpInitiator {
      * @throws IOException
      */
     public int getBatteryLevel() throws IOException {
-        return getDevicePropValueAsUINT8(PropertyCode.BATTERY_LEVEL.value());
+        return getDevicePropValueAsUINT8(PropertyCode.BATTERY_LEVEL);
     }
 
     /**
@@ -98,7 +98,7 @@ public final class Theta extends PtpInitiator {
      * @throws IOException
      */
     public WhiteBalance getWhiteBalance() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.WHITE_BALANCE.value());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.WHITE_BALANCE);
         return WhiteBalance.valueOf(value);
     }
 
@@ -110,27 +110,27 @@ public final class Theta extends PtpInitiator {
     public void setWhiteBalance(WhiteBalance whiteBalance) throws IOException {
         Validators.validateNonNull("whiteBalance", whiteBalance);
 
-        setDevicePropValue(PropertyCode.WHITE_BALANCE.value(), whiteBalance.getValue());
+        setDevicePropValue(PropertyCode.WHITE_BALANCE, whiteBalance.getValue());
     }
 
     public int getExposureIndex() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.EXPOSURE_INDEX.value());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.EXPOSURE_INDEX);
         return value.intValue();
     }
 
     public void setExposureIndex(int exposureIndex) throws IOException {
         UINT16 value = new UINT16(exposureIndex);
-        setDevicePropValue(PropertyCode.EXPOSURE_INDEX.value(), value);
+        setDevicePropValue(PropertyCode.EXPOSURE_INDEX, value);
     }
 
     public int getExposureBiasCompensation() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.EXPOSURE_BIAS_COMPENSATION.value());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.EXPOSURE_BIAS_COMPENSATION);
         return value.intValue();
     }
 
     public void setExposureBiasCompensation(int exposureBiasCompensation) throws IOException {
         UINT16 value = new UINT16(exposureBiasCompensation);
-        setDevicePropValue(PropertyCode.EXPOSURE_BIAS_COMPENSATION.value(), value);
+        setDevicePropValue(PropertyCode.EXPOSURE_BIAS_COMPENSATION, value);
     }
 
     public Date getDateTime() throws IOException {
@@ -146,18 +146,18 @@ public final class Theta extends PtpInitiator {
     }
 
     public StillCaptureMode getStillCaptureMode() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.STILL_CAPTURE_MODE.value());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.STILL_CAPTURE_MODE);
         return StillCaptureMode.valueOf(value);
     }
 
     public void setStillCaptureMode(StillCaptureMode stillCaptureMode) throws IOException {
         Validators.validateNonNull("stillCaptureMode", stillCaptureMode);
 
-        setDevicePropValue(PropertyCode.STILL_CAPTURE_MODE.value(), stillCaptureMode.getValue());
+        setDevicePropValue(PropertyCode.STILL_CAPTURE_MODE, stillCaptureMode.getValue());
     }
 
     public int getTimelapseNumber() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.TIMELAPSE_NUMBER.value());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.TIMELAPSE_NUMBER);
         return value.intValue();
     }
 
@@ -167,21 +167,21 @@ public final class Theta extends PtpInitiator {
         }
 
         UINT16 value = new UINT16(timelapseNumber);
-        setDevicePropValue(PropertyCode.TIMELAPSE_NUMBER.value(), value);
+        setDevicePropValue(PropertyCode.TIMELAPSE_NUMBER, value);
     }
 
     public long getTimelapseInterval() throws IOException {
-        UINT32 value = getDevicePropValueAsUINT32(PropertyCode.TIMELAPSE_INTERVAL.value());
+        UINT32 value = getDevicePropValueAsUINT32(PropertyCode.TIMELAPSE_INTERVAL);
         return value.longValue();
     }
 
     public void setTimelapseInterval(long timelapseInterval) throws IOException {
         UINT32 value = new UINT32(timelapseInterval);
-        setDevicePropValue(PropertyCode.TIMELAPSE_INTERVAL.value(), value);
+        setDevicePropValue(PropertyCode.TIMELAPSE_INTERVAL, value);
     }
 
     public long getAudioVolume() throws IOException {
-        UINT32 value = getDevicePropValueAsUINT32(PropertyCode.AUDIO_VOLUME.value());
+        UINT32 value = getDevicePropValueAsUINT32(PropertyCode.AUDIO_VOLUME);
         return value.longValue();
     }
 
@@ -191,23 +191,23 @@ public final class Theta extends PtpInitiator {
         }
 
         UINT32 value = new UINT32(audioVolume);
-        setDevicePropValue(PropertyCode.AUDIO_VOLUME.value(), value);
+        setDevicePropValue(PropertyCode.AUDIO_VOLUME, value);
     }
 
     public ErrorInfo getErrorInfo() throws IOException {
-        UINT32 value = getDevicePropValueAsUINT32(PropertyCode.ERROR_INFO.value());
+        UINT32 value = getDevicePropValueAsUINT32(PropertyCode.ERROR_INFO);
         return ErrorInfo.valueOf(value);
     }
 
     public Rational getShutterSpeed() throws IOException {
-        byte[] value = getDevicePropValue(PropertyCode.SHUTTER_SPEED.value());
+        byte[] value = getDevicePropValue(PropertyCode.SHUTTER_SPEED);
         return Rational.valueOf(value);
     }
 
     public void setShutterSpeed(Rational shutterSpeed) throws IOException {
         Validators.validateNonNull("shutterSpeed", shutterSpeed);
 
-        setDevicePropValue(PropertyCode.SHUTTER_SPEED.value(), shutterSpeed.bytes());
+        setDevicePropValue(PropertyCode.SHUTTER_SPEED, shutterSpeed.bytes());
     }
 
     public GPSInfo getGPSInfo() throws IOException {
@@ -223,7 +223,7 @@ public final class Theta extends PtpInitiator {
     }
 
     public short getAutoPowerOffDelay() throws IOException {
-        return getDevicePropValueAsUINT8(PropertyCode.AUTO_POWER_OFF_DELAY.value());
+        return getDevicePropValueAsUINT8(PropertyCode.AUTO_POWER_OFF_DELAY);
     }
 
     public void setAutoPowerOffDelay(short autoPowerOffDelay) throws IOException {
@@ -231,11 +231,11 @@ public final class Theta extends PtpInitiator {
             throw new IllegalArgumentException();
         }
 
-        setDevicePropValue(PropertyCode.AUTO_POWER_OFF_DELAY.value(), (byte) autoPowerOffDelay);
+        setDevicePropValue(PropertyCode.AUTO_POWER_OFF_DELAY, (byte) autoPowerOffDelay);
     }
 
     public short getSleepDelay() throws IOException {
-        return getDevicePropValueAsUINT8(PropertyCode.SLEEP_DELAY.value());
+        return getDevicePropValueAsUINT8(PropertyCode.SLEEP_DELAY);
     }
 
     public void setSleepDelay(short sleepDelay) throws IOException {
@@ -243,11 +243,11 @@ public final class Theta extends PtpInitiator {
             throw new IllegalArgumentException();
         }
 
-        setDevicePropValue(PropertyCode.SLEEP_DELAY.value(), (byte) sleepDelay);
+        setDevicePropValue(PropertyCode.SLEEP_DELAY, (byte) sleepDelay);
     }
 
     public ChannelNumber getChannelNumber() throws IOException {
-        byte value = getDevicePropValueAsUINT8(PropertyCode.CHANNEL_NUMBER.value());
+        byte value = getDevicePropValueAsUINT8(PropertyCode.CHANNEL_NUMBER);
         return ChannelNumber.valueOf(value);
     }
 
@@ -256,17 +256,17 @@ public final class Theta extends PtpInitiator {
     }
 
     public CaptureStatus getCaptureStatus() throws IOException {
-        byte value = getDevicePropValueAsUINT8(PropertyCode.CAPTURE_STATUS.value());
+        byte value = getDevicePropValueAsUINT8(PropertyCode.CAPTURE_STATUS);
         return CaptureStatus.valueOf(value);
     }
 
     public int getRecordingTime() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.RECORDING_TIME.value());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.RECORDING_TIME);
         return value.intValue();
     }
 
     public int getRemainingRecordingTime() throws IOException {
-        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.REMAINING_RECORDING_TIME.value());
+        UINT16 value = getDevicePropValueAsUINT16(PropertyCode.REMAINING_RECORDING_TIME);
         return value.intValue();
     }
 }

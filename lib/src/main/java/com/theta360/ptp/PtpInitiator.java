@@ -347,48 +347,48 @@ public class PtpInitiator implements Closeable {
 
     // Property Getter
 
-    public byte[] getDevicePropValue(UINT16 devicePropCode) throws IOException {
+    public byte[] getDevicePropValue(Code<UINT16> devicePropCode) throws IOException {
         Validators.validateNonNull("devicePropCode", devicePropCode);
 
-        sendOperationRequest(OperationCode.GET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.intValue()));
+        sendOperationRequest(OperationCode.GET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
         byte[] value = ci.readData();
         receiveOperationResponse();
 
         return value;
     }
 
-    public byte getDevicePropValueAsUINT8(UINT16 devicePropCode) throws IOException {
+    public byte getDevicePropValueAsUINT8(Code<UINT16> devicePropCode) throws IOException {
         return getDevicePropValue(devicePropCode)[0];
     }
 
-    public UINT16 getDevicePropValueAsUINT16(UINT16 devicePropCode) throws IOException {
+    public UINT16 getDevicePropValueAsUINT16(Code<UINT16> devicePropCode) throws IOException {
         return UINT16.valueOf(getDevicePropValue(devicePropCode));
     }
 
-    public UINT32 getDevicePropValueAsUINT32(UINT16 devicePropCode) throws IOException {
+    public UINT32 getDevicePropValueAsUINT32(Code<UINT16> devicePropCode) throws IOException {
         return UINT32.valueOf(getDevicePropValue(devicePropCode));
     }
 
     // Property Setter
 
-    public void setDevicePropValue(UINT16 devicePropCode, byte[] value) throws IOException {
+    public void setDevicePropValue(Code<UINT16> devicePropCode, byte[] value) throws IOException {
         Validators.validateNonNull("devicePropCode", devicePropCode);
         Validators.validateNonNull("value", value);
 
-        sendOperationRequest(OperationCode.SET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.intValue()));
+        sendOperationRequest(OperationCode.SET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
         co.writeData(transactionID, value);
         receiveOperationResponse();
     }
 
-    public void setDevicePropValue(UINT16 devicePropValue, byte value) throws IOException {
+    public void setDevicePropValue(Code<UINT16> devicePropValue, byte value) throws IOException {
         setDevicePropValue(devicePropValue, new byte[]{value});
     }
 
-    public void setDevicePropValue(UINT16 devicePropValue, UINT16 value) throws IOException {
+    public void setDevicePropValue(Code<UINT16> devicePropValue, UINT16 value) throws IOException {
         setDevicePropValue(devicePropValue, value.bytes());
     }
 
-    public void setDevicePropValue(UINT16 devicePropValue, UINT32 value) throws IOException {
+    public void setDevicePropValue(Code<UINT16> devicePropValue, UINT32 value) throws IOException {
         setDevicePropValue(devicePropValue, value.bytes());
     }
 
