@@ -2,8 +2,6 @@ package com.theta360.theta;
 
 import com.theta360.ptp.PtpInitiator;
 import com.theta360.ptp.data.GUID;
-import com.theta360.ptp.packet.OperationRequestPacket;
-import com.theta360.ptp.packet.OperationResponsePacket;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.theta.code.OperationCode;
@@ -41,24 +39,9 @@ public final class Theta extends PtpInitiator {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
 
-        // Send OperationRequest (GetResizedImageObject)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.GET_RESIZED_IMAGE_OBJECT.value(),
-                transactionID.next(),
-                objectHandle,
-                new UINT32(2048),
-                new UINT32(1024)
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (GetResizedImageObject): " + operationRequest);
-
-        // Receive Data
+        sendOperationRequest(OperationCode.GET_RESIZED_IMAGE_OBJECT, objectHandle, new UINT32(2048), new UINT32(1024));
         ci.readData(dst);
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        receiveOperationResponse();
     }
 
     /**
@@ -67,18 +50,8 @@ public final class Theta extends PtpInitiator {
      * @throws IOException
      */
     public void turnOffWLAN() throws IOException {
-        // Send OperationRequest (WlanPowerControl)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.WLAN_POWER_CONTROL.value(),
-                transactionID.next()
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (WlanPowerControl): " + operationRequest);
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        sendOperationRequest(OperationCode.WLAN_POWER_CONTROL);
+        receiveOperationResponse();
     }
 
     // Property
