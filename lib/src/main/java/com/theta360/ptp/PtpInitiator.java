@@ -7,6 +7,7 @@ import com.theta360.ptp.io.PacketInputStream;
 import com.theta360.ptp.io.PacketOutputStream;
 import com.theta360.ptp.packet.*;
 import com.theta360.ptp.type.AUINT32;
+import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
@@ -431,6 +432,10 @@ public class PtpInitiator implements Closeable {
         return UINT32.valueOf(getDevicePropValue(devicePropCode));
     }
 
+    protected final String getDevicePropValueAsString(Code<UINT16> devicePropCode) throws IOException {
+        return STR.valueOf(getDevicePropValue(devicePropCode));
+    }
+
     // Property Setter
 
     protected final void setDevicePropValue(Code<UINT16> devicePropCode, byte[] value) throws IOException {
@@ -452,6 +457,10 @@ public class PtpInitiator implements Closeable {
 
     protected final void setDevicePropValue(Code<UINT16> devicePropValue, UINT32 value) throws IOException {
         setDevicePropValue(devicePropValue, value.bytes());
+    }
+
+    protected final void setDevicePropValue(Code<UINT16> devicePropValue, String value) throws IOException {
+        setDevicePropValue(devicePropValue, STR.toBytes(value));
     }
 
     // Listener
