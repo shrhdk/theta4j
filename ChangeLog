@@ -1,3 +1,6 @@
+- 0.2.1
+  - CLI tool
+    - Add the feature that getting the date time of RICOH THETA. (-t option)
 - 0.2.0
   - CLI tool
     - Add the feature that saving the captured image.
