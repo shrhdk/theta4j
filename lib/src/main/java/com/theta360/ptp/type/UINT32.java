@@ -19,6 +19,8 @@ public final class UINT32 implements Comparable<UINT32> {
     public static final UINT32 MIN_VALUE = new UINT32(MIN_LONG_VALUE);
     public static final UINT32 MAX_VALUE = new UINT32(MAX_LONG_VALUE);
 
+    public static final UINT32 ZERO = new UINT32(0);
+
     private final byte[] bytes;
     private final long longValue;
 

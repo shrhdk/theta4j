@@ -1,5 +1,6 @@
 package com.theta360.ptp;
 
+import com.theta360.ptp.code.Code;
 import com.theta360.ptp.code.OperationCode;
 import com.theta360.ptp.data.*;
 import com.theta360.ptp.io.PacketInputStream;
@@ -145,6 +146,31 @@ public class PtpInitiator implements Closeable {
         return port;
     }
 
+    // Send OperationRequest
+
+    private void sendOperationRequest(Code<UINT16> code) throws IOException {
+        sendOperationRequest(code, UINT32.ZERO);
+    }
+
+    private void sendOperationRequest(Code<UINT16> code, UINT32 p1) throws IOException {
+        sendOperationRequest(code, p1, UINT32.ZERO);
+    }
+
+    private void sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2) throws IOException {
+        sendOperationRequest(code, p1, p2, UINT32.ZERO);
+    }
+
+    private void sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3) throws IOException {
+        OperationRequestPacket operationRequest = new OperationRequestPacket(
+                new UINT32(1),
+                code.value(),
+                transactionID.next(),
+                p1, p2, p3
+        );
+        co.write(operationRequest);
+        LOGGER.debug("Sent OperationRequest: " + operationRequest);
+    }
+
     // Operations
 
     /**
@@ -153,14 +179,7 @@ public class PtpInitiator implements Closeable {
      * @throws IOException
      */
     public DeviceInfo getDeviceInfo() throws IOException {
-        // Send OperationRequest (GetDeviceInfo)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.GET_DEVICE_INFO.value(),
-                transactionID.next()
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (GetDeviceInfo): " + operationRequest);
+        sendOperationRequest(OperationCode.GET_DEVICE_INFO);
 
         // Receive Data
         byte[] data = ci.readData();
@@ -187,15 +206,7 @@ public class PtpInitiator implements Closeable {
             throw new IllegalArgumentException("sessionID must be non-zero.");
         }
 
-        // Send OperationRequest (OpenSession)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.OPEN_SESSION.value(),
-                transactionID.next(),
-                sessionID
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (OpenSession): " + operationRequest);
+        sendOperationRequest(OperationCode.OPEN_SESSION);
 
         // Receive OperationResponse
         OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
@@ -208,14 +219,7 @@ public class PtpInitiator implements Closeable {
      * @throws IOException
      */
     public void closeSession() throws IOException {
-        // Send OperationRequest (CloseSession)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.CLOSE_SESSION.value(),
-                transactionID.next()
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (CloseSession): " + operationRequest);
+        sendOperationRequest(OperationCode.CLOSE_SESSION);
 
         // Receive OperationResponse
         OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
@@ -228,14 +232,7 @@ public class PtpInitiator implements Closeable {
      * @throws IOException
      */
     public List<UINT32> getStorageIDs() throws IOException {
-        // Send OperationRequest (GetStorageIDs)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.GET_STORAGE_IDS.value(),
-                transactionID.next()
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (GetStorageIDs): " + operationRequest);
+        sendOperationRequest(OperationCode.GET_STORAGE_IDS);
 
         // Receive Data
         byte[] data = ci.readData();
@@ -261,15 +258,7 @@ public class PtpInitiator implements Closeable {
     public StorageInfo getStorageInfo(UINT32 storageID) throws IOException {
         Validators.validateNonNull("storageID", storageID);
 
-        // Send OperationRequest (GetStorageInfo)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.GET_STORAGE_INFO.value(),
-                transactionID.next(),
-                storageID
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (GetStorageInfo): " + operationRequest);
+        sendOperationRequest(OperationCode.GET_STORAGE_INFO, storageID);
 
         // Receive Data
         byte[] data = ci.readData();
@@ -289,14 +278,7 @@ public class PtpInitiator implements Closeable {
      * @throws IOException
      */
     public UINT32 getNumObjects() throws IOException {
-        // Send OperationRequest (GetNumObjects)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.GET_NUM_OBJECTS.value(),
-                transactionID.next()
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (GetNumObjects): " + operationRequest);
+        sendOperationRequest(OperationCode.GET_NUM_OBJECTS);
 
         // Receive Data
         byte[] data = ci.readData();
@@ -331,15 +313,7 @@ public class PtpInitiator implements Closeable {
     public List<UINT32> getObjectHandles(UINT32 storageID) throws IOException {
         Validators.validateNonNull("storageID", storageID);
 
-        // Send OperationRequest (GetDeviceInfo)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.GET_OBJECT_HANDLES.value(),
-                transactionID.next(),
-                storageID
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (GetDeviceInfo): " + operationRequest);
+        sendOperationRequest(OperationCode.GET_OBJECT_HANDLES, storageID);
 
         // Receive Data
         byte[] data = ci.readData();
@@ -365,15 +339,7 @@ public class PtpInitiator implements Closeable {
     public ObjectInfo getObjectInfo(UINT32 objectHandle) throws IOException {
         Validators.validateNonNull("objectHandle", objectHandle);
 
-        // Send OperationRequest (GetObjectInfo)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.GET_OBJECT_INFO.value(),
-                transactionID.next(),
-                objectHandle
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (GetObjectInfo): " + operationRequest);
+        sendOperationRequest(OperationCode.GET_OBJECT_INFO, objectHandle);
 
         // Receive Data
         byte[] data = ci.readData();
@@ -398,15 +364,7 @@ public class PtpInitiator implements Closeable {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
 
-        // Send OperationRequest (GetObject)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.GET_OBJECT.value(),
-                transactionID.next(),
-                objectHandle
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (GetObject): " + operationRequest);
+        sendOperationRequest(OperationCode.GET_OBJECT, objectHandle);
 
         // Receive Data
         ci.readData(dst);
@@ -427,15 +385,7 @@ public class PtpInitiator implements Closeable {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
 
-        // Send OperationRequest (GetThumb)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.GET_THUMB.value(),
-                transactionID.next(),
-                objectHandle
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (GetThumb): " + operationRequest);
+        sendOperationRequest(OperationCode.GET_THUMB, objectHandle);
 
         // Receive Data
         ci.readData(dst);
@@ -451,14 +401,7 @@ public class PtpInitiator implements Closeable {
      * @throws IOException
      */
     public void initiateCapture() throws IOException {
-        // Send OperationRequest (InitiateCapture)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.INITIATE_CAPTURE.value(),
-                transactionID.next()
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (InitiateCapture): " + operationRequest);
+        sendOperationRequest(OperationCode.INITIATE_CAPTURE);
 
         // Receive OperationResponse
         OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
@@ -468,15 +411,9 @@ public class PtpInitiator implements Closeable {
     // Property Getter
 
     public byte[] getDevicePropValue(UINT16 devicePropCode) throws IOException {
-        // Send OperationRequest (GetDevicePropValue)
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.GET_DEVICE_PROP_VALUE.value(),
-                transactionID.next(),
-                new UINT32(devicePropCode.intValue())
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (GetDevicePropValue): " + operationRequest);
+        Validators.validateNonNull("devicePropCode", devicePropCode);
+
+        sendOperationRequest(OperationCode.GET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.intValue()));
 
         byte[] value = ci.readData();
 
@@ -510,14 +447,10 @@ public class PtpInitiator implements Closeable {
     // Property Setter
 
     public void setDevicePropValue(UINT16 devicePropCode, byte[] value) throws IOException {
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
-                new UINT32(1),
-                OperationCode.SET_DEVICE_PROP_VALUE.value(),
-                transactionID.next(),
-                new UINT32(devicePropCode.intValue())
-        );
-        co.write(operationRequest);
-        LOGGER.info("Sent OperationRequest (GetDevicePropValue): " + operationRequest);
+        Validators.validateNonNull("devicePropCode", devicePropCode);
+        Validators.validateNonNull("value", value);
+
+        sendOperationRequest(OperationCode.SET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.intValue()));
 
         co.writeData(transactionID, value);
 
