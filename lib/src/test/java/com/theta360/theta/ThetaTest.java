@@ -117,9 +117,9 @@ public class ThetaTest {
         System.out.println("Exposure Bias Compensation: " + theta.getExposureIndex());
     }
 
-    @Ignore
+    @Test
     public void getDateTime() throws IOException {
-        // TODO Implement
+        System.out.println("DateTime: " + theta.getDateTime());
     }
 
     @Test
