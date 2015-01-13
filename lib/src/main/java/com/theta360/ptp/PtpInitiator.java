@@ -340,6 +340,19 @@ public class PtpInitiator implements Closeable {
     }
 
     /**
+     * Delete the specified object.
+     *
+     * @param objectHandle
+     * @throws IOException
+     */
+    public void deleteObject(UINT32 objectHandle) throws IOException {
+        Validators.validateNonNull("objectHandle", objectHandle);
+
+        sendOperationRequest(OperationCode.DELETE_OBJECT, objectHandle);
+        receiveOperationResponse();
+    }
+
+    /**
      * Send initiate capture request to the responder.
      *
      * @throws IOException
