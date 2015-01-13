@@ -156,7 +156,7 @@ public class PtpInitiator implements Closeable {
         // Send OperationRequest (GetDeviceInfo)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.GET_DEVICE_INFO.getCode(),
+                OperationCode.GET_DEVICE_INFO.value(),
                 transactionID.next()
         );
         co.write(operationRequest);
@@ -190,7 +190,7 @@ public class PtpInitiator implements Closeable {
         // Send OperationRequest (OpenSession)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.OPEN_SESSION.getCode(),
+                OperationCode.OPEN_SESSION.value(),
                 transactionID.next(),
                 sessionID
         );
@@ -211,7 +211,7 @@ public class PtpInitiator implements Closeable {
         // Send OperationRequest (CloseSession)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.CLOSE_SESSION.getCode(),
+                OperationCode.CLOSE_SESSION.value(),
                 transactionID.next()
         );
         co.write(operationRequest);
@@ -231,7 +231,7 @@ public class PtpInitiator implements Closeable {
         // Send OperationRequest (GetStorageIDs)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.GET_STORAGE_IDS.getCode(),
+                OperationCode.GET_STORAGE_IDS.value(),
                 transactionID.next()
         );
         co.write(operationRequest);
@@ -264,10 +264,12 @@ public class PtpInitiator implements Closeable {
         // Send OperationRequest (GetStorageInfo)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.GET_STORAGE_INFO.getCode(),
+                OperationCode.GET_STORAGE_INFO.value(),
                 transactionID.next(),
                 storageID
         );
+        co.write(operationRequest);
+        LOGGER.info("Sent OperationRequest (GetStorageInfo): " + operationRequest);
 
         // Receive Data
         byte[] data = ci.readData();
@@ -290,9 +292,11 @@ public class PtpInitiator implements Closeable {
         // Send OperationRequest (GetNumObjects)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.GET_NUM_OBJECTS.getCode(),
+                OperationCode.GET_NUM_OBJECTS.value(),
                 transactionID.next()
         );
+        co.write(operationRequest);
+        LOGGER.info("Sent OperationRequest (GetNumObjects): " + operationRequest);
 
         // Receive Data
         byte[] data = ci.readData();
@@ -330,7 +334,7 @@ public class PtpInitiator implements Closeable {
         // Send OperationRequest (GetDeviceInfo)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.GET_OBJECT_HANDLES.getCode(),
+                OperationCode.GET_OBJECT_HANDLES.value(),
                 transactionID.next(),
                 storageID
         );
@@ -364,7 +368,7 @@ public class PtpInitiator implements Closeable {
         // Send OperationRequest (GetObjectInfo)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.GET_OBJECT_INFO.getCode(),
+                OperationCode.GET_OBJECT_INFO.value(),
                 transactionID.next(),
                 objectHandle
         );
@@ -397,7 +401,7 @@ public class PtpInitiator implements Closeable {
         // Send OperationRequest (GetObject)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.GET_OBJECT.getCode(),
+                OperationCode.GET_OBJECT.value(),
                 transactionID.next(),
                 objectHandle
         );
@@ -426,7 +430,7 @@ public class PtpInitiator implements Closeable {
         // Send OperationRequest (GetThumb)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.GET_THUMB.getCode(),
+                OperationCode.GET_THUMB.value(),
                 transactionID.next(),
                 objectHandle
         );
@@ -450,7 +454,7 @@ public class PtpInitiator implements Closeable {
         // Send OperationRequest (InitiateCapture)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.INITIATE_CAPTURE.getCode(),
+                OperationCode.INITIATE_CAPTURE.value(),
                 transactionID.next()
         );
         co.write(operationRequest);
@@ -467,7 +471,7 @@ public class PtpInitiator implements Closeable {
         // Send OperationRequest (GetDevicePropValue)
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.GET_DEVICE_PROP_VALUE.getCode(),
+                OperationCode.GET_DEVICE_PROP_VALUE.value(),
                 transactionID.next(),
                 new UINT32(devicePropCode.intValue())
         );
@@ -508,7 +512,7 @@ public class PtpInitiator implements Closeable {
     public void setDevicePropValue(UINT16 devicePropCode, byte[] value) throws IOException {
         OperationRequestPacket operationRequest = new OperationRequestPacket(
                 new UINT32(1),
-                OperationCode.SET_DEVICE_PROP_VALUE.getCode(),
+                OperationCode.SET_DEVICE_PROP_VALUE.value(),
                 transactionID.next(),
                 new UINT32(devicePropCode.intValue())
         );

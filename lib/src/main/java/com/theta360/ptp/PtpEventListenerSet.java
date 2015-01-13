@@ -186,33 +186,33 @@ final class PtpEventListenerSet extends AbstractSet<PtpEventListener> implements
         UINT32 p2 = eventPacket.getP2();
         UINT32 p3 = eventPacket.getP3();
 
-        if (eventCode.equals(EventCode.UNDEFINED.getCode())) {
+        if (eventCode.equals(EventCode.UNDEFINED.value())) {
             onError(new RuntimeException("Undefined Event Code: " + eventCode));
-        } else if (eventCode.equals(EventCode.CANCEL_TRANSACTION.getCode())) {
+        } else if (eventCode.equals(EventCode.CANCEL_TRANSACTION.value())) {
             onCancelTransaction();
-        } else if (eventCode.equals(EventCode.OBJECT_ADDED.getCode())) {
+        } else if (eventCode.equals(EventCode.OBJECT_ADDED.value())) {
             onObjectAdded(p1);
-        } else if (eventCode.equals(EventCode.OBJECT_REMOVED.getCode())) {
+        } else if (eventCode.equals(EventCode.OBJECT_REMOVED.value())) {
             onObjectRemoved(p1);
-        } else if (eventCode.equals(EventCode.STORE_ADDED.getCode())) {
+        } else if (eventCode.equals(EventCode.STORE_ADDED.value())) {
             onStoreAdded(p1);
-        } else if (eventCode.equals(EventCode.STORE_REMOVED.getCode())) {
+        } else if (eventCode.equals(EventCode.STORE_REMOVED.value())) {
             onStoreRemoved(p1);
-        } else if (eventCode.equals(EventCode.DEVICE_PROP_CHANGED.getCode())) {
+        } else if (eventCode.equals(EventCode.DEVICE_PROP_CHANGED.value())) {
             onDevicePropChanged(p1);
-        } else if (eventCode.equals(EventCode.OBJECT_INFO_CHANGED.getCode())) {
+        } else if (eventCode.equals(EventCode.OBJECT_INFO_CHANGED.value())) {
             onObjectInfoChanged(p1);
-        } else if (eventCode.equals(EventCode.DEVICE_INFO_CHANGED.getCode())) {
+        } else if (eventCode.equals(EventCode.DEVICE_INFO_CHANGED.value())) {
             onDeviceInfoChanged();
-        } else if (eventCode.equals(EventCode.REQUEST_OBJECT_TRANSFER.getCode())) {
+        } else if (eventCode.equals(EventCode.REQUEST_OBJECT_TRANSFER.value())) {
             onRequestObjectTransfer(p1);
-        } else if (eventCode.equals(EventCode.STORE_FULL.getCode())) {
+        } else if (eventCode.equals(EventCode.STORE_FULL.value())) {
             onStoreFull(p1);
-        } else if (eventCode.equals(EventCode.DEVICE_RESET.getCode())) {
+        } else if (eventCode.equals(EventCode.DEVICE_RESET.value())) {
             onDeviceReset();
-        } else if (eventCode.equals(EventCode.CAPTURE_COMPLETE.getCode())) {
+        } else if (eventCode.equals(EventCode.CAPTURE_COMPLETE.value())) {
             onCaptureComplete(p1);
-        } else if (eventCode.equals(EventCode.UNREPORTED_STATUS.getCode())) {
+        } else if (eventCode.equals(EventCode.UNREPORTED_STATUS.value())) {
             onUnreportedStatus();
         } else if (EventCode.isReservedCode(eventCode)) {
             onError(new RuntimeException("Reserved Event Code: " + eventCode));

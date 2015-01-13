@@ -6,39 +6,38 @@ import com.theta360.ptp.type.UINT16;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum OperationCode implements Code {
-    GET_RESIZED_IMAGE_OBJECT(new UINT16(0x1022)),
-    WLAN_POWER_CONTROL(new UINT16(0x99A1));
+public enum OperationCode implements Code<UINT16> {
+    GET_RESIZED_IMAGE_OBJECT(0x1022),
+    WLAN_POWER_CONTROL(0x99A1);
 
-    private static final Map<UINT16, OperationCode> operationCodeList = new HashMap<>();
+    private final UINT16 value;
+
+    private OperationCode(int value) {
+        this.value = new UINT16(value);
+    }
+
+    // Code
+
+    @Override
+    public UINT16 value() {
+        return value;
+    }
+
+    // valueOf
+
+    private static final Map<UINT16, OperationCode> operationCodeMap = new HashMap<>();
 
     static {
         for (OperationCode operationCode : OperationCode.values()) {
-            operationCodeList.put(operationCode.getCode(), operationCode);
+            operationCodeMap.put(operationCode.value(), operationCode);
         }
-    }
-
-    private final UINT16 code;
-
-    @Override
-    public UINT16 getCode() {
-        return code;
-    }
-
-    @Override
-    public String getName() {
-        return name();
-    }
-
-    private OperationCode(UINT16 code) {
-        this.code = code;
     }
 
     public OperationCode valueOf(UINT16 code) {
-        if (!operationCodeList.containsKey(code)) {
+        if (!operationCodeMap.containsKey(code)) {
             throw new IllegalArgumentException();
         }
 
-        return operationCodeList.get(code);
+        return operationCodeMap.get(code);
     }
 }
