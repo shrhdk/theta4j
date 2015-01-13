@@ -5,15 +5,17 @@ import com.theta360.ptp.code.OperationCode;
 import com.theta360.ptp.data.*;
 import com.theta360.ptp.io.PacketInputStream;
 import com.theta360.ptp.io.PacketOutputStream;
-import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.packet.*;
+import com.theta360.ptp.type.AUINT32;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -75,10 +77,10 @@ public class PtpInitiator implements Closeable {
 
         InitCommandRequestPacket initCommandRequest = new InitCommandRequestPacket(guid, "test", ProtocolVersions.REV_1_0);
         co.write(initCommandRequest);
-        LOGGER.info("Sent InitCommandRequest: " + initCommandRequest);
+        LOGGER.debug("Sent InitCommandRequest: " + initCommandRequest);
 
         InitCommandAckPacket initCommandAck = ci.readInitCommandAckPacket();
-        LOGGER.info("Command Data Connection is established: " + initCommandAck);
+        LOGGER.debug("Command Data Connection is established: " + initCommandAck);
 
         return initCommandAck.getConnectionNumber();
     }
@@ -90,10 +92,10 @@ public class PtpInitiator implements Closeable {
 
         InitEventRequestPacket initEventRequest = new InitEventRequestPacket(connectionNumber);
         eo.write(initEventRequest);
-        LOGGER.info("Sent InitEventRequest: " + initEventRequest);
+        LOGGER.debug("Sent InitEventRequest: " + initEventRequest);
 
         InitEventAckPacket initEventAck = ei.readInitEventAckPacket();
-        LOGGER.info("Event Connection is established: " + initEventAck);
+        LOGGER.debug("Event Connection is established: " + initEventAck);
     }
 
     private void startEventHandlerThread() {
@@ -106,7 +108,7 @@ public class PtpInitiator implements Closeable {
                         eventPacket = ei.readEventPacket();
                     } catch (final IOException e) {
                         if (isClosed) {
-                            LOGGER.info("Finished Event Listener Thread.");
+                            LOGGER.debug("Finished Event Listener Thread.");
                             return;
                         }
 
@@ -146,7 +148,7 @@ public class PtpInitiator implements Closeable {
         return port;
     }
 
-    // Send OperationRequest
+    // Helper
 
     private void sendOperationRequest(Code<UINT16> code) throws IOException {
         sendOperationRequest(code, UINT32.ZERO);
@@ -171,6 +173,11 @@ public class PtpInitiator implements Closeable {
         LOGGER.debug("Sent OperationRequest: " + operationRequest);
     }
 
+    private void receiveOperationResponse() throws IOException {
+        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
+        LOGGER.debug("Received OperationResponse: " + operationResponse);
+    }
+
     // Operations
 
     /**
@@ -180,15 +187,8 @@ public class PtpInitiator implements Closeable {
      */
     public DeviceInfo getDeviceInfo() throws IOException {
         sendOperationRequest(OperationCode.GET_DEVICE_INFO);
-
-        // Receive Data
-        byte[] data = ci.readData();
-        DeviceInfo deviceInfo = DeviceInfo.valueOf(data);
-        LOGGER.info("Received DeviceInfo: " + deviceInfo);
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        DeviceInfo deviceInfo = DeviceInfo.valueOf(ci.readData());
+        receiveOperationResponse();
 
         return deviceInfo;
     }
@@ -207,10 +207,7 @@ public class PtpInitiator implements Closeable {
         }
 
         sendOperationRequest(OperationCode.OPEN_SESSION);
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        receiveOperationResponse();
     }
 
     /**
@@ -220,10 +217,7 @@ public class PtpInitiator implements Closeable {
      */
     public void closeSession() throws IOException {
         sendOperationRequest(OperationCode.CLOSE_SESSION);
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        receiveOperationResponse();
     }
 
     /**
@@ -233,18 +227,8 @@ public class PtpInitiator implements Closeable {
      */
     public List<UINT32> getStorageIDs() throws IOException {
         sendOperationRequest(OperationCode.GET_STORAGE_IDS);
-
-        // Receive Data
-        byte[] data = ci.readData();
-        List<UINT32> storageIDs;
-        try (PtpInputStream pis = new PtpInputStream(data)) {
-            storageIDs = pis.readAUINT32();
-            LOGGER.info("Received Storage IDs: " + storageIDs);
-        }
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        List<UINT32> storageIDs = AUINT32.valueOf(ci.readData());
+        receiveOperationResponse();
 
         return storageIDs;
     }
@@ -259,15 +243,8 @@ public class PtpInitiator implements Closeable {
         Validators.validateNonNull("storageID", storageID);
 
         sendOperationRequest(OperationCode.GET_STORAGE_INFO, storageID);
-
-        // Receive Data
-        byte[] data = ci.readData();
-        StorageInfo storageInfo = StorageInfo.valueOf(data);
-        LOGGER.info("Received Storage Info: " + storageInfo);
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        StorageInfo storageInfo = StorageInfo.valueOf(ci.readData());
+        receiveOperationResponse();
 
         return storageInfo;
     }
@@ -279,18 +256,8 @@ public class PtpInitiator implements Closeable {
      */
     public UINT32 getNumObjects() throws IOException {
         sendOperationRequest(OperationCode.GET_NUM_OBJECTS);
-
-        // Receive Data
-        byte[] data = ci.readData();
-        UINT32 numObjects;
-        try (PtpInputStream pis = new PtpInputStream(data)) {
-            numObjects = pis.readUINT32();
-            LOGGER.info("Received Num Objects: " + numObjects);
-        }
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        UINT32 numObjects = UINT32.valueOf(ci.readData());
+        receiveOperationResponse();
 
         return numObjects;
     }
@@ -314,18 +281,8 @@ public class PtpInitiator implements Closeable {
         Validators.validateNonNull("storageID", storageID);
 
         sendOperationRequest(OperationCode.GET_OBJECT_HANDLES, storageID);
-
-        // Receive Data
-        byte[] data = ci.readData();
-        List<UINT32> objectHandles;
-        try (PtpInputStream is = new PtpInputStream(data)) {
-            objectHandles = is.readAUINT32();
-            LOGGER.info("Received Object Handles: " + objectHandles);
-        }
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        List<UINT32> objectHandles = AUINT32.valueOf(ci.readData());
+        receiveOperationResponse();
 
         return objectHandles;
     }
@@ -340,15 +297,8 @@ public class PtpInitiator implements Closeable {
         Validators.validateNonNull("objectHandle", objectHandle);
 
         sendOperationRequest(OperationCode.GET_OBJECT_INFO, objectHandle);
-
-        // Receive Data
-        byte[] data = ci.readData();
-        ObjectInfo objectInfo = ObjectInfo.valueOf(data);
-        LOGGER.info("Received Object Info: " + objectInfo);
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        ObjectInfo objectInfo = ObjectInfo.valueOf(ci.readData());
+        receiveOperationResponse();
 
         return objectInfo;
     }
@@ -365,13 +315,8 @@ public class PtpInitiator implements Closeable {
         Validators.validateNonNull("dst", dst);
 
         sendOperationRequest(OperationCode.GET_OBJECT, objectHandle);
-
-        // Receive Data
         ci.readData(dst);
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        receiveOperationResponse();
     }
 
     /**
@@ -386,13 +331,8 @@ public class PtpInitiator implements Closeable {
         Validators.validateNonNull("dst", dst);
 
         sendOperationRequest(OperationCode.GET_THUMB, objectHandle);
-
-        // Receive Data
         ci.readData(dst);
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        receiveOperationResponse();
     }
 
     /**
@@ -402,10 +342,7 @@ public class PtpInitiator implements Closeable {
      */
     public void initiateCapture() throws IOException {
         sendOperationRequest(OperationCode.INITIATE_CAPTURE);
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        receiveOperationResponse();
     }
 
     // Property Getter
@@ -414,12 +351,8 @@ public class PtpInitiator implements Closeable {
         Validators.validateNonNull("devicePropCode", devicePropCode);
 
         sendOperationRequest(OperationCode.GET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.intValue()));
-
         byte[] value = ci.readData();
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        receiveOperationResponse();
 
         return value;
     }
@@ -429,19 +362,11 @@ public class PtpInitiator implements Closeable {
     }
 
     public UINT16 getDevicePropValueAsUINT16(UINT16 devicePropCode) throws IOException {
-        byte[] data = getDevicePropValue(devicePropCode);
-
-        try (InputStream is = new ByteArrayInputStream(data)) {
-            return UINT16.read(is);
-        }
+        return UINT16.valueOf(getDevicePropValue(devicePropCode));
     }
 
     public UINT32 getDevicePropValueAsUINT32(UINT16 devicePropCode) throws IOException {
-        byte[] data = getDevicePropValue(devicePropCode);
-
-        try (InputStream is = new ByteArrayInputStream(data)) {
-            return UINT32.read(is);
-        }
+        return UINT32.valueOf(getDevicePropValue(devicePropCode));
     }
 
     // Property Setter
@@ -451,12 +376,8 @@ public class PtpInitiator implements Closeable {
         Validators.validateNonNull("value", value);
 
         sendOperationRequest(OperationCode.SET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.intValue()));
-
         co.writeData(transactionID, value);
-
-        // Receive OperationResponse
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
-        LOGGER.info("Received OperationResponse: " + operationResponse);
+        receiveOperationResponse();
     }
 
     public void setDevicePropValue(UINT16 devicePropValue, byte value) throws IOException {

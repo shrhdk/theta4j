@@ -1,5 +1,8 @@
 package com.theta360.ptp.type;
 
+import com.theta360.ptp.io.PtpInputStream;
+import com.theta360.util.Validators;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -104,6 +107,17 @@ public final class UINT16 implements Comparable<UINT16> {
     }
 
     // Static Factory Method
+
+    public static UINT16 valueOf(byte[] bytes) throws IOException {
+        Validators.validateNonNull("bytes", bytes);
+        Validators.validateLength("bytes", bytes, SIZE);
+
+        try (PtpInputStream pis = new PtpInputStream(bytes)) {
+            return read(pis);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static UINT16 read(InputStream is) throws IOException {
         byte[] bytes = new byte[SIZE];
