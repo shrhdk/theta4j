@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -107,15 +109,19 @@ public final class Theta extends PtpInitiator {
     }
 
     public Date getDateTime() throws IOException {
-        // TODO Implement
-        throw new UnsupportedOperationException();
+        String str = getDevicePropValueAsString(PropertyCode.DATE_TIME);
+        try {
+            return new SimpleDateFormat("yyyyMMdd'T'hhmmss").parse(str);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setDateTime(Date dateTime) throws IOException {
         Validators.validateNonNull("dateTime", dateTime);
 
-        // TODO Implement
-        throw new UnsupportedOperationException();
+        String str = new SimpleDateFormat("yyyyMMdd'T'hhmmss").format(dateTime);
+        setDevicePropValue(PropertyCode.DATE_TIME, str);
     }
 
     public StillCaptureMode getStillCaptureMode() throws IOException {
