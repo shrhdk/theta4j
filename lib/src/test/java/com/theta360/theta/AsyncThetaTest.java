@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @Category(IntegrationTest.class)
 public class AsyncThetaTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ThetaTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AsyncThetaTest.class);
     private static final UINT32 SESSION_ID = new UINT32(1);
 
     private static PtpEventListener listener = new ThetaEventListener() {
