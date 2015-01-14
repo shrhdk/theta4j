@@ -1,6 +1,7 @@
 package com.theta360.theta;
 
 import com.theta360.ptp.PtpEventListener;
+import com.theta360.ptp.data.ObjectInfo;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
 import com.theta360.theta.property.WhiteBalance;
@@ -12,8 +13,6 @@ import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -63,36 +62,19 @@ public class ThetaTest {
 
     @Test
     public void getDeviceInfo() throws IOException {
-        theta.getDeviceInfo();
+        System.out.println("Device Info" + theta.getDeviceInfo());
     }
 
     @Test
     public void getObjectHandles() throws IOException {
-        theta.getObjectHandles();
+        System.out.println("Object Handles: " + theta.getObjectHandles());
     }
 
     @Test
-    public void getObject() throws IOException {
+    public void getObjectInfo() throws IOException {
         List<UINT32> objectHandles = theta.getObjectHandles();
-        try (FileOutputStream file = new FileOutputStream(new File("raw.jpg"))) {
-            theta.getObject(objectHandles.get(2), file);
-        }
-    }
-
-    @Test
-    public void getThumb() throws IOException {
-        List<UINT32> objectHandles = theta.getObjectHandles();
-        try (FileOutputStream file = new FileOutputStream(new File("thumb.jpg"))) {
-            theta.getThumb(objectHandles.get(2), file);
-        }
-    }
-
-    @Test
-    public void getResizedImageObject() throws IOException {
-        List<UINT32> objectHandles = theta.getObjectHandles();
-        try (FileOutputStream file = new FileOutputStream(new File("resized.jpg"))) {
-            theta.getResizedImageObject(objectHandles.get(2), file);
-        }
+        ObjectInfo objectInfo = theta.getObjectInfo(objectHandles.get(0));
+        System.out.println("Object Info: " + objectInfo);
     }
 
     // Property Getter
