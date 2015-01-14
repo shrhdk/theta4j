@@ -18,6 +18,8 @@ public final class EventPacket extends PtpIpPacket {
     private final UINT32 transactionID;
     private final UINT32 p1, p2, p3;
 
+    // Constructor
+
     public EventPacket(UINT16 eventCode, UINT32 transactionID) {
         this(eventCode, transactionID, new UINT32(0));
     }
@@ -52,6 +54,8 @@ public final class EventPacket extends PtpIpPacket {
         );
     }
 
+    // Getter
+
     public UINT16 getEventCode() {
         return eventCode;
     }
@@ -71,6 +75,27 @@ public final class EventPacket extends PtpIpPacket {
     public UINT32 getP3() {
         return p3;
     }
+
+    // Static Factory Method
+
+    public static EventPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        PacketUtils.assertType(type, Type.EVENT);
+        PacketUtils.checkLength((int) payloadLength, SIZE);
+
+        UINT16 eventCode = pis.readUINT16();
+        UINT32 transactionID = pis.readUINT32();
+        UINT32 p1 = pis.readUINT32();
+        UINT32 p2 = pis.readUINT32();
+        UINT32 p3 = pis.readUINT32();
+
+        return new EventPacket(eventCode, transactionID, p1, p2, p3);
+    }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -107,22 +132,5 @@ public final class EventPacket extends PtpIpPacket {
                 ", p2=" + p2 +
                 ", p3=" + p3 +
                 '}';
-    }
-
-    public static EventPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.EVENT);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
-
-        UINT16 eventCode = pis.readUINT16();
-        UINT32 transactionID = pis.readUINT32();
-        UINT32 p1 = pis.readUINT32();
-        UINT32 p2 = pis.readUINT32();
-        UINT32 p3 = pis.readUINT32();
-
-        return new EventPacket(eventCode, transactionID, p1, p2, p3);
     }
 }

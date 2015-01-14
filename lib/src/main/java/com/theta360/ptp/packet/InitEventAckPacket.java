@@ -11,9 +11,26 @@ import java.io.IOException;
 public final class InitEventAckPacket extends PtpIpPacket {
     private static final int SIZE = 0;
 
+    // Constructor
+
     public InitEventAckPacket() {
         super(Type.INIT_EVENT_ACK);
     }
+
+    // Static Factory Method
+
+    public static InitEventAckPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        PacketUtils.assertType(type, Type.INIT_EVENT_ACK);
+        PacketUtils.checkLength((int) payloadLength, SIZE);
+
+        return new InitEventAckPacket();
+    }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -30,16 +47,5 @@ public final class InitEventAckPacket extends PtpIpPacket {
     @Override
     public String toString() {
         return "InitEventAckPacket{}";
-    }
-
-    public static InitEventAckPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.INIT_EVENT_ACK);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
-
-        return new InitEventAckPacket();
     }
 }

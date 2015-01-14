@@ -64,22 +64,4 @@ public enum ResponseCode implements Code<UINT16> {
         byte msn = (byte) (value.bytes()[0] & (byte) 0xF0);
         return msn == (byte) 0b1010_0000;
     }
-
-    // valueOf
-
-    private static final Map<UINT16, ResponseCode> responseCodeList = new HashMap<>();
-
-    static {
-        for (ResponseCode responseCode : ResponseCode.values()) {
-            responseCodeList.put(responseCode.value(), responseCode);
-        }
-    }
-
-    public ResponseCode valueOf(UINT16 code) {
-        if (!responseCodeList.containsKey(code)) {
-            throw new IllegalArgumentException();
-        }
-
-        return responseCodeList.get(code);
-    }
 }

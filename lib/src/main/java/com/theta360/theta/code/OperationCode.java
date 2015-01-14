@@ -22,22 +22,4 @@ public enum OperationCode implements Code<UINT16> {
     public UINT16 value() {
         return value;
     }
-
-    // valueOf
-
-    private static final Map<UINT16, OperationCode> operationCodeMap = new HashMap<>();
-
-    static {
-        for (OperationCode operationCode : OperationCode.values()) {
-            operationCodeMap.put(operationCode.value(), operationCode);
-        }
-    }
-
-    public OperationCode valueOf(UINT16 code) {
-        if (!operationCodeMap.containsKey(code)) {
-            throw new IllegalArgumentException();
-        }
-
-        return operationCodeMap.get(code);
-    }
 }

@@ -21,6 +21,8 @@ public final class InitCommandAckPacket extends PtpIpPacket {
     private final String name;
     private final UINT32 protocolVersion;
 
+    // Constructor
+
     public InitCommandAckPacket(UINT32 connectionNumber, GUID guid, String name, UINT32 protocolVersion) {
         super(Type.INIT_COMMAND_ACK);
 
@@ -41,6 +43,8 @@ public final class InitCommandAckPacket extends PtpIpPacket {
         );
     }
 
+    // Getter
+
     public UINT32 getConnectionNumber() {
         return connectionNumber;
     }
@@ -56,6 +60,26 @@ public final class InitCommandAckPacket extends PtpIpPacket {
     public UINT32 getProtocolVersion() {
         return protocolVersion;
     }
+
+    // Static Factory Method
+
+    public static InitCommandAckPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        PacketUtils.assertType(type, Type.INIT_COMMAND_ACK);
+        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
+
+        UINT32 connectionNumber = pis.readUINT32();
+        GUID guid = GUID.read(pis);
+        String name = pis.readPtpIpString();
+        UINT32 protocolVersion = pis.readUINT32();
+
+        return new InitCommandAckPacket(connectionNumber, guid, name, protocolVersion);
+    }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -89,21 +113,5 @@ public final class InitCommandAckPacket extends PtpIpPacket {
                 ", name='" + name + '\'' +
                 ", protocolVersion=" + protocolVersion +
                 '}';
-    }
-
-    public static InitCommandAckPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.INIT_COMMAND_ACK);
-        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
-
-        UINT32 connectionNumber = pis.readUINT32();
-        GUID guid = GUID.read(pis);
-        String name = pis.readPtpIpString();
-        UINT32 protocolVersion = pis.readUINT32();
-
-        return new InitCommandAckPacket(connectionNumber, guid, name, protocolVersion);
     }
 }

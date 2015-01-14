@@ -11,9 +11,26 @@ import java.io.IOException;
 public final class ProbeResponsePacket extends PtpIpPacket {
     private static final int SIZE = 0;
 
+    // Constructor
+
     public ProbeResponsePacket() {
         super(Type.PROBE_RESPONSE);
     }
+
+    // Static Factory Method
+
+    public static ProbeResponsePacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        PacketUtils.assertType(type, Type.PROBE_RESPONSE);
+        PacketUtils.checkLength((int) payloadLength, SIZE);
+
+        return new ProbeResponsePacket();
+    }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -30,16 +47,5 @@ public final class ProbeResponsePacket extends PtpIpPacket {
     @Override
     public String toString() {
         return "ProbeResponsePacket{}";
-    }
-
-    public static ProbeResponsePacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.PROBE_RESPONSE);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
-
-        return new ProbeResponsePacket();
     }
 }

@@ -19,6 +19,8 @@ public final class OperationRequestPacket extends PtpIpPacket {
     private final UINT32 transactionID;
     private final UINT32 p1, p2, p3, p4, p5;
 
+    // Constructor
+
     public OperationRequestPacket(UINT32 dataPhaseInfo, UINT16 operationCode, UINT32 transactionID) {
         this(dataPhaseInfo, operationCode, transactionID, new UINT32(0));
     }
@@ -72,6 +74,8 @@ public final class OperationRequestPacket extends PtpIpPacket {
         );
     }
 
+    // Getter
+
     public UINT32 getDataPhaseInfo() {
         return dataPhaseInfo;
     }
@@ -103,6 +107,30 @@ public final class OperationRequestPacket extends PtpIpPacket {
     public UINT32 getP5() {
         return p5;
     }
+
+    // Static Factory Method
+
+    public static OperationRequestPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        PacketUtils.assertType(type, Type.OPERATION_REQUEST);
+        PacketUtils.checkLength((int) payloadLength, SIZE);
+
+        UINT32 dataPhaseInfo = pis.readUINT32();
+        UINT16 operationCode = pis.readUINT16();
+        UINT32 transactionID = pis.readUINT32();
+        UINT32 p1 = pis.readUINT32();
+        UINT32 p2 = pis.readUINT32();
+        UINT32 p3 = pis.readUINT32();
+        UINT32 p4 = pis.readUINT32();
+        UINT32 p5 = pis.readUINT32();
+
+        return new OperationRequestPacket(dataPhaseInfo, operationCode, transactionID, p1, p2, p3, p4, p5);
+    }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -148,25 +176,5 @@ public final class OperationRequestPacket extends PtpIpPacket {
                 ", p4=" + p4 +
                 ", p5=" + p5 +
                 '}';
-    }
-
-    public static OperationRequestPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.OPERATION_REQUEST);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
-
-        UINT32 dataPhaseInfo = pis.readUINT32();
-        UINT16 operationCode = pis.readUINT16();
-        UINT32 transactionID = pis.readUINT32();
-        UINT32 p1 = pis.readUINT32();
-        UINT32 p2 = pis.readUINT32();
-        UINT32 p3 = pis.readUINT32();
-        UINT32 p4 = pis.readUINT32();
-        UINT32 p5 = pis.readUINT32();
-
-        return new OperationRequestPacket(dataPhaseInfo, operationCode, transactionID, p1, p2, p3, p4, p5);
     }
 }

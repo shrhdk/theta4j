@@ -20,6 +20,8 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
     private final String name;
     private final UINT32 protocolVersion;
 
+    // Constructor
+
     public InitCommandRequestPacket(GUID guid, String name, UINT32 protocolVersion) {
         super(Type.INIT_COMMAND_REQUEST);
 
@@ -37,6 +39,8 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
         );
     }
 
+    // Getter
+
     public GUID getGUID() {
         return guid;
     }
@@ -48,6 +52,25 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
     public UINT32 getProtocolVersion() {
         return protocolVersion;
     }
+
+    // Static Factory Method
+
+    public static InitCommandRequestPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        PacketUtils.assertType(type, Type.INIT_COMMAND_REQUEST);
+        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
+
+        GUID guid = GUID.read(pis);
+        String name = pis.readPtpIpString();
+        UINT32 protocolVersion = pis.readUINT32();
+
+        return new InitCommandRequestPacket(guid, name, protocolVersion);
+    }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -78,20 +101,5 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
                 ", name='" + name + '\'' +
                 ", protocolVersion=" + protocolVersion +
                 '}';
-    }
-
-    public static InitCommandRequestPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.INIT_COMMAND_REQUEST);
-        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
-
-        GUID guid = GUID.read(pis);
-        String name = pis.readPtpIpString();
-        UINT32 protocolVersion = pis.readUINT32();
-
-        return new InitCommandRequestPacket(guid, name, protocolVersion);
     }
 }
