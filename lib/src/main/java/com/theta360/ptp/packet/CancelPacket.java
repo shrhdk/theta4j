@@ -14,6 +14,8 @@ public final class CancelPacket extends PtpIpPacket {
 
     private final UINT32 transactionID;
 
+    // Constructor
+
     public CancelPacket(UINT32 transactionID) {
         super(Type.CANCEL);
 
@@ -24,9 +26,28 @@ public final class CancelPacket extends PtpIpPacket {
         super.payload = this.transactionID.bytes();
     }
 
+    // Getter
+
     public UINT32 getTransactionID() {
         return transactionID;
     }
+
+    // Static Factory Method
+
+    public static CancelPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        PacketUtils.assertType(type, Type.CANCEL);
+        PacketUtils.checkLength((int) payloadLength, SIZE);
+
+        UINT32 transactionID = pis.readUINT32();
+
+        return new CancelPacket(transactionID);
+    }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -50,18 +71,5 @@ public final class CancelPacket extends PtpIpPacket {
         return "CancelPacket{" +
                 "transactionID=" + transactionID +
                 '}';
-    }
-
-    public static CancelPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.CANCEL);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
-
-        UINT32 transactionID = pis.readUINT32();
-
-        return new CancelPacket(transactionID);
     }
 }

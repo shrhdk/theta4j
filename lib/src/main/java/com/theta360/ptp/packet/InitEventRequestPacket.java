@@ -14,6 +14,8 @@ public final class InitEventRequestPacket extends PtpIpPacket {
 
     private final UINT32 connectionNumber;
 
+    // Constructor
+
     public InitEventRequestPacket(UINT32 connectionNumber) {
         super(Type.INIT_EVENT_REQUEST);
 
@@ -23,9 +25,28 @@ public final class InitEventRequestPacket extends PtpIpPacket {
         super.payload = connectionNumber.bytes();
     }
 
+    // Getter
+
     public UINT32 getConnectionNumber() {
         return connectionNumber;
     }
+
+    // Static Factory Method
+
+    public static InitEventRequestPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        PacketUtils.assertType(type, Type.INIT_EVENT_REQUEST);
+        PacketUtils.checkLength((int) payloadLength, SIZE);
+
+        UINT32 connectionNumber = pis.readUINT32();
+
+        return new InitEventRequestPacket(connectionNumber);
+    }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -49,18 +70,5 @@ public final class InitEventRequestPacket extends PtpIpPacket {
         return "InitEventRequestPacket{" +
                 "connectionNumber=" + connectionNumber +
                 '}';
-    }
-
-    public static InitEventRequestPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.INIT_EVENT_REQUEST);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
-
-        UINT32 connectionNumber = pis.readUINT32();
-
-        return new InitEventRequestPacket(connectionNumber);
     }
 }

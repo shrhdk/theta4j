@@ -17,6 +17,8 @@ public final class StartDataPacket extends PtpIpPacket {
     private final UINT32 transactionID;
     private final UINT64 totalDataLength;
 
+    // Constructor
+
     public StartDataPacket(UINT32 transactionID, UINT64 totalDataLength) {
         super(Type.START_DATA);
 
@@ -32,6 +34,8 @@ public final class StartDataPacket extends PtpIpPacket {
         );
     }
 
+    // Getter
+
     public UINT32 getTransactionID() {
         return transactionID;
     }
@@ -39,6 +43,24 @@ public final class StartDataPacket extends PtpIpPacket {
     public UINT64 getTotalDataLength() {
         return totalDataLength;
     }
+
+    // Static Factory Method
+
+    public static StartDataPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        PacketUtils.assertType(type, Type.START_DATA);
+        PacketUtils.checkLength((int) payloadLength, SIZE);
+
+        UINT32 transactionID = pis.readUINT32();
+        UINT64 totalDataLength = pis.readUINT64();
+
+        return new StartDataPacket(transactionID, totalDataLength);
+    }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -66,19 +88,5 @@ public final class StartDataPacket extends PtpIpPacket {
                 "transactionID=" + transactionID +
                 ", totalDataLength=" + totalDataLength +
                 '}';
-    }
-
-    public static StartDataPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.START_DATA);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
-
-        UINT32 transactionID = pis.readUINT32();
-        UINT64 totalDataLength = pis.readUINT64();
-
-        return new StartDataPacket(transactionID, totalDataLength);
     }
 }

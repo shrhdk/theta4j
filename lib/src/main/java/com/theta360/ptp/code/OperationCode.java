@@ -60,22 +60,4 @@ public enum OperationCode implements Code<UINT16> {
         byte msn = (byte) (value.bytes()[0] & (byte) 0xF0);
         return msn == (byte) 0b1001_0000;
     }
-
-    // valueOf
-
-    private static final Map<UINT16, OperationCode> operationCodeMap = new HashMap<>();
-
-    static {
-        for (OperationCode operationCode : OperationCode.values()) {
-            operationCodeMap.put(operationCode.value(), operationCode);
-        }
-    }
-
-    public OperationCode valueOf(UINT16 code) {
-        if (!operationCodeMap.containsKey(code)) {
-            throw new IllegalArgumentException();
-        }
-
-        return operationCodeMap.get(code);
-    }
 }

@@ -18,6 +18,8 @@ public final class OperationResponsePacket extends PtpIpPacket {
     private final UINT32 transactionID;
     private final UINT32 p1, p2, p3, p4, p5;
 
+    // Constructor
+
     public OperationResponsePacket(UINT16 responseCode, UINT32 transactionID) {
         this(responseCode, transactionID, new UINT32(0));
     }
@@ -64,6 +66,8 @@ public final class OperationResponsePacket extends PtpIpPacket {
         );
     }
 
+    // Getter
+
     public UINT16 getResponseCode() {
         return responseCode;
     }
@@ -91,6 +95,29 @@ public final class OperationResponsePacket extends PtpIpPacket {
     public UINT32 getP5() {
         return p5;
     }
+
+    // Static Factory Method
+
+    public static OperationResponsePacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        PacketUtils.assertType(type, Type.OPERATION_RESPONSE);
+        PacketUtils.checkLength((int) payloadLength, SIZE);
+
+        UINT16 responseCode = pis.readUINT16();
+        UINT32 transactionID = pis.readUINT32();
+        UINT32 p1 = pis.readUINT32();
+        UINT32 p2 = pis.readUINT32();
+        UINT32 p3 = pis.readUINT32();
+        UINT32 p4 = pis.readUINT32();
+        UINT32 p5 = pis.readUINT32();
+
+        return new OperationResponsePacket(responseCode, transactionID, p1, p2, p3, p4, p5);
+    }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -133,24 +160,5 @@ public final class OperationResponsePacket extends PtpIpPacket {
                 ", p4=" + p4 +
                 ", p5=" + p5 +
                 '}';
-    }
-
-    public static OperationResponsePacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.OPERATION_RESPONSE);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
-
-        UINT16 responseCode = pis.readUINT16();
-        UINT32 transactionID = pis.readUINT32();
-        UINT32 p1 = pis.readUINT32();
-        UINT32 p2 = pis.readUINT32();
-        UINT32 p3 = pis.readUINT32();
-        UINT32 p4 = pis.readUINT32();
-        UINT32 p5 = pis.readUINT32();
-
-        return new OperationResponsePacket(responseCode, transactionID, p1, p2, p3, p4, p5);
     }
 }

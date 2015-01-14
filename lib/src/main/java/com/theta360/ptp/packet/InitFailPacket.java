@@ -14,6 +14,8 @@ public final class InitFailPacket extends PtpIpPacket {
 
     private final UINT32 reason;
 
+    // Constructor
+
     public InitFailPacket(UINT32 reason) {
         super(Type.INIT_FAIL);
 
@@ -23,9 +25,28 @@ public final class InitFailPacket extends PtpIpPacket {
         super.payload = reason.bytes();
     }
 
+    // Getter
+
     public UINT32 getReason() {
         return reason;
     }
+
+    // Static Factory Method
+
+    public static InitFailPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        PacketUtils.assertType(type, Type.INIT_FAIL);
+        PacketUtils.checkLength((int) payloadLength, SIZE);
+
+        UINT32 reason = pis.readUINT32();
+
+        return new InitFailPacket(reason);
+    }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -49,18 +70,5 @@ public final class InitFailPacket extends PtpIpPacket {
         return "InitFailPacket{" +
                 "reason=" + reason +
                 '}';
-    }
-
-    public static InitFailPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.INIT_FAIL);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
-
-        UINT32 reason = pis.readUINT32();
-
-        return new InitFailPacket(reason);
     }
 }

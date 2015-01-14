@@ -18,6 +18,8 @@ public class PtpIpPacket {
     private final Type type;
     byte[] payload;
 
+    // Constructor
+
     public PtpIpPacket(Type type) {
         this(type, new byte[0]);
     }
@@ -30,6 +32,8 @@ public class PtpIpPacket {
         this.payload = payload.clone();
     }
 
+    // Getter
+
     public Type getType() {
         return type;
     }
@@ -37,6 +41,8 @@ public class PtpIpPacket {
     public byte[] getPayload() {
         return payload.clone();
     }
+
+    // Converter
 
     public final byte[] bytes() {
         UINT32 length = new UINT32(UINT32.SIZE + UINT32.SIZE + payload.length);
@@ -53,6 +59,8 @@ public class PtpIpPacket {
             throw new RuntimeException(e);
         }
     }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -81,6 +89,8 @@ public class PtpIpPacket {
                 ", payload=" + Arrays.toString(payload) +
                 '}';
     }
+
+    // Inner Types
 
     public enum Type {
         INIT_COMMAND_REQUEST(new UINT32(0x0001)),

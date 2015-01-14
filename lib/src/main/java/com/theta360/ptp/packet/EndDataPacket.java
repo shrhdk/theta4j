@@ -17,6 +17,8 @@ public final class EndDataPacket extends PtpIpPacket {
     private final UINT32 transactionID;
     private final byte[] dataPayload;
 
+    // Constructor
+
     public EndDataPacket(UINT32 transactionID, byte[] dataPayload) {
         super(Type.END_DATA);
 
@@ -32,6 +34,8 @@ public final class EndDataPacket extends PtpIpPacket {
         );
     }
 
+    // Getter
+
     public UINT32 getTransactionID() {
         return transactionID;
     }
@@ -39,6 +43,30 @@ public final class EndDataPacket extends PtpIpPacket {
     public byte[] getDataPayload() {
         return dataPayload.clone();
     }
+
+    // Static Factory Method
+
+    public static EndDataPacket read(PtpInputStream pis) throws IOException {
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        PacketUtils.assertType(type, Type.END_DATA);
+        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
+
+        long dataLength = payloadLength - UINT32.SIZE;              // -TransactionID
+
+        UINT32 transactionID = pis.readUINT32();
+        byte[] dataPayload = new byte[(int) dataLength];
+
+        if (pis.read(dataPayload) == -1) {
+            throw new IOException();
+        }
+
+        return new EndDataPacket(transactionID, dataPayload);
+    }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -66,25 +94,5 @@ public final class EndDataPacket extends PtpIpPacket {
                 "transactionID=" + transactionID +
                 ", dataPayload=" + Arrays.toString(dataPayload) +
                 '}';
-    }
-
-    public static EndDataPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.END_DATA);
-        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
-
-        long dataLength = payloadLength - UINT32.SIZE;              // -TransactionID
-
-        UINT32 transactionID = pis.readUINT32();
-        byte[] dataPayload = new byte[(int) dataLength];
-
-        if (pis.read(dataPayload) == -1) {
-            throw new IOException();
-        }
-
-        return new EndDataPacket(transactionID, dataPayload);
     }
 }
