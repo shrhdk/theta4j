@@ -10,7 +10,7 @@ import java.nio.ByteBuffer;
 /**
  * 32 bit unsigned integer value defined in PTP
  */
-public final class UINT32 implements Comparable<UINT32> {
+public final class UINT32 extends Number implements Comparable<UINT32> {
     private static final long MIN_LONG_VALUE = 0L;
     private static final long MAX_LONG_VALUE = 4294967295L;
 
@@ -66,14 +66,29 @@ public final class UINT32 implements Comparable<UINT32> {
         this.longValue = byteBuffer.getLong();
     }
 
-    // Getter
+    public byte[] bytes() {
+        return bytes.clone();
+    }
+
+    // Number
+
+    @Override
+    public int intValue() {
+        return (int) longValue;
+    }
 
     public long longValue() {
         return longValue;
     }
 
-    public byte[] bytes() {
-        return bytes.clone();
+    @Override
+    public float floatValue() {
+        return longValue;
+    }
+
+    @Override
+    public double doubleValue() {
+        return longValue;
     }
 
     // Basic Method

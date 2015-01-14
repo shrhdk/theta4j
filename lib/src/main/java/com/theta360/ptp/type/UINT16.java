@@ -10,7 +10,7 @@ import java.nio.ByteBuffer;
 /**
  * 16 bit unsigned integer value defined in PTP
  */
-public final class UINT16 implements Comparable<UINT16> {
+public final class UINT16 extends Number implements Comparable<UINT16> {
     private static final int MIN_INTEGER_VALUE = 0;
     private static final int MAX_INTEGER_VALUE = 65535;
 
@@ -66,12 +66,30 @@ public final class UINT16 implements Comparable<UINT16> {
 
     // Getter
 
+    public byte[] bytes() {
+        return bytes.clone();
+    }
+
+    // Number
+
+    @Override
     public int intValue() {
         return intValue;
     }
 
-    public byte[] bytes() {
-        return bytes.clone();
+    @Override
+    public long longValue() {
+        return intValue;
+    }
+
+    @Override
+    public float floatValue() {
+        return intValue;
+    }
+
+    @Override
+    public double doubleValue() {
+        return intValue;
     }
 
     // Basic Method

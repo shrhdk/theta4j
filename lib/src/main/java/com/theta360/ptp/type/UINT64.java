@@ -11,7 +11,7 @@ import java.util.Arrays;
 /**
  * 64 bit unsigned integer value defined in PTP
  */
-public final class UINT64 implements Comparable<UINT64> {
+public final class UINT64 extends Number implements Comparable<UINT64> {
     private static final BigInteger MIN_INTEGER_VALUE = BigInteger.ZERO;
     private static final BigInteger MAX_INTEGER_VALUE = new BigInteger("00FFFFFFFFFFFFFFFF", 16);
 
@@ -76,6 +76,28 @@ public final class UINT64 implements Comparable<UINT64> {
 
     public BigInteger bigInteger() {
         return bigInteger;
+    }
+
+    // Number
+
+    @Override
+    public int intValue() {
+        return bigInteger.intValue();
+    }
+
+    @Override
+    public long longValue() {
+        return bigInteger.longValue();
+    }
+
+    @Override
+    public float floatValue() {
+        return bigInteger.floatValue();
+    }
+
+    @Override
+    public double doubleValue() {
+        return bigInteger.doubleValue();
     }
 
     // Basic Method
