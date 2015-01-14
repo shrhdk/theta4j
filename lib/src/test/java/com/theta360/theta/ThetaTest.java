@@ -62,111 +62,111 @@ public class ThetaTest {
 
     @Test
     public void getDeviceInfo() throws IOException {
-        System.out.println("Device Info" + theta.getDeviceInfo());
+        LOGGER.info("Device Info" + theta.getDeviceInfo());
     }
 
     @Test
     public void getObjectHandles() throws IOException {
-        System.out.println("Object Handles: " + theta.getObjectHandles());
+        LOGGER.info("Object Handles: " + theta.getObjectHandles());
     }
 
     @Test
     public void getObjectInfo() throws IOException {
         List<UINT32> objectHandles = theta.getObjectHandles();
         ObjectInfo objectInfo = theta.getObjectInfo(objectHandles.get(0));
-        System.out.println("Object Info: " + objectInfo);
+        LOGGER.info("Object Info: " + objectInfo);
     }
 
     // Property Getter
 
     @Test
     public void getBatteryLevel() throws IOException {
-        System.out.println("Battery Level: " + theta.getBatteryLevel());
+        LOGGER.info("Battery Level: " + theta.getBatteryLevel());
     }
 
     @Test
     public void getWhiteBalance() throws IOException {
-        System.out.println("White Balance: " + theta.getWhiteBalance());
+        LOGGER.info("White Balance: " + theta.getWhiteBalance());
     }
 
     @Test
     public void getExposureIndex() throws IOException {
-        System.out.println("Exposure Index: " + theta.getExposureIndex());
+        LOGGER.info("Exposure Index: " + theta.getExposureIndex());
     }
 
     @Test
     public void getExposureBiasCompensation() throws IOException {
-        System.out.println("Exposure Bias Compensation: " + theta.getExposureIndex());
+        LOGGER.info("Exposure Bias Compensation: " + theta.getExposureIndex());
     }
 
     @Test
     public void getDateTime() throws IOException {
-        System.out.println("DateTime: " + theta.getDateTime());
+        LOGGER.info("DateTime: " + theta.getDateTime());
     }
 
     @Test
     public void getStillCaptureMode() throws IOException {
-        System.out.println("Still Capture Mode: " + theta.getStillCaptureMode());
+        LOGGER.info("Still Capture Mode: " + theta.getStillCaptureMode());
     }
 
     @Test
     public void getTimelapseNumber() throws IOException {
-        System.out.println("Timelapse Number: " + theta.getTimelapseNumber());
+        LOGGER.info("Timelapse Number: " + theta.getTimelapseNumber());
     }
 
     @Test
     public void getTimelapseInterval() throws IOException {
-        System.out.println("Timelapse Interval: " + theta.getTimelapseInterval());
+        LOGGER.info("Timelapse Interval: " + theta.getTimelapseInterval());
     }
 
     @Test
     public void getAudioVolume() throws IOException {
-        System.out.println("Audio Volume: " + theta.getAudioVolume());
+        LOGGER.info("Audio Volume: " + theta.getAudioVolume());
     }
 
     @Test
     public void getErrorInfo() throws IOException {
-        System.out.println("Error Info: " + theta.getErrorInfo());
+        LOGGER.info("Error Info: " + theta.getErrorInfo());
     }
 
     @Test
     public void getShutterSpeed() throws IOException {
-        System.out.println("Shutter Speed: " + theta.getShutterSpeed());
+        LOGGER.info("Shutter Speed: " + theta.getShutterSpeed());
     }
 
     @Ignore
     public void getGPSInfo() throws IOException {
-        System.out.println("GPS Info: " + theta.getGPSInfo());
+        LOGGER.info("GPS Info: " + theta.getGPSInfo());
     }
 
     @Test
     public void getAutoPowerOffDelay() throws IOException {
-        System.out.println("Auto Power Delay: " + theta.getAutoPowerOffDelay());
+        LOGGER.info("Auto Power Delay: " + theta.getAutoPowerOffDelay());
     }
 
     @Test
     public void getSleepDelay() throws IOException {
-        System.out.println("Sleep Delay: " + theta.getSleepDelay());
+        LOGGER.info("Sleep Delay: " + theta.getSleepDelay());
     }
 
     @Test
     public void getChannelNumber() throws IOException {
-        System.out.println("Channel Number: " + theta.getChannelNumber());
+        LOGGER.info("Channel Number: " + theta.getChannelNumber());
     }
 
     @Test
     public void getCaptureStatus() throws IOException {
-        System.out.println("Capture Status: " + theta.getCaptureStatus());
+        LOGGER.info("Capture Status: " + theta.getCaptureStatus());
     }
 
     @Test
     public void getRecordingTime() throws IOException {
-        System.out.println("Recording Time: " + theta.getRecordingTime());
+        LOGGER.info("Recording Time: " + theta.getRecordingTime());
     }
 
     @Test
     public void getRemainingRecordingTime() throws IOException {
-        System.out.println("Remaining Recording Time: " + theta.getRemainingRecordingTime());
+        LOGGER.info("Remaining Recording Time: " + theta.getRemainingRecordingTime());
     }
 
     // Property Setter
