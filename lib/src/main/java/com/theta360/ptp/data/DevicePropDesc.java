@@ -1,32 +1,34 @@
 package com.theta360.ptp.data;
 
 import com.theta360.ptp.io.PtpInputStream;
+import com.theta360.ptp.type.DataType;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.util.Validators;
 
 import java.io.IOException;
+import java.util.List;
 
-public class DevicePropDesc {
+public class DevicePropDesc<T> {
     private final UINT16 devicePropCode;
     private final UINT16 dataType;
     private final boolean isReadonly;
-    private final byte[] defaultValue;
-    private final byte[] currentValue;
+    private final T defaultValue;
+    private final T currentValue;
     private final FormFlag formFlag;
-    private final RangeForm rangeForm;
-    private final EnumForm enumForm;
+    private final RangeForm<T> rangeForm;
+    private final List<T> enumForm;
 
     // Constructor
 
     public DevicePropDesc(UINT16 devicePropCode, UINT16 dataType, boolean isReadonly,
-                          byte[] defaultValue, byte[] currentValue,
-                          FormFlag formFlag, RangeForm rangeForm, EnumForm enumForm
+                          T defaultValue, T currentValue,
+                          FormFlag formFlag, RangeForm rangeForm, List<T> enumForm
     ) {
         this.devicePropCode = devicePropCode;
         this.dataType = dataType;
         this.isReadonly = isReadonly;
-        this.defaultValue = defaultValue.clone();
-        this.currentValue = currentValue.clone();
+        this.defaultValue = defaultValue;
+        this.currentValue = currentValue;
         this.formFlag = formFlag;
         this.rangeForm = rangeForm;
         this.enumForm = enumForm;
@@ -46,12 +48,12 @@ public class DevicePropDesc {
         return isReadonly;
     }
 
-    public byte[] getDefaultValue() {
-        return defaultValue.clone();
+    public T getDefaultValue() {
+        return defaultValue;
     }
 
-    public byte[] getCurrentValue() {
-        return currentValue.clone();
+    public T getCurrentValue() {
+        return currentValue;
     }
 
     public FormFlag getFormFlag() {
@@ -62,13 +64,13 @@ public class DevicePropDesc {
         return rangeForm;
     }
 
-    public EnumForm getEnumForm() {
+    public List<T> getEnumForm() {
         return enumForm;
     }
 
     // Static Factory Method
 
-    public static DevicePropDesc valueOf(byte[] bytes) {
+    public static DevicePropDesc<?> valueOf(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
 
         try (PtpInputStream pis = new PtpInputStream(bytes)) {
@@ -78,8 +80,22 @@ public class DevicePropDesc {
         }
     }
 
-    public static DevicePropDesc read(PtpInputStream pis) throws IOException {
+    public static DevicePropDesc<?> read(PtpInputStream pis) throws IOException {
         Validators.validateNonNull("pis", pis);
+
+        UINT16 devicePropCode = pis.readUINT16();
+        DataType dataType = DataType.valueOf(pis.readUINT16());
+        boolean isReadonly;
+        switch (pis.read()) {
+            case 0x00:
+                isReadonly = true;
+                break;
+            case 0x01:
+                isReadonly = false;
+                break;
+            default:
+                throw new RuntimeException("Unknown GetSet Value");
+        }
 
         throw new UnsupportedOperationException();
     }
@@ -100,11 +116,31 @@ public class DevicePropDesc {
         // valueOf
     }
 
-    public static class RangeForm {
+    public static class RangeForm<T> {
+        private final T minValue;
+        private final T maxValue;
+        private final T stepSize;
 
-    }
+        // Constructor
 
-    public static class EnumForm {
+        public RangeForm(T minValue, T maxValue, T stepSize) {
+            this.minValue = minValue;
+            this.maxValue = maxValue;
+            this.stepSize = stepSize;
+        }
 
+        // Getter
+
+        public T getMinValue() {
+            return minValue;
+        }
+
+        public T getMaxValue() {
+            return maxValue;
+        }
+
+        public T getStepSize() {
+            return stepSize;
+        }
     }
 }
