@@ -2,7 +2,7 @@ package com.theta360.ptp.code;
 
 import com.theta360.ptp.type.UINT16;
 
-public enum PropertyCode implements Code<UINT16> {
+public enum DevicePropCode implements Code<UINT16> {
     UNDEFINED(0x5000),
     BATTERY_LEVEL(0x5001),
     FUNCTIONAL_MODE(0x5002),
@@ -38,7 +38,7 @@ public enum PropertyCode implements Code<UINT16> {
 
     private final UINT16 value;
 
-    private PropertyCode(int value) {
+    private DevicePropCode(int value) {
         this.value = new UINT16(value);
     }
 
