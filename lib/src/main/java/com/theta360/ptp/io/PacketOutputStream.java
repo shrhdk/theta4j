@@ -1,6 +1,5 @@
 package com.theta360.ptp.io;
 
-import com.theta360.ptp.data.TransactionID;
 import com.theta360.ptp.packet.PtpIpPacket;
 import com.theta360.ptp.packet.StartDataPacket;
 import com.theta360.ptp.type.UINT32;
@@ -43,9 +42,9 @@ public final class PacketOutputStream implements Closeable {
      * @param data
      * @throws IOException
      */
-    public void writeData(TransactionID transactionID, byte[] data) throws IOException {
+    public void writeData(UINT32 transactionID, byte[] data) throws IOException {
         // Send StartData
-        StartDataPacket startDataPacket = new StartDataPacket(transactionID.next(), new UINT64(data.length));
+        StartDataPacket startDataPacket = new StartDataPacket(transactionID, new UINT64(data.length));
         write(startDataPacket);
 
         long packetLength = UINT32.SIZE + PtpIpPacket.Type.SIZE + UINT32.SIZE + data.length;
@@ -53,7 +52,7 @@ public final class PacketOutputStream implements Closeable {
         // Send EndData
         os.write(new UINT32(packetLength));             // Length
         os.write(PtpIpPacket.Type.END_DATA.value());    // Packet Type
-        os.write(transactionID.next());                 // Transaction ID
+        os.write(transactionID);                        // Transaction ID
         os.write(data);                                 // Data Payload
         os.flush();
     }

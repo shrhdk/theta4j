@@ -457,7 +457,7 @@ public class PtpInitiator implements Closeable {
         Validators.validateNonNull("value", value);
 
         sendOperationRequest(OperationCode.SET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
-        co.writeData(transactionID, value);
+        co.writeData(transactionID.next(), value);
         receiveOperationResponse();
     }
 
