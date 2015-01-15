@@ -56,7 +56,7 @@ public class GetObjectTest {
     public static void close() throws IOException, InterruptedException, PtpException {
         theta.closeSession();
         theta.close();
-        Thread.sleep(1000);
+        Thread.sleep(TestParameters.INTERVAL_MS);
     }
 
     // Operations
