@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.util.List;
 
 @Category(IntegrationTest.class)
-public class LongThetaTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LongThetaTest.class);
+public class GetObjectTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetObjectTest.class);
     private static final UINT32 SESSION_ID = new UINT32(1);
 
     private static PtpEventListener listener = new ThetaEventListener() {

@@ -187,7 +187,7 @@ public class PtpInitiator implements Closeable {
         OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
 
         if (!operationResponse.getResponseCode().equals(ResponseCode.OK.value())) {
-            String message = "Response Code is not OK: " + operationResponse.getResponseCode();
+            String message = "ResponseCode was not OK but was: " + operationResponse.getResponseCode();
             throw new PtpException(operationResponse.getResponseCode().intValue(), message);
         }
         LOGGER.debug("Received OperationResponse: " + operationResponse);

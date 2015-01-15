@@ -2,9 +2,9 @@ package com.theta360.theta;
 
 import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpException;
-import com.theta360.ptp.data.ObjectInfo;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
+import com.theta360.theta.property.WhiteBalance;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -13,11 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.List;
 
 @Category(IntegrationTest.class)
-public class ThetaTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ThetaTest.class);
+public class SetDevicePropTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SetDevicePropTest.class);
     private static final UINT32 SESSION_ID = new UINT32(1);
 
     private static PtpEventListener listener = new ThetaEventListener() {
@@ -57,22 +56,10 @@ public class ThetaTest {
         theta.close();
     }
 
-    // Operations
+    // Test
 
     @Test
-    public void getDeviceInfo() throws IOException, PtpException {
-        LOGGER.info("Device Info" + theta.getDeviceInfo());
-    }
-
-    @Test
-    public void getObjectHandles() throws IOException, PtpException {
-        LOGGER.info("Object Handles: " + theta.getObjectHandles());
-    }
-
-    @Test
-    public void getObjectInfo() throws IOException, PtpException {
-        List<UINT32> objectHandles = theta.getObjectHandles();
-        ObjectInfo objectInfo = theta.getObjectInfo(objectHandles.get(0));
-        LOGGER.info("Object Info: " + objectInfo);
+    public void setWhiteBalance() throws IOException, PtpException {
+        theta.setWhiteBalance(WhiteBalance.COOL_WHITE_FLUORESCENT_LAMP);
     }
 }
