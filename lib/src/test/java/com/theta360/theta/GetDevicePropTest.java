@@ -4,9 +4,9 @@ import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpException;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
-import com.theta360.theta.code.DevicePropCode;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 @Category(IntegrationTest.class)
-public class DevicePropDescThetaTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DevicePropDescThetaTest.class);
+public class GetDevicePropTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetDevicePropTest.class);
     private static final UINT32 SESSION_ID = new UINT32(1);
 
     private static PtpEventListener listener = new ThetaEventListener() {
@@ -56,95 +56,95 @@ public class DevicePropDescThetaTest {
         theta.close();
     }
 
-    // Get DevicePropDesc
+    // Test
 
     @Test
     public void getBatteryLevel() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of BatteryLevel: " + theta.getDevicePropDesc(DevicePropCode.BATTERY_LEVEL));
+        LOGGER.info("Battery Level: " + theta.getBatteryLevel());
     }
 
     @Test
     public void getWhiteBalance() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of WhiteBalance: " + theta.getDevicePropDesc(DevicePropCode.WHITE_BALANCE));
+        LOGGER.info("White Balance: " + theta.getWhiteBalance());
     }
 
     @Test
     public void getExposureIndex() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of ExposureIndex: " + theta.getDevicePropDesc(DevicePropCode.EXPOSURE_INDEX));
+        LOGGER.info("Exposure Index: " + theta.getExposureIndex());
     }
 
     @Test
     public void getExposureBiasCompensation() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of ExposureBiasCompensation: " + theta.getDevicePropDesc(DevicePropCode.EXPOSURE_BIAS_COMPENSATION));
+        LOGGER.info("Exposure Bias Compensation: " + theta.getExposureIndex());
     }
 
     @Test
     public void getDateTime() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of DateTime: " + theta.getDevicePropDesc(DevicePropCode.DATE_TIME));
+        LOGGER.info("DateTime: " + theta.getDateTime());
     }
 
     @Test
     public void getStillCaptureMode() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of StillCaptureMode(: " + theta.getDevicePropDesc(DevicePropCode.STILL_CAPTURE_MODE));
+        LOGGER.info("Still Capture Mode: " + theta.getStillCaptureMode());
     }
 
     @Test
     public void getTimelapseNumber() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of TimelapseNumber: " + theta.getDevicePropDesc(DevicePropCode.TIMELAPSE_NUMBER));
+        LOGGER.info("Timelapse Number: " + theta.getTimelapseNumber());
     }
 
     @Test
     public void getTimelapseInterval() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of TimelapseInterval: " + theta.getDevicePropDesc(DevicePropCode.TIMELAPSE_INTERVAL));
+        LOGGER.info("Timelapse Interval: " + theta.getTimelapseInterval());
     }
 
     @Test
     public void getAudioVolume() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of AudioVolume: " + theta.getDevicePropDesc(DevicePropCode.AUDIO_VOLUME));
+        LOGGER.info("Audio Volume: " + theta.getAudioVolume());
     }
 
     @Test
     public void getErrorInfo() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of ErrorInfo: " + theta.getDevicePropDesc(DevicePropCode.ERROR_INFO));
+        LOGGER.info("Error Info: " + theta.getErrorInfo());
     }
 
     @Test
     public void getShutterSpeed() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of ShutterSpeed: " + theta.getDevicePropDesc(DevicePropCode.SHUTTER_SPEED));
+        LOGGER.info("Shutter Speed: " + theta.getShutterSpeed());
     }
 
-    @Test
-    public void getGpsInfo() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of GpsInfo: " + theta.getDevicePropDesc(DevicePropCode.GPS_INFO));
+    @Ignore
+    public void getGPSInfo() throws IOException {
+        LOGGER.info("GPS Info: " + theta.getGPSInfo());
     }
 
     @Test
     public void getAutoPowerOffDelay() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of AutoPowerOffDelay: " + theta.getDevicePropDesc(DevicePropCode.AUTO_POWER_OFF_DELAY));
+        LOGGER.info("Auto Power Delay: " + theta.getAutoPowerOffDelay());
     }
 
     @Test
     public void getSleepDelay() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of SleepDelay: " + theta.getDevicePropDesc(DevicePropCode.SLEEP_DELAY));
+        LOGGER.info("Sleep Delay: " + theta.getSleepDelay());
     }
 
     @Test
     public void getChannelNumber() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of ChannelNumber: " + theta.getDevicePropDesc(DevicePropCode.CHANNEL_NUMBER));
+        LOGGER.info("Channel Number: " + theta.getChannelNumber());
     }
 
     @Test
     public void getCaptureStatus() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of CaptureStatus: " + theta.getDevicePropDesc(DevicePropCode.CAPTURE_STATUS));
+        LOGGER.info("Capture Status: " + theta.getCaptureStatus());
     }
 
     @Test
     public void getRecordingTime() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of RecordingTime: " + theta.getDevicePropDesc(DevicePropCode.RECORDING_TIME));
+        LOGGER.info("Recording Time: " + theta.getRecordingTime());
     }
 
     @Test
     public void getRemainingRecordingTime() throws IOException, PtpException {
-        LOGGER.info("DevicePropDesc of RemainingRecordingTime: " + theta.getDevicePropDesc(DevicePropCode.REMAINING_RECORDING_TIME));
+        LOGGER.info("Remaining Recording Time: " + theta.getRemainingRecordingTime());
     }
 }
