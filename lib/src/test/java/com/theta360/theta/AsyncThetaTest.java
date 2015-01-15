@@ -1,6 +1,7 @@
 package com.theta360.theta;
 
 import com.theta360.ptp.PtpEventListener;
+import com.theta360.ptp.PtpException;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
 import org.junit.Test;
@@ -38,7 +39,7 @@ public class AsyncThetaTest {
     };
 
     @Test
-    public void initiateCapture() throws IOException {
+    public void initiateCapture() throws IOException, PtpException {
         Theta theta = new Theta();
         theta.addListener(listener);
         theta.openSession(SESSION_ID);

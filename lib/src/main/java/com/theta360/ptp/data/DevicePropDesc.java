@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DevicePropDesc<T> {
     private final UINT16 devicePropCode;
-    private final UINT16 dataType;
+    private final DataType dataType;
     private final boolean isReadonly;
     private final T defaultValue;
     private final T currentValue;
@@ -20,9 +20,9 @@ public class DevicePropDesc<T> {
 
     // Constructor
 
-    public DevicePropDesc(UINT16 devicePropCode, UINT16 dataType, boolean isReadonly,
+    public DevicePropDesc(UINT16 devicePropCode, DataType dataType, boolean isReadonly,
                           T defaultValue, T currentValue,
-                          FormFlag formFlag, RangeForm rangeForm, List<T> enumForm
+                          FormFlag formFlag, RangeForm<T> rangeForm, List<T> enumForm
     ) {
         this.devicePropCode = devicePropCode;
         this.dataType = dataType;
@@ -40,7 +40,7 @@ public class DevicePropDesc<T> {
         return devicePropCode;
     }
 
-    public UINT16 getDataType() {
+    public DataType getDataType() {
         return dataType;
     }
 

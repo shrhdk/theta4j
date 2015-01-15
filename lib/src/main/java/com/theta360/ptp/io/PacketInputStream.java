@@ -1,5 +1,7 @@
 package com.theta360.ptp.io;
 
+import com.theta360.ptp.PtpException;
+import com.theta360.ptp.code.ResponseCode;
 import com.theta360.ptp.packet.*;
 import com.theta360.ptp.type.UINT32;
 import org.slf4j.Logger;
@@ -239,7 +241,17 @@ public final class PacketInputStream implements Closeable {
      *
      * @throws IOException
      */
-    public byte[] readData() throws IOException {
+    public byte[] readData() throws IOException, PtpException {
+        if (nextType() == PtpIpPacket.Type.OPERATION_RESPONSE) {
+            OperationResponsePacket response = readOperationResponsePacket();
+
+            if (response.getResponseCode().equals(ResponseCode.OK.value())) {
+                throw new RuntimeException("Expected StartData but was OperationResponse(OK)");
+            } else {
+                throw new PtpException(response.getResponseCode().intValue());
+            }
+        }
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         readData(baos);
         return baos.toByteArray();
@@ -254,7 +266,7 @@ public final class PacketInputStream implements Closeable {
      */
     public void readData(OutputStream dst) throws IOException {
         if (nextType() == PtpIpPacket.Type.OPERATION_RESPONSE) {
-            throw new RuntimeException("Unexpected Operation Response: " + readOperationResponsePacket());
+            throw new RuntimeException("Expected Data or EndData but was OperationResponse: " + readOperationResponsePacket());
         }
 
         readStartDataPacket();
@@ -268,7 +280,7 @@ public final class PacketInputStream implements Closeable {
                     dst.write(readEndDataPacket().getDataPayload());
                     return;
                 default:
-                    throw new IOException("Unexpected Packet Type: " + nextType());
+                    throw new IOException("Expected Data or EndData but was " + nextType());
             }
         }
     }
@@ -286,7 +298,7 @@ public final class PacketInputStream implements Closeable {
         PtpIpPacket.Type actual = nextType();
 
         if (actual != expected) {
-            throw new RuntimeException(String.format("Unexpected packet type: Actual=%s, Expected=%s.", actual, expected));
+            throw new RuntimeException(String.format("Expected %s but was %s", expected, actual));
         }
     }
 }

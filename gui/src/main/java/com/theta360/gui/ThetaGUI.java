@@ -1,6 +1,7 @@
 package com.theta360.gui;
 
 import com.theta360.ptp.PtpEventListener;
+import com.theta360.ptp.PtpException;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.theta.Theta;
 import com.theta360.theta.ThetaEventListener;
@@ -49,7 +50,7 @@ public class ThetaGUI extends JFrame {
             setText("capture");
             addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(ActionEvent event) {
                     try {
                         Theta theta = new Theta();
                         theta.addListener(listener);
@@ -58,8 +59,8 @@ public class ThetaGUI extends JFrame {
                         theta.initiateCapture();
                         theta.closeSession();
                         theta.close();
-                    } catch (IOException e2) {
-                        LOGGER.error(e2.getMessage(), e2);
+                    } catch (IOException | PtpException e) {
+                        LOGGER.error(e.getMessage(), e);
                     }
                 }
             });

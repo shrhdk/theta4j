@@ -1,6 +1,7 @@
 package com.theta360.cli;
 
 import com.theta360.ptp.PtpEventListener;
+import com.theta360.ptp.PtpException;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.theta.Theta;
 import com.theta360.theta.ThetaEventListener;
@@ -67,7 +68,7 @@ public final class ThetaCLI {
         return parser.parse(options, args);
     }
 
-    public static void main(String[] args) throws IOException, ParseException, InterruptedException {
+    public static void main(String[] args) throws IOException, PtpException, ParseException, InterruptedException {
         CommandLine cmd = parseArgs(args);
 
         try (Theta theta = new Theta()) {
