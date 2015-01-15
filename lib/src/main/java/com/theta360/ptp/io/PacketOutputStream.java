@@ -48,11 +48,13 @@ public final class PacketOutputStream implements Closeable {
         StartDataPacket startDataPacket = new StartDataPacket(transactionID.next(), new UINT64(data.length));
         write(startDataPacket);
 
+        long packetLength = UINT32.SIZE + PtpIpPacket.Type.SIZE + UINT32.SIZE + data.length;
+
         // Send EndData
-        os.write(new UINT32(UINT32.SIZE + PtpIpPacket.Type.SIZE + UINT32.SIZE + data.length));
-        os.write(PtpIpPacket.Type.END_DATA.getCode());
-        os.write(transactionID.next());
-        os.write(data);
+        os.write(new UINT32(packetLength));             // Length
+        os.write(PtpIpPacket.Type.END_DATA.value());    // Packet Type
+        os.write(transactionID.next());                 // Transaction ID
+        os.write(data);                                 // Data Payload
         os.flush();
     }
 
