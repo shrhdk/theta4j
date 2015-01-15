@@ -137,6 +137,8 @@ public class DevicePropDesc<T> {
         switch (dataType) {
             case UINT8:
                 return pis.read();
+            case INT16:
+                return pis.readINT16();
             case UINT16:
                 return pis.readUINT16();
             case UINT32:
