@@ -51,5 +51,6 @@ public class CaptureTest {
         onObjectAdded.await();
         theta.closeSession();
         theta.close();
+        Thread.sleep(TestParameters.INTERVAL_MS);
     }
 }
