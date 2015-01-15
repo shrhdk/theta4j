@@ -1,6 +1,5 @@
 package com.theta360.ptp.io;
 
-import com.theta360.ptp.data.TransactionID;
 import com.theta360.ptp.packet.EndDataPacket;
 import com.theta360.ptp.packet.PtpIpPacket;
 import com.theta360.ptp.packet.StartDataPacket;
@@ -58,16 +57,17 @@ public class PacketOutputStreamTest {
     @Test
     public void writeData() throws IOException {
         // given
+        UINT32 transactionID = new UINT32(2);
         byte[] given = new byte[]{0x12, 0x34};
 
         // expected
         byte[] expected = ByteUtils.join(
-                new StartDataPacket(new UINT32(1), new UINT64(given.length)).bytes(),
-                new EndDataPacket(new UINT32(2), given).bytes()
+                new StartDataPacket(transactionID, new UINT64(given.length)).bytes(),
+                new EndDataPacket(transactionID, given).bytes()
         );
 
         // act
-        pos.writeData(new TransactionID(), given);
+        pos.writeData(transactionID, given);
 
         // verify
         byte[] actual = baos.toByteArray();
