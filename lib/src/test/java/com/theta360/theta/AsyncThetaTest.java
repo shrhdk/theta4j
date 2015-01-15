@@ -10,15 +10,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 @Category(IntegrationTest.class)
 public class AsyncThetaTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(AsyncThetaTest.class);
     private static final UINT32 SESSION_ID = new UINT32(1);
 
+    private static final CountDownLatch onObjectAdded = new CountDownLatch(1);
+
     private static PtpEventListener listener = new ThetaEventListener() {
         @Override
         public void onObjectAdded(UINT32 objectHandle) {
+            onObjectAdded.countDown();
             LOGGER.info("onObjectAdded: " + objectHandle);
         }
 
@@ -39,11 +43,12 @@ public class AsyncThetaTest {
     };
 
     @Test
-    public void initiateCapture() throws IOException, PtpException {
+    public void initiateCapture() throws IOException, PtpException, InterruptedException {
         Theta theta = new Theta();
         theta.addListener(listener);
         theta.openSession(SESSION_ID);
         theta.initiateCapture();
+        onObjectAdded.await();
         theta.closeSession();
         theta.close();
     }

@@ -55,6 +55,7 @@ public class ThetaTest {
     public static void close() throws IOException, InterruptedException, PtpException {
         theta.closeSession();
         theta.close();
+        Thread.sleep(1000);
     }
 
     // Operations
