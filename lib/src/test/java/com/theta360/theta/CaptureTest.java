@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
 @Category(IntegrationTest.class)
-public class AsyncThetaTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AsyncThetaTest.class);
+public class CaptureTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CaptureTest.class);
     private static final UINT32 SESSION_ID = new UINT32(1);
 
     private static final CountDownLatch onObjectAdded = new CountDownLatch(1);
