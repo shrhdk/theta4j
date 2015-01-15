@@ -1,6 +1,7 @@
 package com.theta360.theta;
 
 import com.theta360.ptp.PtpEventListener;
+import com.theta360.ptp.PtpException;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
 import org.junit.AfterClass;
@@ -45,14 +46,14 @@ public class LongThetaTest {
     private static Theta theta;
 
     @BeforeClass
-    public static void connect() throws IOException {
+    public static void connect() throws IOException, PtpException {
         theta = new Theta();
         theta.addListener(listener);
         theta.openSession(SESSION_ID);
     }
 
     @AfterClass
-    public static void close() throws IOException, InterruptedException {
+    public static void close() throws IOException, InterruptedException, PtpException {
         theta.closeSession();
         theta.close();
     }
@@ -60,7 +61,7 @@ public class LongThetaTest {
     // Operations
 
     @Test
-    public void getObject() throws IOException {
+    public void getObject() throws IOException, PtpException {
         List<UINT32> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(new File("raw.jpg"))) {
             theta.getObject(objectHandles.get(2), file);
@@ -68,7 +69,7 @@ public class LongThetaTest {
     }
 
     @Test
-    public void getThumb() throws IOException {
+    public void getThumb() throws IOException, PtpException {
         List<UINT32> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(new File("thumb.jpg"))) {
             theta.getThumb(objectHandles.get(2), file);
@@ -76,7 +77,7 @@ public class LongThetaTest {
     }
 
     @Test
-    public void getResizedImageObject() throws IOException {
+    public void getResizedImageObject() throws IOException, PtpException {
         List<UINT32> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(new File("resized.jpg"))) {
             theta.getResizedImageObject(objectHandles.get(2), file);

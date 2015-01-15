@@ -2,6 +2,7 @@ package com.theta360.ptp;
 
 import com.theta360.ptp.code.Code;
 import com.theta360.ptp.code.OperationCode;
+import com.theta360.ptp.code.ResponseCode;
 import com.theta360.ptp.data.*;
 import com.theta360.ptp.io.PacketInputStream;
 import com.theta360.ptp.io.PacketOutputStream;
@@ -178,8 +179,12 @@ public class PtpInitiator implements Closeable {
         return transactionID;
     }
 
-    protected final void receiveOperationResponse() throws IOException {
+    protected final void receiveOperationResponse() throws IOException, PtpException {
         OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
+
+        if (!operationResponse.getResponseCode().equals(ResponseCode.OK)) {
+            throw new PtpException(operationResponse.getResponseCode().intValue());
+        }
         LOGGER.debug("Received OperationResponse: " + operationResponse);
     }
 
@@ -190,7 +195,7 @@ public class PtpInitiator implements Closeable {
      *
      * @throws IOException
      */
-    public DeviceInfo getDeviceInfo() throws IOException {
+    public DeviceInfo getDeviceInfo() throws IOException, PtpException {
         sendOperationRequest(OperationCode.GET_DEVICE_INFO);
         DeviceInfo deviceInfo = DeviceInfo.valueOf(ci.readData());
         receiveOperationResponse();
@@ -204,7 +209,7 @@ public class PtpInitiator implements Closeable {
      * @param sessionID
      * @throws IOException
      */
-    public void openSession(UINT32 sessionID) throws IOException {
+    public void openSession(UINT32 sessionID) throws IOException, PtpException {
         Validators.validateNonNull("sessionID", sessionID);
 
         if (sessionID.longValue() == 0) {
@@ -220,7 +225,7 @@ public class PtpInitiator implements Closeable {
      *
      * @throws IOException
      */
-    public void closeSession() throws IOException {
+    public void closeSession() throws IOException, PtpException {
         sendOperationRequest(OperationCode.CLOSE_SESSION);
         receiveOperationResponse();
     }
@@ -230,7 +235,7 @@ public class PtpInitiator implements Closeable {
      *
      * @throws IOException
      */
-    public List<UINT32> getStorageIDs() throws IOException {
+    public List<UINT32> getStorageIDs() throws IOException, PtpException {
         sendOperationRequest(OperationCode.GET_STORAGE_IDS);
         List<UINT32> storageIDs = AUINT32.valueOf(ci.readData());
         receiveOperationResponse();
@@ -244,7 +249,7 @@ public class PtpInitiator implements Closeable {
      * @param storageID
      * @throws IOException
      */
-    public StorageInfo getStorageInfo(UINT32 storageID) throws IOException {
+    public StorageInfo getStorageInfo(UINT32 storageID) throws IOException, PtpException {
         Validators.validateNonNull("storageID", storageID);
 
         sendOperationRequest(OperationCode.GET_STORAGE_INFO, storageID);
@@ -259,7 +264,7 @@ public class PtpInitiator implements Closeable {
      *
      * @throws IOException
      */
-    public UINT32 getNumObjects() throws IOException {
+    public UINT32 getNumObjects() throws IOException, PtpException {
         sendOperationRequest(OperationCode.GET_NUM_OBJECTS);
         UINT32 numObjects = UINT32.valueOf(ci.readData());
         receiveOperationResponse();
@@ -272,7 +277,7 @@ public class PtpInitiator implements Closeable {
      *
      * @throws IOException
      */
-    public List<UINT32> getObjectHandles() throws IOException {
+    public List<UINT32> getObjectHandles() throws IOException, PtpException {
         return getObjectHandles(new UINT32(0xFFFFFFFFL));
     }
 
@@ -282,7 +287,7 @@ public class PtpInitiator implements Closeable {
      * @param storageID
      * @throws IOException
      */
-    public List<UINT32> getObjectHandles(UINT32 storageID) throws IOException {
+    public List<UINT32> getObjectHandles(UINT32 storageID) throws IOException, PtpException {
         Validators.validateNonNull("storageID", storageID);
 
         sendOperationRequest(OperationCode.GET_OBJECT_HANDLES, storageID);
@@ -298,7 +303,7 @@ public class PtpInitiator implements Closeable {
      * @param objectHandle
      * @throws IOException
      */
-    public ObjectInfo getObjectInfo(UINT32 objectHandle) throws IOException {
+    public ObjectInfo getObjectInfo(UINT32 objectHandle) throws IOException, PtpException {
         Validators.validateNonNull("objectHandle", objectHandle);
 
         sendOperationRequest(OperationCode.GET_OBJECT_INFO, objectHandle);
@@ -315,7 +320,7 @@ public class PtpInitiator implements Closeable {
      * @param dst
      * @throws IOException
      */
-    public void getObject(UINT32 objectHandle, OutputStream dst) throws IOException {
+    public void getObject(UINT32 objectHandle, OutputStream dst) throws IOException, PtpException {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
 
@@ -331,7 +336,7 @@ public class PtpInitiator implements Closeable {
      * @param dst
      * @throws IOException
      */
-    public void getThumb(UINT32 objectHandle, OutputStream dst) throws IOException {
+    public void getThumb(UINT32 objectHandle, OutputStream dst) throws IOException, PtpException {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
 
@@ -346,7 +351,7 @@ public class PtpInitiator implements Closeable {
      * @param objectHandle
      * @throws IOException
      */
-    public void deleteObject(UINT32 objectHandle) throws IOException {
+    public void deleteObject(UINT32 objectHandle) throws IOException, PtpException {
         Validators.validateNonNull("objectHandle", objectHandle);
 
         sendOperationRequest(OperationCode.DELETE_OBJECT, objectHandle);
@@ -358,7 +363,7 @@ public class PtpInitiator implements Closeable {
      *
      * @throws IOException
      */
-    public void initiateCapture() throws IOException {
+    public void initiateCapture() throws IOException, PtpException {
         sendOperationRequest(OperationCode.INITIATE_CAPTURE);
         receiveOperationResponse();
     }
@@ -368,7 +373,7 @@ public class PtpInitiator implements Closeable {
      *
      * @throws IOException
      */
-    public void terminateOpenCapture() throws IOException {
+    public void terminateOpenCapture() throws IOException, PtpException {
         terminateOpenCapture(UINT32.MAX_VALUE);
     }
 
@@ -378,7 +383,7 @@ public class PtpInitiator implements Closeable {
      * @param transactionID
      * @throws IOException
      */
-    public void terminateOpenCapture(UINT32 transactionID) throws IOException {
+    public void terminateOpenCapture(UINT32 transactionID) throws IOException, PtpException {
         sendOperationRequest(OperationCode.TERMINATE_OPEN_CAPTURE, transactionID);
         receiveOperationResponse();
     }
@@ -390,7 +395,7 @@ public class PtpInitiator implements Closeable {
      * @throws IOException
      * @see #terminateOpenCapture
      */
-    public UINT32 initiateOpenCapture() throws IOException {
+    public UINT32 initiateOpenCapture() throws IOException, PtpException {
         UINT32 transactionID = sendOperationRequest(OperationCode.INITIATE_OPEN_CAPTURER);
         receiveOperationResponse();
 
@@ -410,7 +415,7 @@ public class PtpInitiator implements Closeable {
 
     // Property Getter
 
-    protected final byte[] getDevicePropValue(Code<UINT16> devicePropCode) throws IOException {
+    protected final byte[] getDevicePropValue(Code<UINT16> devicePropCode) throws IOException, PtpException {
         Validators.validateNonNull("devicePropCode", devicePropCode);
 
         sendOperationRequest(OperationCode.GET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
@@ -420,25 +425,25 @@ public class PtpInitiator implements Closeable {
         return value;
     }
 
-    protected final byte getDevicePropValueAsUINT8(Code<UINT16> devicePropCode) throws IOException {
+    protected final byte getDevicePropValueAsUINT8(Code<UINT16> devicePropCode) throws IOException, PtpException {
         return getDevicePropValue(devicePropCode)[0];
     }
 
-    protected final UINT16 getDevicePropValueAsUINT16(Code<UINT16> devicePropCode) throws IOException {
+    protected final UINT16 getDevicePropValueAsUINT16(Code<UINT16> devicePropCode) throws IOException, PtpException {
         return UINT16.valueOf(getDevicePropValue(devicePropCode));
     }
 
-    protected final UINT32 getDevicePropValueAsUINT32(Code<UINT16> devicePropCode) throws IOException {
+    protected final UINT32 getDevicePropValueAsUINT32(Code<UINT16> devicePropCode) throws IOException, PtpException {
         return UINT32.valueOf(getDevicePropValue(devicePropCode));
     }
 
-    protected final String getDevicePropValueAsString(Code<UINT16> devicePropCode) throws IOException {
+    protected final String getDevicePropValueAsString(Code<UINT16> devicePropCode) throws IOException, PtpException {
         return STR.valueOf(getDevicePropValue(devicePropCode));
     }
 
     // Property Setter
 
-    protected final void setDevicePropValue(Code<UINT16> devicePropCode, byte[] value) throws IOException {
+    protected final void setDevicePropValue(Code<UINT16> devicePropCode, byte[] value) throws IOException, PtpException {
         Validators.validateNonNull("devicePropCode", devicePropCode);
         Validators.validateNonNull("value", value);
 
@@ -447,19 +452,19 @@ public class PtpInitiator implements Closeable {
         receiveOperationResponse();
     }
 
-    protected final void setDevicePropValue(Code<UINT16> devicePropValue, byte value) throws IOException {
+    protected final void setDevicePropValue(Code<UINT16> devicePropValue, byte value) throws IOException, PtpException {
         setDevicePropValue(devicePropValue, new byte[]{value});
     }
 
-    protected final void setDevicePropValue(Code<UINT16> devicePropValue, UINT16 value) throws IOException {
+    protected final void setDevicePropValue(Code<UINT16> devicePropValue, UINT16 value) throws IOException, PtpException {
         setDevicePropValue(devicePropValue, value.bytes());
     }
 
-    protected final void setDevicePropValue(Code<UINT16> devicePropValue, UINT32 value) throws IOException {
+    protected final void setDevicePropValue(Code<UINT16> devicePropValue, UINT32 value) throws IOException, PtpException {
         setDevicePropValue(devicePropValue, value.bytes());
     }
 
-    protected final void setDevicePropValue(Code<UINT16> devicePropValue, String value) throws IOException {
+    protected final void setDevicePropValue(Code<UINT16> devicePropValue, String value) throws IOException, PtpException {
         setDevicePropValue(devicePropValue, STR.toBytes(value));
     }
 
