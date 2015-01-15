@@ -180,10 +180,15 @@ public class PtpInitiator implements Closeable {
     }
 
     protected final void receiveOperationResponse() throws IOException, PtpException {
+        if (ci.nextType() != PtpIpPacket.Type.OPERATION_RESPONSE) {
+            throw new RuntimeException("Expected OperationResponse but was " + ci.nextType());
+        }
+
         OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
 
-        if (!operationResponse.getResponseCode().equals(ResponseCode.OK)) {
-            throw new PtpException(operationResponse.getResponseCode().intValue());
+        if (!operationResponse.getResponseCode().equals(ResponseCode.OK.value())) {
+            String message = "Response Code is not OK: " + operationResponse.getResponseCode();
+            throw new PtpException(operationResponse.getResponseCode().intValue(), message);
         }
         LOGGER.debug("Received OperationResponse: " + operationResponse);
     }
@@ -409,8 +414,12 @@ public class PtpInitiator implements Closeable {
      *
      * @throws IOException
      */
-    public void getDevicePropDesc() throws IOException {
-        throw new UnsupportedOperationException();
+    public DevicePropDesc<?> getDevicePropDesc(Code<UINT16> devicePropCode) throws IOException, PtpException {
+        sendOperationRequest(OperationCode.GET_DEVICE_PROP_DESC, new UINT32(devicePropCode.value().intValue()));
+        DevicePropDesc<?> devicePropDesc = DevicePropDesc.valueOf(ci.readData());
+        receiveOperationResponse();
+
+        return devicePropDesc;
     }
 
     // Property Getter
