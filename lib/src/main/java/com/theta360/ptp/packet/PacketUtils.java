@@ -1,6 +1,5 @@
 package com.theta360.ptp.packet;
 
-import com.theta360.ptp.code.Code;
 import com.theta360.ptp.type.UINT32;
 
 import java.io.IOException;
@@ -12,6 +11,12 @@ class PacketUtils {
     public static void assertType(PtpIpPacket.Type actual, PtpIpPacket.Type expected) throws IOException {
         if (actual != expected) {
             throw new IOException(String.format("Unexpected packet type: Actual=%s, Expected=%s.", actual, expected));
+        }
+    }
+
+    public static void assertType(PtpIpPacket.Type actual, UINT32 expected, PtpIpPacket.Type label) throws IOException {
+        if (!actual.value().equals(expected)) {
+            throw new IOException(String.format("Unexpected packet type: Actual=%s, Expected=%s.", actual, label));
         }
     }
 
