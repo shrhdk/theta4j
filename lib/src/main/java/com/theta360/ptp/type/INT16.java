@@ -13,8 +13,6 @@ public class INT16 {
     private INT16() {
     }
 
-    public static byte[] toBytes;
-
     public static short toShort(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
 
