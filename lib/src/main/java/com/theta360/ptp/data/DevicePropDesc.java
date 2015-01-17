@@ -94,8 +94,8 @@ public class DevicePropDesc<T> {
         UINT16 devicePropCode = pis.readUINT16();
         DataType dataType = DataType.valueOf(pis.readUINT16());
         boolean isReadonly = readGetSet(pis);
-        Object defaultValue = readAs(dataType, pis);
-        Object currentValue = readAs(dataType, pis);
+        Object defaultValue = pis.readAs(dataType);
+        Object currentValue = pis.readAs(dataType);
         FormFlag formFlag = FormFlag.valueOf((byte) pis.read());
 
         RangeForm<Object> rangeForm;
@@ -133,29 +133,10 @@ public class DevicePropDesc<T> {
         }
     }
 
-    private static Object readAs(DataType dataType, PtpInputStream pis) throws IOException {
-        switch (dataType) {
-            case UINT8:
-                return pis.read();
-            case INT16:
-                return pis.readINT16();
-            case UINT16:
-                return pis.readUINT16();
-            case UINT32:
-                return pis.readUINT32();
-            case UINT64:
-                return pis.readUINT64();
-            case STR:
-                return pis.readString();
-            default:
-                throw new RuntimeException(dataType + " is not supported.");
-        }
-    }
-
     private static RangeForm<Object> readRangeForm(DataType dataType, PtpInputStream pis) throws IOException {
-        Object minValue = readAs(dataType, pis);
-        Object maxValue = readAs(dataType, pis);
-        Object stepSize = readAs(dataType, pis);
+        Object minValue = pis.readAs(dataType);
+        Object maxValue = pis.readAs(dataType);
+        Object stepSize = pis.readAs(dataType);
 
         return new RangeForm<>(minValue, maxValue, stepSize);
     }
@@ -165,7 +146,7 @@ public class DevicePropDesc<T> {
 
         List<? super Object> enumForm = new ArrayList<>();
         for (int i = 0; i < numOfValues; i++) {
-            enumForm.add(readAs(dataType, pis));
+            enumForm.add(pis.readAs(dataType));
         }
 
         return Collections.unmodifiableList(enumForm);
