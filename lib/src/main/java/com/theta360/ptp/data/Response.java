@@ -2,6 +2,7 @@ package com.theta360.ptp.data;
 
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
+import com.theta360.util.Validators;
 
 public class Response {
     private final UINT16 responseCode;
@@ -12,6 +13,15 @@ public class Response {
     // Constructor
 
     public Response(UINT16 responseCode, UINT32 sessionID, UINT32 transactionID, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) {
+        Validators.validateNonNull("responseCode", responseCode);
+        Validators.validateNonNull("sessionID", sessionID);
+        Validators.validateNonNull("transactionID", transactionID);
+        Validators.validateNonNull("p1", p1);
+        Validators.validateNonNull("p2", p2);
+        Validators.validateNonNull("p3", p3);
+        Validators.validateNonNull("p4", p4);
+        Validators.validateNonNull("p5", p5);
+
         this.responseCode = responseCode;
         this.sessionID = sessionID;
         this.transactionID = transactionID;
