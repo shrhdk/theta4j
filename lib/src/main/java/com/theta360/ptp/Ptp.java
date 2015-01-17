@@ -183,7 +183,7 @@ public interface Ptp extends Closeable {
 
     // Responses
 
-    void receiveOperationResponse() throws IOException, PtpException;
+    void checkOperationResponse() throws IOException, PtpException;
 
     // Data
 
