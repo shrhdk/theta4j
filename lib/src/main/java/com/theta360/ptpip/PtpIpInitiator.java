@@ -4,15 +4,14 @@ import com.theta360.ptp.AbstractPtp;
 import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpException;
 import com.theta360.ptp.code.Code;
-import com.theta360.ptp.code.OperationCode;
 import com.theta360.ptp.code.ResponseCode;
 import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.data.ProtocolVersions;
 import com.theta360.ptp.data.TransactionID;
-import com.theta360.ptpip.io.PacketInputStream;
-import com.theta360.ptpip.io.PacketOutputStream;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
+import com.theta360.ptpip.io.PacketInputStream;
+import com.theta360.ptpip.io.PacketOutputStream;
 import com.theta360.ptpip.packet.*;
 import com.theta360.util.Validators;
 import org.slf4j.Logger;
@@ -185,34 +184,13 @@ public class PtpIpInitiator extends AbstractPtp {
     }
 
     @Override
-    public void receiveData(OutputStream dst) throws IOException, PtpException {
-        ci.readData(dst);
-    }
-
-    @Override
-    public void writeData(byte[] data) throws IOException {
+    public void sendData(byte[] data) throws IOException {
         co.writeData(transactionID.next(), data);
     }
 
     @Override
-    public byte[] getDevicePropValue(Code<UINT16> devicePropCode) throws IOException, PtpException {
-        Validators.validateNonNull("devicePropCode", devicePropCode);
-
-        sendOperationRequest(OperationCode.GET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
-        byte[] value = ci.readData();
-        receiveOperationResponse();
-
-        return value;
-    }
-
-    @Override
-    public void setDevicePropValue(Code<UINT16> devicePropCode, byte[] value) throws IOException, PtpException {
-        Validators.validateNonNull("devicePropCode", devicePropCode);
-        Validators.validateNonNull("value", value);
-
-        sendOperationRequest(OperationCode.SET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
-        co.writeData(transactionID.next(), value);
-        receiveOperationResponse();
+    public void receiveData(OutputStream dst) throws IOException, PtpException {
+        ci.readData(dst);
     }
 
     // Listener

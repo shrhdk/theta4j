@@ -174,6 +174,17 @@ public abstract class AbstractPtp implements Ptp {
     }
 
     @Override
+    public byte[] getDevicePropValue(Code<UINT16> devicePropCode) throws IOException, PtpException {
+        Validators.validateNonNull("devicePropCode", devicePropCode);
+
+        sendOperationRequest(OperationCode.GET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
+        byte[] value = receiveData();
+        receiveOperationResponse();
+
+        return value;
+    }
+
+    @Override
     public byte getDevicePropValueAsUINT8(Code<UINT16> devicePropCode) throws IOException, PtpException {
         return getDevicePropValue(devicePropCode)[0];
     }
@@ -191,6 +202,16 @@ public abstract class AbstractPtp implements Ptp {
     @Override
     public String getDevicePropValueAsString(Code<UINT16> devicePropCode) throws IOException, PtpException {
         return STR.valueOf(getDevicePropValue(devicePropCode));
+    }
+
+    @Override
+    public void setDevicePropValue(Code<UINT16> devicePropCode, byte[] value) throws IOException, PtpException {
+        Validators.validateNonNull("devicePropCode", devicePropCode);
+        Validators.validateNonNull("value", value);
+
+        sendOperationRequest(OperationCode.SET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
+        sendData(value);
+        receiveOperationResponse();
     }
 
     @Override

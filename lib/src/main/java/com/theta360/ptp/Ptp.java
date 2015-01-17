@@ -1,7 +1,10 @@
 package com.theta360.ptp;
 
 import com.theta360.ptp.code.Code;
-import com.theta360.ptp.data.*;
+import com.theta360.ptp.data.DeviceInfo;
+import com.theta360.ptp.data.DevicePropDesc;
+import com.theta360.ptp.data.ObjectInfo;
+import com.theta360.ptp.data.StorageInfo;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 
@@ -184,11 +187,11 @@ public interface Ptp extends Closeable {
 
     // Data
 
+    void sendData(byte[] data) throws IOException;
+
     byte[] receiveData() throws IOException, PtpException;
 
     void receiveData(OutputStream dst) throws IOException, PtpException;
-
-    void writeData(byte[] data) throws IOException;
 
     // Listener
 
