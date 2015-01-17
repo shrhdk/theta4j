@@ -194,7 +194,19 @@ public interface Ptp extends Closeable {
 
     // Listener
 
+    /**
+     * Add the listener for PTP event.
+     *
+     * @param listener
+     * @return true if this initiator did not already contain the specified listener
+     */
     boolean addListener(PtpEventListener listener);
 
+    /**
+     * Remove the listener for PTP event.
+     *
+     * @param listener
+     * @return true if this initiator contained the specified listener
+     */
     boolean removeListener(PtpEventListener listener);
 }

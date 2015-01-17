@@ -1,8 +1,8 @@
-package com.theta360.ptpip;
+package com.theta360.ptp;
 
 import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.code.EventCode;
-import com.theta360.ptpip.packet.EventPacket;
+import com.theta360.ptp.data.Event;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public final class PtpIpEventListenerSet extends AbstractSet<PtpEventListener> implements PtpEventListener {
+public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> implements PtpEventListener {
     private final Set<PtpEventListener> listeners = new CopyOnWriteArraySet<>();
 
     @Override
@@ -179,13 +179,13 @@ public final class PtpIpEventListenerSet extends AbstractSet<PtpEventListener> i
         }
     }
 
-    public void onPacket(EventPacket eventPacket) {
-        Validators.validateNonNull("eventPacket", eventPacket);
+    public void raise(Event event) {
+        Validators.validateNonNull("event", event);
 
-        UINT16 eventCode = eventPacket.getEventCode();
-        UINT32 p1 = eventPacket.getP1();
-        UINT32 p2 = eventPacket.getP2();
-        UINT32 p3 = eventPacket.getP3();
+        UINT16 eventCode = event.getEventCode();
+        UINT32 p1 = event.getP1();
+        UINT32 p2 = event.getP2();
+        UINT32 p3 = event.getP3();
 
         if (eventCode.equals(EventCode.UNDEFINED.value())) {
             onError(new RuntimeException("Undefined Event Code: " + eventCode));
