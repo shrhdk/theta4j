@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.fail;
 
 @Category(IntegrationTest.class)
 public class CaptureTest {
@@ -45,7 +48,9 @@ public class CaptureTest {
         try (Theta theta = new Theta()) {
             theta.addListener(listener);
             theta.initiateCapture();
-            onObjectAdded.await();
+            if (!onObjectAdded.await(10, TimeUnit.SECONDS)) {
+                fail("onObjectAdded event is timed out.");
+            }
         }
         Thread.sleep(TestParameters.INTERVAL_MS);
     }
