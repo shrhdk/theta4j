@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * OutputStream of PTP-IP Packet.
+ * OutputStream of PTP-IP.
  */
-public final class PacketOutputStream implements Closeable {
+public final class PtpIpOutputStream implements Closeable {
     private final PtpOutputStream os;
 
     /**
@@ -21,7 +21,7 @@ public final class PacketOutputStream implements Closeable {
      *
      * @param os
      */
-    public PacketOutputStream(OutputStream os) {
+    public PtpIpOutputStream(OutputStream os) {
         this.os = new PtpOutputStream(os);
     }
 

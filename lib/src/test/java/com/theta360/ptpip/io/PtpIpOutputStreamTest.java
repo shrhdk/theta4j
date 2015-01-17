@@ -1,6 +1,6 @@
-package com.theta360.ptp.io;
+package com.theta360.ptpip.io;
 
-import com.theta360.ptpip.io.PacketOutputStream;
+import com.theta360.ptpip.io.PtpIpOutputStream;
 import com.theta360.ptpip.packet.EndDataPacket;
 import com.theta360.ptpip.packet.PtpIpPacket;
 import com.theta360.ptpip.packet.StartDataPacket;
@@ -20,14 +20,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 @Category(UnitTest.class)
-public class PacketOutputStreamTest {
+public class PtpIpOutputStreamTest {
     private ByteArrayOutputStream baos;
-    private PacketOutputStream pos;
+    private PtpIpOutputStream pos;
 
     @Before
     public void setUp() {
         baos = new ByteArrayOutputStream();
-        pos = new PacketOutputStream(baos);
+        pos = new PtpIpOutputStream(baos);
     }
 
     @After

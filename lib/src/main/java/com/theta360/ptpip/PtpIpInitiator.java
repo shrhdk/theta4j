@@ -8,8 +8,8 @@ import com.theta360.ptp.code.Code;
 import com.theta360.ptp.data.*;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.ptpip.io.PacketInputStream;
-import com.theta360.ptpip.io.PacketOutputStream;
+import com.theta360.ptpip.io.PtpIpInputStream;
+import com.theta360.ptpip.io.PtpIpOutputStream;
 import com.theta360.ptpip.packet.*;
 import com.theta360.util.Validators;
 import org.slf4j.Logger;
@@ -47,13 +47,13 @@ public class PtpIpInitiator extends AbstractPtp {
     // Command Data Connection
 
     private Socket commandDataConnection;
-    protected PacketInputStream ci;
-    protected PacketOutputStream co;
+    protected PtpIpInputStream ci;
+    protected PtpIpOutputStream co;
 
     // Event Connection
 
     private Socket eventConnection;
-    private PacketInputStream ei;
+    private PtpIpInputStream ei;
 
     // Connect
 
@@ -72,8 +72,8 @@ public class PtpIpInitiator extends AbstractPtp {
 
     private UINT32 establishCommandDataConnection() throws IOException {
         commandDataConnection = new Socket(host, port);
-        ci = new PacketInputStream(commandDataConnection.getInputStream());
-        co = new PacketOutputStream(commandDataConnection.getOutputStream());
+        ci = new PtpIpInputStream(commandDataConnection.getInputStream());
+        co = new PtpIpOutputStream(commandDataConnection.getOutputStream());
 
         InitCommandRequestPacket initCommandRequest = new InitCommandRequestPacket(guid, "test", ProtocolVersions.REV_1_0);
         co.write(initCommandRequest);
@@ -87,8 +87,8 @@ public class PtpIpInitiator extends AbstractPtp {
 
     private void establishEventConnection(UINT32 connectionNumber) throws IOException {
         eventConnection = new Socket(host, port);
-        ei = new PacketInputStream(eventConnection.getInputStream());
-        PacketOutputStream eo = new PacketOutputStream(eventConnection.getOutputStream());
+        ei = new PtpIpInputStream(eventConnection.getInputStream());
+        PtpIpOutputStream eo = new PtpIpOutputStream(eventConnection.getOutputStream());
 
         InitEventRequestPacket initEventRequest = new InitEventRequestPacket(connectionNumber);
         eo.write(initEventRequest);
