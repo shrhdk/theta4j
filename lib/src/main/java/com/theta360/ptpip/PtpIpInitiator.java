@@ -169,7 +169,7 @@ public class PtpIpInitiator extends AbstractPtp {
     }
 
     @Override
-    public void receiveOperationResponse() throws IOException, PtpException {
+    public void checkOperationResponse() throws IOException, PtpException {
         if (ci.nextType() != PtpIpPacket.Type.OPERATION_RESPONSE) {
             throw new RuntimeException("Expected OperationResponse but was " + ci.nextType());
         }

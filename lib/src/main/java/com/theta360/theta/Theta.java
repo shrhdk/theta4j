@@ -117,7 +117,7 @@ public final class Theta implements Closeable {
 
         ptp.sendOperationRequest(OperationCode.GET_RESIZED_IMAGE_OBJECT, objectHandle, new UINT32(2048), new UINT32(1024));
         ptp.receiveData(dst);
-        ptp.receiveOperationResponse();
+        ptp.checkOperationResponse();
     }
 
     /**
@@ -127,7 +127,7 @@ public final class Theta implements Closeable {
      */
     public void turnOffWLAN() throws IOException, PtpException {
         ptp.sendOperationRequest(OperationCode.WLAN_POWER_CONTROL);
-        ptp.receiveOperationResponse();
+        ptp.checkOperationResponse();
     }
 
     // Property
