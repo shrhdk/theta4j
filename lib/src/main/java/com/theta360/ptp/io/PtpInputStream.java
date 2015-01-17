@@ -94,17 +94,6 @@ public final class PtpInputStream extends InputStream {
         return STR.read(is);
     }
 
-    // PTP-IP Type
-
-    /**
-     * Read list of String from the stream as PTP-IP String.
-     *
-     * @throws IOException
-     */
-    public String readPtpIpString() throws IOException {
-        return PtpIpString.read(is);
-    }
-
     // InputStream
 
     @Override

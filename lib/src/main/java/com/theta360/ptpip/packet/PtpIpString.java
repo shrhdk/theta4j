@@ -1,5 +1,6 @@
-package com.theta360.ptp.type;
+package com.theta360.ptpip.packet;
 
+import com.theta360.ptp.type.UINT16;
 import com.theta360.util.Validators;
 
 import java.io.ByteArrayOutputStream;
@@ -10,7 +11,7 @@ import java.nio.charset.Charset;
 /**
  * Converter for java.lang.String and PTP-IP String
  */
-public class PtpIpString {
+class PtpIpString {
     /**
      * Minimum size of type in bytes.
      */

@@ -1,6 +1,5 @@
-package com.theta360.ptp.type;
+package com.theta360.ptpip.packet;
 
-import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -69,10 +68,10 @@ public class PtpIpStringTest {
         byte[] invalidNameBytes = new byte[]{0x01};  // Not end with 0x00
 
         // arrange
-        PtpInputStream pis = new PtpInputStream(new ByteArrayInputStream(invalidNameBytes));
+        InputStream pis = new ByteArrayInputStream(invalidNameBytes);
 
         // act
-        pis.readPtpIpString();
+        PtpIpString.read(pis);
     }
 
     // read
