@@ -1,5 +1,6 @@
 package com.theta360.ptp.io;
 
+import com.theta360.ptpip.io.PacketOutputStream;
 import com.theta360.ptpip.packet.EndDataPacket;
 import com.theta360.ptpip.packet.PtpIpPacket;
 import com.theta360.ptpip.packet.StartDataPacket;

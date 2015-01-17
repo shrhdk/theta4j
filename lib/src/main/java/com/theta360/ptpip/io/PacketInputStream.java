@@ -1,7 +1,8 @@
-package com.theta360.ptp.io;
+package com.theta360.ptpip.io;
 
 import com.theta360.ptp.PtpException;
 import com.theta360.ptp.code.ResponseCode;
+import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.ptpip.packet.*;
 import org.slf4j.Logger;
