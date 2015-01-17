@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 
 /**
- * InputStream of PTP-IP Packet.
+ * InputStream of PTP-IP.
  */
-public final class PacketInputStream implements Closeable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PacketInputStream.class);
+public final class PtpIpInputStream implements Closeable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInputStream.class);
 
     private final PtpInputStream pis;
 
@@ -23,7 +23,7 @@ public final class PacketInputStream implements Closeable {
      *
      * @param is
      */
-    public PacketInputStream(InputStream is) {
+    public PtpIpInputStream(InputStream is) {
         this.pis = new PtpInputStream(is);
     }
 
