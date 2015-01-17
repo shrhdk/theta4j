@@ -153,7 +153,7 @@ public class PtpIpInitiator extends AbstractPtp {
     // AbstractPtp
 
     @Override
-    public UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) throws IOException {
+    public UINT32 sendOperation(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) throws IOException {
         UINT32 transactionID = this.transactionID.next();
 
         OperationRequestPacket operationRequestPacket = new OperationRequestPacket(
@@ -169,7 +169,7 @@ public class PtpIpInitiator extends AbstractPtp {
     }
 
     @Override
-    public Response receiveOperationResponse() throws IOException {
+    public Response receiveResponse() throws IOException {
         if (ci.nextType() != PtpIpPacket.Type.OPERATION_RESPONSE) {
             throw new RuntimeException("Expected OperationResponse but was " + ci.nextType());
         }
