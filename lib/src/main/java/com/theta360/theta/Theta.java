@@ -1,13 +1,13 @@
 package com.theta360.theta;
 
 import com.theta360.ptp.Ptp;
+import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpException;
 import com.theta360.ptp.data.DeviceInfo;
 import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.data.ObjectInfo;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.ptpip.PtpIpEventListenerSet;
 import com.theta360.ptpip.PtpIpInitiator;
 import com.theta360.theta.code.DevicePropCode;
 import com.theta360.theta.code.OperationCode;
@@ -33,16 +33,36 @@ public final class Theta implements Closeable {
     private static final int TCP_PORT = 15740;
 
     private final Ptp ptp;
-    private final PtpIpEventListenerSet listenerSet = new PtpIpEventListenerSet();
+    private final ThetaEventListenerSet listenerSet = new ThetaEventListenerSet();
 
     public Theta() throws IOException {
         GUID guid = new GUID(UUID.randomUUID());
         ptp = new PtpIpInitiator(guid, IP_ADDRESS, TCP_PORT);
 
-        ptp.addListener(new ThetaEventListener() {
+        ptp.addListener(new PtpEventListener() {
+            @Override
+            public void onCancelTransaction() {
+                LOGGER.warn("Unsupported Event: CancelTransaction");
+            }
+
             @Override
             public void onObjectAdded(UINT32 objectHandle) {
                 listenerSet.onObjectAdded(objectHandle);
+            }
+
+            @Override
+            public void onObjectRemoved(UINT32 objectHandle) {
+                LOGGER.warn("Unsupported Event: ObjectRemoved");
+            }
+
+            @Override
+            public void onStoreAdded(UINT32 storageID) {
+                LOGGER.warn("Unsupported Event: StoreAdded");
+            }
+
+            @Override
+            public void onStoreRemoved(UINT32 storageID) {
+                LOGGER.warn("Unsupported Event: StoreRemoved");
             }
 
             @Override
@@ -51,13 +71,53 @@ public final class Theta implements Closeable {
             }
 
             @Override
+            public void onObjectInfoChanged(UINT32 objectHandle) {
+                LOGGER.warn("Unsupported Event: ObjectInfoChanged");
+            }
+
+            @Override
+            public void onDeviceInfoChanged() {
+                LOGGER.warn("Unsupported Event: DeviceInfoChanged");
+            }
+
+            @Override
+            public void onRequestObjectTransfer(UINT32 objectHandle) {
+                LOGGER.warn("Unsupported Event: RequestObjectTransfer");
+            }
+
+            @Override
             public void onStoreFull(UINT32 storageID) {
                 listenerSet.onStoreFull(storageID);
             }
 
             @Override
+            public void onDeviceReset() {
+                LOGGER.warn("Unsupported Event: DeviceReset");
+            }
+
+            @Override
+            public void onStorageInfoChanged(UINT32 storageID) {
+                LOGGER.warn("Unsupported Event: StorageInfoChanged");
+            }
+
+            @Override
             public void onCaptureComplete(UINT32 transactionID) {
                 listenerSet.onCaptureComplete(transactionID);
+            }
+
+            @Override
+            public void onUnreportedStatus() {
+                LOGGER.warn("Unsupported Event: UnreportedStatus");
+            }
+
+            @Override
+            public void onVendorExtendedCode(UINT16 eventCode, UINT32 p1, UINT32 p2, UINT32 p3) {
+                LOGGER.warn("Unsupported Event: VendorExtendedCode");
+            }
+
+            @Override
+            public void onError(Exception e) {
+                LOGGER.warn("Unsupported Event: Error");
             }
         });
 
@@ -338,6 +398,7 @@ public final class Theta implements Closeable {
     @Override
     public void close() throws IOException {
         listenerSet.clear();
+
         try {
             ptp.closeSession();
         } catch (PtpException e) {
