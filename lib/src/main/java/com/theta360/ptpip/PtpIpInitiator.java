@@ -4,9 +4,9 @@ import com.theta360.ptp.AbstractPtp;
 import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpException;
 import com.theta360.ptp.code.Code;
-import com.theta360.ptp.code.ResponseCode;
 import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.data.ProtocolVersions;
+import com.theta360.ptp.data.Response;
 import com.theta360.ptp.data.TransactionID;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
@@ -156,31 +156,36 @@ public class PtpIpInitiator extends AbstractPtp {
     public UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) throws IOException {
         UINT32 transactionID = this.transactionID.next();
 
-        OperationRequestPacket operationRequest = new OperationRequestPacket(
+        OperationRequestPacket operationRequestPacket = new OperationRequestPacket(
                 new UINT32(1),
                 code.value(),
                 transactionID,
                 p1, p2, p3, p4, p5
         );
-        co.write(operationRequest);
-        LOGGER.debug("Sent OperationRequest: " + operationRequest);
+        co.write(operationRequestPacket);
+        LOGGER.debug("Sent OperationRequest: " + operationRequestPacket);
 
         return transactionID;
     }
 
     @Override
-    public void checkOperationResponse() throws IOException, PtpException {
+    public Response receiveOperationResponse() throws IOException {
         if (ci.nextType() != PtpIpPacket.Type.OPERATION_RESPONSE) {
             throw new RuntimeException("Expected OperationResponse but was " + ci.nextType());
         }
 
-        OperationResponsePacket operationResponse = ci.readOperationResponsePacket();
+        OperationResponsePacket operationResponsePacket = ci.readOperationResponsePacket();
 
-        if (!operationResponse.getResponseCode().equals(ResponseCode.OK.value())) {
-            String message = "ResponseCode was not OK but was: " + operationResponse.getResponseCode();
-            throw new PtpException(operationResponse.getResponseCode().intValue(), message);
-        }
-        LOGGER.debug("Received OperationResponse: " + operationResponse);
+        return new Response(
+                operationResponsePacket.getResponseCode(),
+                sessionID,
+                operationResponsePacket.getTransactionID(),
+                operationResponsePacket.getP1(),
+                operationResponsePacket.getP2(),
+                operationResponsePacket.getP3(),
+                operationResponsePacket.getP4(),
+                operationResponsePacket.getP5()
+        );
     }
 
     @Override

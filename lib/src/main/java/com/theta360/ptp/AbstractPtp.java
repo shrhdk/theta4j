@@ -2,10 +2,8 @@ package com.theta360.ptp;
 
 import com.theta360.ptp.code.Code;
 import com.theta360.ptp.code.OperationCode;
-import com.theta360.ptp.data.DeviceInfo;
-import com.theta360.ptp.data.DevicePropDesc;
-import com.theta360.ptp.data.ObjectInfo;
-import com.theta360.ptp.data.StorageInfo;
+import com.theta360.ptp.code.ResponseCode;
+import com.theta360.ptp.data.*;
 import com.theta360.ptp.type.AUINT32;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT16;
@@ -18,6 +16,10 @@ import java.io.OutputStream;
 import java.util.List;
 
 public abstract class AbstractPtp implements Ptp {
+    // Property
+
+    protected UINT32 sessionID = UINT32.ZERO;
+
     // Operations (Base)
 
     @Override
@@ -66,12 +68,16 @@ public abstract class AbstractPtp implements Ptp {
 
         sendOperationRequest(OperationCode.OPEN_SESSION, sessionID);
         checkOperationResponse();
+
+        this.sessionID = sessionID;
     }
 
     @Override
     public void closeSession() throws IOException, PtpException {
         sendOperationRequest(OperationCode.CLOSE_SESSION);
         checkOperationResponse();
+
+        this.sessionID = UINT32.ZERO;
     }
 
     @Override
@@ -253,6 +259,17 @@ public abstract class AbstractPtp implements Ptp {
         return transactionID;
     }
 
+    // Responses
+
+    @Override
+    public void checkOperationResponse() throws IOException, PtpException {
+        Response operationResponse = receiveOperationResponse();
+
+        if (!operationResponse.getResponseCode().equals(ResponseCode.OK.value())) {
+            String message = "ResponseCode was not OK but was: " + operationResponse.getResponseCode();
+            throw new PtpException(operationResponse.getResponseCode().intValue(), message);
+        }
+    }
     // Data
 
     @Override
