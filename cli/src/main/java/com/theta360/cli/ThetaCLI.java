@@ -1,6 +1,5 @@
 package com.theta360.cli;
 
-import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpException;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.theta.Theta;
@@ -18,15 +17,13 @@ import java.util.concurrent.CountDownLatch;
 public final class ThetaCLI {
     private static final Logger LOGGER = LoggerFactory.getLogger(ThetaCLI.class);
 
-    private static final UINT32 SESSION_ID = new UINT32(1);
-
     private static UINT32 objectHandle;
     private static final CountDownLatch waitObjectAdded = new CountDownLatch(1);
 
     private ThetaCLI() {
     }
 
-    private static PtpEventListener listener = new ThetaEventListener() {
+    private static ThetaEventListener listener = new ThetaEventListener() {
         @Override
         public void onObjectAdded(UINT32 objectHandle) {
             LOGGER.info("onObjectAdded: " + objectHandle);
@@ -74,7 +71,6 @@ public final class ThetaCLI {
         try (Theta theta = new Theta()) {
             theta.addListener(listener);
             theta.getDeviceInfo();
-            theta.openSession(SESSION_ID);
 
             if (cmd.hasOption("t")) {
                 System.out.println(theta.getDateTime());

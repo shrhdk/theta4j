@@ -19,9 +19,8 @@ import java.util.List;
 @Category(IntegrationTest.class)
 public class GetObjectTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(GetObjectTest.class);
-    private static final UINT32 SESSION_ID = new UINT32(1);
 
-    private static PtpEventListener listener = new ThetaEventListener() {
+    private static ThetaEventListener listener = new ThetaEventListener() {
         @Override
         public void onObjectAdded(UINT32 objectHandle) {
             LOGGER.info("onObjectAdded: " + objectHandle);
@@ -49,12 +48,10 @@ public class GetObjectTest {
     public static void connect() throws IOException, PtpException {
         theta = new Theta();
         theta.addListener(listener);
-        theta.openSession(SESSION_ID);
     }
 
     @AfterClass
     public static void close() throws IOException, InterruptedException, PtpException {
-        theta.closeSession();
         theta.close();
         Thread.sleep(TestParameters.INTERVAL_MS);
     }

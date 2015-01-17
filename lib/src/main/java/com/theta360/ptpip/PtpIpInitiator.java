@@ -60,7 +60,7 @@ public class PtpIpInitiator extends AbstractPtp {
 
     // Connect
 
-    protected PtpIpInitiator(GUID guid, String host, int port) throws IOException {
+    public PtpIpInitiator(GUID guid, String host, int port) throws IOException {
         Validators.validateNonNull("guid", guid);
         Validators.validateNonNull("host", host);
 
