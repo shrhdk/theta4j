@@ -16,9 +16,13 @@ import java.io.OutputStream;
 import java.util.List;
 
 public abstract class AbstractPtp implements Ptp {
-    // Property
+    // Session ID
 
-    protected UINT32 sessionID = UINT32.ZERO;
+    private UINT32 sessionID = UINT32.ZERO;
+
+    protected UINT32 getSessionID() {
+        return sessionID;
+    }
 
     // Operations (Base)
 

@@ -2,12 +2,10 @@ package com.theta360.ptpip;
 
 import com.theta360.ptp.AbstractPtp;
 import com.theta360.ptp.PtpEventListener;
+import com.theta360.ptp.PtpEventListenerSet;
 import com.theta360.ptp.PtpException;
 import com.theta360.ptp.code.Code;
-import com.theta360.ptp.data.GUID;
-import com.theta360.ptp.data.ProtocolVersions;
-import com.theta360.ptp.data.Response;
-import com.theta360.ptp.data.TransactionID;
+import com.theta360.ptp.data.*;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.ptpip.io.PacketInputStream;
@@ -44,7 +42,7 @@ public class PtpIpInitiator extends AbstractPtp {
     // EventListener
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final PtpIpEventListenerSet listenerSet = new PtpIpEventListenerSet();
+    private final PtpEventListenerSet listenerSet = new PtpEventListenerSet();
 
     // Command Data Connection
 
@@ -126,7 +124,16 @@ public class PtpIpInitiator extends AbstractPtp {
                     executor.execute(new Runnable() {
                         @Override
                         public void run() {
-                            listenerSet.onPacket(eventPacket);
+                            Event event = new Event(
+                                    eventPacket.getEventCode(),
+                                    getSessionID(),
+                                    eventPacket.getTransactionID(),
+                                    eventPacket.getP1(),
+                                    eventPacket.getP2(),
+                                    eventPacket.getP3()
+                            );
+
+                            listenerSet.raise(event);
                         }
                     });
                 }
@@ -178,7 +185,7 @@ public class PtpIpInitiator extends AbstractPtp {
 
         return new Response(
                 operationResponsePacket.getResponseCode(),
-                sessionID,
+                getSessionID(),
                 operationResponsePacket.getTransactionID(),
                 operationResponsePacket.getP1(),
                 operationResponsePacket.getP2(),
@@ -200,22 +207,10 @@ public class PtpIpInitiator extends AbstractPtp {
 
     // Listener
 
-    /**
-     * Add the listener for PTP event.
-     *
-     * @param listener
-     * @return true if this initiator did not already contain the specified listener
-     */
     public final boolean addListener(PtpEventListener listener) {
         return listenerSet.add(listener);
     }
 
-    /**
-     * Remove the listener for PTP event.
-     *
-     * @param listener
-     * @return true if this initiator contained the specified listener
-     */
     public final boolean removeListener(PtpEventListener listener) {
         return listenerSet.remove(listener);
     }
