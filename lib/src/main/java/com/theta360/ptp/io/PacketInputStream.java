@@ -2,8 +2,8 @@ package com.theta360.ptp.io;
 
 import com.theta360.ptp.PtpException;
 import com.theta360.ptp.code.ResponseCode;
-import com.theta360.ptp.packet.*;
 import com.theta360.ptp.type.UINT32;
+import com.theta360.ptpip.packet.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -242,16 +242,6 @@ public final class PacketInputStream implements Closeable {
      * @throws IOException
      */
     public byte[] readData() throws IOException, PtpException {
-        if (nextType() == PtpIpPacket.Type.OPERATION_RESPONSE) {
-            OperationResponsePacket response = readOperationResponsePacket();
-
-            if (response.getResponseCode().equals(ResponseCode.OK.value())) {
-                throw new RuntimeException("Expected StartData but was OperationResponse(OK)");
-            } else {
-                throw new PtpException(response.getResponseCode().intValue());
-            }
-        }
-
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         readData(baos);
         return baos.toByteArray();
@@ -264,9 +254,15 @@ public final class PacketInputStream implements Closeable {
      * @throws RuntimeException if it is not Data Phase.
      * @throws IOException
      */
-    public void readData(OutputStream dst) throws IOException {
+    public void readData(OutputStream dst) throws IOException, PtpException {
         if (nextType() == PtpIpPacket.Type.OPERATION_RESPONSE) {
-            throw new RuntimeException("Expected Data or EndData but was OperationResponse: " + readOperationResponsePacket());
+            OperationResponsePacket response = readOperationResponsePacket();
+
+            if (response.getResponseCode().equals(ResponseCode.OK.value())) {
+                throw new RuntimeException("Expected StartData but was OperationResponse(OK)");
+            } else {
+                throw new PtpException(response.getResponseCode().intValue());
+            }
         }
 
         readStartDataPacket();

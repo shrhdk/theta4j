@@ -1,8 +1,8 @@
 package com.theta360.ptp.io;
 
-import com.theta360.ptp.packet.EndDataPacket;
-import com.theta360.ptp.packet.PtpIpPacket;
-import com.theta360.ptp.packet.StartDataPacket;
+import com.theta360.ptpip.packet.EndDataPacket;
+import com.theta360.ptpip.packet.PtpIpPacket;
+import com.theta360.ptpip.packet.StartDataPacket;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.ptp.type.UINT64;
 import com.theta360.test.categories.UnitTest;

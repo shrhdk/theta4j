@@ -1,7 +1,7 @@
 package com.theta360.theta;
 
 import com.theta360.ptp.PtpException;
-import com.theta360.ptp.PtpInitiator;
+import com.theta360.ptpip.PtpIpInitiator;
 import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-public final class Theta extends PtpInitiator {
+public final class Theta extends PtpIpInitiator {
     private static final Logger LOGGER = LoggerFactory.getLogger(Theta.class);
 
     private static final String IP_ADDRESS = "192.168.1.1";
