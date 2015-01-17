@@ -1,6 +1,5 @@
 package com.theta360.theta;
 
-import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpException;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
@@ -15,11 +14,10 @@ import java.util.concurrent.CountDownLatch;
 @Category(IntegrationTest.class)
 public class CaptureTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(CaptureTest.class);
-    private static final UINT32 SESSION_ID = new UINT32(1);
 
     private static final CountDownLatch onObjectAdded = new CountDownLatch(1);
 
-    private static PtpEventListener listener = new ThetaEventListener() {
+    private static ThetaEventListener listener = new ThetaEventListener() {
         @Override
         public void onObjectAdded(UINT32 objectHandle) {
             onObjectAdded.countDown();
@@ -44,13 +42,11 @@ public class CaptureTest {
 
     @Test
     public void initiateCapture() throws IOException, PtpException, InterruptedException {
-        Theta theta = new Theta();
-        theta.addListener(listener);
-        theta.openSession(SESSION_ID);
-        theta.initiateCapture();
-        onObjectAdded.await();
-        theta.closeSession();
-        theta.close();
+        try (Theta theta = new Theta()) {
+            theta.addListener(listener);
+            theta.initiateCapture();
+            onObjectAdded.await();
+        }
         Thread.sleep(TestParameters.INTERVAL_MS);
     }
 }

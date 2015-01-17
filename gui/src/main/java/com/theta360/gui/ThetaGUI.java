@@ -1,6 +1,5 @@
 package com.theta360.gui;
 
-import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpException;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.theta.Theta;
@@ -23,7 +22,7 @@ public class ThetaGUI extends JFrame {
         thetaGUI.setVisible(true);
     }
 
-    private static PtpEventListener listener = new ThetaEventListener() {
+    private static ThetaEventListener listener = new ThetaEventListener() {
         @Override
         public void onObjectAdded(UINT32 objectHandle) {
             LOGGER.info("onObjectAdded: " + objectHandle);
@@ -51,14 +50,10 @@ public class ThetaGUI extends JFrame {
             addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent event) {
-                    try {
-                        Theta theta = new Theta();
+                    try (Theta theta = new Theta()) {
                         theta.addListener(listener);
                         theta.getDeviceInfo();
-                        theta.openSession(SESSION_ID);
                         theta.initiateCapture();
-                        theta.closeSession();
-                        theta.close();
                     } catch (IOException | PtpException e) {
                         LOGGER.error(e.getMessage(), e);
                     }

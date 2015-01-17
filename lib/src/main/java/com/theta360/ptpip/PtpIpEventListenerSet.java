@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-final class PtpIpEventListenerSet extends AbstractSet<PtpEventListener> implements PtpEventListener {
+public final class PtpIpEventListenerSet extends AbstractSet<PtpEventListener> implements PtpEventListener {
     private final Set<PtpEventListener> listeners = new CopyOnWriteArraySet<>();
 
     @Override
