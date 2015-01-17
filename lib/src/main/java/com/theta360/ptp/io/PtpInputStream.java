@@ -94,6 +94,31 @@ public final class PtpInputStream extends InputStream {
         return STR.read(is);
     }
 
+    /**
+     * Read data as DataType of specified code.
+     *
+     * @param dataType
+     * @throws IOException
+     */
+    public Object readAs(DataType dataType) throws IOException {
+        switch (dataType) {
+            case UINT8:
+                return read();
+            case INT16:
+                return readINT16();
+            case UINT16:
+                return readUINT16();
+            case UINT32:
+                return readUINT32();
+            case UINT64:
+                return readUINT64();
+            case STR:
+                return readString();
+            default:
+                throw new RuntimeException(dataType + " is not supported.");
+        }
+    }
+
     // InputStream
 
     @Override
