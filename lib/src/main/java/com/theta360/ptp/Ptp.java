@@ -13,17 +13,17 @@ import java.util.List;
 public interface Ptp extends Closeable {
     // Operation (Base)
 
-    UINT32 sendOperationRequest(Code<UINT16> code) throws IOException;
+    UINT32 sendOperation(Code<UINT16> code) throws IOException;
 
-    UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1) throws IOException;
+    UINT32 sendOperation(Code<UINT16> code, UINT32 p1) throws IOException;
 
-    UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2) throws IOException;
+    UINT32 sendOperation(Code<UINT16> code, UINT32 p1, UINT32 p2) throws IOException;
 
-    UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3) throws IOException;
+    UINT32 sendOperation(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3) throws IOException;
 
-    UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4) throws IOException;
+    UINT32 sendOperation(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4) throws IOException;
 
-    UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) throws IOException;
+    UINT32 sendOperation(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) throws IOException;
 
     // Operations
 
@@ -180,9 +180,9 @@ public interface Ptp extends Closeable {
 
     // Responses
 
-    Response receiveOperationResponse() throws IOException;
+    Response receiveResponse() throws IOException;
 
-    void checkOperationResponse() throws IOException, PtpException;
+    void checkResponse() throws IOException, PtpException;
 
     // Data
 

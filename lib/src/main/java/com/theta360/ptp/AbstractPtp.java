@@ -23,37 +23,37 @@ public abstract class AbstractPtp implements Ptp {
     // Operations (Base)
 
     @Override
-    public UINT32 sendOperationRequest(Code<UINT16> code) throws IOException {
-        return sendOperationRequest(code, UINT32.ZERO);
+    public UINT32 sendOperation(Code<UINT16> code) throws IOException {
+        return sendOperation(code, UINT32.ZERO);
     }
 
     @Override
-    public UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1) throws IOException {
-        return sendOperationRequest(code, p1, UINT32.ZERO);
+    public UINT32 sendOperation(Code<UINT16> code, UINT32 p1) throws IOException {
+        return sendOperation(code, p1, UINT32.ZERO);
     }
 
     @Override
-    public UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2) throws IOException {
-        return sendOperationRequest(code, p1, p2, UINT32.ZERO);
+    public UINT32 sendOperation(Code<UINT16> code, UINT32 p1, UINT32 p2) throws IOException {
+        return sendOperation(code, p1, p2, UINT32.ZERO);
     }
 
     @Override
-    public UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3) throws IOException {
-        return sendOperationRequest(code, p1, p2, p3, UINT32.ZERO);
+    public UINT32 sendOperation(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3) throws IOException {
+        return sendOperation(code, p1, p2, p3, UINT32.ZERO);
     }
 
     @Override
-    public UINT32 sendOperationRequest(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4) throws IOException {
-        return sendOperationRequest(code, p1, p2, p3, p4, UINT32.ZERO);
+    public UINT32 sendOperation(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4) throws IOException {
+        return sendOperation(code, p1, p2, p3, p4, UINT32.ZERO);
     }
 
     // Operations
 
     @Override
     public DeviceInfo getDeviceInfo() throws IOException, PtpException {
-        sendOperationRequest(OperationCode.GET_DEVICE_INFO);
+        sendOperation(OperationCode.GET_DEVICE_INFO);
         DeviceInfo deviceInfo = DeviceInfo.valueOf(receiveData());
-        checkOperationResponse();
+        checkResponse();
 
         return deviceInfo;
     }
@@ -66,25 +66,25 @@ public abstract class AbstractPtp implements Ptp {
             throw new IllegalArgumentException("sessionID must be non-zero.");
         }
 
-        sendOperationRequest(OperationCode.OPEN_SESSION, sessionID);
-        checkOperationResponse();
+        sendOperation(OperationCode.OPEN_SESSION, sessionID);
+        checkResponse();
 
         this.sessionID = sessionID;
     }
 
     @Override
     public void closeSession() throws IOException, PtpException {
-        sendOperationRequest(OperationCode.CLOSE_SESSION);
-        checkOperationResponse();
+        sendOperation(OperationCode.CLOSE_SESSION);
+        checkResponse();
 
         this.sessionID = UINT32.ZERO;
     }
 
     @Override
     public List<UINT32> getStorageIDs() throws IOException, PtpException {
-        sendOperationRequest(OperationCode.GET_STORAGE_IDS);
+        sendOperation(OperationCode.GET_STORAGE_IDS);
         List<UINT32> storageIDs = AUINT32.valueOf(receiveData());
-        checkOperationResponse();
+        checkResponse();
 
         return storageIDs;
     }
@@ -93,18 +93,18 @@ public abstract class AbstractPtp implements Ptp {
     public StorageInfo getStorageInfo(UINT32 storageID) throws IOException, PtpException {
         Validators.validateNonNull("storageID", storageID);
 
-        sendOperationRequest(OperationCode.GET_STORAGE_INFO, storageID);
+        sendOperation(OperationCode.GET_STORAGE_INFO, storageID);
         StorageInfo storageInfo = StorageInfo.valueOf(receiveData());
-        checkOperationResponse();
+        checkResponse();
 
         return storageInfo;
     }
 
     @Override
     public UINT32 getNumObjects() throws IOException, PtpException {
-        sendOperationRequest(OperationCode.GET_NUM_OBJECTS);
+        sendOperation(OperationCode.GET_NUM_OBJECTS);
         UINT32 numObjects = UINT32.valueOf(receiveData());
-        checkOperationResponse();
+        checkResponse();
 
         return numObjects;
     }
@@ -118,9 +118,9 @@ public abstract class AbstractPtp implements Ptp {
     public List<UINT32> getObjectHandles(UINT32 storageID) throws IOException, PtpException {
         Validators.validateNonNull("storageID", storageID);
 
-        sendOperationRequest(OperationCode.GET_OBJECT_HANDLES, storageID);
+        sendOperation(OperationCode.GET_OBJECT_HANDLES, storageID);
         List<UINT32> objectHandles = AUINT32.valueOf(receiveData());
-        checkOperationResponse();
+        checkResponse();
 
         return objectHandles;
     }
@@ -129,9 +129,9 @@ public abstract class AbstractPtp implements Ptp {
     public ObjectInfo getObjectInfo(UINT32 objectHandle) throws IOException, PtpException {
         Validators.validateNonNull("objectHandle", objectHandle);
 
-        sendOperationRequest(OperationCode.GET_OBJECT_INFO, objectHandle);
+        sendOperation(OperationCode.GET_OBJECT_INFO, objectHandle);
         ObjectInfo objectInfo = ObjectInfo.valueOf(receiveData());
-        checkOperationResponse();
+        checkResponse();
 
         return objectInfo;
     }
@@ -141,9 +141,9 @@ public abstract class AbstractPtp implements Ptp {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
 
-        sendOperationRequest(OperationCode.GET_OBJECT, objectHandle);
+        sendOperation(OperationCode.GET_OBJECT, objectHandle);
         receiveData(dst);
-        checkOperationResponse();
+        checkResponse();
     }
 
     @Override
@@ -151,30 +151,30 @@ public abstract class AbstractPtp implements Ptp {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
 
-        sendOperationRequest(OperationCode.GET_THUMB, objectHandle);
+        sendOperation(OperationCode.GET_THUMB, objectHandle);
         receiveData(dst);
-        checkOperationResponse();
+        checkResponse();
     }
 
     @Override
     public void deleteObject(UINT32 objectHandle) throws IOException, PtpException {
         Validators.validateNonNull("objectHandle", objectHandle);
 
-        sendOperationRequest(OperationCode.DELETE_OBJECT, objectHandle);
-        checkOperationResponse();
+        sendOperation(OperationCode.DELETE_OBJECT, objectHandle);
+        checkResponse();
     }
 
     @Override
     public void initiateCapture() throws IOException, PtpException {
-        sendOperationRequest(OperationCode.INITIATE_CAPTURE);
-        checkOperationResponse();
+        sendOperation(OperationCode.INITIATE_CAPTURE);
+        checkResponse();
     }
 
     @Override
     public DevicePropDesc<?> getDevicePropDesc(Code<UINT16> devicePropCode) throws IOException, PtpException {
-        sendOperationRequest(OperationCode.GET_DEVICE_PROP_DESC, new UINT32(devicePropCode.value().intValue()));
+        sendOperation(OperationCode.GET_DEVICE_PROP_DESC, new UINT32(devicePropCode.value().intValue()));
         DevicePropDesc<?> devicePropDesc = DevicePropDesc.valueOf(receiveData());
-        checkOperationResponse();
+        checkResponse();
 
         return devicePropDesc;
     }
@@ -183,9 +183,9 @@ public abstract class AbstractPtp implements Ptp {
     public byte[] getDevicePropValue(Code<UINT16> devicePropCode) throws IOException, PtpException {
         Validators.validateNonNull("devicePropCode", devicePropCode);
 
-        sendOperationRequest(OperationCode.GET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
+        sendOperation(OperationCode.GET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
         byte[] value = receiveData();
-        checkOperationResponse();
+        checkResponse();
 
         return value;
     }
@@ -215,9 +215,9 @@ public abstract class AbstractPtp implements Ptp {
         Validators.validateNonNull("devicePropCode", devicePropCode);
         Validators.validateNonNull("value", value);
 
-        sendOperationRequest(OperationCode.SET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
+        sendOperation(OperationCode.SET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
         sendData(value);
-        checkOperationResponse();
+        checkResponse();
     }
 
     @Override
@@ -247,14 +247,14 @@ public abstract class AbstractPtp implements Ptp {
 
     @Override
     public void terminateOpenCapture(UINT32 transactionID) throws IOException, PtpException {
-        sendOperationRequest(OperationCode.TERMINATE_OPEN_CAPTURE, transactionID);
-        checkOperationResponse();
+        sendOperation(OperationCode.TERMINATE_OPEN_CAPTURE, transactionID);
+        checkResponse();
     }
 
     @Override
     public UINT32 initiateOpenCapture() throws IOException, PtpException {
-        UINT32 transactionID = sendOperationRequest(OperationCode.INITIATE_OPEN_CAPTURER);
-        checkOperationResponse();
+        UINT32 transactionID = sendOperation(OperationCode.INITIATE_OPEN_CAPTURER);
+        checkResponse();
 
         return transactionID;
     }
@@ -262,8 +262,8 @@ public abstract class AbstractPtp implements Ptp {
     // Responses
 
     @Override
-    public void checkOperationResponse() throws IOException, PtpException {
-        Response operationResponse = receiveOperationResponse();
+    public void checkResponse() throws IOException, PtpException {
+        Response operationResponse = receiveResponse();
 
         if (!operationResponse.getResponseCode().equals(ResponseCode.OK.value())) {
             String message = "ResponseCode was not OK but was: " + operationResponse.getResponseCode();
