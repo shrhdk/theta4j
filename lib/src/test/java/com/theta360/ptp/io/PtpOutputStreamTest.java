@@ -1,6 +1,9 @@
 package com.theta360.ptp.io;
 
-import com.theta360.ptp.type.*;
+import com.theta360.ptp.type.STR;
+import com.theta360.ptp.type.UINT16;
+import com.theta360.ptp.type.UINT32;
+import com.theta360.ptp.type.UINT64;
 import com.theta360.test.categories.UnitTest;
 import org.junit.After;
 import org.junit.Before;
@@ -87,22 +90,6 @@ public class PtpOutputStreamTest {
 
         // act
         pos.write("test");
-        byte[] actual = baos.toByteArray();
-
-        // verify
-        assertThat(actual, is(expected));
-    }
-
-    @Test
-    public void writePtpIpString() throws IOException {
-        // given
-        String given = "test";
-
-        // expected
-        byte[] expected = PtpIpString.toBytes(given);
-
-        // act
-        pos.writePtpIpString("test");
         byte[] actual = baos.toByteArray();
 
         // verify

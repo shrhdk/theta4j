@@ -134,20 +134,4 @@ public class PtpInputStreamTest {
         // verify
         assertThat(actual, is(given));
     }
-
-    @Test
-    public void readPtpIpString() throws IOException {
-        // given
-        String given = "test";
-
-        // arrange
-        InputStream givenInputStream = new ByteArrayInputStream(PtpIpString.toBytes(given));
-        PtpInputStream pis = new PtpInputStream(givenInputStream);
-
-        // act
-        String actual = pis.readPtpIpString();
-
-        // verify
-        assertThat(actual, is(given));
-    }
 }

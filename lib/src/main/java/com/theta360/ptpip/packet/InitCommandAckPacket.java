@@ -2,7 +2,6 @@ package com.theta360.ptpip.packet;
 
 import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.io.PtpInputStream;
-import com.theta360.ptp.type.PtpIpString;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.ByteUtils;
@@ -73,7 +72,7 @@ public final class InitCommandAckPacket extends PtpIpPacket {
 
         UINT32 connectionNumber = pis.readUINT32();
         GUID guid = GUID.read(pis);
-        String name = pis.readPtpIpString();
+        String name = PtpIpString.read(pis);
         UINT32 protocolVersion = pis.readUINT32();
 
         return new InitCommandAckPacket(connectionNumber, guid, name, protocolVersion);
