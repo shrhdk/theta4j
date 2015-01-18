@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -29,7 +30,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
 
     // Property
 
-    private final GUID guid;
+    private final UUID guid;
     private final String host;
     private final int port;
 
@@ -57,7 +58,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
 
     // Connect
 
-    public PtpIpInitiator(GUID guid, String host, int port) throws IOException {
+    public PtpIpInitiator(UUID guid, String host, int port) throws IOException {
         Validators.validateNonNull("guid", guid);
         Validators.validateNonNull("host", host);
         Validators.validatePortNumber("port", port);
@@ -82,7 +83,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     }
 
     private UINT32 establishCommandDataConnection() throws IOException {
-        InitCommandRequestPacket initCommandRequest = new InitCommandRequestPacket(guid, "test", ProtocolVersions.REV_1_0);
+        InitCommandRequestPacket initCommandRequest = new InitCommandRequestPacket(new GUID(guid), "test", ProtocolVersions.REV_1_0);
         co.write(initCommandRequest);
         LOGGER.debug("Sent InitCommandRequest: " + initCommandRequest);
 
@@ -149,7 +150,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     /**
      * Get the GUID.
      */
-    public GUID getGUID() {
+    public UUID getGUID() {
         return guid;
     }
 

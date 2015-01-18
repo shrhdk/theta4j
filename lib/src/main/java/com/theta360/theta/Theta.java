@@ -1,10 +1,9 @@
 package com.theta360.theta;
 
-import com.theta360.ptp.PtpInitiator;
 import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpException;
+import com.theta360.ptp.PtpInitiator;
 import com.theta360.ptp.data.DeviceInfo;
-import com.theta360.ptp.data.GUID;
 import com.theta360.ptp.data.ObjectInfo;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
@@ -36,8 +35,7 @@ public final class Theta implements Closeable {
     private final ThetaEventListenerSet listenerSet = new ThetaEventListenerSet();
 
     public Theta() throws IOException {
-        GUID guid = new GUID(UUID.randomUUID());
-        ptpInitiator = new PtpIpInitiator(guid, IP_ADDRESS, TCP_PORT);
+        ptpInitiator = new PtpIpInitiator(UUID.randomUUID(), IP_ADDRESS, TCP_PORT);
 
         ptpInitiator.addListener(new PtpEventListener() {
             @Override
