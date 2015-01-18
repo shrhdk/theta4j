@@ -2,7 +2,8 @@ package com.theta360.ptpip;
 
 import com.theta360.ptp.*;
 import com.theta360.ptp.code.Code;
-import com.theta360.ptp.data.*;
+import com.theta360.ptp.data.Event;
+import com.theta360.ptp.data.Response;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.ptpip.io.PtpIpInputStream;

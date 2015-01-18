@@ -2,9 +2,6 @@ package com.theta360.ptp.code;
 
 import com.theta360.ptp.type.UINT16;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public enum ResponseCode implements Code<UINT16> {
     UNDEFINED(0x2000),
     OK(0x2001),

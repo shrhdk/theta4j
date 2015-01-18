@@ -30,7 +30,7 @@ public class PtpException extends Exception {
     }
 
     // Getter
-    
+
     public int getCode() {
         return code;
     }
