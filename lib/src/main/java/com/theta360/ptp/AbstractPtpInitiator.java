@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-public abstract class AbstractPtp implements Ptp {
+public abstract class AbstractPtpInitiator implements PtpInitiator {
     // Session ID
 
     private UINT32 sessionID = UINT32.ZERO;

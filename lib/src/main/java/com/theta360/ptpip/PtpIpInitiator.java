@@ -1,6 +1,6 @@
 package com.theta360.ptpip;
 
-import com.theta360.ptp.AbstractPtp;
+import com.theta360.ptp.AbstractPtpInitiator;
 import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpEventListenerSet;
 import com.theta360.ptp.PtpException;
@@ -24,7 +24,7 @@ import java.util.concurrent.Executors;
 /**
  * PTP Initiator implementation of PTP-IP
  */
-public final class PtpIpInitiator extends AbstractPtp {
+public final class PtpIpInitiator extends AbstractPtpInitiator {
     private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInitiator.class);
 
     // Property
