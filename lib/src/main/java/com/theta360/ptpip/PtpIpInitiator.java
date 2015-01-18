@@ -162,8 +162,8 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     // AbstractPtp
 
     @Override
-    public UINT32 sendOperation(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) throws IOException {
-        Validators.validateNonNull("code", code);
+    public UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) throws IOException {
+        Validators.validateNonNull("operationCode", operationCode);
         Validators.validateNonNull("p1", p1);
         Validators.validateNonNull("p2", p2);
         Validators.validateNonNull("p3", p3);
@@ -174,7 +174,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
 
         OperationRequestPacket operationRequestPacket = new OperationRequestPacket(
                 new UINT32(1),
-                code.value(),
+                operationCode.value(),
                 transactionID,
                 p1, p2, p3, p4, p5
         );

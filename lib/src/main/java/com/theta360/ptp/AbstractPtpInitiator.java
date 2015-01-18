@@ -27,28 +27,28 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     // Operations (Base)
 
     @Override
-    public UINT32 sendOperation(Code<UINT16> code) throws IOException {
-        return sendOperation(code, UINT32.ZERO);
+    public UINT32 sendOperation(Code<UINT16> operationCode) throws IOException {
+        return sendOperation(operationCode, UINT32.ZERO);
     }
 
     @Override
-    public UINT32 sendOperation(Code<UINT16> code, UINT32 p1) throws IOException {
-        return sendOperation(code, p1, UINT32.ZERO);
+    public UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1) throws IOException {
+        return sendOperation(operationCode, p1, UINT32.ZERO);
     }
 
     @Override
-    public UINT32 sendOperation(Code<UINT16> code, UINT32 p1, UINT32 p2) throws IOException {
-        return sendOperation(code, p1, p2, UINT32.ZERO);
+    public UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1, UINT32 p2) throws IOException {
+        return sendOperation(operationCode, p1, p2, UINT32.ZERO);
     }
 
     @Override
-    public UINT32 sendOperation(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3) throws IOException {
-        return sendOperation(code, p1, p2, p3, UINT32.ZERO);
+    public UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1, UINT32 p2, UINT32 p3) throws IOException {
+        return sendOperation(operationCode, p1, p2, p3, UINT32.ZERO);
     }
 
     @Override
-    public UINT32 sendOperation(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4) throws IOException {
-        return sendOperation(code, p1, p2, p3, p4, UINT32.ZERO);
+    public UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4) throws IOException {
+        return sendOperation(operationCode, p1, p2, p3, p4, UINT32.ZERO);
     }
 
     // Operations
