@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-public interface Ptp extends Closeable {
+public interface PtpInitiator extends Closeable {
     // Operation (Base)
 
     UINT32 sendOperation(Code<UINT16> code) throws IOException;
