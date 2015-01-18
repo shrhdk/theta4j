@@ -1,6 +1,5 @@
-package com.theta360.data;
+package com.theta360.ptp.data;
 
-import com.theta360.ptp.data.TransactionID;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
