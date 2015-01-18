@@ -1,11 +1,11 @@
-package com.theta360.ptp.data;
+package com.theta360.ptpip;
 
 import com.theta360.ptp.type.UINT32;
 
 /**
  * The protocol version list of PTP-IP
  */
-public class ProtocolVersions {
+class ProtocolVersions {
     private ProtocolVersions() {
     }
 

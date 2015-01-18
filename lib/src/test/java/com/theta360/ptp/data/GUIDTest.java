@@ -1,5 +1,6 @@
 package com.theta360.ptp.data;
 
+import com.theta360.ptpip.GUID;
 import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;

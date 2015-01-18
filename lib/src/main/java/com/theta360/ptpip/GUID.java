@@ -1,4 +1,4 @@
-package com.theta360.ptp.data;
+package com.theta360.ptpip;
 
 import com.theta360.ptp.io.PtpInputStream;
 
