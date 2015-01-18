@@ -22,10 +22,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * This test requires manual execution.
- * Execute after connection with RICOH THETA is established.
+ * PTP Initiator implementation of PTP-IP
  */
-public class PtpIpInitiator extends AbstractPtp {
+public final class PtpIpInitiator extends AbstractPtp {
     private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInitiator.class);
 
     // Property
@@ -37,7 +36,7 @@ public class PtpIpInitiator extends AbstractPtp {
     // State
 
     private volatile boolean isClosed = false;
-    protected TransactionID transactionID = new TransactionID();
+    private final TransactionID transactionID = new TransactionID();
 
     // EventListener
 
@@ -46,14 +45,15 @@ public class PtpIpInitiator extends AbstractPtp {
 
     // Command Data Connection
 
-    private Socket commandDataConnection;
-    protected PtpIpInputStream ci;
-    protected PtpIpOutputStream co;
+    private final Socket commandDataConnection;
+    private final PtpIpInputStream ci;
+    private final PtpIpOutputStream co;
 
     // Event Connection
 
-    private Socket eventConnection;
-    private PtpIpInputStream ei;
+    private final Socket eventConnection;
+    private final PtpIpInputStream ei;
+    private final PtpIpOutputStream eo;
 
     // Connect
 
@@ -65,16 +65,22 @@ public class PtpIpInitiator extends AbstractPtp {
         this.host = host;
         this.port = port;
 
+        // Establish Command Data Connection
+        this.commandDataConnection = new Socket(host, port);
+        this.ci = new PtpIpInputStream(commandDataConnection.getInputStream());
+        this.co = new PtpIpOutputStream(commandDataConnection.getOutputStream());
         UINT32 connectionNumber = establishCommandDataConnection();
+
+        // Establish Event Connection
+        this.eventConnection = new Socket(host, port);
+        this.ei = new PtpIpInputStream(eventConnection.getInputStream());
+        this.eo = new PtpIpOutputStream(eventConnection.getOutputStream());
         establishEventConnection(connectionNumber);
+
         startEventHandlerThread();
     }
 
     private UINT32 establishCommandDataConnection() throws IOException {
-        commandDataConnection = new Socket(host, port);
-        ci = new PtpIpInputStream(commandDataConnection.getInputStream());
-        co = new PtpIpOutputStream(commandDataConnection.getOutputStream());
-
         InitCommandRequestPacket initCommandRequest = new InitCommandRequestPacket(guid, "test", ProtocolVersions.REV_1_0);
         co.write(initCommandRequest);
         LOGGER.debug("Sent InitCommandRequest: " + initCommandRequest);
@@ -86,10 +92,6 @@ public class PtpIpInitiator extends AbstractPtp {
     }
 
     private void establishEventConnection(UINT32 connectionNumber) throws IOException {
-        eventConnection = new Socket(host, port);
-        ei = new PtpIpInputStream(eventConnection.getInputStream());
-        PtpIpOutputStream eo = new PtpIpOutputStream(eventConnection.getOutputStream());
-
         InitEventRequestPacket initEventRequest = new InitEventRequestPacket(connectionNumber);
         eo.write(initEventRequest);
         LOGGER.debug("Sent InitEventRequest: " + initEventRequest);
@@ -161,6 +163,13 @@ public class PtpIpInitiator extends AbstractPtp {
 
     @Override
     public UINT32 sendOperation(Code<UINT16> code, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) throws IOException {
+        Validators.validateNonNull("code", code);
+        Validators.validateNonNull("p1", p1);
+        Validators.validateNonNull("p2", p2);
+        Validators.validateNonNull("p3", p3);
+        Validators.validateNonNull("p4", p4);
+        Validators.validateNonNull("p5", p5);
+
         UINT32 transactionID = this.transactionID.next();
 
         OperationRequestPacket operationRequestPacket = new OperationRequestPacket(
@@ -197,21 +206,29 @@ public class PtpIpInitiator extends AbstractPtp {
 
     @Override
     public void sendData(byte[] data) throws IOException {
+        Validators.validateNonNull("data", data);
+
         co.writeData(transactionID.next(), data);
     }
 
     @Override
     public void receiveData(OutputStream dst) throws IOException, PtpException {
+        Validators.validateNonNull("dst", dst);
+
         ci.readData(dst);
     }
 
     // Listener
 
     public final boolean addListener(PtpEventListener listener) {
+        Validators.validateNonNull("listener", listener);
+
         return listenerSet.add(listener);
     }
 
     public final boolean removeListener(PtpEventListener listener) {
+        Validators.validateNonNull("listener", listener);
+
         return listenerSet.remove(listener);
     }
 
