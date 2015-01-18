@@ -3,11 +3,11 @@ package com.theta360.ptpip.packet;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.ptpip.GUID;
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
 
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * InitCommandAck Packet defined in PTP-IP
@@ -16,13 +16,13 @@ public final class InitCommandAckPacket extends PtpIpPacket {
     private static final int MIN_SIZE = UINT32.SIZE + GUID.SIZE + STR.MIN_SIZE + UINT32.SIZE;
 
     private final UINT32 connectionNumber;
-    private final GUID guid;
+    private final UUID guid;
     private final String name;
     private final UINT32 protocolVersion;
 
     // Constructor
 
-    public InitCommandAckPacket(UINT32 connectionNumber, GUID guid, String name, UINT32 protocolVersion) {
+    public InitCommandAckPacket(UINT32 connectionNumber, UUID guid, String name, UINT32 protocolVersion) {
         super(Type.INIT_COMMAND_ACK);
 
         Validators.validateNonNull("connectionNumber", connectionNumber);
@@ -36,7 +36,7 @@ public final class InitCommandAckPacket extends PtpIpPacket {
         this.protocolVersion = protocolVersion;
         super.payload = ByteUtils.join(
                 connectionNumber.bytes(),
-                guid.bytes(),
+                GUID.toBytes(guid),
                 PtpIpString.toBytes(name),
                 protocolVersion.bytes()
         );
@@ -48,7 +48,7 @@ public final class InitCommandAckPacket extends PtpIpPacket {
         return connectionNumber;
     }
 
-    public GUID getGUID() {
+    public UUID getGUID() {
         return guid;
     }
 
@@ -71,7 +71,7 @@ public final class InitCommandAckPacket extends PtpIpPacket {
         PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
 
         UINT32 connectionNumber = pis.readUINT32();
-        GUID guid = GUID.read(pis);
+        UUID guid = GUID.read(pis);
         String name = PtpIpString.read(pis);
         UINT32 protocolVersion = pis.readUINT32();
 

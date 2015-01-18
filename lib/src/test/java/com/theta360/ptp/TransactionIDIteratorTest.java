@@ -1,4 +1,4 @@
-package com.theta360.ptp.data;
+package com.theta360.ptp;
 
 import com.theta360.ptp.TransactionIDIterator;
 import org.junit.Test;
