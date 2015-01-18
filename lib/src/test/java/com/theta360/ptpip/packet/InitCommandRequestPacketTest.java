@@ -1,9 +1,9 @@
 package com.theta360.ptpip.packet;
 
-import com.theta360.ptpip.GUID;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
+import com.theta360.ptpip.GUID;
 import com.theta360.test.categories.UnitTest;
 import com.theta360.util.ByteUtils;
 import org.junit.Test;

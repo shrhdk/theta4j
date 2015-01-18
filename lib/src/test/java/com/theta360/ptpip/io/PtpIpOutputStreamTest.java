@@ -1,11 +1,10 @@
 package com.theta360.ptpip.io;
 
-import com.theta360.ptpip.io.PtpIpOutputStream;
+import com.theta360.ptp.type.UINT32;
+import com.theta360.ptp.type.UINT64;
 import com.theta360.ptpip.packet.EndDataPacket;
 import com.theta360.ptpip.packet.PtpIpPacket;
 import com.theta360.ptpip.packet.StartDataPacket;
-import com.theta360.ptp.type.UINT32;
-import com.theta360.ptp.type.UINT64;
 import com.theta360.test.categories.UnitTest;
 import com.theta360.util.ByteUtils;
 import org.junit.After;

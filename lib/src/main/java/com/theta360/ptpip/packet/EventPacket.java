@@ -1,6 +1,5 @@
 package com.theta360.ptpip.packet;
 
-import com.theta360.ptp.data.Event;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;

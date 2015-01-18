@@ -1,6 +1,5 @@
 package com.theta360.ptp;
 
-import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.code.EventCode;
 import com.theta360.ptp.data.Event;
 import com.theta360.ptp.type.UINT16;
