@@ -11,7 +11,7 @@ import java.nio.charset.Charset;
 /**
  * Converter for java.lang.String and PTP-IP String
  */
-class PtpIpString {
+final class PtpIpString {
     /**
      * Minimum size of type in bytes.
      */

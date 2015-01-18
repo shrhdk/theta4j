@@ -81,7 +81,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     }
 
     private UINT32 establishCommandDataConnection() throws IOException {
-        InitCommandRequestPacket initCommandRequest = new InitCommandRequestPacket(new GUID(guid), "test", ProtocolVersions.REV_1_0);
+        InitCommandRequestPacket initCommandRequest = new InitCommandRequestPacket(guid, "test", ProtocolVersions.REV_1_0);
         co.write(initCommandRequest);
         LOGGER.debug("Sent InitCommandRequest: " + initCommandRequest);
 

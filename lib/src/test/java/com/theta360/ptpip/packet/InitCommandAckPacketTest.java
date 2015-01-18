@@ -3,7 +3,6 @@ package com.theta360.ptpip.packet;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.ptpip.GUID;
 import com.theta360.test.categories.UnitTest;
 import com.theta360.util.ByteUtils;
 import org.junit.Test;
@@ -11,6 +10,7 @@ import org.junit.experimental.categories.Category;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_ACK;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
@@ -21,10 +21,7 @@ import static org.junit.Assert.assertThat;
 public class InitCommandAckPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE + GUID.SIZE + STR.MIN_SIZE + UINT32.SIZE];
     private static final UINT32 CONNECTION_NUMBER = new UINT32(0x00112233);
-    private static final GUID GUID_ = new GUID(
-            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
-    );
+    private static final UUID GUID_ = UUID.randomUUID();
     private static final UINT32 PROTOCOL_VERSION = new UINT32(0x00112233);
 
     // Constructor with error
@@ -63,7 +60,7 @@ public class InitCommandAckPacketTest {
         // expected
         byte[] expectedPayload = ByteUtils.join(
                 CONNECTION_NUMBER.bytes(),
-                GUID_.bytes(),
+                GUID.toBytes(GUID_),
                 PtpIpString.toBytes(givenName),
                 PROTOCOL_VERSION.bytes());
 
@@ -87,7 +84,7 @@ public class InitCommandAckPacketTest {
         // expected
         byte[] expectedPayload = ByteUtils.join(
                 CONNECTION_NUMBER.bytes(),
-                GUID_.bytes(),
+                GUID.toBytes(GUID_),
                 PtpIpString.toBytes(givenName),
                 PROTOCOL_VERSION.bytes());
 
@@ -145,7 +142,7 @@ public class InitCommandAckPacketTest {
         String givenName = "test";
         byte[] givenPayload = ByteUtils.join(
                 CONNECTION_NUMBER.bytes(),
-                GUID_.bytes(),
+                GUID.toBytes(GUID_),
                 PtpIpString.toBytes(givenName),
                 PROTOCOL_VERSION.bytes());
 
