@@ -16,4 +16,11 @@ public final class Validators {
             throw new IllegalArgumentException(message);
         }
     }
+
+    public static void validatePortNumber(String name, int port) {
+        if (port < 0 || 65535 < port) {
+            String message = String.format("TCP or UDP port number must be in 0-65535, but was %d.", port);
+            throw new IllegalArgumentException(message);
+        }
+    }
 }

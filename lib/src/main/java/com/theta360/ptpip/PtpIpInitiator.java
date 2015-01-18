@@ -60,6 +60,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     public PtpIpInitiator(GUID guid, String host, int port) throws IOException {
         Validators.validateNonNull("guid", guid);
         Validators.validateNonNull("host", host);
+        Validators.validatePortNumber("port", port);
 
         this.guid = guid;
         this.host = host;
@@ -144,6 +145,13 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     }
 
     // Getter
+
+    /**
+     * Get the GUID.
+     */
+    public GUID getGUID() {
+        return guid;
+    }
 
     /**
      * Get the host of responder which the initiator is connecting.
