@@ -36,7 +36,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     // State
 
     private volatile boolean isClosed = false;
-    private final TransactionID transactionID = new TransactionID();
+    private final TransactionIDIterator transactionIDIterator = new TransactionIDIterator();
 
     // EventListener
 
@@ -170,7 +170,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
         Validators.validateNonNull("p4", p4);
         Validators.validateNonNull("p5", p5);
 
-        UINT32 transactionID = this.transactionID.next();
+        UINT32 transactionID = transactionIDIterator.next();
 
         OperationRequestPacket operationRequestPacket = new OperationRequestPacket(
                 new UINT32(1),
@@ -208,7 +208,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     public void sendData(byte[] data) throws IOException {
         Validators.validateNonNull("data", data);
 
-        co.writeData(transactionID.next(), data);
+        co.writeData(transactionIDIterator.next(), data);
     }
 
     @Override

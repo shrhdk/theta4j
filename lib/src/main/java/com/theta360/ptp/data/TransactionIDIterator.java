@@ -7,7 +7,7 @@ import java.util.Iterator;
 /**
  * Iterator of Transaction ID for PTP-IP Packet
  */
-public final class TransactionID implements Iterator<UINT32> {
+public final class TransactionIDIterator implements Iterator<UINT32> {
     private long current = 0;
 
     /**
