@@ -270,7 +270,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
         Response operationResponse = receiveResponse();
 
         if (!operationResponse.getResponseCode().equals(ResponseCode.OK.value())) {
-            String message = "ResponseCode was not OK but was: " + operationResponse.getResponseCode();
+            String message = "ResponseCode was not OK: " + operationResponse.getResponseCode();
             throw new PtpException(operationResponse.getResponseCode().intValue(), message);
         }
     }
