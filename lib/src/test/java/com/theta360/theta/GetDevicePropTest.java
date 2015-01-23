@@ -110,8 +110,8 @@ public class GetDevicePropTest {
         LOGGER.info("Shutter Speed: " + theta.getShutterSpeed());
     }
 
-    @Ignore
-    public void getGPSInfo() throws IOException {
+    @Test
+    public void getGPSInfo() throws IOException, PtpException {
         LOGGER.info("GPS Info: " + theta.getGPSInfo());
     }
 
