@@ -368,11 +368,11 @@ public final class Theta implements Closeable {
         ptpInitiator.setDevicePropValue(DevicePropCode.GPS_INFO, gpsInfo);
     }
 
-    public short getAutoPowerOffDelay() throws IOException, PtpException {
+    public int getAutoPowerOffDelay() throws IOException, PtpException {
         return ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.AUTO_POWER_OFF_DELAY);
     }
 
-    public void setAutoPowerOffDelay(short autoPowerOffDelay) throws IOException, PtpException {
+    public void setAutoPowerOffDelay(int autoPowerOffDelay) throws IOException, PtpException {
         if (autoPowerOffDelay < 0 || 30 < autoPowerOffDelay) {
             throw new IllegalArgumentException(
                     String.format("Auto power off delay is not work with %d. Set 0-30.", autoPowerOffDelay));
@@ -381,17 +381,17 @@ public final class Theta implements Closeable {
         ptpInitiator.setDevicePropValue(DevicePropCode.AUTO_POWER_OFF_DELAY, (byte) autoPowerOffDelay);
     }
 
-    public short getSleepDelay() throws IOException, PtpException {
+    public int getSleepDelay() throws IOException, PtpException {
         return ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.SLEEP_DELAY);
     }
 
-    public void setSleepDelay(short sleepDelay) throws IOException, PtpException {
+    public void setSleepDelay(int sleepDelay) throws IOException, PtpException {
         if (sleepDelay < 0 || 1800 < sleepDelay) {
             throw new IllegalArgumentException(
                     String.format("Sleep delay is not work with %d. Set 0-1800.", sleepDelay));
         }
 
-        ptpInitiator.setDevicePropValue(DevicePropCode.SLEEP_DELAY, (byte) sleepDelay);
+        ptpInitiator.setDevicePropValue(DevicePropCode.SLEEP_DELAY, new UINT16(sleepDelay));
     }
 
     public ChannelNumber getChannelNumber() throws IOException, PtpException {
