@@ -1,5 +1,7 @@
 package com.theta360.theta.property;
 
+import com.theta360.util.Validators;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,8 +34,10 @@ public enum BatteryLevel {
     }
 
     public static BatteryLevel valueOf(byte value) {
+        Validators.validateNonNull("value", value);
+
         if (!batteryLevelMap.containsKey(value)) {
-            throw new RuntimeException();
+            throw new RuntimeException("Unknown BatteryLevel value: " + value);
         }
 
         return batteryLevelMap.get(value);
