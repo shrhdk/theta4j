@@ -241,7 +241,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
 
     @Override
     public void setDevicePropValue(Code<UINT16> devicePropValue, String value) throws IOException, PtpException {
-        setDevicePropValue(devicePropValue, STR.toBytes(value));
+        setDevicePropValue(devicePropValue, STR.toBytes(value + "\u0000"));
     }
 
     @Override
