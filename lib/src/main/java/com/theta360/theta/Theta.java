@@ -33,7 +33,7 @@ public final class Theta implements Closeable {
     private static final String IP_ADDRESS = "192.168.1.1";
     private static final int TCP_PORT = 15740;
 
-    private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+    private static final String DATE_TIME_FORMAT = "yyyyMMdd'T'HHmmss";
 
     private final PtpInitiator ptpInitiator;
     private final ThetaEventListenerSet listenerSet = new ThetaEventListenerSet();
@@ -272,7 +272,7 @@ public final class Theta implements Closeable {
     public Date getDateTime() throws IOException, PtpException {
         String str = ptpInitiator.getDevicePropValueAsString(DevicePropCode.DATE_TIME);
         try {
-            return DATE_TIME_FORMAT.parse(str);
+            return new SimpleDateFormat(DATE_TIME_FORMAT).parse(str);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -281,7 +281,7 @@ public final class Theta implements Closeable {
     public void setDateTime(Date dateTime) throws IOException, PtpException {
         Validators.validateNonNull("dateTime", dateTime);
 
-        String str = DATE_TIME_FORMAT.format(dateTime);
+        String str = new SimpleDateFormat(DATE_TIME_FORMAT).format(dateTime);
         ptpInitiator.setDevicePropValue(DevicePropCode.DATE_TIME, str);
     }
 
