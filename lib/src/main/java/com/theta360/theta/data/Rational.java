@@ -1,4 +1,4 @@
-package com.theta360.theta.property;
+package com.theta360.theta.data;
 
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;

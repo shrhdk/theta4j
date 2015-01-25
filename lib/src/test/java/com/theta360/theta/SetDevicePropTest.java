@@ -3,7 +3,7 @@ package com.theta360.theta;
 import com.theta360.ptp.PtpException;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
-import com.theta360.theta.property.*;
+import com.theta360.theta.data.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

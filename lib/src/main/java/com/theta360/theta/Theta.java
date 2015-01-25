@@ -12,7 +12,7 @@ import com.theta360.ptp.type.UINT32;
 import com.theta360.ptpip.PtpIpInitiator;
 import com.theta360.theta.code.DevicePropCode;
 import com.theta360.theta.code.OperationCode;
-import com.theta360.theta.property.*;
+import com.theta360.theta.data.*;
 import com.theta360.util.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
