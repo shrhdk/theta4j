@@ -20,22 +20,32 @@ public class ThetaTest {
 
     private static ThetaEventListener listener = new ThetaEventListener() {
         @Override
-        public void onObjectAdded(UINT32 objectHandle) {
+        public void onObjectAdded(long objectHandle) {
             LOGGER.info("onObjectAdded: " + objectHandle);
         }
 
         @Override
-        public void onDevicePropChanged(UINT32 devicePropCode) {
-            LOGGER.info("onDevicePropChanged: " + devicePropCode);
+        public void onCaptureStatusChanged() {
+            LOGGER.info("onCaptureStatusChanged");
         }
 
         @Override
-        public void onStoreFull(UINT32 storageID) {
+        public void onRecordingTimeChanged() {
+            LOGGER.info("onRecordingTimeChanged");
+        }
+
+        @Override
+        public void onRemainingRecordingTimeChanged() {
+            LOGGER.info("onRemainingRecordingTimeChanged");
+        }
+
+        @Override
+        public void onStoreFull(long storageID) {
             LOGGER.info("onStoreFull: " + storageID);
         }
 
         @Override
-        public void onCaptureComplete(UINT32 transactionID) {
+        public void onCaptureComplete(long transactionID) {
             LOGGER.info("onCaptureComplete: " + transactionID);
         }
     };
@@ -68,7 +78,7 @@ public class ThetaTest {
 
     @Test
     public void getObjectInfo() throws IOException, PtpException {
-        List<UINT32> objectHandles = theta.getObjectHandles();
+        List<Long> objectHandles = theta.getObjectHandles();
         ObjectInfo objectInfo = theta.getObjectInfo(objectHandles.get(0));
         LOGGER.info("Object Info: " + objectInfo);
     }

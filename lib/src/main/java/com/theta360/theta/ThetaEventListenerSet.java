@@ -1,7 +1,5 @@
 package com.theta360.theta;
 
-import com.theta360.ptp.type.UINT32;
-
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -13,28 +11,42 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
     // ThetaEventListener
 
     @Override
-    public void onObjectAdded(UINT32 objectHandle) {
+    public void onObjectAdded(long objectHandle) {
         for (ThetaEventListener listener : listeners) {
             listener.onObjectAdded(objectHandle);
         }
     }
 
     @Override
-    public void onDevicePropChanged(UINT32 devicePropCode) {
+    public void onCaptureStatusChanged() {
         for (ThetaEventListener listener : listeners) {
-            listener.onDevicePropChanged(devicePropCode);
+            listener.onCaptureStatusChanged();
         }
     }
 
     @Override
-    public void onStoreFull(UINT32 storageID) {
+    public void onRecordingTimeChanged() {
+        for (ThetaEventListener listener : listeners) {
+            listener.onRecordingTimeChanged();
+        }
+    }
+
+    @Override
+    public void onRemainingRecordingTimeChanged() {
+        for (ThetaEventListener listener : listeners) {
+            listener.onRemainingRecordingTimeChanged();
+        }
+    }
+
+    @Override
+    public void onStoreFull(long storageID) {
         for (ThetaEventListener listener : listeners) {
             listener.onStoreFull(storageID);
         }
     }
 
     @Override
-    public void onCaptureComplete(UINT32 transactionID) {
+    public void onCaptureComplete(long transactionID) {
         for (ThetaEventListener listener : listeners) {
             listener.onCaptureComplete(transactionID);
         }

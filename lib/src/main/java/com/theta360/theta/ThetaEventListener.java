@@ -1,7 +1,5 @@
 package com.theta360.theta;
 
-import com.theta360.ptp.type.UINT32;
-
 // TODO: Write Javadoc
 
 /**
@@ -16,20 +14,15 @@ public interface ThetaEventListener {
      *
      * @param objectHandle The ObjectHandle of the added object.
      */
-    void onObjectAdded(UINT32 objectHandle);
+    void onObjectAdded(long objectHandle);
 
-    /**
-     * TODO: Replace this event with concrete events.
-     * <p/>
-     * https://developers.theta360.com/en/docs/ptpip_reference/
-     * In the official document. The following properties will be notified when it is changed.
-     * - CaptureStatus
-     * - RecordingTime
-     * - RemainingRecordingTime
-     */
-    void onDevicePropChanged(UINT32 devicePropCode);
+    void onCaptureStatusChanged();
 
-    void onStoreFull(UINT32 storageID);
+    void onRecordingTimeChanged();
 
-    void onCaptureComplete(UINT32 transactionID);
+    void onRemainingRecordingTimeChanged();
+
+    void onStoreFull(long storageID);
+
+    void onCaptureComplete(long transactionID);
 }

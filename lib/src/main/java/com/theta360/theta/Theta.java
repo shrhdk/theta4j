@@ -52,7 +52,7 @@ public final class Theta implements Closeable {
 
             @Override
             public void onObjectAdded(UINT32 objectHandle) {
-                listenerSet.onObjectAdded(objectHandle);
+                listenerSet.onObjectAdded(objectHandle.longValue());
             }
 
             @Override
@@ -71,8 +71,16 @@ public final class Theta implements Closeable {
             }
 
             @Override
-            public void onDevicePropChanged(UINT32 devicePropCode) {
-                listenerSet.onDevicePropChanged(devicePropCode);
+            public void onDevicePropChanged(UINT16 devicePropCode) {
+                if (DevicePropCode.CAPTURE_STATUS.value().equals(devicePropCode)) {
+                    listenerSet.onCaptureStatusChanged();
+                } else if (DevicePropCode.RECORDING_TIME.value().equals(devicePropCode)) {
+                    listenerSet.onRecordingTimeChanged();
+                } else if (DevicePropCode.REMAINING_RECORDING_TIME.value().equals(devicePropCode)) {
+                    listenerSet.onRemainingRecordingTimeChanged();
+                } else {
+                    LOGGER.warn("Unknown DevicePropCode: " + devicePropCode);
+                }
             }
 
             @Override
@@ -92,7 +100,7 @@ public final class Theta implements Closeable {
 
             @Override
             public void onStoreFull(UINT32 storageID) {
-                listenerSet.onStoreFull(storageID);
+                listenerSet.onStoreFull(storageID.longValue());
             }
 
             @Override
@@ -107,7 +115,7 @@ public final class Theta implements Closeable {
 
             @Override
             public void onCaptureComplete(UINT32 transactionID) {
-                listenerSet.onCaptureComplete(transactionID);
+                listenerSet.onCaptureComplete(transactionID.longValue());
             }
 
             @Override
@@ -151,8 +159,8 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public List<UINT32> getStorageIDs() throws IOException, PtpException {
-        return ptpInitiator.getStorageIDs();
+    public List<Long> getStorageIDs() throws IOException, PtpException {
+        return PrimitiveTypeUtils.convert(ptpInitiator.getStorageIDs());
     }
 
     /**
@@ -162,8 +170,8 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public StorageInfo getStorageInfo(UINT32 storageID) throws IOException, PtpException {
-        return ptpInitiator.getStorageInfo(storageID);
+    public StorageInfo getStorageInfo(long storageID) throws IOException, PtpException {
+        return ptpInitiator.getStorageInfo(new UINT32(storageID));
     }
 
     /**
@@ -182,8 +190,8 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public List<UINT32> getObjectHandles() throws IOException, PtpException {
-        return ptpInitiator.getObjectHandles();
+    public List<Long> getObjectHandles() throws IOException, PtpException {
+        return PrimitiveTypeUtils.convert(ptpInitiator.getObjectHandles());
     }
 
     /**
@@ -193,8 +201,8 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public ObjectInfo getObjectInfo(UINT32 objectHandle) throws IOException, PtpException {
-        return ptpInitiator.getObjectInfo(objectHandle);
+    public ObjectInfo getObjectInfo(long objectHandle) throws IOException, PtpException {
+        return ptpInitiator.getObjectInfo(new UINT32(objectHandle));
     }
 
     /**
@@ -205,8 +213,8 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public void getObject(UINT32 objectHandle, OutputStream dst) throws IOException, PtpException {
-        ptpInitiator.getObject(objectHandle, dst);
+    public void getObject(long objectHandle, OutputStream dst) throws IOException, PtpException {
+        ptpInitiator.getObject(new UINT32(objectHandle), dst);
     }
 
     /**
@@ -217,8 +225,8 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public void getThumb(UINT32 objectHandle, OutputStream dst) throws IOException, PtpException {
-        ptpInitiator.getThumb(objectHandle, dst);
+    public void getThumb(long objectHandle, OutputStream dst) throws IOException, PtpException {
+        ptpInitiator.getThumb(new UINT32(objectHandle), dst);
     }
 
     /**
@@ -228,8 +236,8 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public void deleteObject(UINT32 objectHandle) throws IOException, PtpException {
-        ptpInitiator.deleteObject(objectHandle);
+    public void deleteObject(long objectHandle) throws IOException, PtpException {
+        ptpInitiator.deleteObject(new UINT32(objectHandle));
     }
 
     /**
@@ -260,21 +268,21 @@ public final class Theta implements Closeable {
      * @throws PtpException
      * @see #initiateOpenCapture()
      */
-    public void terminateOpenCapture(UINT32 transactionID) throws IOException, PtpException {
-        ptpInitiator.terminateOpenCapture(transactionID);
+    public void terminateOpenCapture(long transactionID) throws IOException, PtpException {
+        ptpInitiator.terminateOpenCapture(new UINT32(transactionID));
     }
 
     /**
      * Starts the video recording or the interval shooting.
      * <p/>
-     * After starts, it can exit by the #terminateOpenCapture(UINT32)
+     * After starts, it can exit by the #terminateOpenCapture(long)
      *
      * @throws IOException
      * @throws PtpException
-     * @see #terminateOpenCapture(UINT32)
+     * @see #terminateOpenCapture(long)
      */
-    public UINT32 initiateOpenCapture() throws IOException, PtpException {
-        return ptpInitiator.initiateOpenCapture();
+    public long initiateOpenCapture() throws IOException, PtpException {
+        return ptpInitiator.initiateOpenCapture().longValue();
     }
 
     /**
@@ -284,11 +292,11 @@ public final class Theta implements Closeable {
      * @param dst          The destination for the object's resized data.
      * @throws IOException
      */
-    public void getResizedImageObject(UINT32 objectHandle, OutputStream dst) throws IOException, PtpException {
+    public void getResizedImageObject(long objectHandle, OutputStream dst) throws IOException, PtpException {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
 
-        ptpInitiator.sendOperation(OperationCode.GET_RESIZED_IMAGE_OBJECT, objectHandle, new UINT32(2048), new UINT32(1024));
+        ptpInitiator.sendOperation(OperationCode.GET_RESIZED_IMAGE_OBJECT, new UINT32(objectHandle), new UINT32(2048), new UINT32(1024));
         ptpInitiator.receiveData(dst);
         ptpInitiator.checkResponse();
     }
@@ -310,8 +318,9 @@ public final class Theta implements Closeable {
      *
      * @throws IOException
      */
-    public int getBatteryLevel() throws IOException, PtpException {
-        return ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.BATTERY_LEVEL);
+    public BatteryLevel getBatteryLevel() throws IOException, PtpException {
+        byte value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.BATTERY_LEVEL);
+        return BatteryLevel.valueOf(value);
     }
 
     /**
