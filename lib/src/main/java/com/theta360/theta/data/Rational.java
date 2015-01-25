@@ -8,6 +8,9 @@ import com.theta360.util.Validators;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+/**
+ * Exif2.3 standard RATIONAL
+ */
 public class Rational implements Comparable<Rational> {
     private final long molecule;
     private final long denominator;
@@ -20,7 +23,9 @@ public class Rational implements Comparable<Rational> {
             throw new IllegalArgumentException();
         }
 
-        if (denominator < 0) {
+        if (denominator == 0) {
+            throw new ArithmeticException();
+        } else if (denominator < 0) {
             throw new IllegalArgumentException();
         }
 
@@ -31,6 +36,28 @@ public class Rational implements Comparable<Rational> {
                 new UINT32(molecule).bytes(),
                 new UINT32(denominator).bytes()
         );
+    }
+
+    // Static Factory Method
+
+    public static Rational valueOf(byte[] bytes) {
+        Validators.validateNonNull("bytes", bytes);
+
+        if (bytes.length < UINT32.SIZE + UINT32.SIZE) {
+            throw new IllegalArgumentException();
+        }
+
+        try (
+                ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+                PtpInputStream pis = new PtpInputStream(bais)
+        ) {
+            UINT32 molecule = pis.readUINT32();
+            UINT32 denominator = pis.readUINT32();
+
+            return new Rational(molecule.longValue(), denominator.longValue());
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 
     // Getter
@@ -85,27 +112,5 @@ public class Rational implements Comparable<Rational> {
     @Override
     public String toString() {
         return "Rational{" + molecule + "/" + denominator + "}";
-    }
-
-    // Static Factory Method
-
-    public static Rational valueOf(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
-
-        if (bytes.length < UINT32.SIZE + UINT32.SIZE) {
-            throw new IllegalArgumentException();
-        }
-
-        try (
-                ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-                PtpInputStream pis = new PtpInputStream(bais)
-        ) {
-            UINT32 molecule = pis.readUINT32();
-            UINT32 denominator = pis.readUINT32();
-
-            return new Rational(molecule.longValue(), denominator.longValue());
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
     }
 }
