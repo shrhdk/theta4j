@@ -5,10 +5,25 @@ import com.theta360.util.Validators;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Battery Level
+ */
 public enum BatteryLevel {
+    /**
+     * The battery level is full.
+     */
     FULL((byte) 100),
+    /**
+     * The battery level is half.
+     */
     HALF((byte) 67),
+    /**
+     * The battery level is near end.
+     */
     NEAR_END((byte) 33),
+    /**
+     * The battery level is empty.
+     */
     END((byte) 0);
 
     private final byte value;

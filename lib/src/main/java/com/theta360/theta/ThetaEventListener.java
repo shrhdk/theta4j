@@ -1,7 +1,5 @@
 package com.theta360.theta;
 
-// TODO: Write Javadoc
-
 /**
  * The listener interface for the events of RICOH THETA.
  *
