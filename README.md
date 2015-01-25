@@ -14,6 +14,7 @@ Include the `theta-*.jar` to your project.
 
 ## Documents
 
+- Javadoc (See [Releases](https://github.com/shrhdk/theta/releases))
 - [Tutorial](doc/tutorial.md)
 
 ## License
