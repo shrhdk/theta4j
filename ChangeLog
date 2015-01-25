@@ -1,3 +1,7 @@
+- 0.3.0
+  - Published as a SDK.
+  - CLI tool is now a sample application of the SDK.
+  - Add documents.
 - 0.2.1
   - CLI tool
     - Add the feature that getting the date time of RICOH THETA. (-t option)
