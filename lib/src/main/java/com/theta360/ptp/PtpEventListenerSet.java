@@ -83,7 +83,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
     }
 
     @Override
-    public void onDevicePropChanged(UINT32 devicePropCode) {
+    public void onDevicePropChanged(UINT16 devicePropCode) {
         Validators.validateNonNull("devicePropCode", devicePropCode);
 
         for (PtpEventListener listener : listeners) {
@@ -199,7 +199,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
         } else if (eventCode.equals(EventCode.STORE_REMOVED.value())) {
             onStoreRemoved(p1);
         } else if (eventCode.equals(EventCode.DEVICE_PROP_CHANGED.value())) {
-            onDevicePropChanged(p1);
+            onDevicePropChanged(new UINT16(p1.intValue()));
         } else if (eventCode.equals(EventCode.OBJECT_INFO_CHANGED.value())) {
             onObjectInfoChanged(p1);
         } else if (eventCode.equals(EventCode.DEVICE_INFO_CHANGED.value())) {

@@ -17,7 +17,7 @@ public interface PtpEventListener {
 
     void onStoreRemoved(UINT32 storageID);
 
-    void onDevicePropChanged(UINT32 devicePropCode);
+    void onDevicePropChanged(UINT16 devicePropCode);
 
     void onObjectInfoChanged(UINT32 objectHandle);
 
