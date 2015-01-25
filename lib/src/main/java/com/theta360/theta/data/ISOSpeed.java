@@ -1,4 +1,4 @@
-package com.theta360.theta.property;
+package com.theta360.theta.data;
 
 import com.theta360.ptp.type.UINT16;
 import com.theta360.util.Validators;

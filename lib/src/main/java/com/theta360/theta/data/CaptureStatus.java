@@ -1,4 +1,4 @@
-package com.theta360.theta.property;
+package com.theta360.theta.data;
 
 import java.util.HashMap;
 import java.util.Map;
