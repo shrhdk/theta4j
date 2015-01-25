@@ -12,39 +12,9 @@ RICOH THETA SDK for Java. (Unofficial)
 
 Include the `theta-*.jar` to your project.
 
-### Connect and disconnect
+## Documents
 
-```java
-try(Theta theta = new Theta()) {
-    ...
-}
-```
-
-### Start Capture
-
-```java
-theta.initiateCapture();
-```
-
-### Handle Events
-
-```java
-theta.addListener(new ThetaEventAdapter() {
-    @Override
-    public void onObjectAdded(UINT32 objectHandle) {
-        // Capture is completed and the data is ready to download.
-    }
-}
-```
-
-### Download Image Data
-
-```java
-try(File file = new File("foo.jpg")) {
-    OutputStream dst = new FileOutputStream(file));
-    theta.getObject(objectHandle, dst);
-}
-```
+- [Tutorial](doc/tutorial.md)
 
 ## License
 
