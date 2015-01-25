@@ -6,8 +6,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum StillCaptureMode {
+    /**
+     * The shooting mode is "Video shooting mode".
+     * <p/>
+     * Cannot change to other Still Capture Modes.
+     * (Model: RICOH THETA m15)
+     */
     VIDEO(0x0000),
+    /**
+     * Single shot mode.
+     * <p/>
+     * Default value when the shooting mode is "Still image shooting mode".
+     */
     SINGLE_SHOT(0x0001),
+    /**
+     * Interval shooting mode.
+     * <p/>
+     * TimelapseNumber and TimelapseInterval cannot be changed when this mode is set.
+     * Change these setting values before switching to interval shooting mode.
+     *
+     * @see com.theta360.theta.Theta#setTimelapseNumber(int)
+     * @see com.theta360.theta.Theta#setTimelapseInterval(long)
+     */
     INTERVAL_SHOT(0x0003);
 
     private final UINT16 value;

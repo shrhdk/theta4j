@@ -4,9 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum CaptureStatus {
+    /**
+     * The camera is ready.
+     */
     IDLE((byte) 0),
+    /**
+     * The camera is executing shooting.
+     */
     CAPTURING((byte) 1);
-
 
     private final byte value;
 
