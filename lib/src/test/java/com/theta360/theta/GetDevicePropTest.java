@@ -1,11 +1,9 @@
 package com.theta360.theta;
 
 import com.theta360.ptp.PtpException;
-import com.theta360.ptp.type.UINT32;
 import com.theta360.test.categories.IntegrationTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
