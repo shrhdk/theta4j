@@ -1,4 +1,4 @@
-package com.theta360.cli;
+package com.theta360.sample;
 
 import com.theta360.ptp.PtpException;
 import com.theta360.theta.Theta;

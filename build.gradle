@@ -15,9 +15,3 @@ subprojects {
         effort = 'max'
     }
 }
-
-task distribute(type: Zip, dependsOn: [clean, ':lib:distribute', ':cli:distribute', ':gui:distribute']) {
-    from 'lib/build/libs'
-    from 'cli/build/bin'
-    from 'gui/build/bin'
-}

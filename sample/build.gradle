@@ -1,5 +1,3 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
 apply plugin: 'java'
 apply plugin: 'findbugs'
 
@@ -11,30 +9,17 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-archivesBaseName = 'theta-cli'
+archivesBaseName = 'sample'
 version = rootProject.version
 
 jar {
     mustRunAfter clean
 
     manifest {
-        attributes 'Implementation-Title': 'RICOH Theta CLI tool'
+        attributes 'Implementation-Title': 'Sample Application for RICOH THETA SDK'
         attributes 'Implementation-Version': version
-        attributes "Main-Class": "com.theta360.cli.ThetaCLI"
+        attributes "Main-Class": "com.theta360.sample.ThetaCLI"
     }
 
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-}
-
-task scripts(type: Copy) {
-    mustRunAfter clean
-
-    from 'src/main/script'
-    into 'build/bin'
-    filter(ReplaceTokens, tokens: [ARCHIVE_BASE_NAME: archivesBaseName, VERSION: version])
-}
-
-task distribute(type: Copy, dependsOn: [clean, jar, scripts]) {
-    from "build/libs"
-    into "build/bin"
 }

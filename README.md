@@ -1,31 +1,49 @@
-# Remote Shutter Tool
-
-Remote shutter tool for RICOH THETA.
+# RICOH THETA SDK for Java (Unofficial)
 
 [![Build Status](https://travis-ci.org/shrhdk/theta.svg?branch=master)](https://travis-ci.org/shrhdk/theta)
+
+RICOH THETA SDK for Java. (Unofficial)
 
 ## Requirements
 
 - JDK 1.7
 
-## How to Use the CLI Tool
+## How to Use
 
-(1) Set up Wi-Fi to connect to RICOH THETA.
+Include the `theta-*.jar` to your project.
 
-(2) Execute remote shutter.
+### Connect and disconnect
 
+```java
+try(Theta theta = new Theta()) {
+    ...
+}
 ```
-$ ./theta-cli -o captured.jpg
+
+### Start Capture
+
+```java
+theta.initiateCapture();
 ```
 
-## How to Use the GUI Tool
+### Handle Events
 
-(1) Set up Wi-Fi to connect to RICOH THETA.
-
-(2) Launch the GUI tool.
-
+```java
+theta.addListener(new ThetaEventAdapter() {
+    @Override
+    public void onObjectAdded(UINT32 objectHandle) {
+        // Capture is completed and the data is ready to download.
+    }
+}
 ```
-$ ./theta-gui
+
+### Download Image Data
+
+```java
+try(File file = new File("foo.jpg")) {
+    OutputStream dst = new FileOutputStream(file));
+    theta.getObject(objectHandle, dst);
+}
 ```
 
 ## License
