@@ -34,8 +34,16 @@ task integrationTest(type: Test) {
     }
 }
 
-task distribute(type: Copy, dependsOn: [clean, javadoc, jar]) {
-    from "build/docs/"
-    from "build/libs"
-    into "build/bin"
+task javadocArchive(type: Zip, dependsOn: [clean, javadoc]) {
+    mustRunAfter clean
+
+    baseName "javadoc-$archivesBaseName"
+    from javadoc.destinationDir
+}
+
+task distribute(type: Copy, dependsOn: [clean, jar, javadocArchive]) {
+    mustRunAfter clean
+
+    from libsDir
+    into distsDir
 }
