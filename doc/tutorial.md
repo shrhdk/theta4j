@@ -19,7 +19,7 @@ theta.initiateCapture();
 ```java
 theta.addListener(new ThetaEventAdapter() {
     @Override
-    public void onObjectAdded(UINT32 objectHandle) {
+    public void onObjectAdded(long objectHandle) {
         // Capture is completed and the data is ready to download.
     }
 }
