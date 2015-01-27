@@ -50,9 +50,7 @@ public final class UINT16 extends Number implements Comparable<UINT16> {
         this.intValue = intValue;
     }
 
-    // Private Constructor
-
-    private UINT16(byte[] bytes) {
+    public UINT16(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
         Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
 
@@ -65,10 +63,6 @@ public final class UINT16 extends Number implements Comparable<UINT16> {
     }
 
     // Static Factory Method
-
-    public static UINT16 valueOf(byte[] bytes) throws IOException {
-        return new UINT16(bytes);
-    }
 
     public static UINT16 read(InputStream is) throws IOException {
         byte[] bytes = new byte[SIZE_IN_BYTES];

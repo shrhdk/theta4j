@@ -107,7 +107,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     @Override
     public UINT32 getNumObjects() throws IOException, PtpException {
         sendOperation(OperationCode.GET_NUM_OBJECTS);
-        UINT32 numObjects = UINT32.valueOf(receiveData());
+        UINT32 numObjects = new UINT32(receiveData());
         checkResponse();
 
         return numObjects;
@@ -201,12 +201,12 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
 
     @Override
     public UINT16 getDevicePropValueAsUINT16(Code<UINT16> devicePropCode) throws IOException, PtpException {
-        return UINT16.valueOf(getDevicePropValue(devicePropCode));
+        return new UINT16(getDevicePropValue(devicePropCode));
     }
 
     @Override
     public UINT32 getDevicePropValueAsUINT32(Code<UINT16> devicePropCode) throws IOException, PtpException {
-        return UINT32.valueOf(getDevicePropValue(devicePropCode));
+        return new UINT32(getDevicePropValue(devicePropCode));
     }
 
     @Override

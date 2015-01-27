@@ -52,9 +52,7 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
         this.bigInteger = value;
     }
 
-    // Private Constructor
-
-    private UINT64(byte[] bytes) {
+    public UINT64(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
         Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
 
@@ -69,10 +67,6 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
     }
 
     // Static Factory Method
-
-    public static UINT64 valueOf(byte[] bytes) throws IOException {
-        return new UINT64(bytes);
-    }
 
     public static UINT64 read(InputStream is) throws IOException {
         byte[] bytes = new byte[SIZE_IN_BYTES];
