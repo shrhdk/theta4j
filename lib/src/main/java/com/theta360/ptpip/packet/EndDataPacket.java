@@ -12,7 +12,7 @@ import java.util.Arrays;
  * EndData Packet defined in PTP-IP
  */
 public final class EndDataPacket extends PtpIpPacket {
-    private static final int MIN_SIZE = UINT32.SIZE;
+    private static final int MIN_SIZE = UINT32.SIZE_IN_BYTES;
 
     private final UINT32 transactionID;
     private final byte[] dataPayload;
@@ -48,13 +48,13 @@ public final class EndDataPacket extends PtpIpPacket {
 
     public static EndDataPacket read(PtpInputStream pis) throws IOException {
         long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        long payloadLength = length - UINT32.SIZE_IN_BYTES - UINT32.SIZE_IN_BYTES;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         PacketUtils.assertType(type, Type.END_DATA);
         PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
 
-        long dataLength = payloadLength - UINT32.SIZE;              // -TransactionID
+        long dataLength = payloadLength - UINT32.SIZE_IN_BYTES;              // -TransactionID
 
         UINT32 transactionID = pis.readUINT32();
         byte[] dataPayload = new byte[(int) dataLength];

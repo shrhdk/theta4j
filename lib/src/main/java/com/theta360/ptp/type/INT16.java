@@ -14,7 +14,7 @@ public class INT16 extends Number implements Comparable<INT16> {
 
     // Utility Field
 
-    public static final int SIZE = 2;
+    public static final int SIZE_IN_BYTES = 2;
 
     public static final INT16 ZERO = new INT16((short) 0);
     public static final INT16 MIN_VALUE = new INT16(Short.MIN_VALUE);
@@ -25,7 +25,7 @@ public class INT16 extends Number implements Comparable<INT16> {
     public INT16(short shortValue) {
         this.shortValue = shortValue;
 
-        ByteBuffer bb = ByteBuffer.allocate(SIZE);
+        ByteBuffer bb = ByteBuffer.allocate(SIZE_IN_BYTES);
         bb.order(ByteOrder.LITTLE_ENDIAN);
         bb.putShort(shortValue);
 
@@ -36,7 +36,7 @@ public class INT16 extends Number implements Comparable<INT16> {
 
     private INT16(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
-        Validators.validateLength("bytes", bytes, SIZE);
+        Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
 
         this.bytes = bytes.clone();
 
@@ -53,7 +53,7 @@ public class INT16 extends Number implements Comparable<INT16> {
     }
 
     public static INT16 read(InputStream is) throws IOException {
-        byte[] bytes = new byte[SIZE];
+        byte[] bytes = new byte[SIZE_IN_BYTES];
 
         if (is.read(bytes) == -1) {
             throw new IOException();

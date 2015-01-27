@@ -12,7 +12,7 @@ import java.io.IOException;
  * Event Packet defined in PTP-IP
  */
 public final class EventPacket extends PtpIpPacket {
-    private static final int SIZE = UINT16.SIZE + UINT32.SIZE + UINT32.SIZE * 3;
+    private static final int SIZE = UINT16.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES * 3;
 
     private final UINT16 eventCode;
     private final UINT32 transactionID;
@@ -80,7 +80,7 @@ public final class EventPacket extends PtpIpPacket {
 
     public static EventPacket read(PtpInputStream pis) throws IOException {
         long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        long payloadLength = length - UINT32.SIZE_IN_BYTES - UINT32.SIZE_IN_BYTES;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         PacketUtils.assertType(type, Type.EVENT);

@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThat;
 
 @Category(UnitTest.class)
 public class InitCommandAckPacketTest {
-    private static final byte[] PAYLOAD = new byte[UINT32.SIZE + GUID.SIZE + STR.MIN_SIZE + UINT32.SIZE];
+    private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES + GUID.SIZE + STR.MIN_SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES];
     private static final UINT32 CONNECTION_NUMBER = new UINT32(0x00112233);
     private static final UUID GUID_ = UUID.randomUUID();
     private static final UINT32 PROTOCOL_VERSION = new UINT32(0x00112233);

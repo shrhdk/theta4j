@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThat;
 
 @Category(UnitTest.class)
 public class InitCommandRequestPacketTest {
-    private static final byte[] PAYLOAD = new byte[GUID.SIZE + STR.MIN_SIZE + UINT32.SIZE];
+    private static final byte[] PAYLOAD = new byte[GUID.SIZE + STR.MIN_SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES];
     private static final UUID GUID_ = UUID.randomUUID();
     private static final UINT32 PROTOCOL_VERSION = new UINT32(0x00112233);
 

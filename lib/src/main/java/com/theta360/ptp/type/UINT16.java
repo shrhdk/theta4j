@@ -21,7 +21,7 @@ public final class UINT16 extends Number implements Comparable<UINT16> {
     /**
      * Size of type in bytes.
      */
-    public static final int SIZE = 2;
+    public static final int SIZE_IN_BYTES = 2;
 
     public static final UINT16 ZERO = new UINT16(0);
     public static final UINT16 MIN_VALUE = new UINT16(MIN_INTEGER_VALUE);
@@ -54,7 +54,7 @@ public final class UINT16 extends Number implements Comparable<UINT16> {
 
     private UINT16(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
-        Validators.validateLength("bytes", bytes, SIZE);
+        Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
 
         this.bytes = bytes.clone();
 
@@ -71,7 +71,7 @@ public final class UINT16 extends Number implements Comparable<UINT16> {
     }
 
     public static UINT16 read(InputStream is) throws IOException {
-        byte[] bytes = new byte[SIZE];
+        byte[] bytes = new byte[SIZE_IN_BYTES];
 
         if (is.read(bytes) == -1) {
             throw new IOException();
