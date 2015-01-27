@@ -8,7 +8,7 @@ import java.math.BigInteger;
 
 public final class UINT128 extends Number implements Comparable<UINT128> {
     private static final BigInteger MIN_INTEGER_VALUE = BigInteger.ZERO;
-    private static final BigInteger MAX_INTEGER_VALUE = new BigInteger("00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", 16);
+    private static final BigInteger MAX_INTEGER_VALUE = new BigInteger("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", 16);
 
     private final BigInteger bigInteger;
     private final byte[] bytes;
@@ -44,7 +44,7 @@ public final class UINT128 extends Number implements Comparable<UINT128> {
             throw new IllegalArgumentException();
         }
 
-        this.bytes = UINT.toLittleEndian(SIZE_IN_BYTES, value.toByteArray());
+        this.bytes = UINT.toLittleEndian(value, SIZE_IN_BYTES);
         this.bigInteger = value;
     }
 
@@ -54,14 +54,7 @@ public final class UINT128 extends Number implements Comparable<UINT128> {
 
         this.bytes = bytes.clone();
 
-        // UINT64 constructor arguments are little endian and are not two's complement.
-        // BigInteger constructor needs big endian two's complement value.
-        // So it need to reverse order of arguments and add 0x00 to top.
-        this.bigInteger = new BigInteger(new byte[]{
-                0x00,
-                bytes[15], bytes[14], bytes[13], bytes[12], bytes[11], bytes[10], bytes[9], bytes[8],
-                bytes[7], bytes[6], bytes[5], bytes[4], bytes[3], bytes[2], bytes[1], bytes[0]
-        });
+        this.bigInteger = UINT.asUnsignedLittleEndian(bytes);
     }
 
     // Static Factory Method

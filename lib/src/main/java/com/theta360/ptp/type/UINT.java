@@ -1,5 +1,9 @@
 package com.theta360.ptp.type;
 
+import com.theta360.util.ByteUtils;
+import com.theta360.util.Validators;
+
+import java.math.BigInteger;
 import java.util.Arrays;
 
 class UINT {
@@ -10,7 +14,7 @@ class UINT {
         int pos = 0;
 
         // Skip suppressValue
-        for (; pos < bytes.length; pos++) {
+        for (; pos < bytes.length - 1; pos++) {
             if (bytes[pos] != suppressValue) {
                 break;
             }
@@ -23,9 +27,10 @@ class UINT {
         return result;
     }
 
-    private static byte[] padding(int sizeInBytes, byte paddingValue, byte[] bytes) {
+    private static byte[] padding(byte paddingValue, byte[] bytes, int sizeInBytes) {
         if (sizeInBytes < bytes.length) {
-            throw new IllegalArgumentException();
+            String message = String.format("Length of specified bytes (%d) is larger than specified size (%d)", bytes.length, sizeInBytes);
+            throw new IllegalArgumentException(message);
         }
 
         if (sizeInBytes == bytes.length) {
@@ -50,7 +55,60 @@ class UINT {
         return reversed;
     }
 
-    public static byte[] toLittleEndian(int sizeInBytes, byte[] unsignedBigEndianBytes) {
-        return reverse(padding(sizeInBytes, (byte) 0x00, suppress((byte) 0x00, unsignedBigEndianBytes)));
+    public static byte[] toLittleEndian(BigInteger integer, int sizeInBytes) {
+        Validators.validateNonNull("integer", integer);
+
+        boolean isPositive = (0 <= integer.signum());
+        byte[] bigEndian = integer.toByteArray();
+
+        // If the value is a positive number,
+        // there is a possibility that byte array is beginning with unnecessary 0x00,
+        // because it is two's complement.
+        // It needs to suppress unnecessary 0x00 when handle byte array as unsigned value.
+        boolean hasUnnecessaryZero = isPositive && bigEndian[0] == 0x00;
+
+        if (hasUnnecessaryZero) {
+            bigEndian = suppress((byte) 0x00, bigEndian);
+        }
+
+        // Sign Extension
+        if (isPositive) {
+            bigEndian = padding((byte) 0x00, bigEndian, sizeInBytes);
+        } else {
+            bigEndian = padding((byte) 0xFF, bigEndian, sizeInBytes);
+        }
+
+        return reverse(bigEndian);
+    }
+
+    /**
+     * Convert the signed little endian byte array to BigInteger.
+     *
+     * @param bytes signed little endian byte array
+     */
+    public static BigInteger asSignedLittleEndian(byte[] bytes) {
+        Validators.validateNonNull("bytes", bytes);
+
+        byte[] bigEndian = reverse(bytes);
+
+        return new BigInteger(bigEndian);
+    }
+
+    /**
+     * Convert the unsigned little endian byte array to BigInteger.
+     *
+     * @param bytes unsigned little endian byte array
+     */
+    public static BigInteger asUnsignedLittleEndian(byte[] bytes) {
+        Validators.validateNonNull("bytes", bytes);
+
+        byte[] bigEndian = reverse(bytes);
+
+        // UINT64 constructor arguments are little endian and are not two's complement.
+        // BigInteger constructor needs big endian two's complement value.
+        // So it need to reverse order of arguments and add 0x00 to top.
+        bigEndian = ByteUtils.join(new byte[]{0x00}, bigEndian);
+
+        return new BigInteger(bigEndian);
     }
 }
