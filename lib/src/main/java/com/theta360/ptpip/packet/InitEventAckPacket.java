@@ -9,7 +9,7 @@ import java.io.IOException;
  * InitEventAck Packet defined in PTP-IP
  */
 public final class InitEventAckPacket extends PtpIpPacket {
-    private static final int SIZE = 0;
+    private static final int SIZE_IN_BYTES = 0;
 
     // Constructor
 
@@ -25,7 +25,7 @@ public final class InitEventAckPacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         PacketUtils.assertType(type, Type.INIT_EVENT_ACK);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
+        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
         return new InitEventAckPacket();
     }

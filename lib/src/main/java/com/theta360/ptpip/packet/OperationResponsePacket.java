@@ -12,7 +12,7 @@ import java.io.IOException;
  * OperationResponse Packet defined in PTP-IP
  */
 public final class OperationResponsePacket extends PtpIpPacket {
-    private static final int SIZE = UINT16.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES * 5;
+    private static final int SIZE_IN_BYTES = UINT16.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES * 5;
 
     private final UINT16 responseCode;
     private final UINT32 transactionID;
@@ -104,7 +104,7 @@ public final class OperationResponsePacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         PacketUtils.assertType(type, Type.OPERATION_RESPONSE);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
+        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
         UINT16 responseCode = pis.readUINT16();
         UINT32 transactionID = pis.readUINT32();

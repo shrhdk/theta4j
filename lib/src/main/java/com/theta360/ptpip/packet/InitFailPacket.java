@@ -10,7 +10,7 @@ import java.io.IOException;
  * InitFail Packet defined in PTP-IP
  */
 public final class InitFailPacket extends PtpIpPacket {
-    private static final int SIZE = UINT32.SIZE_IN_BYTES;
+    private static final int SIZE_IN_BYTES = UINT32.SIZE_IN_BYTES;
 
     private final UINT32 reason;
 
@@ -39,7 +39,7 @@ public final class InitFailPacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         PacketUtils.assertType(type, Type.INIT_FAIL);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
+        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
         UINT32 reason = pis.readUINT32();
 

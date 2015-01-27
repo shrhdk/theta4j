@@ -9,7 +9,7 @@ import java.io.IOException;
  * ProbeRequest Packet defined in PTP-IP
  */
 public final class ProbeRequestPacket extends PtpIpPacket {
-    private static final int SIZE = 0;
+    private static final int SIZE_IN_BYTES = 0;
 
     // Constructor
 
@@ -25,7 +25,7 @@ public final class ProbeRequestPacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         PacketUtils.assertType(type, Type.PROBE_REQUEST.value(), Type.PROBE_REQUEST);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
+        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
         return new ProbeRequestPacket();
     }

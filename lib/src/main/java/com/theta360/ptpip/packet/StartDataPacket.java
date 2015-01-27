@@ -12,7 +12,7 @@ import java.io.IOException;
  * StartData Packet defined in PTP-IP
  */
 public final class StartDataPacket extends PtpIpPacket {
-    private static final int SIZE = UINT32.SIZE_IN_BYTES + UINT64.SIZE_IN_BYTES;
+    private static final int SIZE_IN_BYTES = UINT32.SIZE_IN_BYTES + UINT64.SIZE_IN_BYTES;
 
     private final UINT32 transactionID;
     private final UINT64 totalDataLength;
@@ -52,7 +52,7 @@ public final class StartDataPacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         PacketUtils.assertType(type, Type.START_DATA);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
+        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
         UINT32 transactionID = pis.readUINT32();
         UINT64 totalDataLength = pis.readUINT64();
