@@ -26,7 +26,7 @@ public class UINT64Test {
     @Test(expected = NullPointerException.class)
     public void constructWithNull() {
         // act
-        new UINT64(null);
+        new UINT64((BigInteger) null);
     }
 
     @Test(expected = IllegalArgumentException.class)
