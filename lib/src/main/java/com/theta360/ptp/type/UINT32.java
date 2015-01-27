@@ -52,9 +52,7 @@ public final class UINT32 extends Number implements Comparable<UINT32> {
         this.longValue = longValue;
     }
 
-    // Private Constructor
-
-    private UINT32(byte[] bytes) {
+    public UINT32(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
         Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
 
@@ -67,10 +65,6 @@ public final class UINT32 extends Number implements Comparable<UINT32> {
     }
 
     // Static Factory Method
-
-    public static UINT32 valueOf(byte[] bytes) throws IOException {
-        return new UINT32(bytes);
-    }
 
     public static UINT32 read(InputStream is) throws IOException {
         byte[] bytes = new byte[SIZE_IN_BYTES];

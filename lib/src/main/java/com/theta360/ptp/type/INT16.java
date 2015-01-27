@@ -32,9 +32,7 @@ public class INT16 extends Number implements Comparable<INT16> {
         this.bytes = bb.array();
     }
 
-    // Private Constructor
-
-    private INT16(byte[] bytes) {
+    public INT16(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
         Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
 
@@ -47,10 +45,6 @@ public class INT16 extends Number implements Comparable<INT16> {
     }
 
     // Static Factory Method
-
-    public static INT16 valueOf(byte[] bytes) {
-        return new INT16(bytes);
-    }
 
     public static INT16 read(InputStream is) throws IOException {
         byte[] bytes = new byte[SIZE_IN_BYTES];
