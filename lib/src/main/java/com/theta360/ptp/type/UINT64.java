@@ -5,7 +5,6 @@ import com.theta360.util.Validators;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
-import java.util.Arrays;
 
 /**
  * 64 bit unsigned integer value defined in PTP
@@ -48,7 +47,7 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
             throw new IllegalArgumentException();
         }
 
-        this.bytes = UINT.toLittleEndian(8, value.toByteArray());
+        this.bytes = UINT.toLittleEndian(SIZE_IN_BYTES, value.toByteArray());
         this.bigInteger = value;
     }
 
@@ -62,7 +61,8 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
         // BigInteger constructor needs big endian two's complement value.
         // So it need to reverse order of arguments and add 0x00 to top.
         this.bigInteger = new BigInteger(new byte[]{
-                0x00, bytes[7], bytes[6], bytes[5], bytes[4], bytes[3], bytes[2], bytes[1], bytes[0]
+                0x00,
+                bytes[7], bytes[6], bytes[5], bytes[4], bytes[3], bytes[2], bytes[1], bytes[0]
         });
     }
 
@@ -110,12 +110,14 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
         return bigInteger.doubleValue();
     }
 
-    // Basic Method
+    // Comparable
 
     @Override
     public int compareTo(UINT64 o) {
         return bigInteger.compareTo(o.bigInteger);
     }
+
+    // Basic Method
 
     @Override
     public boolean equals(Object o) {
@@ -124,17 +126,16 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
 
         UINT64 uint64 = (UINT64) o;
 
-        return Arrays.equals(bytes, uint64.bytes);
-
+        return bigInteger.equals(uint64.bigInteger);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(bytes);
+        return bigInteger.hashCode();
     }
 
     @Override
     public String toString() {
-        return "UINT64{" + bigInteger + "}";
+        return bigInteger.toString();
     }
 }
