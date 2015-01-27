@@ -8,13 +8,13 @@ import java.nio.ByteOrder;
 import java.util.UUID;
 
 final class GUID {
-    public static final int SIZE = 16;
+    public static final int SIZE_IN_BYTES = 16;
 
     private GUID() {
     }
 
     public static byte[] toBytes(UUID guid) {
-        ByteBuffer buffer = ByteBuffer.wrap(new byte[16]);
+        ByteBuffer buffer = ByteBuffer.wrap(new byte[SIZE_IN_BYTES]);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         buffer.putLong(guid.getMostSignificantBits());
         buffer.putLong(guid.getLeastSignificantBits());
@@ -29,7 +29,7 @@ final class GUID {
     }
 
     public static UUID read(PtpInputStream pis) throws IOException {
-        byte[] bytes = new byte[SIZE];
+        byte[] bytes = new byte[SIZE_IN_BYTES];
 
         if (pis.read(bytes) == -1) {
             throw new IOException();

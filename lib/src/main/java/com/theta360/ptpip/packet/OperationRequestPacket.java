@@ -12,7 +12,7 @@ import java.io.IOException;
  * OperationRequest Packet defined in PTP-IP
  */
 public final class OperationRequestPacket extends PtpIpPacket {
-    private static final int SIZE = UINT32.SIZE_IN_BYTES + UINT16.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES * 5;
+    private static final int SIZE_IN_BYTES = UINT32.SIZE_IN_BYTES + UINT16.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES * 5;
 
     private final UINT32 dataPhaseInfo;
     private final UINT16 operationCode;
@@ -116,7 +116,7 @@ public final class OperationRequestPacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         PacketUtils.assertType(type, Type.OPERATION_REQUEST);
-        PacketUtils.checkLength((int) payloadLength, SIZE);
+        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
         UINT32 dataPhaseInfo = pis.readUINT32();
         UINT16 operationCode = pis.readUINT16();

@@ -13,7 +13,7 @@ import java.util.UUID;
  * InitCommandRequest Packet defined in PTP-IP
  */
 public final class InitCommandRequestPacket extends PtpIpPacket {
-    private static final int MIN_SIZE = GUID.SIZE + STR.MIN_SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES;
+    private static final int MIN_SIZE_IN_BYTES = GUID.SIZE_IN_BYTES + STR.MIN_SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES;
 
     private final UUID guid;
     private final String name;
@@ -60,7 +60,7 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         PacketUtils.assertType(type, Type.INIT_COMMAND_REQUEST);
-        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE);
+        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE_IN_BYTES);
 
         UUID guid = GUID.read(pis);
         String name = PtpIpString.read(pis);
