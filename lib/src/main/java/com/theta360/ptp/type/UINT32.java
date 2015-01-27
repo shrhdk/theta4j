@@ -1,6 +1,5 @@
 package com.theta360.ptp.type;
 
-import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.util.Validators;
 
 import java.io.IOException;
@@ -14,18 +13,19 @@ public final class UINT32 extends Number implements Comparable<UINT32> {
     private static final long MIN_LONG_VALUE = 0L;
     private static final long MAX_LONG_VALUE = 4294967295L;
 
+    private final byte[] bytes;
+    private final long longValue;
+
+    // Utility Field
+
     /**
      * Size of type in bytes.
      */
     public static final int SIZE = 4;
 
+    public static final UINT32 ZERO = new UINT32(0);
     public static final UINT32 MIN_VALUE = new UINT32(MIN_LONG_VALUE);
     public static final UINT32 MAX_VALUE = new UINT32(MAX_LONG_VALUE);
-
-    public static final UINT32 ZERO = new UINT32(0);
-
-    private final byte[] bytes;
-    private final long longValue;
 
     // Constructor
 
@@ -52,19 +52,37 @@ public final class UINT32 extends Number implements Comparable<UINT32> {
         this.longValue = longValue;
     }
 
-    public UINT32(byte[] bytes) {
-        if (bytes.length != 4) {
-            throw new IllegalArgumentException();
-        }
+    // Private Constructor
 
-        // byte[]
+    private UINT32(byte[] bytes) {
+        Validators.validateNonNull("bytes", bytes);
+        Validators.validateLength("bytes", bytes, SIZE);
+
         this.bytes = bytes.clone();
 
-        // long
+        // bytes -> long
         byte[] base = new byte[]{0x00, 0x00, 0x00, 0x00, bytes[3], bytes[2], bytes[1], bytes[0]};
         ByteBuffer byteBuffer = ByteBuffer.wrap(base);
         this.longValue = byteBuffer.getLong();
     }
+
+    // Static Factory Method
+
+    public static UINT32 valueOf(byte[] bytes) throws IOException {
+        return new UINT32(bytes);
+    }
+
+    public static UINT32 read(InputStream is) throws IOException {
+        byte[] bytes = new byte[SIZE];
+
+        if (is.read(bytes) == -1) {
+            throw new IOException();
+        }
+
+        return new UINT32(bytes);
+    }
+
+    // Getterz
 
     public byte[] bytes() {
         return bytes.clone();
@@ -105,9 +123,8 @@ public final class UINT32 extends Number implements Comparable<UINT32> {
 
         UINT32 uint32 = (UINT32) o;
 
-        if (longValue != uint32.longValue) return false;
+        return longValue == uint32.longValue;
 
-        return true;
     }
 
     @Override
@@ -121,28 +138,5 @@ public final class UINT32 extends Number implements Comparable<UINT32> {
     @Override
     public String toString() {
         return String.format("0x%02x%02x%02x%02x", bytes[3], bytes[2], bytes[1], bytes[0]);
-    }
-
-    // Static Factory Method
-
-    public static UINT32 valueOf(byte[] bytes) throws IOException {
-        Validators.validateNonNull("bytes", bytes);
-        Validators.validateLength("bytes", bytes, SIZE);
-
-        try (PtpInputStream pis = new PtpInputStream(bytes)) {
-            return read(pis);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static UINT32 read(InputStream is) throws IOException {
-        byte[] bytes = new byte[SIZE];
-
-        if (is.read(bytes) == -1) {
-            throw new IOException();
-        }
-
-        return new UINT32(bytes);
     }
 }
