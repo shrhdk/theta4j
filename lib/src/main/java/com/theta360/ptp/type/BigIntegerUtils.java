@@ -6,8 +6,8 @@ import com.theta360.util.Validators;
 import java.math.BigInteger;
 import java.util.Arrays;
 
-class UINT {
-    private UINT() {
+class BigIntegerUtils {
+    private BigIntegerUtils() {
     }
 
     private static byte[] suppress(byte suppressValue, byte[] bytes) {

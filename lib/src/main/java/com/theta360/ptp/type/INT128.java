@@ -40,7 +40,7 @@ public class INT128 extends Number implements Comparable<INT128> {
             throw new IllegalArgumentException();
         }
 
-        this.bytes = UINT.toLittleEndian(value, SIZE_IN_BYTES);
+        this.bytes = BigIntegerUtils.toLittleEndian(value, SIZE_IN_BYTES);
         this.bigInteger = value;
     }
 
@@ -50,7 +50,7 @@ public class INT128 extends Number implements Comparable<INT128> {
 
         this.bytes = bytes.clone();
 
-        this.bigInteger = UINT.asSignedLittleEndian(bytes);
+        this.bigInteger = BigIntegerUtils.asSignedLittleEndian(bytes);
     }
 
     // Static Factory Method
