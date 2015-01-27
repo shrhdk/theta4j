@@ -47,7 +47,7 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
             throw new IllegalArgumentException();
         }
 
-        this.bytes = UINT.toLittleEndian(value, SIZE_IN_BYTES);
+        this.bytes = BigIntegerUtils.toLittleEndian(value, SIZE_IN_BYTES);
         this.bigInteger = value;
     }
 
@@ -57,7 +57,7 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
 
         this.bytes = bytes.clone();
 
-        this.bigInteger = UINT.asUnsignedLittleEndian(bytes);
+        this.bigInteger = BigIntegerUtils.asUnsignedLittleEndian(bytes);
     }
 
     // Static Factory Method
