@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
 
 @Category(UnitTest.class)
 public class StartDataPacketTest {
-    private static final byte[] PAYLOAD = new byte[UINT32.SIZE + UINT64.SIZE];
+    private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES + UINT64.SIZE_IN_BYTES];
     private static final UINT32 TRANSACTION_ID = new UINT32(0);
     private static final UINT64 TOTAL_DATA_LENGTH = UINT64.ZERO;
 

@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
 
 @Category(UnitTest.class)
 public class EventPacketTest {
-    private static final byte[] PAYLOAD = new byte[UINT16.SIZE + UINT32.SIZE + UINT32.SIZE * 3];
+    private static final byte[] PAYLOAD = new byte[UINT16.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES * 3];
     private static final UINT16 EVENT_CODE = new UINT16(0);
     private static final UINT32 TRANSACTION_ID = new UINT32(0);
     private static final UINT32 P1 = new UINT32(1);

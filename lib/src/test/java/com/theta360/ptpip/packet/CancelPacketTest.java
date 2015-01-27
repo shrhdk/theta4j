@@ -16,7 +16,7 @@ import static org.junit.Assert.assertThat;
 
 @Category(UnitTest.class)
 public class CancelPacketTest {
-    private static final byte[] PAYLOAD = new byte[UINT32.SIZE];
+    private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES];
     private static final UINT32 TRANSACTION_ID = new UINT32(0);
 
     // Constructor with error

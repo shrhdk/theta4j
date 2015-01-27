@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
 
 @Category(UnitTest.class)
 public class OperationRequestPacketTest {
-    private static final byte[] PAYLOAD = new byte[UINT32.SIZE + UINT16.SIZE + UINT32.SIZE + UINT32.SIZE * 5];
+    private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES + UINT16.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES * 5];
     private static final UINT32 DATA_PHASE_INFO = new UINT32(0);
     private static final UINT16 OPERATION_CODE = new UINT16(0);
     private static final UINT32 TRANSACTION_ID = new UINT32(0);

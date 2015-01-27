@@ -16,7 +16,7 @@ import static org.junit.Assert.assertThat;
 
 @Category(UnitTest.class)
 public class InitEventRequestPacketTest {
-    private static final byte[] PAYLOAD = new byte[UINT32.SIZE];
+    private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES];
     private static final UINT32 CONNECTION_NUMBER = new UINT32(0x00112233);
 
     // Constructor with error

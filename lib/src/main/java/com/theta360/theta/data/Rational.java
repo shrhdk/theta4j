@@ -43,7 +43,7 @@ public class Rational implements Comparable<Rational> {
     public static Rational valueOf(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
 
-        if (bytes.length < UINT32.SIZE + UINT32.SIZE) {
+        if (bytes.length < UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES) {
             throw new IllegalArgumentException();
         }
 

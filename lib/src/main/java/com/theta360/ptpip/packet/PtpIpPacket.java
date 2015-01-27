@@ -46,7 +46,7 @@ public class PtpIpPacket {
     // Converter
 
     public final byte[] bytes() {
-        UINT32 length = new UINT32(UINT32.SIZE + UINT32.SIZE + payload.length);
+        UINT32 length = new UINT32(UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES + payload.length);
 
         try (
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();

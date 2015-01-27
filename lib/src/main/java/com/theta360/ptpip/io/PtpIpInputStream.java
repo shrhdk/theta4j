@@ -36,7 +36,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public long nextLength() throws IOException {
-        pis.mark(UINT32.SIZE);
+        pis.mark(UINT32.SIZE_IN_BYTES);
         UINT32 length = pis.readUINT32();
         pis.reset();
 
@@ -50,10 +50,10 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public PtpIpPacket.Type nextType() throws IOException {
-        pis.mark(UINT32.SIZE + UINT32.SIZE);
+        pis.mark(UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES);
 
         // Skip Length Value on Header
-        long sizeToSkip = UINT32.SIZE;
+        long sizeToSkip = UINT32.SIZE_IN_BYTES;
         if (pis.skip(sizeToSkip) != sizeToSkip) {
             throw new IOException();
         }

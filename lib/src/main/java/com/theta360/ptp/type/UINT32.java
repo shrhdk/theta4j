@@ -21,7 +21,7 @@ public final class UINT32 extends Number implements Comparable<UINT32> {
     /**
      * Size of type in bytes.
      */
-    public static final int SIZE = 4;
+    public static final int SIZE_IN_BYTES = 4;
 
     public static final UINT32 ZERO = new UINT32(0);
     public static final UINT32 MIN_VALUE = new UINT32(MIN_LONG_VALUE);
@@ -56,7 +56,7 @@ public final class UINT32 extends Number implements Comparable<UINT32> {
 
     private UINT32(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
-        Validators.validateLength("bytes", bytes, SIZE);
+        Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
 
         this.bytes = bytes.clone();
 
@@ -73,7 +73,7 @@ public final class UINT32 extends Number implements Comparable<UINT32> {
     }
 
     public static UINT32 read(InputStream is) throws IOException {
-        byte[] bytes = new byte[SIZE];
+        byte[] bytes = new byte[SIZE_IN_BYTES];
 
         if (is.read(bytes) == -1) {
             throw new IOException();

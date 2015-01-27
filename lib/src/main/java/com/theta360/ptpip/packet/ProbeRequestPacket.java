@@ -21,7 +21,7 @@ public final class ProbeRequestPacket extends PtpIpPacket {
 
     public static ProbeRequestPacket read(PtpInputStream pis) throws IOException {
         long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        long payloadLength = length - UINT32.SIZE_IN_BYTES - UINT32.SIZE_IN_BYTES;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         PacketUtils.assertType(type, Type.PROBE_REQUEST.value(), Type.PROBE_REQUEST);

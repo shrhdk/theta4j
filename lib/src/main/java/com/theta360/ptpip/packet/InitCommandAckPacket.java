@@ -13,7 +13,7 @@ import java.util.UUID;
  * InitCommandAck Packet defined in PTP-IP
  */
 public final class InitCommandAckPacket extends PtpIpPacket {
-    private static final int MIN_SIZE = UINT32.SIZE + GUID.SIZE + STR.MIN_SIZE + UINT32.SIZE;
+    private static final int MIN_SIZE = UINT32.SIZE_IN_BYTES + GUID.SIZE + STR.MIN_SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES;
 
     private final UINT32 connectionNumber;
     private final UUID guid;
@@ -64,7 +64,7 @@ public final class InitCommandAckPacket extends PtpIpPacket {
 
     public static InitCommandAckPacket read(PtpInputStream pis) throws IOException {
         long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE - UINT32.SIZE;
+        long payloadLength = length - UINT32.SIZE_IN_BYTES - UINT32.SIZE_IN_BYTES;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         PacketUtils.assertType(type, Type.INIT_COMMAND_ACK);

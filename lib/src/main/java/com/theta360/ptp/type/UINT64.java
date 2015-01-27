@@ -22,7 +22,7 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
     /**
      * Size of type in bytes.
      */
-    public static final int SIZE = 8;
+    public static final int SIZE_IN_BYTES = 8;
 
     public static final UINT64 MIN_VALUE = new UINT64(MIN_INTEGER_VALUE);
     public static final UINT64 MAX_VALUE = new UINT64(MAX_INTEGER_VALUE);
@@ -56,7 +56,7 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
 
     private UINT64(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
-        Validators.validateLength("bytes", bytes, SIZE);
+        Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
 
         this.bytes = bytes.clone();
 
@@ -75,7 +75,7 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
     }
 
     public static UINT64 read(InputStream is) throws IOException {
-        byte[] bytes = new byte[SIZE];
+        byte[] bytes = new byte[SIZE_IN_BYTES];
 
         if (is.read(bytes) == -1) {
             throw new IOException();

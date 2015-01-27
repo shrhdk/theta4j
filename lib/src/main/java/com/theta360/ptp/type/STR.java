@@ -15,7 +15,7 @@ public final class STR {
     /**
      * Minimum size of type in bytes.
      */
-    public static final int MIN_SIZE = 1;
+    public static final int MIN_SIZE_IN_BYTES = 1;
 
     private static Charset CHARSET = Charset.forName("UTF-16LE");
 
@@ -51,7 +51,7 @@ public final class STR {
             return "";
         }
 
-        int length = numChars * UINT16.SIZE;
+        int length = numChars * UINT16.SIZE_IN_BYTES;
 
         byte[] bytes = new byte[length];
         if (is.read(bytes) == -1) {
