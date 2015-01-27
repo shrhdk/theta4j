@@ -19,6 +19,10 @@ public class PtpIpPacket {
     private final Type type;
     byte[] payload;
 
+    // Utility Field
+
+    protected static final int HEADER_SIZE_IN_BYTES = UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES;
+
     // Constructor
 
     public PtpIpPacket(Type type) {

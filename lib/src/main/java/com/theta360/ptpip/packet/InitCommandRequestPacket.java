@@ -56,7 +56,7 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
 
     public static InitCommandRequestPacket read(PtpInputStream pis) throws IOException {
         long length = pis.readUINT32().longValue();
-        long payloadLength = length - UINT32.SIZE_IN_BYTES - UINT32.SIZE_IN_BYTES;
+        long payloadLength = length - HEADER_SIZE_IN_BYTES;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         PacketUtils.assertType(type, Type.INIT_COMMAND_REQUEST);

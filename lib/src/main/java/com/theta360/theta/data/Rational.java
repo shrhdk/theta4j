@@ -16,6 +16,10 @@ public class Rational implements Comparable<Rational> {
     private final long denominator;
     private final byte[] bytes;
 
+    // Utility Field
+
+    public static final int SIZE_IN_BYTES = UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES;
+
     // Constructor
 
     public Rational(long molecule, long denominator) {
@@ -42,10 +46,7 @@ public class Rational implements Comparable<Rational> {
 
     public static Rational valueOf(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
-
-        if (bytes.length < UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES) {
-            throw new IllegalArgumentException();
-        }
+        Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
 
         try (
                 ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
