@@ -43,10 +43,10 @@ public class UINT64Test {
     @Test
     public void constructWithZeroAndGet() {
         // given
-        BigInteger given = BigInteger.valueOf(0);
+        BigInteger given = BigInteger.ZERO;
 
         // expected
-        BigInteger expectedInteger = BigInteger.valueOf(0);
+        BigInteger expectedInteger = BigInteger.ZERO;
         byte[] expectedBytes = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
         // act
@@ -60,10 +60,10 @@ public class UINT64Test {
     @Test
     public void constructWithPositiveValueAndGet() {
         // given
-        BigInteger given = BigInteger.valueOf(1);
+        BigInteger given = BigInteger.ONE;
 
         // expected
-        BigInteger expectedInteger = BigInteger.valueOf(1);
+        BigInteger expectedInteger = BigInteger.ONE;
         byte[] expectedBytes = new byte[]{0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
         // act

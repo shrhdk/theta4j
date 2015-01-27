@@ -6,12 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 
-/**
- * 64 bit unsigned integer value defined in PTP
- */
-public final class UINT64 extends Number implements Comparable<UINT64> {
-    private static final BigInteger MIN_INTEGER_VALUE = BigInteger.ZERO;
-    private static final BigInteger MAX_INTEGER_VALUE = new BigInteger("00FFFFFFFFFFFFFFFF", 16);
+public class INT128 extends Number implements Comparable<INT128> {
+    private static final BigInteger MIN_INTEGER_VALUE = new BigInteger("-10000000000000000000000000000000", 16); // -2**(128-1)
+    private static final BigInteger MAX_INTEGER_VALUE = new BigInteger("+7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", 16); // 2**(128-1)-1
 
     private final BigInteger bigInteger;
     private final byte[] bytes;
@@ -21,29 +18,25 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
     /**
      * Size of type in bytes.
      */
-    public static final int SIZE_IN_BYTES = 8;
+    public static final int SIZE_IN_BYTES = 16;
 
-    public static final UINT64 MIN_VALUE = new UINT64(MIN_INTEGER_VALUE);
-    public static final UINT64 MAX_VALUE = new UINT64(MAX_INTEGER_VALUE);
+    public static final INT128 MIN_VALUE = new INT128(MIN_INTEGER_VALUE);
+    public static final INT128 MAX_VALUE = new INT128(MAX_INTEGER_VALUE);
 
-    public static final UINT64 ZERO = new UINT64(0);
-    public static final UINT64 ONE = new UINT64(1);
-    public static final UINT64 TEN = new UINT64(10);
+    public static final INT128 ZERO = new INT128(0);
+    public static final INT128 ONE = new INT128(1);
+    public static final INT128 TEN = new INT128(10);
 
     // Constructor
 
-    public UINT64(long value) {
+    public INT128(long value) {
         this(BigInteger.valueOf(value));
     }
 
-    public UINT64(BigInteger value) {
+    public INT128(BigInteger value) {
         Validators.validateNonNull("value", value);
 
-        if (value.signum() == -1) {
-            throw new IllegalArgumentException();
-        }
-
-        if (0 < value.compareTo(MAX_INTEGER_VALUE)) {
+        if (value.compareTo(MIN_INTEGER_VALUE) < 0 || 0 < value.compareTo(MAX_INTEGER_VALUE)) {
             throw new IllegalArgumentException();
         }
 
@@ -51,25 +44,25 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
         this.bigInteger = value;
     }
 
-    public UINT64(byte[] bytes) {
+    public INT128(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
         Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
 
         this.bytes = bytes.clone();
 
-        this.bigInteger = UINT.asUnsignedLittleEndian(bytes);
+        this.bigInteger = UINT.asSignedLittleEndian(bytes);
     }
 
     // Static Factory Method
 
-    public static UINT64 read(InputStream is) throws IOException {
+    public static INT128 read(InputStream is) throws IOException {
         byte[] bytes = new byte[SIZE_IN_BYTES];
 
         if (is.read(bytes) == -1) {
             throw new IOException();
         }
 
-        return new UINT64(bytes);
+        return new INT128(bytes);
     }
 
     // Getter
@@ -104,10 +97,10 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
         return bigInteger.doubleValue();
     }
 
-    // Comparable
+    // Compare
 
     @Override
-    public int compareTo(UINT64 o) {
+    public int compareTo(INT128 o) {
         return bigInteger.compareTo(o.bigInteger);
     }
 
@@ -118,9 +111,9 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UINT64 uint64 = (UINT64) o;
+        INT128 int128 = (INT128) o;
 
-        return bigInteger.equals(uint64.bigInteger);
+        return bigInteger.equals(int128.bigInteger);
     }
 
     @Override
