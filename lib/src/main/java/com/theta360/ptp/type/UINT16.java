@@ -1,6 +1,5 @@
 package com.theta360.ptp.type;
 
-import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.util.Validators;
 
 import java.io.IOException;
@@ -14,16 +13,19 @@ public final class UINT16 extends Number implements Comparable<UINT16> {
     private static final int MIN_INTEGER_VALUE = 0;
     private static final int MAX_INTEGER_VALUE = 65535;
 
+    private final byte[] bytes;
+    private final int intValue;
+
+    // Utility Field
+
     /**
      * Size of type in bytes.
      */
     public static final int SIZE = 2;
 
+    public static final UINT16 ZERO = new UINT16(0);
     public static final UINT16 MIN_VALUE = new UINT16(MIN_INTEGER_VALUE);
     public static final UINT16 MAX_VALUE = new UINT16(MAX_INTEGER_VALUE);
-
-    private final byte[] bytes;
-    private final int intValue;
 
     // Constructor
 
@@ -51,17 +53,31 @@ public final class UINT16 extends Number implements Comparable<UINT16> {
     // Private Constructor
 
     private UINT16(byte[] bytes) {
-        if (bytes.length != 2) {
-            throw new IllegalArgumentException();
-        }
+        Validators.validateNonNull("bytes", bytes);
+        Validators.validateLength("bytes", bytes, SIZE);
 
-        // byte[]
         this.bytes = bytes.clone();
 
-        // long
+        // bytes -> int
         byte[] base = new byte[]{0x00, 0x00, bytes[1], bytes[0]};
         ByteBuffer byteBuffer = ByteBuffer.wrap(base);
         this.intValue = byteBuffer.getInt();
+    }
+
+    // Static Factory Method
+
+    public static UINT16 valueOf(byte[] bytes) throws IOException {
+        return new UINT16(bytes);
+    }
+
+    public static UINT16 read(InputStream is) throws IOException {
+        byte[] bytes = new byte[SIZE];
+
+        if (is.read(bytes) == -1) {
+            throw new IOException();
+        }
+
+        return new UINT16(bytes);
     }
 
     // Getter
@@ -106,9 +122,8 @@ public final class UINT16 extends Number implements Comparable<UINT16> {
 
         UINT16 uint16 = (UINT16) o;
 
-        if (intValue != uint16.intValue) return false;
+        return intValue == uint16.intValue;
 
-        return true;
     }
 
     @Override
@@ -122,28 +137,5 @@ public final class UINT16 extends Number implements Comparable<UINT16> {
     @Override
     public String toString() {
         return String.format("0x%02x%02x", bytes[1], bytes[0]);
-    }
-
-    // Static Factory Method
-
-    public static UINT16 valueOf(byte[] bytes) throws IOException {
-        Validators.validateNonNull("bytes", bytes);
-        Validators.validateLength("bytes", bytes, SIZE);
-
-        try (PtpInputStream pis = new PtpInputStream(bytes)) {
-            return read(pis);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static UINT16 read(InputStream is) throws IOException {
-        byte[] bytes = new byte[SIZE];
-
-        if (is.read(bytes) == -1) {
-            throw new IOException();
-        }
-
-        return new UINT16(bytes);
     }
 }

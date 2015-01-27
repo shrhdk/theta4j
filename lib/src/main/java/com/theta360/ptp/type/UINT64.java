@@ -1,6 +1,5 @@
 package com.theta360.ptp.type;
 
-import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.util.Validators;
 
 import java.io.IOException;
@@ -15,6 +14,11 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
     private static final BigInteger MIN_INTEGER_VALUE = BigInteger.ZERO;
     private static final BigInteger MAX_INTEGER_VALUE = new BigInteger("00FFFFFFFFFFFFFFFF", 16);
 
+    private final BigInteger bigInteger;
+    private final byte[] bytes;
+
+    // Utility Field
+
     /**
      * Size of type in bytes.
      */
@@ -26,9 +30,6 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
     public static final UINT64 ZERO = new UINT64(0);
     public static final UINT64 ONE = new UINT64(1);
     public static final UINT64 TEN = new UINT64(10);
-
-    private final BigInteger bigInteger;
-    private final byte[] bytes;
 
     // Constructor
 
@@ -54,9 +55,8 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
     // Private Constructor
 
     private UINT64(byte[] bytes) {
-        if (bytes.length != 8) {
-            throw new IllegalArgumentException();
-        }
+        Validators.validateNonNull("bytes", bytes);
+        Validators.validateLength("bytes", bytes, SIZE);
 
         this.bytes = bytes.clone();
 
@@ -66,6 +66,22 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
         this.bigInteger = new BigInteger(new byte[]{
                 0x00, bytes[7], bytes[6], bytes[5], bytes[4], bytes[3], bytes[2], bytes[1], bytes[0]
         });
+    }
+
+    // Static Factory Method
+
+    public static UINT64 valueOf(byte[] bytes) throws IOException {
+        return new UINT64(bytes);
+    }
+
+    public static UINT64 read(InputStream is) throws IOException {
+        byte[] bytes = new byte[SIZE];
+
+        if (is.read(bytes) == -1) {
+            throw new IOException();
+        }
+
+        return new UINT64(bytes);
     }
 
     // Getter
@@ -114,9 +130,8 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
 
         UINT64 uint64 = (UINT64) o;
 
-        if (!Arrays.equals(bytes, uint64.bytes)) return false;
+        return Arrays.equals(bytes, uint64.bytes);
 
-        return true;
     }
 
     @Override
@@ -127,28 +142,5 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
     @Override
     public String toString() {
         return "UINT64{" + bigInteger + "}";
-    }
-
-    // Static Factory Method
-
-    public static UINT64 valueOf(byte[] bytes) throws IOException {
-        Validators.validateNonNull("bytes", bytes);
-        Validators.validateLength("bytes", bytes, SIZE);
-
-        try (PtpInputStream pis = new PtpInputStream(bytes)) {
-            return read(pis);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static UINT64 read(InputStream is) throws IOException {
-        byte[] bytes = new byte[SIZE];
-
-        if (is.read(bytes) == -1) {
-            throw new IOException();
-        }
-
-        return new UINT64(bytes);
     }
 }

@@ -37,7 +37,7 @@ public final class PtpInputStream extends InputStream {
     // PTP Generic Type
 
     public short readINT16() throws IOException {
-        return INT16.read(is);
+        return INT16.read(is).shortValue();
     }
 
     /**
