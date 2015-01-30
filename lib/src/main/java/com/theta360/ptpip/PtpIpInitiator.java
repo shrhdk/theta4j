@@ -59,7 +59,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     public PtpIpInitiator(UUID guid, String host, int port) throws IOException {
         Validators.validateNonNull("guid", guid);
         Validators.validateNonNull("host", host);
-        Validators.validatePortNumber("port", port);
+        Validators.validatePortNumber(port);
 
         this.guid = guid;
         this.host = host;
