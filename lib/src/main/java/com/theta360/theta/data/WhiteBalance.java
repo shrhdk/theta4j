@@ -61,19 +61,19 @@ public enum WhiteBalance {
 
     // valueOf
 
-    private static final Map<UINT16, WhiteBalance> whiteBalanceMap = new HashMap<>();
+    private static final Map<UINT16, WhiteBalance> WHITE_BALANCE_MAP = new HashMap<>();
 
     static {
         for (WhiteBalance whiteBalance : WhiteBalance.values()) {
-            whiteBalanceMap.put(whiteBalance.value, whiteBalance);
+            WHITE_BALANCE_MAP.put(whiteBalance.value, whiteBalance);
         }
     }
 
     public static WhiteBalance valueOf(UINT16 value) {
-        if (!whiteBalanceMap.containsKey(value)) {
+        if (!WHITE_BALANCE_MAP.containsKey(value)) {
             throw new RuntimeException();
         }
 
-        return whiteBalanceMap.get(value);
+        return WHITE_BALANCE_MAP.get(value);
     }
 }

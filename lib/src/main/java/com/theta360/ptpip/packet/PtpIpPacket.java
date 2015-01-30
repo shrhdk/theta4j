@@ -137,22 +137,22 @@ public class PtpIpPacket {
 
         // valueOf
 
-        private static final Map<UINT32, Type> numbers = new HashMap<>();
+        private static final Map<UINT32, Type> TYPE_MAP = new HashMap<>();
 
         static {
             for (Type type : Type.values()) {
-                numbers.put(type.value, type);
+                TYPE_MAP.put(type.value, type);
             }
         }
 
         public static Type valueOf(UINT32 value) {
             Validators.validateNonNull("value", value);
 
-            if (!numbers.containsKey(value)) {
+            if (!TYPE_MAP.containsKey(value)) {
                 throw new IllegalArgumentException();
             }
 
-            return numbers.get(value);
+            return TYPE_MAP.get(value);
         }
 
         // read

@@ -27,19 +27,19 @@ public enum CaptureStatus {
 
     // valueOf
 
-    private static final Map<Byte, CaptureStatus> captureStatusMap = new HashMap<>();
+    private static final Map<Byte, CaptureStatus> CAPTURE_STATUS_MAP = new HashMap<>();
 
     static {
         for (CaptureStatus captureStatus : CaptureStatus.values()) {
-            captureStatusMap.put(captureStatus.value, captureStatus);
+            CAPTURE_STATUS_MAP.put(captureStatus.value, captureStatus);
         }
     }
 
     public static CaptureStatus valueOf(byte value) {
-        if (!captureStatusMap.containsKey(value)) {
+        if (!CAPTURE_STATUS_MAP.containsKey(value)) {
             throw new RuntimeException();
         }
 
-        return captureStatusMap.get(value);
+        return CAPTURE_STATUS_MAP.get(value);
     }
 }

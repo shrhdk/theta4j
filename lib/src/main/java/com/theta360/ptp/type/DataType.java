@@ -44,19 +44,19 @@ public enum DataType implements Code<UINT16> {
 
     // valueOf
 
-    private static final Map<UINT16, DataType> dataTypeMap = new HashMap<>();
+    private static final Map<UINT16, DataType> DATA_TYPE_MAP = new HashMap<>();
 
     static {
         for (DataType dataType : DataType.values()) {
-            dataTypeMap.put(dataType.value, dataType);
+            DATA_TYPE_MAP.put(dataType.value, dataType);
         }
     }
 
     public static DataType valueOf(UINT16 value) {
-        if (!dataTypeMap.containsKey(value)) {
+        if (!DATA_TYPE_MAP.containsKey(value)) {
             throw new RuntimeException("Unknown DataType Value: " + value);
         }
 
-        return dataTypeMap.get(value);
+        return DATA_TYPE_MAP.get(value);
     }
 }

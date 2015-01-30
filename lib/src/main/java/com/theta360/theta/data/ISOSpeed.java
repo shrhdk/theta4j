@@ -28,21 +28,21 @@ public enum ISOSpeed {
 
     // valueOf
 
-    private static final Map<UINT16, ISOSpeed> isoSpeedMap = new HashMap<>();
+    private static final Map<UINT16, ISOSpeed> ISO_SPEED_MAP = new HashMap<>();
 
     static {
         for (ISOSpeed isoSpeed : ISOSpeed.values()) {
-            isoSpeedMap.put(isoSpeed.value, isoSpeed);
+            ISO_SPEED_MAP.put(isoSpeed.value, isoSpeed);
         }
     }
 
     public static ISOSpeed valueOf(UINT16 value) {
         Validators.validateNonNull("value", value);
 
-        if (!isoSpeedMap.containsKey(value)) {
+        if (!ISO_SPEED_MAP.containsKey(value)) {
             throw new RuntimeException("Unknown ISOSpeed value: " + value);
         }
 
-        return isoSpeedMap.get(value);
+        return ISO_SPEED_MAP.get(value);
     }
 }
