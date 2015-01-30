@@ -3,6 +3,7 @@ package com.theta360.ptpip.packet;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
 
@@ -51,14 +52,18 @@ public final class CancelPacket extends PtpIpPacket {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        CancelPacket that = (CancelPacket) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        if (!transactionID.equals(that.transactionID)) return false;
+        CancelPacket rhs = (CancelPacket) o;
 
-        return true;
+        return transactionID.equals(rhs.transactionID);
+
     }
 
     @Override
@@ -68,8 +73,8 @@ public final class CancelPacket extends PtpIpPacket {
 
     @Override
     public String toString() {
-        return "CancelPacket{" +
-                "transactionID=" + transactionID +
-                '}';
+        return new ToStringBuilder(this)
+                .append("transactionID", transactionID)
+                .toString();
     }
 }

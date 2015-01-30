@@ -4,6 +4,9 @@ import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
 import java.util.List;
@@ -69,6 +72,51 @@ public final class DeviceInfo {
         this.serialNumber = serialNumber;
     }
 
+    // Static Factory Method
+
+    /**
+     * Construct DeviceInfo from byte array.
+     */
+    public static DeviceInfo valueOf(byte[] bytes) {
+        Validators.validateNonNull("bytes", bytes);
+
+        try (PtpInputStream pis = new PtpInputStream(bytes)) {
+            return read(pis);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Construct DeviceInfo from PtpInputStream.
+     *
+     * @throws IOException
+     */
+    public static DeviceInfo read(PtpInputStream pis) throws IOException {
+        Validators.validateNonNull("pis", pis);
+
+        UINT16 standardVersion = pis.readUINT16();
+        UINT32 vendorExtensionID = pis.readUINT32();
+        UINT16 vendorExtensionVersion = pis.readUINT16();
+        String vendorExtensionDesc = pis.readString();
+        UINT16 functionalMode = pis.readUINT16();
+        List<UINT16> operationsSupported = pis.readAUINT16();
+        List<UINT16> eventsSupported = pis.readAUINT16();
+        List<UINT16> devicePropertiesSupported = pis.readAUINT16();
+        List<UINT16> captureFormats = pis.readAUINT16();
+        List<UINT16> imageFormats = pis.readAUINT16();
+        String manufacturer = pis.readString();
+        String model = pis.readString();
+        String deviceVersion = pis.readString();
+        String serialNumber = pis.readString();
+
+        return new DeviceInfo(standardVersion,
+                vendorExtensionID, vendorExtensionVersion, vendorExtensionDesc,
+                functionalMode, operationsSupported, eventsSupported, devicePropertiesSupported,
+                captureFormats, imageFormats,
+                manufacturer, model, deviceVersion, serialNumber);
+    }
+
     // Getter
 
     public UINT16 getStandardVersion() {
@@ -131,110 +179,56 @@ public final class DeviceInfo {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        DeviceInfo that = (DeviceInfo) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        if (!captureFormats.equals(that.captureFormats)) return false;
-        if (!devicePropertiesSupported.equals(that.devicePropertiesSupported)) return false;
-        if (!deviceVersion.equals(that.deviceVersion)) return false;
-        if (!eventsSupported.equals(that.eventsSupported)) return false;
-        if (!functionalMode.equals(that.functionalMode)) return false;
-        if (!imageFormats.equals(that.imageFormats)) return false;
-        if (!manufacturer.equals(that.manufacturer)) return false;
-        if (!model.equals(that.model)) return false;
-        if (!operationsSupported.equals(that.operationsSupported)) return false;
-        if (!serialNumber.equals(that.serialNumber)) return false;
-        if (!standardVersion.equals(that.standardVersion)) return false;
-        if (!vendorExtensionDesc.equals(that.vendorExtensionDesc)) return false;
-        if (!vendorExtensionID.equals(that.vendorExtensionID)) return false;
-        if (!vendorExtensionVersion.equals(that.vendorExtensionVersion)) return false;
+        DeviceInfo rhs = (DeviceInfo) o;
 
-        return true;
+        return new EqualsBuilder()
+                .append(standardVersion, rhs.standardVersion)
+                .append(vendorExtensionID, rhs.vendorExtensionID)
+                .append(vendorExtensionVersion, rhs.vendorExtensionVersion)
+                .append(vendorExtensionDesc, rhs.vendorExtensionDesc)
+                .append(functionalMode, rhs.functionalMode)
+                .append(operationsSupported, rhs.operationsSupported)
+                .append(eventsSupported, rhs.eventsSupported)
+                .append(devicePropertiesSupported, rhs.devicePropertiesSupported)
+                .append(captureFormats, rhs.captureFormats)
+                .append(imageFormats, rhs.imageFormats)
+                .append(manufacturer, rhs.manufacturer)
+                .append(model, rhs.model)
+                .append(deviceVersion, rhs.deviceVersion)
+                .append(serialNumber, rhs.serialNumber)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = standardVersion.hashCode();
-        result = 31 * result + vendorExtensionID.hashCode();
-        result = 31 * result + vendorExtensionVersion.hashCode();
-        result = 31 * result + vendorExtensionDesc.hashCode();
-        result = 31 * result + functionalMode.hashCode();
-        result = 31 * result + operationsSupported.hashCode();
-        result = 31 * result + eventsSupported.hashCode();
-        result = 31 * result + devicePropertiesSupported.hashCode();
-        result = 31 * result + captureFormats.hashCode();
-        result = 31 * result + imageFormats.hashCode();
-        result = 31 * result + manufacturer.hashCode();
-        result = 31 * result + model.hashCode();
-        result = 31 * result + deviceVersion.hashCode();
-        result = 31 * result + serialNumber.hashCode();
-        return result;
+        return new HashCodeBuilder()
+                .append(standardVersion)
+                .append(vendorExtensionID)
+                .append(vendorExtensionVersion)
+                .append(vendorExtensionDesc)
+                .append(functionalMode)
+                .append(operationsSupported)
+                .append(eventsSupported)
+                .append(devicePropertiesSupported)
+                .append(captureFormats)
+                .append(imageFormats)
+                .append(manufacturer)
+                .append(model)
+                .append(deviceVersion)
+                .append(serialNumber)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "DeviceInfo{" +
-                "standardVersion=" + standardVersion +
-                ", vendorExtensionID=" + vendorExtensionID +
-                ", vendorExtensionVersion=" + vendorExtensionVersion +
-                ", vendorExtensionDesc='" + vendorExtensionDesc + '\'' +
-                ", functionalMode=" + functionalMode +
-                ", operationsSupported=" + operationsSupported +
-                ", eventsSupported=" + eventsSupported +
-                ", devicePropertiesSupported=" + devicePropertiesSupported +
-                ", captureFormats=" + captureFormats +
-                ", imageFormats=" + imageFormats +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", model='" + model + '\'' +
-                ", deviceVersion='" + deviceVersion + '\'' +
-                ", serialNumber='" + serialNumber + '\'' +
-                '}';
-    }
-
-    // Static Factory Method
-
-    /**
-     * Construct DeviceInfo from byte array.
-     */
-    public static DeviceInfo valueOf(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
-
-        try (PtpInputStream pis = new PtpInputStream(bytes)) {
-            return read(pis);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Construct DeviceInfo from PtpInputStream.
-     *
-     * @throws IOException
-     */
-    public static DeviceInfo read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
-
-        UINT16 standardVersion = pis.readUINT16();
-        UINT32 vendorExtensionID = pis.readUINT32();
-        UINT16 vendorExtensionVersion = pis.readUINT16();
-        String vendorExtensionDesc = pis.readString();
-        UINT16 functionalMode = pis.readUINT16();
-        List<UINT16> operationsSupported = pis.readAUINT16();
-        List<UINT16> eventsSupported = pis.readAUINT16();
-        List<UINT16> devicePropertiesSupported = pis.readAUINT16();
-        List<UINT16> captureFormats = pis.readAUINT16();
-        List<UINT16> imageFormats = pis.readAUINT16();
-        String manufacturer = pis.readString();
-        String model = pis.readString();
-        String deviceVersion = pis.readString();
-        String serialNumber = pis.readString();
-
-        return new DeviceInfo(standardVersion,
-                vendorExtensionID, vendorExtensionVersion, vendorExtensionDesc,
-                functionalMode, operationsSupported, eventsSupported, devicePropertiesSupported,
-                captureFormats, imageFormats,
-                manufacturer, model, deviceVersion, serialNumber);
+        return ToStringBuilder.reflectionToString(this);
     }
 }

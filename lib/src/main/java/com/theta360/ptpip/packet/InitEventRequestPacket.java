@@ -3,6 +3,7 @@ package com.theta360.ptpip.packet;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
 
@@ -50,14 +51,18 @@ public final class InitEventRequestPacket extends PtpIpPacket {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        InitEventRequestPacket that = (InitEventRequestPacket) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        if (!connectionNumber.equals(that.connectionNumber)) return false;
+        InitEventRequestPacket rhs = (InitEventRequestPacket) o;
 
-        return true;
+        return connectionNumber.equals(rhs.connectionNumber);
+
     }
 
     @Override
@@ -67,8 +72,8 @@ public final class InitEventRequestPacket extends PtpIpPacket {
 
     @Override
     public String toString() {
-        return "InitEventRequestPacket{" +
-                "connectionNumber=" + connectionNumber +
-                '}';
+        return new ToStringBuilder(this)
+                .append(connectionNumber)
+                .toString();
     }
 }

@@ -5,6 +5,9 @@ import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -73,32 +76,38 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        InitCommandRequestPacket that = (InitCommandRequestPacket) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        if (!guid.equals(that.guid)) return false;
-        if (!name.equals(that.name)) return false;
-        if (!protocolVersion.equals(that.protocolVersion)) return false;
+        InitCommandRequestPacket rhs = (InitCommandRequestPacket) o;
 
-        return true;
+        return new EqualsBuilder()
+                .append(guid, rhs.guid)
+                .append(name, rhs.name)
+                .append(protocolVersion, rhs.protocolVersion)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = guid.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + protocolVersion.hashCode();
-        return result;
+        return new HashCodeBuilder()
+                .append(guid)
+                .append(name)
+                .append(protocolVersion)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "InitCommandRequestPacket{" +
-                "guid=" + guid +
-                ", name='" + name + '\'' +
-                ", protocolVersion=" + protocolVersion +
-                '}';
+        return new ToStringBuilder(this)
+                .append("guid", guid)
+                .append("name", name)
+                .append("protocolVersion", protocolVersion)
+                .toString();
     }
 }

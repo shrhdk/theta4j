@@ -88,12 +88,17 @@ public class INT16 extends Number implements Comparable<INT16> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        INT16 int16 = (INT16) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        return shortValue == int16.shortValue;
+        INT16 rhs = (INT16) o;
+
+        return shortValue == rhs.shortValue;
 
     }
 

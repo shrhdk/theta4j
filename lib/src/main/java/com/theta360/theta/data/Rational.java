@@ -4,6 +4,8 @@ import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -92,22 +94,28 @@ public class Rational implements Comparable<Rational> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        Rational rational = (Rational) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        if (denominator != rational.denominator) return false;
-        if (molecule != rational.molecule) return false;
+        Rational rhs = (Rational) o;
 
-        return true;
+        return new EqualsBuilder()
+                .append(molecule, rhs.molecule)
+                .append(denominator, rhs.denominator)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (molecule ^ (molecule >>> 32));
-        result = 31 * result + (int) (denominator ^ (denominator >>> 32));
-        return result;
+        return new HashCodeBuilder()
+                .append(molecule)
+                .append(denominator)
+                .toHashCode();
     }
 
     @Override

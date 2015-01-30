@@ -115,12 +115,17 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        UINT64 uint64 = (UINT64) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        return bigInteger.equals(uint64.bigInteger);
+        UINT64 rhs = (UINT64) o;
+
+        return bigInteger.equals(rhs.bigInteger);
     }
 
     @Override

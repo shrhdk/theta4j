@@ -112,12 +112,17 @@ public final class UINT32 extends Number implements Comparable<UINT32> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        UINT32 uint32 = (UINT32) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        return longValue == uint32.longValue;
+        UINT32 rhs = (UINT32) o;
+
+        return longValue == rhs.longValue;
 
     }
 

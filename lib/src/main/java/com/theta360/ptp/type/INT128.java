@@ -108,12 +108,17 @@ public class INT128 extends Number implements Comparable<INT128> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        INT128 int128 = (INT128) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        return bigInteger.equals(int128.bigInteger);
+        INT128 rhs = (INT128) o;
+
+        return bigInteger.equals(rhs.bigInteger);
     }
 
     @Override

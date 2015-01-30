@@ -3,6 +3,7 @@ package com.theta360.ptpip.packet;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
 
@@ -50,14 +51,18 @@ public final class InitFailPacket extends PtpIpPacket {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        InitFailPacket that = (InitFailPacket) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        if (!reason.equals(that.reason)) return false;
+        InitFailPacket rhs = (InitFailPacket) o;
 
-        return true;
+        return reason.equals(rhs.reason);
+
     }
 
     @Override
@@ -67,8 +72,8 @@ public final class InitFailPacket extends PtpIpPacket {
 
     @Override
     public String toString() {
-        return "InitFailPacket{" +
-                "reason=" + reason +
-                '}';
+        return new ToStringBuilder(this)
+                .append(reason)
+                .toString();
     }
 }

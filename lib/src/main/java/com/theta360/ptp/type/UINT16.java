@@ -111,12 +111,17 @@ public final class UINT16 extends Number implements Comparable<UINT16> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        UINT16 uint16 = (UINT16) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        return intValue == uint16.intValue;
+        UINT16 rhs = (UINT16) o;
+
+        return intValue == rhs.intValue;
 
     }
 

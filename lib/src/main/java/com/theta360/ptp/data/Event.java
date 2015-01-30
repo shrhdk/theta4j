@@ -3,6 +3,9 @@ package com.theta360.ptp.data;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class Event {
     private final UINT16 eventCode;
@@ -58,41 +61,40 @@ public class Event {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        Event event = (Event) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        if (!eventCode.equals(event.eventCode)) return false;
-        if (!p1.equals(event.p1)) return false;
-        if (!p2.equals(event.p2)) return false;
-        if (!p3.equals(event.p3)) return false;
-        if (!sessionID.equals(event.sessionID)) return false;
-        if (!transactionID.equals(event.transactionID)) return false;
+        Event rhs = (Event) o;
 
-        return true;
+        return new EqualsBuilder()
+                .append(eventCode, rhs.eventCode)
+                .append(sessionID, rhs.sessionID)
+                .append(transactionID, rhs.transactionID)
+                .append(p1, rhs.p1)
+                .append(p2, rhs.p2)
+                .append(p3, rhs.p3)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = eventCode.hashCode();
-        result = 31 * result + sessionID.hashCode();
-        result = 31 * result + transactionID.hashCode();
-        result = 31 * result + p1.hashCode();
-        result = 31 * result + p2.hashCode();
-        result = 31 * result + p3.hashCode();
-        return result;
+        return new HashCodeBuilder()
+                .append(eventCode)
+                .append(sessionID)
+                .append(transactionID)
+                .append(p1)
+                .append(p2)
+                .append(p3)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "Event{" +
-                "eventCode=" + eventCode +
-                ", sessionID=" + sessionID +
-                ", transactionID=" + transactionID +
-                ", p1=" + p1 +
-                ", p2=" + p2 +
-                ", p3=" + p3 +
-                '}';
+        return ToStringBuilder.reflectionToString(this);
     }
 }
