@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'findbugs'
 apply plugin: 'jacoco'
+apply plugin: 'sonar-runner'
 
 dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.9'
@@ -26,6 +27,17 @@ javadoc {
 
 jar {
     mustRunAfter clean
+}
+
+sonarRunner {
+    sonarProperties {
+        property "sonar.projectName", archivesBaseName
+        property "sonar.host.url", "http://shiro.be:9000"
+        property "sonar.jdbc.url", "jdbc:mysql://shiro.be:3306/sonar"
+        property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
+        property "sonar.jdbc.username", java.lang.System.getenv()['SONAR_DB_USER']
+        property "sonar.jdbc.password", java.lang.System.getenv()['SONAR_DB_PASSWORD']
+    }
 }
 
 task integrationTest(type: Test) {
