@@ -58,7 +58,7 @@ class BigIntegerUtils {
     public static byte[] toLittleEndian(BigInteger integer, int sizeInBytes) {
         Validators.validateNonNull("integer", integer);
 
-        boolean isPositive = (0 <= integer.signum());
+        boolean isPositive = 0 <= integer.signum();
         byte[] bigEndian = integer.toByteArray();
 
         // If the value is a positive number,
