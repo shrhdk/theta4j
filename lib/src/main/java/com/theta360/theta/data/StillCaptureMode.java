@@ -44,19 +44,19 @@ public enum StillCaptureMode {
 
     // valueOf
 
-    private static final Map<UINT16, StillCaptureMode> stillCaptureModeMap = new HashMap<>();
+    private static final Map<UINT16, StillCaptureMode> STILL_CAPTURE_MODE_MAP = new HashMap<>();
 
     static {
         for (StillCaptureMode stillCaptureMode : StillCaptureMode.values()) {
-            stillCaptureModeMap.put(stillCaptureMode.value, stillCaptureMode);
+            STILL_CAPTURE_MODE_MAP.put(stillCaptureMode.value, stillCaptureMode);
         }
     }
 
     public static StillCaptureMode valueOf(UINT16 value) {
-        if (!stillCaptureModeMap.containsKey(value)) {
+        if (!STILL_CAPTURE_MODE_MAP.containsKey(value)) {
             throw new RuntimeException();
         }
 
-        return stillCaptureModeMap.get(value);
+        return STILL_CAPTURE_MODE_MAP.get(value);
     }
 }

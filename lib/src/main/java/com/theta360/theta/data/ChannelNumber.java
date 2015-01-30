@@ -23,19 +23,19 @@ public enum ChannelNumber {
 
     // valueOf
 
-    private static final Map<Byte, ChannelNumber> channelNumbers = new HashMap<>();
+    private static final Map<Byte, ChannelNumber> CHANNEL_NUMBER_MAP = new HashMap<>();
 
     static {
         for (ChannelNumber channelNumber : ChannelNumber.values()) {
-            channelNumbers.put(channelNumber.value, channelNumber);
+            CHANNEL_NUMBER_MAP.put(channelNumber.value, channelNumber);
         }
     }
 
     public static ChannelNumber valueOf(byte value) {
-        if (!channelNumbers.containsKey(value)) {
+        if (!CHANNEL_NUMBER_MAP.containsKey(value)) {
             throw new RuntimeException();
         }
 
-        return channelNumbers.get(value);
+        return CHANNEL_NUMBER_MAP.get(value);
     }
 }

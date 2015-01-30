@@ -40,21 +40,21 @@ public enum BatteryLevel {
 
     // valueOf
 
-    private static final Map<Byte, BatteryLevel> batteryLevelMap = new HashMap<>();
+    private static final Map<Byte, BatteryLevel> BATTERY_LEVEL_MAP = new HashMap<>();
 
     static {
         for (BatteryLevel batteryLevel : BatteryLevel.values()) {
-            batteryLevelMap.put(batteryLevel.value, batteryLevel);
+            BATTERY_LEVEL_MAP.put(batteryLevel.value, batteryLevel);
         }
     }
 
     public static BatteryLevel valueOf(byte value) {
         Validators.validateNonNull("value", value);
 
-        if (!batteryLevelMap.containsKey(value)) {
+        if (!BATTERY_LEVEL_MAP.containsKey(value)) {
             throw new RuntimeException("Unknown BatteryLevel value: " + value);
         }
 
-        return batteryLevelMap.get(value);
+        return BATTERY_LEVEL_MAP.get(value);
     }
 }

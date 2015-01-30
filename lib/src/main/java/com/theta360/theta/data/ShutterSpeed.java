@@ -55,21 +55,21 @@ public enum ShutterSpeed {
 
     // valueOf
 
-    private static final Map<Rational, ShutterSpeed> shutterSpeedMap = new HashMap<>();
+    private static final Map<Rational, ShutterSpeed> SHUTTER_SPEED_MAP = new HashMap<>();
 
     static {
         for (ShutterSpeed shutterSpeed : ShutterSpeed.values()) {
-            shutterSpeedMap.put(shutterSpeed.value, shutterSpeed);
+            SHUTTER_SPEED_MAP.put(shutterSpeed.value, shutterSpeed);
         }
     }
 
     public static ShutterSpeed valueOf(Rational value) {
         Validators.validateNonNull("value", value);
 
-        if (!shutterSpeedMap.containsKey(value)) {
+        if (!SHUTTER_SPEED_MAP.containsKey(value)) {
             throw new RuntimeException("Unknown ShutterSpeed value: " + value);
         }
 
-        return shutterSpeedMap.get(value);
+        return SHUTTER_SPEED_MAP.get(value);
     }
 }

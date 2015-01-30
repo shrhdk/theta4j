@@ -292,11 +292,11 @@ public class ObjectInfo {
         NO_PROTECTION(new UINT16(0x0000)),
         READ_ONLY(new UINT16(0x0001));
 
-        private static final Map<UINT16, ProtectionStatus> protectionStatuses = new HashMap<>();
+        private static final Map<UINT16, ProtectionStatus> PROTECTION_STATUS_MAP = new HashMap<>();
 
         static {
             for (ProtectionStatus type : ProtectionStatus.values()) {
-                protectionStatuses.put(type.value, type);
+                PROTECTION_STATUS_MAP.put(type.value, type);
             }
         }
 
@@ -314,11 +314,11 @@ public class ObjectInfo {
         public static ProtectionStatus valueOf(UINT16 value) {
             Validators.validateNonNull("value", value);
 
-            if (!protectionStatuses.containsKey(value)) {
+            if (!PROTECTION_STATUS_MAP.containsKey(value)) {
                 throw new IllegalArgumentException();
             }
 
-            return protectionStatuses.get(value);
+            return PROTECTION_STATUS_MAP.get(value);
         }
     }
 }

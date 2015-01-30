@@ -128,20 +128,20 @@ public enum ErrorInfo {
 
     // valueOf
 
-    private static final Map<UINT32, ErrorInfo> errorInfoMap = new HashMap<>();
+    private static final Map<UINT32, ErrorInfo> ERROR_INFO_MAP = new HashMap<>();
 
     static {
         for (ErrorInfo errorInfo : ErrorInfo.values()) {
-            errorInfoMap.put(errorInfo.value, errorInfo);
+            ERROR_INFO_MAP.put(errorInfo.value, errorInfo);
         }
     }
 
     public static ErrorInfo valueOf(UINT32 value) {
-        if (!errorInfoMap.containsKey(value)) {
+        if (!ERROR_INFO_MAP.containsKey(value)) {
             throw new RuntimeException("Unknown ErrorInfo Value:" + value);
         }
 
-        return errorInfoMap.get(value);
+        return ERROR_INFO_MAP.get(value);
     }
 
     // Related Enum
