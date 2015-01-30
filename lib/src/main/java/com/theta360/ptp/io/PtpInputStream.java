@@ -2,8 +2,6 @@ package com.theta360.ptp.io;
 
 import com.theta360.ptp.type.*;
 import com.theta360.util.Validators;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -15,9 +13,9 @@ import java.util.List;
  * InputStream of the generic data type of PTP.
  */
 public final class PtpInputStream extends InputStream {
-    private static Logger LOGGER = LoggerFactory.getLogger(PtpInputStream.class);
-
     private final InputStream is;
+
+    // Constructor
 
     public PtpInputStream(byte[] bytes) {
         this(new ByteArrayInputStream(bytes));

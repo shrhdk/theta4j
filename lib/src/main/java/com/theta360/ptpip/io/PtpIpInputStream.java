@@ -5,8 +5,6 @@ import com.theta360.ptp.code.ResponseCode;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.ptpip.packet.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
@@ -14,8 +12,6 @@ import java.io.*;
  * InputStream of PTP-IP.
  */
 public final class PtpIpInputStream implements Closeable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInputStream.class);
-
     private final PtpInputStream pis;
 
     /**

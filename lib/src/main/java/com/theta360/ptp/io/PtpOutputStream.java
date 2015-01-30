@@ -5,8 +5,6 @@ import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.ptp.type.UINT64;
 import com.theta360.util.Validators;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -15,9 +13,9 @@ import java.io.OutputStream;
  * OutputStream of the generic data type of PTP.
  */
 public class PtpOutputStream extends OutputStream {
-    private static Logger LOGGER = LoggerFactory.getLogger(PtpOutputStream.class);
-
     private final OutputStream os;
+
+    // Constructor
 
     /**
      * Wrap OutputStream by PtpOutputStream.
