@@ -112,12 +112,17 @@ public final class UINT128 extends Number implements Comparable<UINT128> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        UINT128 uint128 = (UINT128) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        return bigInteger.equals(uint128.bigInteger);
+        UINT128 rhs = (UINT128) o;
+
+        return bigInteger.equals(rhs.bigInteger);
     }
 
     @Override

@@ -4,6 +4,9 @@ import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -84,8 +87,58 @@ public class ObjectInfo {
         this.keywords = keywords;
     }
 
-    // Getter
+    // Static Factory Method
 
+    /**
+     * Construct ObjectInfo from byte array.
+     */
+    public static ObjectInfo valueOf(byte[] bytes) {
+        Validators.validateNonNull("bytes", bytes);
+
+        try (PtpInputStream pis = new PtpInputStream(bytes)) {
+            return read(pis);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Construct ObjectInfo from PtpInputStream.
+     *
+     * @throws IOException
+     */
+    public static ObjectInfo read(PtpInputStream pis) throws IOException {
+        Validators.validateNonNull("pis", pis);
+
+        UINT32 storageID = pis.readUINT32();
+        UINT16 objectFormat = pis.readUINT16();
+        ProtectionStatus protectionStatus = ProtectionStatus.valueOf(pis.readUINT16());
+        UINT32 objectCompressedSize = pis.readUINT32();
+        UINT16 thumbFormat = pis.readUINT16();
+        UINT32 thumbCompressedSize = pis.readUINT32();
+        UINT32 thumbPixWidth = pis.readUINT32();
+        UINT32 thumbPixHeight = pis.readUINT32();
+        UINT32 imagePixWidth = pis.readUINT32();
+        UINT32 imagePixHeight = pis.readUINT32();
+        UINT32 imageBitDepth = pis.readUINT32();
+        UINT32 parentObject = pis.readUINT32();
+        UINT16 associationType = pis.readUINT16();
+        UINT32 associationDesc = pis.readUINT32();
+        UINT32 sequenceNumber = pis.readUINT32();
+        String fileName = pis.readString();
+        String captureDate = pis.readString();
+        String modificationDate = pis.readString();
+        String keywords = pis.readString();
+
+        return new ObjectInfo(storageID, objectFormat, protectionStatus, objectCompressedSize,
+                thumbFormat, thumbCompressedSize, thumbPixWidth, thumbPixHeight,
+                imagePixWidth, imagePixHeight, imageBitDepth,
+                parentObject, associationType, associationDesc, sequenceNumber,
+                fileName, captureDate, modificationDate, keywords
+        );
+    }
+
+    // Getter
 
     public UINT32 getStorageID() {
         return storageID;
@@ -165,135 +218,69 @@ public class ObjectInfo {
 
     // Basic Method
 
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        ObjectInfo that = (ObjectInfo) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        if (!associationDesc.equals(that.associationDesc)) return false;
-        if (!associationType.equals(that.associationType)) return false;
-        if (!captureDate.equals(that.captureDate)) return false;
-        if (!fileName.equals(that.fileName)) return false;
-        if (!imageBitDepth.equals(that.imageBitDepth)) return false;
-        if (!imagePixHeight.equals(that.imagePixHeight)) return false;
-        if (!imagePixWidth.equals(that.imagePixWidth)) return false;
-        if (!keywords.equals(that.keywords)) return false;
-        if (!modificationDate.equals(that.modificationDate)) return false;
-        if (!objectCompressedSize.equals(that.objectCompressedSize)) return false;
-        if (!objectFormat.equals(that.objectFormat)) return false;
-        if (!parentObject.equals(that.parentObject)) return false;
-        if (!protectionStatus.equals(that.protectionStatus)) return false;
-        if (!sequenceNumber.equals(that.sequenceNumber)) return false;
-        if (!storageID.equals(that.storageID)) return false;
-        if (!thumbCompressedSize.equals(that.thumbCompressedSize)) return false;
-        if (!thumbFormat.equals(that.thumbFormat)) return false;
-        if (!thumbPixHeight.equals(that.thumbPixHeight)) return false;
-        if (!thumbPixWidth.equals(that.thumbPixWidth)) return false;
+        ObjectInfo rhs = (ObjectInfo) o;
 
-        return true;
+        return new EqualsBuilder()
+                .append(storageID, rhs.storageID)
+                .append(objectFormat, rhs.objectFormat)
+                .append(protectionStatus, rhs.protectionStatus)
+                .append(objectCompressedSize, rhs.objectCompressedSize)
+                .append(thumbFormat, rhs.thumbFormat)
+                .append(thumbCompressedSize, rhs.thumbCompressedSize)
+                .append(thumbPixWidth, rhs.thumbPixWidth)
+                .append(thumbPixHeight, rhs.thumbPixHeight)
+                .append(imagePixWidth, rhs.imagePixWidth)
+                .append(imagePixHeight, rhs.imagePixHeight)
+                .append(imageBitDepth, rhs.imageBitDepth)
+                .append(parentObject, rhs.parentObject)
+                .append(associationType, rhs.associationType)
+                .append(associationDesc, rhs.associationDesc)
+                .append(sequenceNumber, rhs.sequenceNumber)
+                .append(fileName, rhs.fileName)
+                .append(captureDate, rhs.captureDate)
+                .append(modificationDate, rhs.modificationDate)
+                .append(keywords, rhs.keywords)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = storageID.hashCode();
-        result = 31 * result + objectFormat.hashCode();
-        result = 31 * result + protectionStatus.hashCode();
-        result = 31 * result + objectCompressedSize.hashCode();
-        result = 31 * result + thumbFormat.hashCode();
-        result = 31 * result + thumbCompressedSize.hashCode();
-        result = 31 * result + thumbPixWidth.hashCode();
-        result = 31 * result + thumbPixHeight.hashCode();
-        result = 31 * result + imagePixWidth.hashCode();
-        result = 31 * result + imagePixHeight.hashCode();
-        result = 31 * result + imageBitDepth.hashCode();
-        result = 31 * result + parentObject.hashCode();
-        result = 31 * result + associationType.hashCode();
-        result = 31 * result + associationDesc.hashCode();
-        result = 31 * result + sequenceNumber.hashCode();
-        result = 31 * result + fileName.hashCode();
-        result = 31 * result + captureDate.hashCode();
-        result = 31 * result + modificationDate.hashCode();
-        result = 31 * result + keywords.hashCode();
-        return result;
+        return new HashCodeBuilder()
+                .append(storageID)
+                .append(objectFormat)
+                .append(protectionStatus)
+                .append(objectCompressedSize)
+                .append(thumbFormat)
+                .append(thumbCompressedSize)
+                .append(thumbPixWidth)
+                .append(thumbPixHeight)
+                .append(imagePixWidth)
+                .append(imagePixHeight)
+                .append(imageBitDepth)
+                .append(parentObject)
+                .append(associationType)
+                .append(associationDesc)
+                .append(sequenceNumber)
+                .append(fileName)
+                .append(captureDate)
+                .append(modificationDate)
+                .append(keywords)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "ObjectInfo{" +
-                "storageID=" + storageID +
-                ", objectFormat=" + objectFormat +
-                ", protectionStatus=" + protectionStatus +
-                ", objectCompressedSize=" + objectCompressedSize +
-                ", thumbFormat=" + thumbFormat +
-                ", thumbCompressedSize=" + thumbCompressedSize +
-                ", thumbPixWidth=" + thumbPixWidth +
-                ", thumbPixHeight=" + thumbPixHeight +
-                ", imagePixWidth=" + imagePixWidth +
-                ", imagePixHeight=" + imagePixHeight +
-                ", imageBitDepth=" + imageBitDepth +
-                ", parentObject=" + parentObject +
-                ", associationType=" + associationType +
-                ", associationDesc=" + associationDesc +
-                ", sequenceNumber=" + sequenceNumber +
-                ", fileName='" + fileName + '\'' +
-                ", captureDate='" + captureDate + '\'' +
-                ", modificationDate='" + modificationDate + '\'' +
-                ", keywords='" + keywords + '\'' +
-                '}';
-    }
-
-    // Static Factory Method
-
-    /**
-     * Construct ObjectInfo from byte array.
-     */
-    public static ObjectInfo valueOf(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
-
-        try (PtpInputStream pis = new PtpInputStream(bytes)) {
-            return read(pis);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Construct ObjectInfo from PtpInputStream.
-     *
-     * @throws IOException
-     */
-    public static ObjectInfo read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
-
-        UINT32 storageID = pis.readUINT32();
-        UINT16 objectFormat = pis.readUINT16();
-        ProtectionStatus protectionStatus = ProtectionStatus.valueOf(pis.readUINT16());
-        UINT32 objectCompressedSize = pis.readUINT32();
-        UINT16 thumbFormat = pis.readUINT16();
-        UINT32 thumbCompressedSize = pis.readUINT32();
-        UINT32 thumbPixWidth = pis.readUINT32();
-        UINT32 thumbPixHeight = pis.readUINT32();
-        UINT32 imagePixWidth = pis.readUINT32();
-        UINT32 imagePixHeight = pis.readUINT32();
-        UINT32 imageBitDepth = pis.readUINT32();
-        UINT32 parentObject = pis.readUINT32();
-        UINT16 associationType = pis.readUINT16();
-        UINT32 associationDesc = pis.readUINT32();
-        UINT32 sequenceNumber = pis.readUINT32();
-        String fileName = pis.readString();
-        String captureDate = pis.readString();
-        String modificationDate = pis.readString();
-        String keywords = pis.readString();
-
-        return new ObjectInfo(storageID, objectFormat, protectionStatus, objectCompressedSize,
-                thumbFormat, thumbCompressedSize, thumbPixWidth, thumbPixHeight,
-                imagePixWidth, imagePixHeight, imageBitDepth,
-                parentObject, associationType, associationDesc, sequenceNumber,
-                fileName, captureDate, modificationDate, keywords
-        );
+        return ToStringBuilder.reflectionToString(this);
     }
 
     // Related Classes
@@ -301,7 +288,7 @@ public class ObjectInfo {
     /**
      * ProtectionStatus in ObjectInfo defined in PTP
      */
-    public static enum ProtectionStatus {
+    public enum ProtectionStatus {
         NO_PROTECTION(new UINT16(0x0000)),
         READ_ONLY(new UINT16(0x0001));
 

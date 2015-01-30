@@ -88,12 +88,17 @@ public class INT64 extends Number implements Comparable<INT64> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        INT64 int64 = (INT64) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        return longValue == int64.longValue;
+        INT64 rhs = (INT64) o;
+
+        return longValue == rhs.longValue;
 
     }
 

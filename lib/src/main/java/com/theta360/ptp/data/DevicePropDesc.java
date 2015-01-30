@@ -4,6 +4,9 @@ import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.DataType;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
 import java.util.*;
@@ -32,48 +35,6 @@ public class DevicePropDesc<T> {
         this.formFlag = formFlag;
         this.rangeForm = rangeForm;
         this.enumForm = enumForm;
-    }
-
-    // Getter
-
-    public UINT16 getDevicePropCode() {
-        return devicePropCode;
-    }
-
-    public DataType getDataType() {
-        return dataType;
-    }
-
-    public boolean isReadonly() {
-        return isReadonly;
-    }
-
-    public T getDefaultValue() {
-        return defaultValue;
-    }
-
-    public T getCurrentValue() {
-        return currentValue;
-    }
-
-    public FormFlag getFormFlag() {
-        return formFlag;
-    }
-
-    public RangeForm getRangeForm() {
-        if (formFlag != FormFlag.RANGE_FORM) {
-            throw new UnsupportedOperationException();
-        }
-
-        return rangeForm;
-    }
-
-    public List<T> getEnumForm() {
-        if (formFlag != FormFlag.ENUM_FORM) {
-            throw new UnsupportedOperationException();
-        }
-
-        return enumForm;
     }
 
     // Static Factory Method
@@ -120,6 +81,48 @@ public class DevicePropDesc<T> {
         return new DevicePropDesc<Object>(devicePropCode, dataType, isReadonly, defaultValue, currentValue, formFlag, rangeForm, enumForm);
     }
 
+    // Getter
+
+    public UINT16 getDevicePropCode() {
+        return devicePropCode;
+    }
+
+    public DataType getDataType() {
+        return dataType;
+    }
+
+    public boolean isReadonly() {
+        return isReadonly;
+    }
+
+    public T getDefaultValue() {
+        return defaultValue;
+    }
+
+    public T getCurrentValue() {
+        return currentValue;
+    }
+
+    public FormFlag getFormFlag() {
+        return formFlag;
+    }
+
+    public RangeForm getRangeForm() {
+        if (formFlag != FormFlag.RANGE_FORM) {
+            throw new UnsupportedOperationException();
+        }
+
+        return rangeForm;
+    }
+
+    public List<T> getEnumForm() {
+        if (formFlag != FormFlag.ENUM_FORM) {
+            throw new UnsupportedOperationException();
+        }
+
+        return enumForm;
+    }
+
     // Private Helper
 
     private static boolean readGetSet(PtpInputStream pis) throws IOException {
@@ -156,51 +159,48 @@ public class DevicePropDesc<T> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        DevicePropDesc that = (DevicePropDesc) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        if (isReadonly != that.isReadonly) return false;
-        if (!currentValue.equals(that.currentValue)) return false;
-        if (dataType != that.dataType) return false;
-        if (!defaultValue.equals(that.defaultValue)) return false;
-        if (!devicePropCode.equals(that.devicePropCode)) return false;
-        if (enumForm != null ? !enumForm.equals(that.enumForm) : that.enumForm != null) return false;
-        if (formFlag != that.formFlag) return false;
-        if (rangeForm != null ? !rangeForm.equals(that.rangeForm) : that.rangeForm != null) return false;
+        DevicePropDesc rhs = (DevicePropDesc) o;
 
-        return true;
+        return new EqualsBuilder()
+                .append(devicePropCode, rhs.devicePropCode)
+                .append(dataType, rhs.dataType)
+                .append(isReadonly, rhs.isReadonly)
+                .append(defaultValue, rhs.defaultValue)
+                .append(currentValue, rhs.currentValue)
+                .append(formFlag, rhs.formFlag)
+                .append(rangeForm, rhs.rangeForm)
+                .append(enumForm, rhs.enumForm)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = devicePropCode.hashCode();
-        result = 31 * result + dataType.hashCode();
-        result = 31 * result + (isReadonly ? 1 : 0);
-        result = 31 * result + defaultValue.hashCode();
-        result = 31 * result + currentValue.hashCode();
-        result = 31 * result + formFlag.hashCode();
-        result = 31 * result + (rangeForm != null ? rangeForm.hashCode() : 0);
-        result = 31 * result + (enumForm != null ? enumForm.hashCode() : 0);
-        return result;
+        return new HashCodeBuilder()
+                .append(devicePropCode)
+                .append(dataType)
+                .append(isReadonly)
+                .append(defaultValue)
+                .append(currentValue)
+                .append(formFlag)
+                .append(rangeForm)
+                .append(enumForm)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "DevicePropDesc{" +
-                "devicePropCode=" + devicePropCode +
-                ", dataType=" + dataType +
-                ", isReadonly=" + isReadonly +
-                ", defaultValue=" + defaultValue +
-                ", currentValue=" + currentValue +
-                ", formFlag=" + formFlag +
-                ", rangeForm=" + rangeForm +
-                ", enumForm=" + enumForm +
-                '}';
+        return ToStringBuilder.reflectionToString(this);
     }
 
-// Related Class and Enum
+    // Related Class and Enum
 
     public enum FormFlag {
         NONE(0x00),
@@ -263,33 +263,35 @@ public class DevicePropDesc<T> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
 
-            RangeForm rangeForm = (RangeForm) o;
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
-            if (!maxValue.equals(rangeForm.maxValue)) return false;
-            if (!minValue.equals(rangeForm.minValue)) return false;
-            if (!stepSize.equals(rangeForm.stepSize)) return false;
+            RangeForm rhs = (RangeForm) o;
 
-            return true;
+            return new EqualsBuilder()
+                    .append(minValue, rhs.minValue)
+                    .append(maxValue, rhs.maxValue)
+                    .append(stepSize, rhs.stepSize)
+                    .isEquals();
         }
 
         @Override
         public int hashCode() {
-            int result = minValue.hashCode();
-            result = 31 * result + maxValue.hashCode();
-            result = 31 * result + stepSize.hashCode();
-            return result;
+            return new HashCodeBuilder()
+                    .append(minValue)
+                    .append(maxValue)
+                    .append(stepSize)
+                    .toHashCode();
         }
 
         @Override
         public String toString() {
-            return "RangeForm{" +
-                    "minValue=" + minValue +
-                    ", maxValue=" + maxValue +
-                    ", stepSize=" + stepSize +
-                    '}';
+            return ToStringBuilder.reflectionToString(this);
         }
     }
 }

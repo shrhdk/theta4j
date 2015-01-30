@@ -92,12 +92,17 @@ public final class UINT8 extends Number implements Comparable<UINT8> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        UINT8 uint8 = (UINT8) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        return intValue == uint8.intValue;
+        UINT8 rhs = (UINT8) o;
+
+        return intValue == rhs.intValue;
 
     }
 

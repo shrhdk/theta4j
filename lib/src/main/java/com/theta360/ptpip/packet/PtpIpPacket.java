@@ -5,10 +5,12 @@ import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.io.PtpOutputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,30 +71,36 @@ public class PtpIpPacket {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        PtpIpPacket that = (PtpIpPacket) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        if (!Arrays.equals(payload, that.payload)) return false;
-        if (type != that.type) return false;
+        PtpIpPacket rhs = (PtpIpPacket) o;
 
-        return true;
+        return new EqualsBuilder()
+                .append(type, rhs.type)
+                .append(payload, rhs.payload)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = type.hashCode();
-        result = 31 * result + Arrays.hashCode(payload);
-        return result;
+        return new HashCodeBuilder()
+                .append(type)
+                .append(payload)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "PtpIpPacket{" +
-                "type=" + type +
-                ", payload=" + Arrays.toString(payload) +
-                '}';
+        return new ToStringBuilder(this)
+                .append("type", type)
+                .append("payload", payload)
+                .toString();
     }
 
     // Inner Types

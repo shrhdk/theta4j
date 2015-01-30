@@ -4,9 +4,11 @@ import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * Data Packet defined in PTP-IP
@@ -70,29 +72,35 @@ public final class DataPacket extends PtpIpPacket {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        DataPacket that = (DataPacket) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        if (!Arrays.equals(dataPayload, that.dataPayload)) return false;
-        if (!transactionID.equals(that.transactionID)) return false;
+        DataPacket rhs = (DataPacket) o;
 
-        return true;
+        return new EqualsBuilder()
+                .append(transactionID, rhs.transactionID)
+                .append(dataPayload, rhs.dataPayload)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = transactionID.hashCode();
-        result = 31 * result + Arrays.hashCode(dataPayload);
-        return result;
+        return new HashCodeBuilder()
+                .append(transactionID)
+                .append(dataPayload)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "DataPacket{" +
-                "transactionID=" + transactionID +
-                ", dataPayload=" + Arrays.toString(dataPayload) +
-                '}';
+        return new ToStringBuilder(this)
+                .append("transactionID", transactionID)
+                .append("dataPayload", dataPayload)
+                .toString();
     }
 }

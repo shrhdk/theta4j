@@ -5,6 +5,9 @@ import com.theta360.ptp.type.UINT32;
 import com.theta360.ptp.type.UINT64;
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
 
@@ -64,29 +67,35 @@ public final class StartDataPacket extends PtpIpPacket {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        StartDataPacket that = (StartDataPacket) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        if (!totalDataLength.equals(that.totalDataLength)) return false;
-        if (!transactionID.equals(that.transactionID)) return false;
+        StartDataPacket rhs = (StartDataPacket) o;
 
-        return true;
+        return new EqualsBuilder()
+                .append(transactionID, rhs.transactionID)
+                .append(totalDataLength, rhs.totalDataLength)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = transactionID.hashCode();
-        result = 31 * result + totalDataLength.hashCode();
-        return result;
+        return new HashCodeBuilder()
+                .append(transactionID)
+                .append(totalDataLength)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "StartDataPacket{" +
-                "transactionID=" + transactionID +
-                ", totalDataLength=" + totalDataLength +
-                '}';
+        return new ToStringBuilder(this)
+                .append("transactionID", transactionID)
+                .append("totalDataLength", totalDataLength)
+                .toString();
     }
 }

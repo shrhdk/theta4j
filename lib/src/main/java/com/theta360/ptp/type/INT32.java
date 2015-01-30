@@ -88,12 +88,17 @@ public class INT32 extends Number implements Comparable<INT32> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        INT32 int32 = (INT32) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        return intValue == int32.intValue;
+        INT32 rhs = (INT32) o;
+
+        return intValue == rhs.intValue;
 
     }
 

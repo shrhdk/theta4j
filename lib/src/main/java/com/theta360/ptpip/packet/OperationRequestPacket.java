@@ -5,6 +5,9 @@ import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
 
@@ -134,47 +137,53 @@ public final class OperationRequestPacket extends PtpIpPacket {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
 
-        OperationRequestPacket that = (OperationRequestPacket) o;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        if (!dataPhaseInfo.equals(that.dataPhaseInfo)) return false;
-        if (!operationCode.equals(that.operationCode)) return false;
-        if (!p1.equals(that.p1)) return false;
-        if (!p2.equals(that.p2)) return false;
-        if (!p3.equals(that.p3)) return false;
-        if (!p4.equals(that.p4)) return false;
-        if (!p5.equals(that.p5)) return false;
-        if (!transactionID.equals(that.transactionID)) return false;
+        OperationRequestPacket rhs = (OperationRequestPacket) o;
 
-        return true;
+        return new EqualsBuilder()
+                .append(dataPhaseInfo, rhs.dataPhaseInfo)
+                .append(operationCode, rhs.operationCode)
+                .append(transactionID, rhs.transactionID)
+                .append(p1, rhs.p1)
+                .append(p2, rhs.p2)
+                .append(p3, rhs.p3)
+                .append(p4, rhs.p4)
+                .append(p5, rhs.p5)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = dataPhaseInfo.hashCode();
-        result = 31 * result + operationCode.hashCode();
-        result = 31 * result + transactionID.hashCode();
-        result = 31 * result + p1.hashCode();
-        result = 31 * result + p2.hashCode();
-        result = 31 * result + p3.hashCode();
-        result = 31 * result + p4.hashCode();
-        result = 31 * result + p5.hashCode();
-        return result;
+        return new HashCodeBuilder()
+                .append(dataPhaseInfo)
+                .append(operationCode)
+                .append(transactionID)
+                .append(p1)
+                .append(p2)
+                .append(p3)
+                .append(p4)
+                .append(p5)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return "OperationRequestPacket{" +
-                "dataPhaseInfo=" + dataPhaseInfo +
-                ", operationCode=" + operationCode +
-                ", transactionID=" + transactionID +
-                ", p1=" + p1 +
-                ", p2=" + p2 +
-                ", p3=" + p3 +
-                ", p4=" + p4 +
-                ", p5=" + p5 +
-                '}';
+        return new ToStringBuilder(this)
+                .append("dataPhaseInfo", dataPhaseInfo)
+                .append("operationCode", operationCode)
+                .append("transactionID", transactionID)
+                .append("p1", p1)
+                .append("p2", p2)
+                .append("p3", p3)
+                .append("p4", p4)
+                .append("p5", p5)
+                .toString();
     }
 }

@@ -74,12 +74,17 @@ public final class INT8 extends Number implements Comparable<INT8> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        INT8 int8 = (INT8) o;
+        INT8 rhs = (INT8) o;
 
-        return byteValue == int8.byteValue;
+        return byteValue == rhs.byteValue;
 
     }
 
