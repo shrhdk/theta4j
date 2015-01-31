@@ -114,7 +114,7 @@ class BigIntegerUtils {
     }
 
     public static BigInteger minOfSigned(int size) {
-        return new BigInteger("-10" + StringUtils.repeat("00", size - 1), 16);
+        return new BigInteger("-80" + StringUtils.repeat("00", size - 1), 16);
     }
 
     public static BigInteger maxOfSigned(int size) {
@@ -144,7 +144,7 @@ class BigIntegerUtils {
             return "0x" + StringUtils.leftPad(raw, digits, '0');
         } else {
             String withoutSign = StringUtils.removeStart(raw, "-");
-            return "-0x" + StringUtils.leftPad(withoutSign, digits, '0');
+            return "0x" + StringUtils.leftPad(withoutSign, digits, '0');
         }
     }
 }

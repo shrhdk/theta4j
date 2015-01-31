@@ -11,38 +11,38 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
-public class UINT16Test {
-    private static final BigInteger MIN_INTEGER_VALUE = BigIntegerUtils.minOfUnsigned(UINT16.SIZE_IN_BYTES);
-    private static final BigInteger MAX_INTEGER_VALUE = BigIntegerUtils.maxOfUnsigned(UINT16.SIZE_IN_BYTES);
+public class UINT128Test {
+    private static final BigInteger MIN_INTEGER_VALUE = BigIntegerUtils.minOfUnsigned(UINT128.SIZE_IN_BYTES);
+    private static final BigInteger MAX_INTEGER_VALUE = BigIntegerUtils.maxOfUnsigned(UINT128.SIZE_IN_BYTES);
 
-    private static final UINT16 V1 = new UINT16(1);
-    private static final UINT16 V2 = new UINT16(2);
-    private static final UINT16 V3 = new UINT16(3);
+    private static final UINT128 V1 = new UINT128(1);
+    private static final UINT128 V2 = new UINT128(2);
+    private static final UINT128 V3 = new UINT128(3);
 
     // Construct with error
 
     @Test(expected = NullPointerException.class)
     public void constructWithNullInteger() {
         // act
-        new UINT16((BigInteger) null);
+        new UINT128((BigInteger) null);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructWithNullBytes() {
         // act
-        new UINT16((byte[]) null);
+        new UINT128((byte[]) null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void constructWithTooShortValue() {
         // act
-        new UINT16(MIN_INTEGER_VALUE.subtract(BigInteger.ONE));
+        new UINT128(MIN_INTEGER_VALUE.subtract(BigInteger.ONE));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void constructWithTooBigValue() {
         // act
-        new UINT16(MAX_INTEGER_VALUE.add(BigInteger.ONE));
+        new UINT128(MAX_INTEGER_VALUE.add(BigInteger.ONE));
     }
 
     // Construct and Get
@@ -54,10 +54,12 @@ public class UINT16Test {
 
         // expected
         BigInteger expectedInteger = BigInteger.ONE;
-        byte[] expectedBytes = new byte[]{0x01, 0x00};
+        byte[] expectedBytes = new byte[]{
+                0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
         // act
-        UINT16 actual = new UINT16(given);
+        UINT128 actual = new UINT128(given);
 
         // verify
         assertThat(actual.bigInteger(), is(expectedInteger));
@@ -71,10 +73,12 @@ public class UINT16Test {
 
         // expected
         BigInteger expectedInteger = MIN_INTEGER_VALUE;
-        byte[] expectedBytes = new byte[]{0x00, 0x00};
+        byte[] expectedBytes = new byte[]{
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
         // act
-        UINT16 actual = new UINT16(given);
+        UINT128 actual = new UINT128(given);
 
         // verify
         assertThat(actual.bigInteger(), is(expectedInteger));
@@ -88,10 +92,12 @@ public class UINT16Test {
 
         // expected
         BigInteger expectedInteger = MAX_INTEGER_VALUE;
-        byte[] expectedBytes = new byte[]{(byte) 0xFF, (byte) 0xFF};
+        byte[] expectedBytes = new byte[]{
+                (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+                (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
 
         // act
-        UINT16 actual = new UINT16(given);
+        UINT128 actual = new UINT128(given);
 
         // verify
         assertThat(actual.bigInteger(), is(expectedInteger));
@@ -169,22 +175,22 @@ public class UINT16Test {
     @Test(expected = IOException.class)
     public void readTooShortInputStream() throws IOException {
         // given
-        InputStream given = new ByteArrayInputStream(new byte[UINT16.SIZE_IN_BYTES - 1]);
+        InputStream given = new ByteArrayInputStream(new byte[UINT128.SIZE_IN_BYTES - 1]);
 
         // act
-        UINT16.read(given);
+        UINT128.read(given);
     }
 
     @Test
     public void readZero() throws IOException {
         // given
-        InputStream given = new ByteArrayInputStream(new UINT16(BigInteger.valueOf(0)).bytes());
+        InputStream given = new ByteArrayInputStream(new UINT128(BigInteger.valueOf(0)).bytes());
 
         // expected
-        UINT16 expected = new UINT16(BigInteger.valueOf(0));
+        UINT128 expected = new UINT128(BigInteger.valueOf(0));
 
         // act
-        UINT16 actual = UINT16.read(given);
+        UINT128 actual = UINT128.read(given);
 
         // verify
         assertThat(actual, is(expected));
@@ -193,13 +199,13 @@ public class UINT16Test {
     @Test
     public void readPositiveValue() throws IOException {
         // given
-        InputStream given = new ByteArrayInputStream(new UINT16(1).bytes());
+        InputStream given = new ByteArrayInputStream(new UINT128(1).bytes());
 
         // expected
-        UINT16 expected = new UINT16(1);
+        UINT128 expected = new UINT128(1);
 
         // act
-        UINT16 actual = UINT16.read(given);
+        UINT128 actual = UINT128.read(given);
 
         // verify
         assertThat(actual, is(expected));
@@ -208,13 +214,13 @@ public class UINT16Test {
     @Test
     public void readMaxValue() throws IOException {
         // given
-        InputStream given = new ByteArrayInputStream(UINT16.MAX_VALUE.bytes());
+        InputStream given = new ByteArrayInputStream(UINT128.MAX_VALUE.bytes());
 
         // expected
-        UINT16 expected = UINT16.MAX_VALUE;
+        UINT128 expected = UINT128.MAX_VALUE;
 
         // act
-        UINT16 actual = UINT16.read(given);
+        UINT128 actual = UINT128.read(given);
 
         // verify
         assertThat(actual, is(expected));
@@ -224,10 +230,10 @@ public class UINT16Test {
 
     @Test
     public void testToString() {
-        assertThat(UINT16.ZERO.toString(), is("0x0000"));
-        assertThat(V1.toString(), is("0x0001"));
-        assertThat(V2.toString(), is("0x0002"));
-        assertThat(V3.toString(), is("0x0003"));
-        assertThat(UINT16.MAX_VALUE.toString(), is("0xffff"));
+        assertThat(UINT128.ZERO.toString(), is("0x00000000000000000000000000000000"));
+        assertThat(V1.toString(), is("0x00000000000000000000000000000001"));
+        assertThat(V2.toString(), is("0x00000000000000000000000000000002"));
+        assertThat(V3.toString(), is("0x00000000000000000000000000000003"));
+        assertThat(UINT128.MAX_VALUE.toString(), is("0xffffffffffffffffffffffffffffffff"));
     }
 }

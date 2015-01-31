@@ -12,7 +12,8 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 public class UINT64Test {
-    private static final BigInteger MAX_INTEGER_VALUE = new BigInteger("+FFFFFFFFFFFFFFFF", 16);
+    private static final BigInteger MIN_INTEGER_VALUE = BigIntegerUtils.minOfUnsigned(UINT64.SIZE_IN_BYTES);
+    private static final BigInteger MAX_INTEGER_VALUE = BigIntegerUtils.maxOfUnsigned(UINT64.SIZE_IN_BYTES);
 
     private static final UINT64 V1 = new UINT64(1);
     private static final UINT64 V2 = new UINT64(2);
@@ -21,30 +22,39 @@ public class UINT64Test {
     // Construct with error
 
     @Test(expected = NullPointerException.class)
-    public void constructWithNull() {
+    public void constructWithNullInteger() {
         // act
         new UINT64((BigInteger) null);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void constructWithNullBytes() {
+        // act
+        new UINT64((byte[]) null);
+    }
+
     @Test(expected = IllegalArgumentException.class)
-    public void constructWithNegativeValue() {
-        new UINT64(-1);
+    public void constructWithTooShortValue() {
+        // act
+        new UINT64(MIN_INTEGER_VALUE.subtract(BigInteger.ONE));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void constructWithTooBigValue() {
+        // act
         new UINT64(MAX_INTEGER_VALUE.add(BigInteger.ONE));
     }
 
     // Construct and Get
+
     @Test
-    public void constructWithZeroAndGet() {
+    public void constructAndGet() {
         // given
-        BigInteger given = BigInteger.ZERO;
+        BigInteger given = BigInteger.ONE;
 
         // expected
-        BigInteger expectedInteger = BigInteger.ZERO;
-        byte[] expectedBytes = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+        BigInteger expectedInteger = BigInteger.ONE;
+        byte[] expectedBytes = new byte[]{0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
         // act
         UINT64 actual = new UINT64(given);
@@ -55,13 +65,13 @@ public class UINT64Test {
     }
 
     @Test
-    public void constructWithPositiveValueAndGet() {
+    public void constructWithMinValueAndGet() {
         // given
-        BigInteger given = BigInteger.ONE;
+        BigInteger given = MIN_INTEGER_VALUE;
 
         // expected
-        BigInteger expectedInteger = BigInteger.ONE;
-        byte[] expectedBytes = new byte[]{0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+        BigInteger expectedInteger = MIN_INTEGER_VALUE;
+        byte[] expectedBytes = new byte[]{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
         // act
         UINT64 actual = new UINT64(given);
@@ -162,7 +172,7 @@ public class UINT64Test {
         InputStream given = new ByteArrayInputStream(new byte[UINT64.SIZE_IN_BYTES - 1]);
 
         // act
-        UINT64 actual = UINT64.read(given);
+        UINT64.read(given);
     }
 
     @Test
