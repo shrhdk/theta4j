@@ -36,12 +36,12 @@ final class PtpIpString {
         for (; ; ) {
             int b0 = is.read();
             if (b0 == -1) {
-                throw new RuntimeException();
+                throw new IllegalArgumentException();
             }
 
             int b1 = is.read();
             if (b1 == -1) {
-                throw new RuntimeException();
+                throw new IllegalArgumentException();
             }
 
             // End with NULL?

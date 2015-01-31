@@ -45,7 +45,7 @@ public class DevicePropDesc<T> {
         try (PtpInputStream pis = new PtpInputStream(bytes)) {
             return read(pis);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new AssertionError(e);
         }
     }
 
@@ -75,7 +75,7 @@ public class DevicePropDesc<T> {
                 enumForm = readEnumForm(dataType, pis);
                 break;
             default:
-                throw new RuntimeException("Unknown FormFlag: " + formFlag);
+                throw new IllegalArgumentException("Unknown FormFlag: " + formFlag);
         }
 
         return new DevicePropDesc<Object>(devicePropCode, dataType, isReadonly, defaultValue, currentValue, formFlag, rangeForm, enumForm);
@@ -132,7 +132,7 @@ public class DevicePropDesc<T> {
             case 0x01:
                 return false;
             default:
-                throw new RuntimeException("Unknown GetSet Value");
+                throw new IllegalArgumentException("Unknown GetSet Value");
         }
     }
 
@@ -224,6 +224,8 @@ public class DevicePropDesc<T> {
         }
 
         public static FormFlag valueOf(byte value) {
+            Validators.validateNonNull("value", value);
+
             if (!formFlagMap.containsKey(value)) {
                 throw new IllegalArgumentException("Unknown Form Flag Value: " + value);
             }

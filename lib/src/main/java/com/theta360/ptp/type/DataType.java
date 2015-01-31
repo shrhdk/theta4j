@@ -1,6 +1,7 @@
 package com.theta360.ptp.type;
 
 import com.theta360.ptp.code.Code;
+import com.theta360.util.Validators;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,8 +54,10 @@ public enum DataType implements Code<UINT16> {
     }
 
     public static DataType valueOf(UINT16 value) {
+        Validators.validateNonNull("value", value);
+
         if (!DATA_TYPE_MAP.containsKey(value)) {
-            throw new RuntimeException("Unknown DataType Value: " + value);
+            throw new IllegalArgumentException("Unknown DataType Value: " + value);
         }
 
         return DATA_TYPE_MAP.get(value);

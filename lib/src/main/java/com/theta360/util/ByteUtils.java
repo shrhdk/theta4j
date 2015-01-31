@@ -15,15 +15,14 @@ public final class ByteUtils {
         }
 
         // Join Byte Arrays
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(length);
-        for (byte[] bytes : byteArrays) {
-            try {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream(length)) {
+            for (byte[] bytes : byteArrays) {
                 baos.write(bytes);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
-        }
 
-        return baos.toByteArray();
+            return baos.toByteArray();
+        } catch (IOException e) {
+            throw new AssertionError(e);
+        }
     }
 }
