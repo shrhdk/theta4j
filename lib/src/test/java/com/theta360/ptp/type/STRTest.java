@@ -69,6 +69,15 @@ public class STRTest {
         STR.valueOf(new byte[]{});
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void valueOfInvalidBytes() {
+        // given (String Chars does not consist of not 2x bytes.)
+        byte[] given = new byte[]{0x01, 0x00};
+
+        // act
+        STR.valueOf(given);
+    }
+
     @Test
     public void valueOfEmpty() {
         // given
@@ -82,15 +91,6 @@ public class STRTest {
 
         // verify
         assertThat(actual, is(expected));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void valueOfInvalidBytes() {
-        // given (String Chars does not consist of not 2x bytes.)
-        byte[] given = new byte[]{0x01, 0x00};
-
-        // act
-        STR.valueOf(given);
     }
 
     @Test
@@ -109,7 +109,6 @@ public class STRTest {
 
         // verify
         assertThat(actual, is(given));
-
     }
 
     // read

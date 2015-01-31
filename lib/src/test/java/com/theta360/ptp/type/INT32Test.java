@@ -183,7 +183,7 @@ public class INT32Test {
 
     // read
 
-    @Test(expected = IOException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void readTooShortInputStream() throws IOException {
         // given
         InputStream given = new ByteArrayInputStream(new byte[INT32.SIZE_IN_BYTES - 1]);

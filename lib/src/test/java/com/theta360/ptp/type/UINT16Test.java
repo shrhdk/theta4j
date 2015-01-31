@@ -166,7 +166,7 @@ public class UINT16Test {
 
     // read
 
-    @Test(expected = IOException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void readTooShortInputStream() throws IOException {
         // given
         InputStream given = new ByteArrayInputStream(new byte[UINT16.SIZE_IN_BYTES - 1]);

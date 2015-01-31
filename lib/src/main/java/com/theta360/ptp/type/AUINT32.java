@@ -12,7 +12,7 @@ public class AUINT32 {
     private AUINT32() {
     }
 
-    public static List<UINT32> valueOf(byte[] bytes) throws IOException {
+    public static List<UINT32> valueOf(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
 
         try (InputStream is = new ByteArrayInputStream(bytes)) {

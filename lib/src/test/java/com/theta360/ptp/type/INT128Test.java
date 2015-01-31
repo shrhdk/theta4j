@@ -191,7 +191,7 @@ public class INT128Test {
 
     // read
 
-    @Test(expected = IOException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void readTooShortInputStream() throws IOException {
         // given
         InputStream given = new ByteArrayInputStream(new byte[INT128.SIZE_IN_BYTES - 1]);

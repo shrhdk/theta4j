@@ -37,7 +37,7 @@ public final class UINT128 extends LittleEndianInteger {
         byte[] bytes = new byte[SIZE_IN_BYTES];
 
         if (is.read(bytes) != SIZE_IN_BYTES) {
-            throw new IOException();
+            throw new IllegalArgumentException();
         }
 
         return new UINT128(bytes);
