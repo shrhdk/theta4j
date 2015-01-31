@@ -1,15 +1,12 @@
 package com.theta360.ptpip.packet;
 
-import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-@Category(UnitTest.class)
 public class PtpIpPacketTest {
     @Test(expected = NullPointerException.class)
     public void constructWithNullType() {

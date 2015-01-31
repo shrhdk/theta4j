@@ -5,12 +5,10 @@ import com.theta360.ptp.type.UINT64;
 import com.theta360.ptpip.packet.EndDataPacket;
 import com.theta360.ptpip.packet.PtpIpPacket;
 import com.theta360.ptpip.packet.StartDataPacket;
-import com.theta360.test.categories.UnitTest;
 import com.theta360.util.ByteUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,7 +16,6 @@ import java.io.IOException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-@Category(UnitTest.class)
 public class PtpIpOutputStreamTest {
     private ByteArrayOutputStream baos;
     private PtpIpOutputStream pos;

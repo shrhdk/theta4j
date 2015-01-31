@@ -3,10 +3,8 @@ package com.theta360.ptpip.packet;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.test.categories.UnitTest;
 import com.theta360.util.ByteUtils;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -17,7 +15,6 @@ import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-@Category(UnitTest.class)
 public class InitCommandAckPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES + GUID.SIZE_IN_BYTES + STR.MIN_SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES];
     private static final UINT32 CONNECTION_NUMBER = new UINT32(0x00112233);
