@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 @Category(UnitTest.class)
 public class UINT64Test {
-    private static final BigInteger MAX_INTEGER_VALUE = new BigInteger("00FFFFFFFFFFFFFFFF", 16);
+    private static final BigInteger MAX_INTEGER_VALUE = new BigInteger("+FFFFFFFFFFFFFFFF", 16);
 
     private static final UINT64 V1 = new UINT64(1);
     private static final UINT64 V2 = new UINT64(2);

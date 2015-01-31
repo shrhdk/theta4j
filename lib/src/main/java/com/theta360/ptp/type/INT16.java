@@ -1,46 +1,31 @@
 package com.theta360.ptp.type;
 
-import com.theta360.util.Validators;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
+import java.math.BigInteger;
 
-public class INT16 extends Number implements Comparable<INT16> {
-    private final byte[] bytes;
-    private final short shortValue;
-
+public class INT16 extends LittleEndianInteger {
     // Utility Field
 
     public static final int SIZE_IN_BYTES = 2;
 
+    public static final INT16 MIN_VALUE = new INT16(BigIntegerUtils.minOfSigned(SIZE_IN_BYTES));
+    public static final INT16 MAX_VALUE = new INT16(BigIntegerUtils.maxOfSigned(SIZE_IN_BYTES));
+
     public static final INT16 ZERO = new INT16((short) 0);
-    public static final INT16 MIN_VALUE = new INT16(Short.MIN_VALUE);
-    public static final INT16 MAX_VALUE = new INT16(Short.MAX_VALUE);
 
     // Constructor
 
-    public INT16(short shortValue) {
-        this.shortValue = shortValue;
+    public INT16(long value) {
+        super(value);
+    }
 
-        ByteBuffer bb = ByteBuffer.allocate(SIZE_IN_BYTES);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
-        bb.putShort(shortValue);
-
-        this.bytes = bb.array();
+    public INT16(BigInteger value) {
+        super(value);
     }
 
     public INT16(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
-        Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
-
-        this.bytes = bytes.clone();
-
-        // bytes -> short
-        ByteBuffer bb = ByteBuffer.wrap(bytes);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
-        this.shortValue = bb.getShort();
+        super(bytes);
     }
 
     // Static Factory Method
@@ -48,70 +33,22 @@ public class INT16 extends Number implements Comparable<INT16> {
     public static INT16 read(InputStream is) throws IOException {
         byte[] bytes = new byte[SIZE_IN_BYTES];
 
-        if (is.read(bytes) == -1) {
+        if (is.read(bytes) != SIZE_IN_BYTES) {
             throw new IOException();
         }
 
         return new INT16(bytes);
     }
 
-    // Number
+    // LittleEndianInteger
 
     @Override
-    public int intValue() {
-        return shortValue;
+    protected int sizeInBytes() {
+        return SIZE_IN_BYTES;
     }
 
     @Override
-    public long longValue() {
-        return shortValue;
-    }
-
-    @Override
-    public float floatValue() {
-        return shortValue;
-    }
-
-    @Override
-    public double doubleValue() {
-        return shortValue;
-    }
-
-    // Comparable
-
-    @Override
-    public int compareTo(INT16 o) {
-        return Short.compare(shortValue, o.shortValue);
-    }
-
-    // Basic Method
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        INT16 rhs = (INT16) o;
-
-        return shortValue == rhs.shortValue;
-
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) shortValue;
-    }
-
-    /**
-     * String notated in hexadecimal big endian
-     */
-    @Override
-    public String toString() {
-        return String.format("0x%02x%02x", bytes[1], bytes[0]);
+    protected boolean isSigned() {
+        return true;
     }
 }

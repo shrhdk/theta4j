@@ -1,46 +1,31 @@
 package com.theta360.ptp.type;
 
-import com.theta360.util.Validators;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
+import java.math.BigInteger;
 
-public class INT64 extends Number implements Comparable<INT64> {
-    private final byte[] bytes;
-    private final long longValue;
-
+public class INT64 extends LittleEndianInteger {
     // Utility Field
 
     public static final int SIZE_IN_BYTES = 8;
 
+    public static final INT64 MIN_VALUE = new INT64(BigIntegerUtils.minOfSigned(SIZE_IN_BYTES));
+    public static final INT64 MAX_VALUE = new INT64(BigIntegerUtils.maxOfSigned(SIZE_IN_BYTES));
+
     public static final INT64 ZERO = new INT64(0);
-    public static final INT64 MIN_VALUE = new INT64(Long.MIN_VALUE);
-    public static final INT64 MAX_VALUE = new INT64(Long.MAX_VALUE);
 
     // Constructor
 
-    public INT64(long longValue) {
-        this.longValue = longValue;
+    public INT64(long value) {
+        super(value);
+    }
 
-        ByteBuffer bb = ByteBuffer.allocate(SIZE_IN_BYTES);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
-        bb.putLong(longValue);
-
-        this.bytes = bb.array();
+    public INT64(BigInteger value) {
+        super(value);
     }
 
     public INT64(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
-        Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
-
-        this.bytes = bytes.clone();
-
-        // bytes -> long
-        ByteBuffer bb = ByteBuffer.wrap(bytes);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
-        this.longValue = bb.getLong();
+        super(bytes);
     }
 
     // Static Factory Method
@@ -48,67 +33,22 @@ public class INT64 extends Number implements Comparable<INT64> {
     public static INT64 read(InputStream is) throws IOException {
         byte[] bytes = new byte[SIZE_IN_BYTES];
 
-        if (is.read(bytes) == -1) {
+        if (is.read(bytes) != SIZE_IN_BYTES) {
             throw new IOException();
         }
 
         return new INT64(bytes);
     }
 
-    // Number
+    // LittleEndianInteger
 
     @Override
-    public int intValue() {
-        return (int) longValue;
+    protected int sizeInBytes() {
+        return SIZE_IN_BYTES;
     }
 
     @Override
-    public long longValue() {
-        return longValue;
-    }
-
-    @Override
-    public float floatValue() {
-        return longValue;
-    }
-
-    @Override
-    public double doubleValue() {
-        return longValue;
-    }
-
-    // Comparable
-
-    @Override
-    public int compareTo(INT64 o) {
-        return Long.compare(longValue, o.longValue);
-    }
-
-    // Basic Method
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        INT64 rhs = (INT64) o;
-
-        return longValue == rhs.longValue;
-
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (longValue ^ (longValue >>> 32));
-    }
-
-    @Override
-    public String toString() {
-        return String.format("0x%08x", longValue);
+    protected boolean isSigned() {
+        return true;
     }
 }

@@ -113,20 +113,38 @@ class BigIntegerUtils {
         return new BigInteger(bigEndian);
     }
 
+    public static BigInteger minOfSigned(int size) {
+        return new BigInteger("-10" + StringUtils.repeat("00", size - 1), 16);
+    }
+
+    public static BigInteger maxOfSigned(int size) {
+        return new BigInteger("+7f" + StringUtils.repeat("ff", size - 1), 16);
+    }
+
+    public static BigInteger minOfUnsigned(int size) {
+        return BigInteger.ZERO;
+    }
+
+    public static BigInteger maxOfUnsigned(int size) {
+        return new BigInteger("+ff" + StringUtils.repeat("ff", size - 1), 16);
+    }
+
     public static String toHexString(BigInteger integer, int size) {
         Validators.validateNonNull("integer", integer);
         if (size < 1) {
             throw new IllegalArgumentException();
         }
 
-        boolean isPositive = 0 <= integer.signum();
+        int digits = size * 2;
         String raw = integer.toString(16);
 
+        boolean isPositive = 0 <= integer.signum();
+
         if (isPositive) {
-            return "0x" + StringUtils.leftPad(raw, size, '0');
+            return "0x" + StringUtils.leftPad(raw, digits, '0');
         } else {
             String withoutSign = StringUtils.removeStart(raw, "-");
-            return "-0x" + StringUtils.leftPad(withoutSign, size, '0');
+            return "-0x" + StringUtils.leftPad(withoutSign, digits, '0');
         }
     }
 }
