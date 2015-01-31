@@ -2,6 +2,7 @@ package com.theta360.ptp.type;
 
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -110,5 +111,22 @@ class BigIntegerUtils {
         bigEndian = ByteUtils.join(new byte[]{0x00}, bigEndian);
 
         return new BigInteger(bigEndian);
+    }
+
+    public static String toHexString(BigInteger integer, int size) {
+        Validators.validateNonNull("integer", integer);
+        if (size < 1) {
+            throw new IllegalArgumentException();
+        }
+
+        boolean isPositive = 0 <= integer.signum();
+        String raw = integer.toString(16);
+
+        if (isPositive) {
+            return "0x" + StringUtils.leftPad(raw, size, '0');
+        } else {
+            String withoutSign = StringUtils.removeStart(raw, "-");
+            return "-0x" + StringUtils.leftPad(withoutSign, size, '0');
+        }
     }
 }
