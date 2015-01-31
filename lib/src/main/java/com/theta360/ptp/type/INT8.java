@@ -9,8 +9,8 @@ public final class INT8 extends LittleEndianInteger {
 
     public static final int SIZE_IN_BYTES = 1;
 
-    public static final INT8 MIN_VALUE = new INT8(Byte.MIN_VALUE);
-    public static final INT8 MAX_VALUE = new INT8(Byte.MAX_VALUE);
+    public static final INT8 MIN_VALUE = new INT8(BigIntegerUtils.minOfSigned(SIZE_IN_BYTES));
+    public static final INT8 MAX_VALUE = new INT8(BigIntegerUtils.maxOfSigned(SIZE_IN_BYTES));
 
     public static final INT8 ZERO = new INT8((byte) 0);
 
