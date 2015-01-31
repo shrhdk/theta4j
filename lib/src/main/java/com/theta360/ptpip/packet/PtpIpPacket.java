@@ -63,7 +63,7 @@ public class PtpIpPacket {
             pos.write(payload);
             return baos.toByteArray();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new AssertionError(e);
         }
     }
 

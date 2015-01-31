@@ -59,7 +59,7 @@ public class Rational implements Comparable<Rational> {
 
             return new Rational(molecule.longValue(), denominator.longValue());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new AssertionError(e);
         }
     }
 

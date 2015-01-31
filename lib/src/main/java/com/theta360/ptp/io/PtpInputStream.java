@@ -113,7 +113,7 @@ public final class PtpInputStream extends InputStream {
             case STR:
                 return readString();
             default:
-                throw new RuntimeException(dataType + " is not supported.");
+                throw new UnsupportedOperationException(dataType + " is not supported.");
         }
     }
 

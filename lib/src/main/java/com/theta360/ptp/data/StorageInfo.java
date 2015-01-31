@@ -60,7 +60,7 @@ public class StorageInfo {
         try (PtpInputStream pis = new PtpInputStream(bytes)) {
             return read(pis);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new AssertionError(e);
         }
     }
 

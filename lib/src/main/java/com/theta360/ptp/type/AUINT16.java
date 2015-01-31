@@ -18,7 +18,7 @@ public class AUINT16 {
         try (InputStream is = new ByteArrayInputStream(bytes)) {
             return read(is);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new AssertionError(e);
         }
     }
 
