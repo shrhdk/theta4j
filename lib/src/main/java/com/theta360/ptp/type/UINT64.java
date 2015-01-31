@@ -65,7 +65,7 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
     public static UINT64 read(InputStream is) throws IOException {
         byte[] bytes = new byte[SIZE_IN_BYTES];
 
-        if (is.read(bytes) == -1) {
+        if (is.read(bytes) != SIZE_IN_BYTES) {
             throw new IOException();
         }
 
@@ -135,6 +135,6 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
 
     @Override
     public String toString() {
-        return bigInteger.toString();
+        return BigIntegerUtils.toHexString(bigInteger, SIZE_IN_BYTES * 2);
     }
 }

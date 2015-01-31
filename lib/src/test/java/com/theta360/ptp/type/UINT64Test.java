@@ -131,6 +131,16 @@ public class UINT64Test {
 
     @Test
     public void testEquals() {
+        // verify with null
+        assertFalse(V1.equals(null));
+        assertFalse(V2.equals(null));
+        assertFalse(V3.equals(null));
+
+        // verify with different class
+        assertFalse(V1.equals("foo"));
+        assertFalse(V2.equals("foo"));
+        assertFalse(V3.equals("foo"));
+
         // verify
         assertTrue(V1.equals(V1));
         assertFalse(V1.equals(V2));
@@ -148,6 +158,15 @@ public class UINT64Test {
     }
 
     // read
+
+    @Test(expected = IOException.class)
+    public void readTooShortInputStream() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new byte[UINT64.SIZE_IN_BYTES - 1]);
+
+        // act
+        UINT64 actual = UINT64.read(given);
+    }
 
     @Test
     public void readZero() throws IOException {
@@ -192,5 +211,16 @@ public class UINT64Test {
 
         // verify
         assertThat(actual, is(expected));
+    }
+
+    // toString
+
+    @Test
+    public void testToString() {
+        assertThat(UINT64.ZERO.toString(), is("0x0000000000000000"));
+        assertThat(V1.toString(), is("0x0000000000000001"));
+        assertThat(V2.toString(), is("0x0000000000000002"));
+        assertThat(V3.toString(), is("0x0000000000000003"));
+        assertThat(UINT64.MAX_VALUE.toString(), is("0xffffffffffffffff"));
     }
 }
