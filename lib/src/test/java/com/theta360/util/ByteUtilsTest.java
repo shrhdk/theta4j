@@ -1,13 +1,10 @@
 package com.theta360.util;
 
-import com.theta360.test.categories.UnitTest;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-@Category(UnitTest.class)
 public class ByteUtilsTest {
     @Test(expected = NullPointerException.class)
     public void joinWithNull() {

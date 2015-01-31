@@ -4,11 +4,9 @@ import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.ptp.type.UINT64;
-import com.theta360.test.categories.UnitTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,7 +14,6 @@ import java.io.IOException;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-@Category(UnitTest.class)
 public class PtpOutputStreamTest {
     private ByteArrayOutputStream baos;
     private PtpOutputStream pos;

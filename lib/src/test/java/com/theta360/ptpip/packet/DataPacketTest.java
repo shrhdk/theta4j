@@ -2,10 +2,8 @@ package com.theta360.ptpip.packet;
 
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.test.categories.UnitTest;
 import com.theta360.util.ByteUtils;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -15,7 +13,6 @@ import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-@Category(UnitTest.class)
 public class DataPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES];
     private static final UINT32 TRANSACTION_ID = new UINT32(0);

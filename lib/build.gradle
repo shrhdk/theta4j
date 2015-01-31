@@ -43,7 +43,6 @@ sonarRunner {
 
 task integrationTest(type: Test) {
     useJUnit {
-        excludeCategories 'com.theta360.test.categories.UnitTest'
         includeCategories 'com.theta360.test.categories.IntegrationTest'
     }
 }
