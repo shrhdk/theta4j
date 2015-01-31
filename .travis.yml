@@ -17,7 +17,3 @@ deploy:
   on:
     tags: true
     all_branches: true
-env:
-  secure: ApwD8btX6xpAlQANoqMftlY3+hXc/LBd10LrpMVUMB8AEFsTSaJLbZjMyBlDqXFrFdj65QtI4HANNnEq9Bzv/78x7JKgfIgaHrk4BTBmBaB/oKiB90A+nw8NxDeZs8Mvmegb71xfdKUDe35x7FO4MxizOTppVuOD1r3CKTgrxf8=
-after_script:
-  - ./gradlew sonarRunner
