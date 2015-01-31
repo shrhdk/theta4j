@@ -1,7 +1,5 @@
 package com.theta360.ptp.type;
 
-import com.theta360.util.Validators;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -9,13 +7,7 @@ import java.math.BigInteger;
 /**
  * 64 bit unsigned integer value defined in PTP
  */
-public final class UINT64 extends Number implements Comparable<UINT64> {
-    private static final BigInteger MIN_INTEGER_VALUE = BigInteger.ZERO;
-    private static final BigInteger MAX_INTEGER_VALUE = new BigInteger("00FFFFFFFFFFFFFFFF", 16);
-
-    private final BigInteger bigInteger;
-    private final byte[] bytes;
-
+public final class UINT64 extends LittleEndianInteger {
     // Utility Field
 
     /**
@@ -23,41 +15,23 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
      */
     public static final int SIZE_IN_BYTES = 8;
 
-    public static final UINT64 MIN_VALUE = new UINT64(MIN_INTEGER_VALUE);
-    public static final UINT64 MAX_VALUE = new UINT64(MAX_INTEGER_VALUE);
+    public static final UINT64 MIN_VALUE = new UINT64(BigIntegerUtils.minOfUnsigned(SIZE_IN_BYTES));
+    public static final UINT64 MAX_VALUE = new UINT64(BigIntegerUtils.maxOfUnsigned(SIZE_IN_BYTES));
 
     public static final UINT64 ZERO = new UINT64(0);
-    public static final UINT64 ONE = new UINT64(1);
-    public static final UINT64 TEN = new UINT64(10);
 
     // Constructor
 
     public UINT64(long value) {
-        this(BigInteger.valueOf(value));
+        super(value);
     }
 
     public UINT64(BigInteger value) {
-        Validators.validateNonNull("value", value);
-
-        if (value.signum() == -1) {
-            throw new IllegalArgumentException();
-        }
-
-        if (0 < value.compareTo(MAX_INTEGER_VALUE)) {
-            throw new IllegalArgumentException();
-        }
-
-        this.bytes = BigIntegerUtils.toLittleEndian(value, SIZE_IN_BYTES);
-        this.bigInteger = value;
+        super(value);
     }
 
     public UINT64(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
-        Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
-
-        this.bytes = bytes.clone();
-
-        this.bigInteger = BigIntegerUtils.asUnsignedLittleEndian(bytes);
+        super(bytes);
     }
 
     // Static Factory Method
@@ -72,69 +46,15 @@ public final class UINT64 extends Number implements Comparable<UINT64> {
         return new UINT64(bytes);
     }
 
-    // Getter
-
-    public byte[] bytes() {
-        return bytes.clone();
-    }
-
-    public BigInteger bigInteger() {
-        return bigInteger;
-    }
-
-    // Number
+    // LittleEndianInteger
 
     @Override
-    public int intValue() {
-        return bigInteger.intValue();
+    protected int sizeInBytes() {
+        return SIZE_IN_BYTES;
     }
 
     @Override
-    public long longValue() {
-        return bigInteger.longValue();
-    }
-
-    @Override
-    public float floatValue() {
-        return bigInteger.floatValue();
-    }
-
-    @Override
-    public double doubleValue() {
-        return bigInteger.doubleValue();
-    }
-
-    // Comparable
-
-    @Override
-    public int compareTo(UINT64 o) {
-        return bigInteger.compareTo(o.bigInteger);
-    }
-
-    // Basic Method
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        UINT64 rhs = (UINT64) o;
-
-        return bigInteger.equals(rhs.bigInteger);
-    }
-
-    @Override
-    public int hashCode() {
-        return bigInteger.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return BigIntegerUtils.toHexString(bigInteger, SIZE_IN_BYTES * 2);
+    protected boolean isSigned() {
+        return false;
     }
 }
