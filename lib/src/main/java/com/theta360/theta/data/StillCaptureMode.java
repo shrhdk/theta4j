@@ -1,6 +1,7 @@
 package com.theta360.theta.data;
 
 import com.theta360.ptp.type.UINT16;
+import com.theta360.util.Validators;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,8 +54,10 @@ public enum StillCaptureMode {
     }
 
     public static StillCaptureMode valueOf(UINT16 value) {
+        Validators.validateNonNull("value", value);
+
         if (!STILL_CAPTURE_MODE_MAP.containsKey(value)) {
-            throw new RuntimeException();
+            throw new IllegalArgumentException("Unknown StillCaptureMode Value: " + value);
         }
 
         return STILL_CAPTURE_MODE_MAP.get(value);

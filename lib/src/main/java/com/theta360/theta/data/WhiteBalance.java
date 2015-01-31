@@ -1,6 +1,7 @@
 package com.theta360.theta.data;
 
 import com.theta360.ptp.type.UINT16;
+import com.theta360.util.Validators;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,8 +71,10 @@ public enum WhiteBalance {
     }
 
     public static WhiteBalance valueOf(UINT16 value) {
+        Validators.validateNonNull("value", value);
+
         if (!WHITE_BALANCE_MAP.containsKey(value)) {
-            throw new RuntimeException();
+            throw new IllegalArgumentException("Unknown WhiteBalance Value: " + value);
         }
 
         return WHITE_BALANCE_MAP.get(value);

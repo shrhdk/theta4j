@@ -33,7 +33,7 @@ public enum ChannelNumber {
 
     public static ChannelNumber valueOf(byte value) {
         if (!CHANNEL_NUMBER_MAP.containsKey(value)) {
-            throw new RuntimeException();
+            throw new IllegalArgumentException("Unknown ChannelNumber Value: " + value);
         }
 
         return CHANNEL_NUMBER_MAP.get(value);
