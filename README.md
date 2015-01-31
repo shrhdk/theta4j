@@ -1,6 +1,6 @@
 # RICOH THETA SDK for Java (Unofficial)
 
-[![Build Status](https://travis-ci.org/shrhdk/theta.svg?branch=master)](https://travis-ci.org/shrhdk/theta)
+[![Build Status](https://travis-ci.org/shrhdk/theta.svg?branch=master)](https://travis-ci.org/shrhdk/theta) [![Coverage](https://img.shields.io/sonar/http/shiro.be:9000/theta:lib/coverage.svg?style=flat)](http://shiro.be:9000/dashboard/index/theta:lib)
 
 RICOH THETA SDK for Java. (Unofficial)
 
@@ -10,7 +10,7 @@ RICOH THETA SDK for Java. (Unofficial)
 
 ## How to Use
 
-Include the `theta-*.jar` to your project.
+Include the `theta-x.x.x.jar` to your project.
 
 ## Documents
 
