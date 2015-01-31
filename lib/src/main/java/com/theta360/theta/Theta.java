@@ -760,6 +760,7 @@ public final class Theta implements Closeable {
             ptpInitiator.closeSession();
         } catch (PtpException e) {
             // Ignore
+            LOGGER.error(e.getMessage(), e);
         } finally {
             ptpInitiator.close();
         }

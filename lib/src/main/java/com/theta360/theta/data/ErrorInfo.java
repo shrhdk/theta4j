@@ -1,6 +1,7 @@
 package com.theta360.theta.data;
 
 import com.theta360.ptp.type.UINT32;
+import com.theta360.util.Validators;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -137,8 +138,10 @@ public enum ErrorInfo {
     }
 
     public static ErrorInfo valueOf(UINT32 value) {
+        Validators.validateNonNull("value", value);
+
         if (!ERROR_INFO_MAP.containsKey(value)) {
-            throw new RuntimeException("Unknown ErrorInfo Value:" + value);
+            throw new IllegalArgumentException("Unknown ErrorInfo Value:" + value);
         }
 
         return ERROR_INFO_MAP.get(value);

@@ -37,7 +37,7 @@ public enum CaptureStatus {
 
     public static CaptureStatus valueOf(byte value) {
         if (!CAPTURE_STATUS_MAP.containsKey(value)) {
-            throw new RuntimeException();
+            throw new IllegalArgumentException("Unknown CaptureStatus Value: " + value);
         }
 
         return CAPTURE_STATUS_MAP.get(value);

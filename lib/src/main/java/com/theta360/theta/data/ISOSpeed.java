@@ -40,7 +40,7 @@ public enum ISOSpeed {
         Validators.validateNonNull("value", value);
 
         if (!ISO_SPEED_MAP.containsKey(value)) {
-            throw new RuntimeException("Unknown ISOSpeed value: " + value);
+            throw new IllegalArgumentException("Unknown ISOSpeed value: " + value);
         }
 
         return ISO_SPEED_MAP.get(value);

@@ -52,7 +52,7 @@ public enum BatteryLevel {
         Validators.validateNonNull("value", value);
 
         if (!BATTERY_LEVEL_MAP.containsKey(value)) {
-            throw new RuntimeException("Unknown BatteryLevel value: " + value);
+            throw new IllegalArgumentException("Unknown BatteryLevel value: " + value);
         }
 
         return BATTERY_LEVEL_MAP.get(value);

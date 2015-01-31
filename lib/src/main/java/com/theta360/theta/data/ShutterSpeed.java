@@ -67,7 +67,7 @@ public enum ShutterSpeed {
         Validators.validateNonNull("value", value);
 
         if (!SHUTTER_SPEED_MAP.containsKey(value)) {
-            throw new RuntimeException("Unknown ShutterSpeed value: " + value);
+            throw new IllegalArgumentException("Unknown ShutterSpeed value: " + value);
         }
 
         return SHUTTER_SPEED_MAP.get(value);
