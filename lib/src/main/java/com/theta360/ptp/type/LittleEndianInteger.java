@@ -4,7 +4,7 @@ import com.theta360.util.Validators;
 
 import java.math.BigInteger;
 
-public abstract class LittleEndianInteger extends Number implements Comparable<LittleEndianInteger> {
+abstract class LittleEndianInteger extends Number implements Comparable<LittleEndianInteger> {
     private final byte[] bytes;
     private final BigInteger bigInteger;
 
