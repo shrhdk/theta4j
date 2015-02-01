@@ -115,6 +115,70 @@ public class INT8Test {
         assertThat(actual.bytes(), is(expectedBytes));
     }
 
+    // read with error
+
+    @Test(expected = NullPointerException.class)
+    public void readNull() throws IOException {
+        // act
+        INT8.read(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void readTooShortInputStream() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new byte[INT8.SIZE_IN_BYTES - 1]);
+
+        // act
+        INT8.read(given);
+    }
+
+    // read
+
+    @Test
+    public void readZero() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new INT8(BigInteger.valueOf(0)).bytes());
+
+        // expected
+        INT8 expected = new INT8(BigInteger.valueOf(0));
+
+        // act
+        INT8 actual = INT8.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readPositiveValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new INT8(1).bytes());
+
+        // expected
+        INT8 expected = new INT8(1);
+
+        // act
+        INT8 actual = INT8.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readMaxValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(INT8.MAX_VALUE.bytes());
+
+        // expected
+        INT8 expected = INT8.MAX_VALUE;
+
+        // act
+        INT8 actual = INT8.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
     // Basic method
 
     @Test
@@ -179,62 +243,6 @@ public class INT8Test {
         assertFalse(V3.equals(V1));
         assertFalse(V3.equals(V2));
         assertTrue(V3.equals(V3));
-    }
-
-    // read
-
-    @Test(expected = IllegalArgumentException.class)
-    public void readTooShortInputStream() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(new byte[INT8.SIZE_IN_BYTES - 1]);
-
-        // act
-        INT8.read(given);
-    }
-
-    @Test
-    public void readZero() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(new INT8(BigInteger.valueOf(0)).bytes());
-
-        // expected
-        INT8 expected = new INT8(BigInteger.valueOf(0));
-
-        // act
-        INT8 actual = INT8.read(given);
-
-        // verify
-        assertThat(actual, is(expected));
-    }
-
-    @Test
-    public void readPositiveValue() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(new INT8(1).bytes());
-
-        // expected
-        INT8 expected = new INT8(1);
-
-        // act
-        INT8 actual = INT8.read(given);
-
-        // verify
-        assertThat(actual, is(expected));
-    }
-
-    @Test
-    public void readMaxValue() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(INT8.MAX_VALUE.bytes());
-
-        // expected
-        INT8 expected = INT8.MAX_VALUE;
-
-        // act
-        INT8 actual = INT8.read(given);
-
-        // verify
-        assertThat(actual, is(expected));
     }
 
     // toString

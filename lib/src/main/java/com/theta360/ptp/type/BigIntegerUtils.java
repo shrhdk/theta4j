@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 class BigIntegerUtils {
     private BigIntegerUtils() {
+        throw new AssertionError();
     }
 
     private static byte[] suppress(byte suppressValue, byte[] bytes) {

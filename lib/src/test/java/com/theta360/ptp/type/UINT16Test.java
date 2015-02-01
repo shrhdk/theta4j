@@ -98,6 +98,70 @@ public class UINT16Test {
         assertThat(actual.bytes(), is(expectedBytes));
     }
 
+    // read with error
+
+    @Test(expected = NullPointerException.class)
+    public void readNull() throws IOException {
+        // act
+        UINT16.read(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void readTooShortInputStream() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new byte[UINT16.SIZE_IN_BYTES - 1]);
+
+        // act
+        UINT16.read(given);
+    }
+
+    // read
+
+    @Test
+    public void readZero() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new UINT16(BigInteger.valueOf(0)).bytes());
+
+        // expected
+        UINT16 expected = new UINT16(BigInteger.valueOf(0));
+
+        // act
+        UINT16 actual = UINT16.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readPositiveValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new UINT16(1).bytes());
+
+        // expected
+        UINT16 expected = new UINT16(1);
+
+        // act
+        UINT16 actual = UINT16.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readMaxValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(UINT16.MAX_VALUE.bytes());
+
+        // expected
+        UINT16 expected = UINT16.MAX_VALUE;
+
+        // act
+        UINT16 actual = UINT16.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
     // Basic method
 
     @Test
@@ -162,62 +226,6 @@ public class UINT16Test {
         assertFalse(V3.equals(V1));
         assertFalse(V3.equals(V2));
         assertTrue(V3.equals(V3));
-    }
-
-    // read
-
-    @Test(expected = IllegalArgumentException.class)
-    public void readTooShortInputStream() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(new byte[UINT16.SIZE_IN_BYTES - 1]);
-
-        // act
-        UINT16.read(given);
-    }
-
-    @Test
-    public void readZero() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(new UINT16(BigInteger.valueOf(0)).bytes());
-
-        // expected
-        UINT16 expected = new UINT16(BigInteger.valueOf(0));
-
-        // act
-        UINT16 actual = UINT16.read(given);
-
-        // verify
-        assertThat(actual, is(expected));
-    }
-
-    @Test
-    public void readPositiveValue() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(new UINT16(1).bytes());
-
-        // expected
-        UINT16 expected = new UINT16(1);
-
-        // act
-        UINT16 actual = UINT16.read(given);
-
-        // verify
-        assertThat(actual, is(expected));
-    }
-
-    @Test
-    public void readMaxValue() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(UINT16.MAX_VALUE.bytes());
-
-        // expected
-        UINT16 expected = UINT16.MAX_VALUE;
-
-        // act
-        UINT16 actual = UINT16.read(given);
-
-        // verify
-        assertThat(actual, is(expected));
     }
 
     // toString

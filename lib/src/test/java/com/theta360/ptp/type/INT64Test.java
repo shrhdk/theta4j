@@ -115,6 +115,70 @@ public class INT64Test {
         assertThat(actual.bytes(), is(expectedBytes));
     }
 
+    // read with error
+
+    @Test(expected = NullPointerException.class)
+    public void readNull() throws IOException {
+        // act
+        INT64.read(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void readTooShortInputStream() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new byte[INT64.SIZE_IN_BYTES - 1]);
+
+        // act
+        INT64.read(given);
+    }
+
+    // read
+
+    @Test
+    public void readZero() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new INT64(BigInteger.valueOf(0)).bytes());
+
+        // expected
+        INT64 expected = new INT64(BigInteger.valueOf(0));
+
+        // act
+        INT64 actual = INT64.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readPositiveValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new INT64(1).bytes());
+
+        // expected
+        INT64 expected = new INT64(1);
+
+        // act
+        INT64 actual = INT64.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readMaxValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(INT64.MAX_VALUE.bytes());
+
+        // expected
+        INT64 expected = INT64.MAX_VALUE;
+
+        // act
+        INT64 actual = INT64.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
     // Basic method
 
     @Test
@@ -179,62 +243,6 @@ public class INT64Test {
         assertFalse(V3.equals(V1));
         assertFalse(V3.equals(V2));
         assertTrue(V3.equals(V3));
-    }
-
-    // read
-
-    @Test(expected = IllegalArgumentException.class)
-    public void readTooShortInputStream() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(new byte[INT64.SIZE_IN_BYTES - 1]);
-
-        // act
-        INT64.read(given);
-    }
-
-    @Test
-    public void readZero() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(new INT64(BigInteger.valueOf(0)).bytes());
-
-        // expected
-        INT64 expected = new INT64(BigInteger.valueOf(0));
-
-        // act
-        INT64 actual = INT64.read(given);
-
-        // verify
-        assertThat(actual, is(expected));
-    }
-
-    @Test
-    public void readPositiveValue() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(new INT64(1).bytes());
-
-        // expected
-        INT64 expected = new INT64(1);
-
-        // act
-        INT64 actual = INT64.read(given);
-
-        // verify
-        assertThat(actual, is(expected));
-    }
-
-    @Test
-    public void readMaxValue() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(INT64.MAX_VALUE.bytes());
-
-        // expected
-        INT64 expected = INT64.MAX_VALUE;
-
-        // act
-        INT64 actual = INT64.read(given);
-
-        // verify
-        assertThat(actual, is(expected));
     }
 
     // toString

@@ -20,6 +20,7 @@ public final class STR {
     private static Charset CHARSET = Charset.forName("UTF-16LE");
 
     private STR() {
+        throw new AssertionError();
     }
 
     public static byte[] toBytes(String str) {

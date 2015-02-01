@@ -115,6 +115,70 @@ public class INT32Test {
         assertThat(actual.bytes(), is(expectedBytes));
     }
 
+    // read with error
+
+    @Test(expected = NullPointerException.class)
+    public void readNull() throws IOException {
+        // act
+        INT32.read(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void readTooShortInputStream() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new byte[INT32.SIZE_IN_BYTES - 1]);
+
+        // act
+        INT32.read(given);
+    }
+
+    // read
+
+    @Test
+    public void readZero() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new INT32(BigInteger.valueOf(0)).bytes());
+
+        // expected
+        INT32 expected = new INT32(BigInteger.valueOf(0));
+
+        // act
+        INT32 actual = INT32.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readPositiveValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new INT32(1).bytes());
+
+        // expected
+        INT32 expected = new INT32(1);
+
+        // act
+        INT32 actual = INT32.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void readMaxValue() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(INT32.MAX_VALUE.bytes());
+
+        // expected
+        INT32 expected = INT32.MAX_VALUE;
+
+        // act
+        INT32 actual = INT32.read(given);
+
+        // verify
+        assertThat(actual, is(expected));
+    }
+
     // Basic method
 
     @Test
@@ -179,62 +243,6 @@ public class INT32Test {
         assertFalse(V3.equals(V1));
         assertFalse(V3.equals(V2));
         assertTrue(V3.equals(V3));
-    }
-
-    // read
-
-    @Test(expected = IllegalArgumentException.class)
-    public void readTooShortInputStream() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(new byte[INT32.SIZE_IN_BYTES - 1]);
-
-        // act
-        INT32.read(given);
-    }
-
-    @Test
-    public void readZero() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(new INT32(BigInteger.valueOf(0)).bytes());
-
-        // expected
-        INT32 expected = new INT32(BigInteger.valueOf(0));
-
-        // act
-        INT32 actual = INT32.read(given);
-
-        // verify
-        assertThat(actual, is(expected));
-    }
-
-    @Test
-    public void readPositiveValue() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(new INT32(1).bytes());
-
-        // expected
-        INT32 expected = new INT32(1);
-
-        // act
-        INT32 actual = INT32.read(given);
-
-        // verify
-        assertThat(actual, is(expected));
-    }
-
-    @Test
-    public void readMaxValue() throws IOException {
-        // given
-        InputStream given = new ByteArrayInputStream(INT32.MAX_VALUE.bytes());
-
-        // expected
-        INT32 expected = INT32.MAX_VALUE;
-
-        // act
-        INT32 actual = INT32.read(given);
-
-        // verify
-        assertThat(actual, is(expected));
     }
 
     // toString
