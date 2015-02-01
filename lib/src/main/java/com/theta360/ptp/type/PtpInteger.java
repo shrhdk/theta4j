@@ -4,17 +4,17 @@ import com.theta360.util.Validators;
 
 import java.math.BigInteger;
 
-abstract class PtpInteger extends Number implements Comparable<PtpInteger> {
+public abstract class PtpInteger extends Number implements Comparable<PtpInteger> {
     private final byte[] bytes;
     private final BigInteger bigInteger;
 
     // Constructor
 
-    public PtpInteger(long value) {
+    PtpInteger(long value) {
         this(BigInteger.valueOf(value));
     }
 
-    public PtpInteger(BigInteger value) {
+    PtpInteger(BigInteger value) {
         Validators.validateNonNull("value", value);
 
         if (value.compareTo(min()) < 0 || 0 < value.compareTo(max())) {
@@ -25,7 +25,7 @@ abstract class PtpInteger extends Number implements Comparable<PtpInteger> {
         this.bigInteger = value;
     }
 
-    public PtpInteger(byte[] bytes) {
+    PtpInteger(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
         Validators.validateLength("bytes", bytes, sizeInBytes());
 
