@@ -8,12 +8,12 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AUINT16 {
-    private AUINT16() {
+public class AINT32 {
+    private AINT32() {
         throw new AssertionError();
     }
 
-    public static List<UINT16> valueOf(byte[] bytes) {
+    public static List<INT32> valueOf(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
 
         try (InputStream is = new ByteArrayInputStream(bytes)) {
@@ -23,15 +23,15 @@ public class AUINT16 {
         }
     }
 
-    public static List<UINT16> read(InputStream is) throws IOException {
+    public static List<INT32> read(InputStream is) throws IOException {
         Validators.validateNonNull("is", is);
 
         long length = UINT32.read(is).longValue();
 
-        List<UINT16> list = new ArrayList<>((int) length);
+        List<INT32> list = new ArrayList<>((int) length);
 
         for (int i = 0; i < length; i++) {
-            list.add(UINT16.read(is));
+            list.add(INT32.read(is));
         }
 
         return list;

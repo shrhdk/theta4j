@@ -10,6 +10,7 @@ import java.util.List;
 
 public class AUINT32 {
     private AUINT32() {
+        throw new AssertionError();
     }
 
     public static List<UINT32> valueOf(byte[] bytes) {
