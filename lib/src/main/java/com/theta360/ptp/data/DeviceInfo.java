@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -75,15 +76,13 @@ public final class DeviceInfo {
     // Static Factory Method
 
     /**
-     * Construct DeviceInfo from byte array.
+     * Construct DeviceInfo from InputStream.
+     *
+     * @throws IOException
      */
-    public static DeviceInfo valueOf(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
-
-        try (PtpInputStream pis = new PtpInputStream(bytes)) {
+    public static DeviceInfo read(InputStream is) throws IOException {
+        try (PtpInputStream pis = new PtpInputStream(is)) {
             return read(pis);
-        } catch (IOException e) {
-            throw new AssertionError(e);
         }
     }
 

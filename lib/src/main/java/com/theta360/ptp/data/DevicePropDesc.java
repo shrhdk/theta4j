@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 public class DevicePropDesc<T> {
@@ -39,13 +40,9 @@ public class DevicePropDesc<T> {
 
     // Static Factory Method
 
-    public static DevicePropDesc<?> valueOf(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
-
-        try (PtpInputStream pis = new PtpInputStream(bytes)) {
+    public static DevicePropDesc<?> read(InputStream is) throws IOException {
+        try (PtpInputStream pis = new PtpInputStream(is)) {
             return read(pis);
-        } catch (IOException e) {
-            throw new AssertionError(e);
         }
     }
 

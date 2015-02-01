@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -90,15 +91,13 @@ public class ObjectInfo {
     // Static Factory Method
 
     /**
-     * Construct ObjectInfo from byte array.
+     * Construct ObjectInfo from InputStream
      */
-    public static ObjectInfo valueOf(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
+    public static ObjectInfo read(InputStream is) throws IOException {
+        Validators.validateNonNull("is", is);
 
-        try (PtpInputStream pis = new PtpInputStream(bytes)) {
+        try (PtpInputStream pis = new PtpInputStream(is)) {
             return read(pis);
-        } catch (IOException e) {
-            throw new AssertionError(e);
         }
     }
 

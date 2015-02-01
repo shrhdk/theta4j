@@ -3,6 +3,7 @@ package com.theta360.ptp.type;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -106,7 +107,7 @@ public class UINT64Test {
         UINT64.read(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = EOFException.class)
     public void readTooShortInputStream() throws IOException {
         // given
         InputStream given = new ByteArrayInputStream(new byte[UINT64.SIZE_IN_BYTES - 1]);

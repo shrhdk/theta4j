@@ -1,5 +1,6 @@
 package com.theta360.ptp.type;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -35,7 +36,7 @@ public final class INT8 extends LittleEndianInteger {
         byte[] bytes = new byte[SIZE_IN_BYTES];
 
         if (is.read(bytes) != SIZE_IN_BYTES) {
-            throw new IllegalArgumentException();
+            throw new EOFException();
         }
 
         return new INT8(bytes);

@@ -2,11 +2,11 @@ package com.theta360.ptp;
 
 import com.theta360.ptp.code.Code;
 import com.theta360.ptp.data.*;
-import com.theta360.ptp.type.UINT16;
-import com.theta360.ptp.type.UINT32;
+import com.theta360.ptp.type.*;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -134,13 +134,15 @@ public interface PtpInitiator extends Closeable {
      */
     DevicePropDesc<?> getDevicePropDesc(Code<UINT16> devicePropCode) throws IOException, PtpException;
 
-    byte[] getDevicePropValue(Code<UINT16> devicePropCode) throws IOException, PtpException;
+    InputStream getDevicePropValue(Code<UINT16> devicePropCode) throws IOException, PtpException;
 
-    byte getDevicePropValueAsUINT8(Code<UINT16> devicePropCode) throws IOException, PtpException;
+    UINT8 getDevicePropValueAsUINT8(Code<UINT16> devicePropCode) throws IOException, PtpException;
 
     UINT16 getDevicePropValueAsUINT16(Code<UINT16> devicePropCode) throws IOException, PtpException;
 
     UINT32 getDevicePropValueAsUINT32(Code<UINT16> devicePropCode) throws IOException, PtpException;
+
+    UINT64 getDevicePropValueAsUINT64(Code<UINT16> devicePropCode) throws IOException, PtpException;
 
     String getDevicePropValueAsString(Code<UINT16> devicePropCode) throws IOException, PtpException;
 
@@ -188,7 +190,7 @@ public interface PtpInitiator extends Closeable {
 
     void sendData(byte[] data) throws IOException;
 
-    byte[] receiveData() throws IOException, PtpException;
+    InputStream receiveData() throws IOException, PtpException;
 
     void receiveData(OutputStream dst) throws IOException, PtpException;
 

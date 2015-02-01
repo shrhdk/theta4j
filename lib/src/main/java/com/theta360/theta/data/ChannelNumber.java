@@ -1,29 +1,32 @@
 package com.theta360.theta.data;
 
+import com.theta360.ptp.type.UINT8;
+import com.theta360.util.Validators;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public enum ChannelNumber {
-    RANDOM((byte) 0),
-    CH_1((byte) 1),
-    CH_6((byte) 6),
-    CH_11((byte) 11);
+    RANDOM(0),
+    CH_1(1),
+    CH_6(6),
+    CH_11(11);
 
-    private final byte value;
+    private final UINT8 value;
 
-    private ChannelNumber(byte value) {
-        this.value = value;
+    private ChannelNumber(int value) {
+        this.value = new UINT8(value);
     }
 
     // Getter
 
-    public byte getValue() {
+    public UINT8 getValue() {
         return value;
     }
 
     // valueOf
 
-    private static final Map<Byte, ChannelNumber> CHANNEL_NUMBER_MAP = new HashMap<>();
+    private static final Map<UINT8, ChannelNumber> CHANNEL_NUMBER_MAP = new HashMap<>();
 
     static {
         for (ChannelNumber channelNumber : ChannelNumber.values()) {
@@ -31,7 +34,9 @@ public enum ChannelNumber {
         }
     }
 
-    public static ChannelNumber valueOf(byte value) {
+    public static ChannelNumber valueOf(UINT8 value) {
+        Validators.validateNonNull("value", value);
+
         if (!CHANNEL_NUMBER_MAP.containsKey(value)) {
             throw new IllegalArgumentException("Unknown ChannelNumber Value: " + value);
         }
