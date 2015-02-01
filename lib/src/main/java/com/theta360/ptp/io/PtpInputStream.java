@@ -34,8 +34,31 @@ public final class PtpInputStream extends InputStream {
 
     // PTP Generic Type
 
-    public short readINT16() throws IOException {
-        return INT16.read(is).shortValue();
+    /**
+     * Read INT8 value from the stream.
+     *
+     * @throws IOException
+     */
+    public INT8 readINT8() throws IOException {
+        return INT8.read(is);
+    }
+
+    /**
+     * Read UINT8 value from the stream.
+     *
+     * @throws IOException
+     */
+    public UINT8 readUINT8() throws IOException {
+        return UINT8.read(is);
+    }
+
+    /**
+     * Read INT16 value from the stream.
+     *
+     * @throws IOException
+     */
+    public INT16 readINT16() throws IOException {
+        return INT16.read(is);
     }
 
     /**
@@ -48,12 +71,30 @@ public final class PtpInputStream extends InputStream {
     }
 
     /**
+     * Read INT32 value from the stream.
+     *
+     * @throws IOException
+     */
+    public INT32 readINT32() throws IOException {
+        return INT32.read(is);
+    }
+
+    /**
      * Read UINT32 value from the stream.
      *
      * @throws IOException
      */
     public UINT32 readUINT32() throws IOException {
         return UINT32.read(is);
+    }
+
+    /**
+     * Read INT64 value from the stream.
+     *
+     * @throws IOException
+     */
+    public INT64 readINT64() throws IOException {
+        return INT64.read(is);
     }
 
     /**
@@ -66,6 +107,53 @@ public final class PtpInputStream extends InputStream {
     }
 
     /**
+     * Read INT128 value from the stream.
+     *
+     * @throws IOException
+     */
+    public INT128 readINT128() throws IOException {
+        return INT128.read(is);
+    }
+
+    /**
+     * Read UINT128 value from the stream.
+     *
+     * @throws IOException
+     */
+    public UINT128 readUINT128() throws IOException {
+        return UINT128.read(is);
+    }
+
+    // Array
+
+    /**
+     * Read list of INT8 from the stream.
+     *
+     * @throws IOException
+     */
+    public List<INT8> readAINT8() throws IOException {
+        return AINT8.read(is);
+    }
+
+    /**
+     * Read list of UINT8 from the stream.
+     *
+     * @throws IOException
+     */
+    public List<UINT8> readAUINT8() throws IOException {
+        return AUINT8.read(is);
+    }
+
+    /**
+     * Read list of INT16 from the stream.
+     *
+     * @throws IOException
+     */
+    public List<INT16> readAINT16() throws IOException {
+        return AINT16.read(is);
+    }
+
+    /**
      * Read list of UINT16 from the stream.
      *
      * @throws IOException
@@ -75,13 +163,60 @@ public final class PtpInputStream extends InputStream {
     }
 
     /**
-     * Read list of UINT32 from the stream.
+     * Read list of INT32 from the stream.
+     *
+     * @throws IOException
+     */
+    public List<INT32> readAINT32() throws IOException {
+        return AINT32.read(is);
+    }
+
+    /**
+     * Read list of UINT16 from the stream.
      *
      * @throws IOException
      */
     public List<UINT32> readAUINT32() throws IOException {
         return AUINT32.read(is);
     }
+
+    /**
+     * Read list of INT64 from the stream.
+     *
+     * @throws IOException
+     */
+    public List<INT64> readAINT64() throws IOException {
+        return AINT64.read(is);
+    }
+
+    /**
+     * Read list of UINT64 from the stream.
+     *
+     * @throws IOException
+     */
+    public List<UINT64> readAUINT64() throws IOException {
+        return AUINT64.read(is);
+    }
+
+    /**
+     * Read list of INT128 from the stream.
+     *
+     * @throws IOException
+     */
+    public List<INT128> readAINT128() throws IOException {
+        return AINT128.read(is);
+    }
+
+    /**
+     * Read list of UINT128 from the stream.
+     *
+     * @throws IOException
+     */
+    public List<UINT128> readAUINT128() throws IOException {
+        return AUINT128.read(is);
+    }
+
+    // String
 
     /**
      * Read list of String from the stream as PTP String.
@@ -92,6 +227,8 @@ public final class PtpInputStream extends InputStream {
         return STR.read(is);
     }
 
+    // read *
+
     /**
      * Read data as DataType of specified code.
      *
@@ -100,16 +237,26 @@ public final class PtpInputStream extends InputStream {
      */
     public Object readAs(DataType dataType) throws IOException {
         switch (dataType) {
+            case INT8:
+                return readINT8();
             case UINT8:
-                return read();
+                return readUINT8();
             case INT16:
                 return readINT16();
             case UINT16:
                 return readUINT16();
+            case INT32:
+                return readINT32();
             case UINT32:
                 return readUINT32();
+            case INT64:
+                return readINT64();
             case UINT64:
                 return readUINT64();
+            case INT128:
+                return readINT128();
+            case UINT128:
+                return readUINT128();
             case STR:
                 return readString();
             default:
