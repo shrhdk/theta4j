@@ -4,17 +4,17 @@ import com.theta360.util.Validators;
 
 import java.math.BigInteger;
 
-abstract class LittleEndianInteger extends Number implements Comparable<LittleEndianInteger> {
+abstract class PtpInteger extends Number implements Comparable<PtpInteger> {
     private final byte[] bytes;
     private final BigInteger bigInteger;
 
     // Constructor
 
-    public LittleEndianInteger(long value) {
+    public PtpInteger(long value) {
         this(BigInteger.valueOf(value));
     }
 
-    public LittleEndianInteger(BigInteger value) {
+    public PtpInteger(BigInteger value) {
         Validators.validateNonNull("value", value);
 
         if (value.compareTo(min()) < 0 || 0 < value.compareTo(max())) {
@@ -25,7 +25,7 @@ abstract class LittleEndianInteger extends Number implements Comparable<LittleEn
         this.bigInteger = value;
     }
 
-    public LittleEndianInteger(byte[] bytes) {
+    public PtpInteger(byte[] bytes) {
         Validators.validateNonNull("bytes", bytes);
         Validators.validateLength("bytes", bytes, sizeInBytes());
 
@@ -90,7 +90,7 @@ abstract class LittleEndianInteger extends Number implements Comparable<LittleEn
     // Comparable
 
     @Override
-    public int compareTo(LittleEndianInteger o) {
+    public int compareTo(PtpInteger o) {
         return bigInteger.compareTo(o.bigInteger);
     }
 
@@ -106,7 +106,7 @@ abstract class LittleEndianInteger extends Number implements Comparable<LittleEn
             return false;
         }
 
-        LittleEndianInteger rhs = (LittleEndianInteger) o;
+        PtpInteger rhs = (PtpInteger) o;
 
         return bigInteger.equals(rhs.bigInteger);
     }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 
-public final class UINT128 extends LittleEndianInteger {
+public final class UINT128 extends PtpInteger {
     // Utility Field
 
     /**
