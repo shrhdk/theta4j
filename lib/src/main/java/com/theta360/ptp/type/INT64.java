@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 
-public class INT64 extends LittleEndianInteger {
+public class INT64 extends PtpInteger {
     // Utility Field
 
     public static final int SIZE_IN_BYTES = 8;

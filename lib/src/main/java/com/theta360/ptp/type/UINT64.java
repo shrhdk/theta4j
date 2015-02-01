@@ -8,7 +8,7 @@ import java.math.BigInteger;
 /**
  * 64 bit unsigned integer value defined in PTP
  */
-public final class UINT64 extends LittleEndianInteger {
+public final class UINT64 extends PtpInteger {
     // Utility Field
 
     /**
