@@ -1,5 +1,6 @@
 package com.theta360.theta.data;
 
+import com.theta360.ptp.type.UINT8;
 import com.theta360.util.Validators;
 
 import java.util.HashMap;
@@ -12,35 +13,35 @@ public enum BatteryLevel {
     /**
      * The battery level is full.
      */
-    FULL((byte) 100),
+    FULL(100),
     /**
      * The battery level is half.
      */
-    HALF((byte) 67),
+    HALF(67),
     /**
      * The battery level is near end.
      */
-    NEAR_END((byte) 33),
+    NEAR_END(33),
     /**
      * The battery level is empty.
      */
-    END((byte) 0);
+    END(0);
 
-    private final byte value;
+    private final UINT8 value;
 
-    private BatteryLevel(byte value) {
-        this.value = value;
+    private BatteryLevel(int value) {
+        this.value = new UINT8(value);
     }
 
     // Getter
 
-    public byte getValue() {
+    public UINT8 getValue() {
         return value;
     }
 
     // valueOf
 
-    private static final Map<Byte, BatteryLevel> BATTERY_LEVEL_MAP = new HashMap<>();
+    private static final Map<UINT8, BatteryLevel> BATTERY_LEVEL_MAP = new HashMap<>();
 
     static {
         for (BatteryLevel batteryLevel : BatteryLevel.values()) {
@@ -48,7 +49,7 @@ public enum BatteryLevel {
         }
     }
 
-    public static BatteryLevel valueOf(byte value) {
+    public static BatteryLevel valueOf(UINT8 value) {
         Validators.validateNonNull("value", value);
 
         if (!BATTERY_LEVEL_MAP.containsKey(value)) {

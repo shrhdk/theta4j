@@ -6,9 +6,7 @@ import com.theta360.ptp.PtpInitiator;
 import com.theta360.ptp.data.DeviceInfo;
 import com.theta360.ptp.data.ObjectInfo;
 import com.theta360.ptp.data.StorageInfo;
-import com.theta360.ptp.type.STR;
-import com.theta360.ptp.type.UINT16;
-import com.theta360.ptp.type.UINT32;
+import com.theta360.ptp.type.*;
 import com.theta360.ptpip.PtpIpInitiator;
 import com.theta360.theta.code.DevicePropCode;
 import com.theta360.theta.code.OperationCode;
@@ -319,7 +317,7 @@ public final class Theta implements Closeable {
      * @throws IOException
      */
     public BatteryLevel getBatteryLevel() throws IOException, PtpException {
-        byte value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.BATTERY_LEVEL);
+        UINT8 value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.BATTERY_LEVEL);
         return BatteryLevel.valueOf(value);
     }
 
@@ -568,8 +566,8 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public ShutterSpeed getShutterSpeed() throws IOException, PtpException {
-        byte[] value = ptpInitiator.getDevicePropValue(DevicePropCode.SHUTTER_SPEED);
-        return ShutterSpeed.valueOf(Rational.valueOf(value));
+        UINT64 value = ptpInitiator.getDevicePropValueAsUINT64(DevicePropCode.SHUTTER_SPEED);
+        return ShutterSpeed.valueOf(Rational.valueOf(value.bytes()));
     }
 
     /**
@@ -596,8 +594,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public String getGPSInfo() throws IOException, PtpException {
-        byte[] value = ptpInitiator.getDevicePropValue(DevicePropCode.GPS_INFO);
-        return STR.valueOf(value);
+        return STR.read(ptpInitiator.getDevicePropValue(DevicePropCode.GPS_INFO));
     }
 
     // TODO: Add the GPSInfo class and replace String with GPSInfo.
@@ -624,7 +621,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public int getAutoPowerOffDelay() throws IOException, PtpException {
-        return ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.AUTO_POWER_OFF_DELAY);
+        return ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.AUTO_POWER_OFF_DELAY).intValue();
     }
 
     /**
@@ -650,7 +647,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public int getSleepDelay() throws IOException, PtpException {
-        return ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.SLEEP_DELAY);
+        return ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.SLEEP_DELAY).intValue();
     }
 
     /**
@@ -676,7 +673,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public ChannelNumber getChannelNumber() throws IOException, PtpException {
-        byte value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.CHANNEL_NUMBER);
+        UINT8 value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.CHANNEL_NUMBER);
         return ChannelNumber.valueOf(value);
     }
 
@@ -699,7 +696,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public CaptureStatus getCaptureStatus() throws IOException, PtpException {
-        byte value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.CAPTURE_STATUS);
+        UINT8 value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.CAPTURE_STATUS);
         return CaptureStatus.valueOf(value);
     }
 

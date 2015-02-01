@@ -1,5 +1,8 @@
 package com.theta360.theta.data;
 
+import com.theta360.ptp.type.UINT8;
+import com.theta360.util.Validators;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,27 +10,27 @@ public enum CaptureStatus {
     /**
      * The camera is ready.
      */
-    IDLE((byte) 0),
+    IDLE(0),
     /**
      * The camera is executing shooting.
      */
-    CAPTURING((byte) 1);
+    CAPTURING(1);
 
-    private final byte value;
+    private final UINT8 value;
 
-    private CaptureStatus(byte value) {
-        this.value = value;
+    private CaptureStatus(int value) {
+        this.value = new UINT8(value);
     }
 
     // Getter
 
-    public byte getValue() {
+    public UINT8 getValue() {
         return value;
     }
 
     // valueOf
 
-    private static final Map<Byte, CaptureStatus> CAPTURE_STATUS_MAP = new HashMap<>();
+    private static final Map<UINT8, CaptureStatus> CAPTURE_STATUS_MAP = new HashMap<>();
 
     static {
         for (CaptureStatus captureStatus : CaptureStatus.values()) {
@@ -35,7 +38,9 @@ public enum CaptureStatus {
         }
     }
 
-    public static CaptureStatus valueOf(byte value) {
+    public static CaptureStatus valueOf(UINT8 value) {
+        Validators.validateNonNull("value", value);
+
         if (!CAPTURE_STATUS_MAP.containsKey(value)) {
             throw new IllegalArgumentException("Unknown CaptureStatus Value: " + value);
         }

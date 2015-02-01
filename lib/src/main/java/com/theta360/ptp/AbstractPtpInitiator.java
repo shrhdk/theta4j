@@ -4,15 +4,10 @@ import com.theta360.ptp.code.Code;
 import com.theta360.ptp.code.OperationCode;
 import com.theta360.ptp.code.ResponseCode;
 import com.theta360.ptp.data.*;
-import com.theta360.ptp.type.AUINT32;
-import com.theta360.ptp.type.STR;
-import com.theta360.ptp.type.UINT16;
-import com.theta360.ptp.type.UINT32;
+import com.theta360.ptp.type.*;
 import com.theta360.util.Validators;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.List;
 
 public abstract class AbstractPtpInitiator implements PtpInitiator {
@@ -56,7 +51,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     @Override
     public DeviceInfo getDeviceInfo() throws IOException, PtpException {
         sendOperation(OperationCode.GET_DEVICE_INFO);
-        DeviceInfo deviceInfo = DeviceInfo.valueOf(receiveData());
+        DeviceInfo deviceInfo = DeviceInfo.read(receiveData());
         checkResponse();
 
         return deviceInfo;
@@ -87,7 +82,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     @Override
     public List<UINT32> getStorageIDs() throws IOException, PtpException {
         sendOperation(OperationCode.GET_STORAGE_IDS);
-        List<UINT32> storageIDs = AUINT32.valueOf(receiveData());
+        List<UINT32> storageIDs = AUINT32.read(receiveData());
         checkResponse();
 
         return storageIDs;
@@ -98,7 +93,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
         Validators.validateNonNull("storageID", storageID);
 
         sendOperation(OperationCode.GET_STORAGE_INFO, storageID);
-        StorageInfo storageInfo = StorageInfo.valueOf(receiveData());
+        StorageInfo storageInfo = StorageInfo.read(receiveData());
         checkResponse();
 
         return storageInfo;
@@ -107,7 +102,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     @Override
     public UINT32 getNumObjects() throws IOException, PtpException {
         sendOperation(OperationCode.GET_NUM_OBJECTS);
-        UINT32 numObjects = new UINT32(receiveData());
+        UINT32 numObjects = UINT32.read(receiveData());
         checkResponse();
 
         return numObjects;
@@ -123,7 +118,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
         Validators.validateNonNull("storageID", storageID);
 
         sendOperation(OperationCode.GET_OBJECT_HANDLES, storageID);
-        List<UINT32> objectHandles = AUINT32.valueOf(receiveData());
+        List<UINT32> objectHandles = AUINT32.read(receiveData());
         checkResponse();
 
         return objectHandles;
@@ -134,7 +129,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
         Validators.validateNonNull("objectHandle", objectHandle);
 
         sendOperation(OperationCode.GET_OBJECT_INFO, objectHandle);
-        ObjectInfo objectInfo = ObjectInfo.valueOf(receiveData());
+        ObjectInfo objectInfo = ObjectInfo.read(receiveData());
         checkResponse();
 
         return objectInfo;
@@ -177,41 +172,46 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     @Override
     public DevicePropDesc<?> getDevicePropDesc(Code<UINT16> devicePropCode) throws IOException, PtpException {
         sendOperation(OperationCode.GET_DEVICE_PROP_DESC, new UINT32(devicePropCode.value().intValue()));
-        DevicePropDesc<?> devicePropDesc = DevicePropDesc.valueOf(receiveData());
+        DevicePropDesc<?> devicePropDesc = DevicePropDesc.read(receiveData());
         checkResponse();
 
         return devicePropDesc;
     }
 
     @Override
-    public byte[] getDevicePropValue(Code<UINT16> devicePropCode) throws IOException, PtpException {
+    public InputStream getDevicePropValue(Code<UINT16> devicePropCode) throws IOException, PtpException {
         Validators.validateNonNull("devicePropCode", devicePropCode);
 
         sendOperation(OperationCode.GET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
-        byte[] value = receiveData();
+        InputStream is = receiveData();
         checkResponse();
 
-        return value;
+        return is;
     }
 
     @Override
-    public byte getDevicePropValueAsUINT8(Code<UINT16> devicePropCode) throws IOException, PtpException {
-        return getDevicePropValue(devicePropCode)[0];
+    public UINT8 getDevicePropValueAsUINT8(Code<UINT16> devicePropCode) throws IOException, PtpException {
+        return UINT8.read(getDevicePropValue(devicePropCode));
     }
 
     @Override
     public UINT16 getDevicePropValueAsUINT16(Code<UINT16> devicePropCode) throws IOException, PtpException {
-        return new UINT16(getDevicePropValue(devicePropCode));
+        return UINT16.read(getDevicePropValue(devicePropCode));
     }
 
     @Override
     public UINT32 getDevicePropValueAsUINT32(Code<UINT16> devicePropCode) throws IOException, PtpException {
-        return new UINT32(getDevicePropValue(devicePropCode));
+        return UINT32.read(getDevicePropValue(devicePropCode));
+    }
+
+    @Override
+    public UINT64 getDevicePropValueAsUINT64(Code<UINT16> devicePropCode) throws IOException, PtpException {
+        return UINT64.read(getDevicePropValue(devicePropCode));
     }
 
     @Override
     public String getDevicePropValueAsString(Code<UINT16> devicePropCode) throws IOException, PtpException {
-        return STR.valueOf(getDevicePropValue(devicePropCode));
+        return STR.read(getDevicePropValue(devicePropCode));
     }
 
     @Override
@@ -274,12 +274,13 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
             throw new PtpException(operationResponse.getResponseCode().intValue(), message);
         }
     }
+
     // Data
 
     @Override
-    public byte[] receiveData() throws IOException, PtpException {
+    public InputStream receiveData() throws IOException, PtpException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         receiveData(baos);
-        return baos.toByteArray();
+        return new ByteArrayInputStream(baos.toByteArray());
     }
 }

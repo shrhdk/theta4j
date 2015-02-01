@@ -4,6 +4,7 @@ import com.theta360.util.ByteUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -13,67 +14,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class AINT16Test {
-    // valueOf
-
-    @Test(expected = NullPointerException.class)
-    public void valueOfNull() {
-        // act
-        AINT16.valueOf(null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void valueOfEmptyBytes() {
-        // act
-        AINT16.valueOf(new byte[]{});
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void valueOfInvalidBytes() {
-        // given
-        byte[] given = new byte[]{0x00};
-
-        // act
-        AINT16.valueOf(given);
-    }
-
-    @Test
-    public void valueOfEmpty() {
-        // given
-        byte[] given = UINT32.ZERO.bytes();
-
-        // expected
-        List<INT16> expected = new ArrayList<>();
-
-        // act
-        List<INT16> actual = AINT16.valueOf(given);
-
-        // verify
-        assertThat(actual, is(expected));
-    }
-
-    @Test
-    public void valueOf() {
-        // given
-        INT16 given = INT16.MAX_VALUE;
-
-        // expected
-        List<INT16> expected = new ArrayList<>();
-        expected.add(given);
-
-        // arrange
-        byte[] givenBytes = ByteUtils.join(
-                new UINT32(1).bytes(),
-                given.bytes()
-        );
-
-        // act
-        List<INT16> actual = AINT16.valueOf(givenBytes);
-
-        // verify
-        assertThat(actual, is(expected));
-    }
-
-    // read
+    // read with error
 
     @Test(expected = NullPointerException.class)
     public void readNull() throws IOException {
@@ -81,7 +22,7 @@ public class AINT16Test {
         AINT16.read(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = EOFException.class)
     public void readEmptyBytes() throws IOException {
         // given
         byte[] given = new byte[]{};
@@ -93,7 +34,7 @@ public class AINT16Test {
         AINT16.read(givenInputStream);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = EOFException.class)
     public void readInvalidBytes() throws IOException {
         // given
         byte[] given = new byte[]{0x00};
@@ -104,6 +45,8 @@ public class AINT16Test {
         // act
         AINT16.read(givenInputStream);
     }
+
+    // read
 
     @Test
     public void readEmpty() throws IOException {
@@ -124,7 +67,7 @@ public class AINT16Test {
     }
 
     @Test
-    public void readOf() throws IOException {
+    public void read() throws IOException {
         // given
         INT16 given = INT16.MAX_VALUE;
 

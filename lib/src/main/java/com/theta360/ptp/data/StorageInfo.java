@@ -10,6 +10,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * StorageInfo data set
@@ -54,13 +55,11 @@ public class StorageInfo {
     // Static Factory Method
 
     /**
-     * Construct StorageInfo from byte array.
+     * Construct StorageInfo from InputStream.
      */
-    public static StorageInfo valueOf(byte[] bytes) {
-        try (PtpInputStream pis = new PtpInputStream(bytes)) {
+    public static StorageInfo read(InputStream is) throws IOException {
+        try (PtpInputStream pis = new PtpInputStream(is)) {
             return read(pis);
-        } catch (IOException e) {
-            throw new AssertionError(e);
         }
     }
 

@@ -4,6 +4,7 @@ import com.theta360.util.ByteUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -13,67 +14,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class AUINT32Test {
-    // valueOf
-
-    @Test(expected = NullPointerException.class)
-    public void valueOfNull() {
-        // act
-        AUINT32.valueOf(null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void valueOfEmptyBytes() {
-        // act
-        AUINT32.valueOf(new byte[]{});
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void valueOfInvalidBytes() {
-        // given
-        byte[] given = new byte[]{0x00};
-
-        // act
-        AUINT32.valueOf(given);
-    }
-
-    @Test
-    public void valueOfEmpty() {
-        // given
-        byte[] given = UINT32.ZERO.bytes();
-
-        // expected
-        List<UINT32> expected = new ArrayList<>();
-
-        // act
-        List<UINT32> actual = AUINT32.valueOf(given);
-
-        // verify
-        assertThat(actual, is(expected));
-    }
-
-    @Test
-    public void valueOf() {
-        // given
-        UINT32 given = UINT32.MAX_VALUE;
-
-        // expected
-        List<UINT32> expected = new ArrayList<>();
-        expected.add(given);
-
-        // arrange
-        byte[] givenBytes = ByteUtils.join(
-                new UINT32(1).bytes(),
-                given.bytes()
-        );
-
-        // act
-        List<UINT32> actual = AUINT32.valueOf(givenBytes);
-
-        // verify
-        assertThat(actual, is(expected));
-    }
-
-    // read
+    // read with error
 
     @Test(expected = NullPointerException.class)
     public void readNull() throws IOException {
@@ -81,7 +22,7 @@ public class AUINT32Test {
         AUINT32.read(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = EOFException.class)
     public void readEmptyBytes() throws IOException {
         // given
         byte[] given = new byte[]{};
@@ -93,7 +34,7 @@ public class AUINT32Test {
         AUINT32.read(givenInputStream);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = EOFException.class)
     public void readInvalidBytes() throws IOException {
         // given
         byte[] given = new byte[]{0x00};
@@ -104,6 +45,8 @@ public class AUINT32Test {
         // act
         AUINT32.read(givenInputStream);
     }
+
+    // read
 
     @Test
     public void readEmpty() throws IOException {
@@ -124,7 +67,7 @@ public class AUINT32Test {
     }
 
     @Test
-    public void readOf() throws IOException {
+    public void read() throws IOException {
         // given
         UINT32 given = UINT32.MAX_VALUE;
 
