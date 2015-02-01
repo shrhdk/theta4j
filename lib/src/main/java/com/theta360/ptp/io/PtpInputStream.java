@@ -32,7 +32,7 @@ public final class PtpInputStream extends InputStream {
         this.is = new BufferedInputStream(is);
     }
 
-    // PTP Generic Type
+    // PTP Generic Type (Integer)
 
     /**
      * Read INT8 value from the stream.
@@ -124,7 +124,7 @@ public final class PtpInputStream extends InputStream {
         return UINT128.read(is);
     }
 
-    // Array
+    // PTP Generic Type (Array)
 
     /**
      * Read list of INT8 from the stream.
@@ -216,7 +216,7 @@ public final class PtpInputStream extends InputStream {
         return AUINT128.read(is);
     }
 
-    // String
+    // // PTP Generic Type (String)
 
     /**
      * Read list of String from the stream as PTP String.
