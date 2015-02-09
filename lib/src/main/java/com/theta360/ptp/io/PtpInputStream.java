@@ -236,6 +236,8 @@ public final class PtpInputStream extends InputStream {
      * @throws IOException
      */
     public Object readAs(DataType dataType) throws IOException {
+        Validators.validateNonNull("dataType", dataType);
+
         switch (dataType) {
             case INT8:
                 return readINT8();
@@ -257,6 +259,26 @@ public final class PtpInputStream extends InputStream {
                 return readINT128();
             case UINT128:
                 return readUINT128();
+            case AINT8:
+                return readAINT8();
+            case AUINT8:
+                return readAUINT8();
+            case AINT16:
+                return readAINT16();
+            case AUINT16:
+                return readAUINT16();
+            case AINT32:
+                return readAINT32();
+            case AUINT32:
+                return readAUINT32();
+            case AINT64:
+                return readAINT64();
+            case AUINT64:
+                return readAUINT64();
+            case AINT128:
+                return readAINT128();
+            case AUINT128:
+                return readAUINT128();
             case STR:
                 return readString();
             default:

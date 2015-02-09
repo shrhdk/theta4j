@@ -3,7 +3,7 @@ package com.theta360.ptp.type;
 import com.theta360.util.ByteUtils;
 import com.theta360.util.Validators;
 
-import java.io.ByteArrayInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -30,23 +30,13 @@ public final class STR {
         return ByteUtils.join(length, str.getBytes(CHARSET));
     }
 
-    public static String valueOf(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
-
-        try (InputStream is = new ByteArrayInputStream(bytes)) {
-            return read(is);
-        } catch (IOException e) {
-            throw new AssertionError(e);
-        }
-    }
-
     public static String read(InputStream is) throws IOException {
         Validators.validateNonNull("is", is);
 
         int numChars = is.read();
 
         if (numChars == -1) {
-            throw new IllegalArgumentException("length of InputStream is 0.");
+            throw new EOFException("length of InputStream is 0.");
         }
 
         if (numChars == 0) {
@@ -59,7 +49,7 @@ public final class STR {
         int numReadBytes = is.read(bytes);
         if (numReadBytes != numBytes) {
             String message = String.format("NumChars is %d (= %d bytes), but actual data is %d bytes.", numChars, numBytes, numReadBytes);
-            throw new IllegalArgumentException(message);
+            throw new EOFException(message);
         }
 
         return new String(bytes, CHARSET);
