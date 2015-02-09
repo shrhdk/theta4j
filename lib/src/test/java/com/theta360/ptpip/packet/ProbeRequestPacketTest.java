@@ -9,7 +9,9 @@ import java.io.IOException;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.PROBE_REQUEST;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class ProbeRequestPacketTest {
     // Constructor
@@ -75,5 +77,58 @@ public class ProbeRequestPacketTest {
         // verify
         assertThat(actual.getType(), is(PROBE_REQUEST));
         assertThat(actual.getPayload(), is(new byte[0]));
+    }
+
+    // hashCode
+
+    @Test
+    public void testHashCode() {
+        // given
+        ProbeRequestPacket packet1 = new ProbeRequestPacket();
+        ProbeRequestPacket packet2 = new ProbeRequestPacket();
+
+        // verify
+        assertThat(packet1.hashCode(), is(packet2.hashCode()));
+    }
+
+    // not equals
+
+    @Test
+    public void notEqualsWithNull() {
+        // given
+        ProbeRequestPacket packet = new ProbeRequestPacket();
+
+        // verify
+        assertFalse(packet.equals(null));
+    }
+
+    @Test
+    public void notEqualsWithDifferentClass() {
+        // given
+        ProbeRequestPacket packet = new ProbeRequestPacket();
+
+        // verify
+        assertFalse(packet.equals("foo"));
+    }
+
+    // equals
+
+    @Test
+    public void equalsWithSameInstance() {
+        // given
+        ProbeRequestPacket packet = new ProbeRequestPacket();
+
+        // verify
+        assertTrue(packet.equals(packet));
+    }
+
+    @Test
+    public void equals() {
+        // given
+        ProbeRequestPacket packet1 = new ProbeRequestPacket();
+        ProbeRequestPacket packet2 = new ProbeRequestPacket();
+
+        // verify
+        assertTrue(packet1.equals(packet2));
     }
 }

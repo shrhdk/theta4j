@@ -27,25 +27,30 @@ public final class CancelPacket extends PtpIpPacket {
         super.payload = this.transactionID.bytes();
     }
 
-    // Getter
-
-    public UINT32 getTransactionID() {
-        return transactionID;
-    }
-
     // Static Factory Method
 
     public static CancelPacket read(PtpInputStream pis) throws IOException {
+        Validators.validateNonNull("pis", pis);
+
+        // Read Header
         long length = pis.readUINT32().longValue();
         long payloadLength = length - HEADER_SIZE_IN_BYTES;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
+        // Validate Header
         PacketUtils.assertType(type, Type.CANCEL);
         PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
+        // Read Body
         UINT32 transactionID = pis.readUINT32();
 
         return new CancelPacket(transactionID);
+    }
+
+    // Getter
+
+    public UINT32 getTransactionID() {
+        return transactionID;
     }
 
     // Basic Method

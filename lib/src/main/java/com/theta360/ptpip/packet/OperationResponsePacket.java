@@ -69,6 +69,32 @@ public final class OperationResponsePacket extends PtpIpPacket {
         );
     }
 
+    // Static Factory Method
+
+    public static OperationResponsePacket read(PtpInputStream pis) throws IOException {
+        Validators.validateNonNull("pis", pis);
+
+        // Read Header
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - HEADER_SIZE_IN_BYTES;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        // Validate Header
+        PacketUtils.assertType(type, Type.OPERATION_RESPONSE);
+        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
+
+        // Read Body
+        UINT16 responseCode = pis.readUINT16();
+        UINT32 transactionID = pis.readUINT32();
+        UINT32 p1 = pis.readUINT32();
+        UINT32 p2 = pis.readUINT32();
+        UINT32 p3 = pis.readUINT32();
+        UINT32 p4 = pis.readUINT32();
+        UINT32 p5 = pis.readUINT32();
+
+        return new OperationResponsePacket(responseCode, transactionID, p1, p2, p3, p4, p5);
+    }
+
     // Getter
 
     public UINT16 getResponseCode() {
@@ -97,27 +123,6 @@ public final class OperationResponsePacket extends PtpIpPacket {
 
     public UINT32 getP5() {
         return p5;
-    }
-
-    // Static Factory Method
-
-    public static OperationResponsePacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - HEADER_SIZE_IN_BYTES;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.OPERATION_RESPONSE);
-        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
-
-        UINT16 responseCode = pis.readUINT16();
-        UINT32 transactionID = pis.readUINT32();
-        UINT32 p1 = pis.readUINT32();
-        UINT32 p2 = pis.readUINT32();
-        UINT32 p3 = pis.readUINT32();
-        UINT32 p4 = pis.readUINT32();
-        UINT32 p5 = pis.readUINT32();
-
-        return new OperationResponsePacket(responseCode, transactionID, p1, p2, p3, p4, p5);
     }
 
     // Basic Method

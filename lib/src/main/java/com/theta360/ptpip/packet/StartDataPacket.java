@@ -37,6 +37,27 @@ public final class StartDataPacket extends PtpIpPacket {
         );
     }
 
+    // Static Factory Method
+
+    public static StartDataPacket read(PtpInputStream pis) throws IOException {
+        Validators.validateNonNull("pis", pis);
+
+        // Read Header
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - HEADER_SIZE_IN_BYTES;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        // Validate Header
+        PacketUtils.assertType(type, Type.START_DATA);
+        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
+
+        // Read Body
+        UINT32 transactionID = pis.readUINT32();
+        UINT64 totalDataLength = pis.readUINT64();
+
+        return new StartDataPacket(transactionID, totalDataLength);
+    }
+
     // Getter
 
     public UINT32 getTransactionID() {
@@ -45,22 +66,6 @@ public final class StartDataPacket extends PtpIpPacket {
 
     public UINT64 getTotalDataLength() {
         return totalDataLength;
-    }
-
-    // Static Factory Method
-
-    public static StartDataPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - HEADER_SIZE_IN_BYTES;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.START_DATA);
-        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
-
-        UINT32 transactionID = pis.readUINT32();
-        UINT64 totalDataLength = pis.readUINT64();
-
-        return new StartDataPacket(transactionID, totalDataLength);
     }
 
     // Basic Method

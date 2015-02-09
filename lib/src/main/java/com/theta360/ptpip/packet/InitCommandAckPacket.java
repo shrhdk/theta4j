@@ -45,6 +45,27 @@ public final class InitCommandAckPacket extends PtpIpPacket {
         );
     }
 
+    // Static Factory Method
+
+    public static InitCommandAckPacket read(PtpInputStream pis) throws IOException {
+        Validators.validateNonNull("pis", pis);
+
+        // Read Header
+        long length = pis.readUINT32().longValue();
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        // Validate Header
+        PacketUtils.assertType(type, Type.INIT_COMMAND_ACK);
+
+        // Read Body
+        UINT32 connectionNumber = pis.readUINT32();
+        UUID guid = GUID.read(pis);
+        String name = PtpIpString.read(pis);
+        UINT32 protocolVersion = pis.readUINT32();
+
+        return new InitCommandAckPacket(connectionNumber, guid, name, protocolVersion);
+    }
+
     // Getter
 
     public UINT32 getConnectionNumber() {
@@ -61,24 +82,6 @@ public final class InitCommandAckPacket extends PtpIpPacket {
 
     public UINT32 getProtocolVersion() {
         return protocolVersion;
-    }
-
-    // Static Factory Method
-
-    public static InitCommandAckPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - HEADER_SIZE_IN_BYTES;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.INIT_COMMAND_ACK);
-        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE_IN_BYTES);
-
-        UINT32 connectionNumber = pis.readUINT32();
-        UUID guid = GUID.read(pis);
-        String name = PtpIpString.read(pis);
-        UINT32 protocolVersion = pis.readUINT32();
-
-        return new InitCommandAckPacket(connectionNumber, guid, name, protocolVersion);
     }
 
     // Basic Method

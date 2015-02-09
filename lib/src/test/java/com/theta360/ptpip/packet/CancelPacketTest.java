@@ -10,7 +10,8 @@ import java.io.IOException;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.CANCEL;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.*;
 
 public class CancelPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES];
@@ -92,5 +93,78 @@ public class CancelPacketTest {
         assertThat(actual.getType(), is(CANCEL));
         assertThat(actual.getTransactionID(), is(TRANSACTION_ID));
         assertThat(actual.getPayload(), is(givenPayload));
+    }
+
+    // hashCode
+
+    @Test
+    public void hashCodeOfDifferentTransactionID() {
+        // given
+        CancelPacket packet1 = new CancelPacket(new UINT32(0));
+        CancelPacket packet2 = new CancelPacket(new UINT32(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void testHashCode() {
+        // given
+        CancelPacket packet1 = new CancelPacket(TRANSACTION_ID);
+        CancelPacket packet2 = new CancelPacket(TRANSACTION_ID);
+
+        // verify
+        assertThat(packet1.hashCode(), is(packet2.hashCode()));
+    }
+
+    // not equals
+
+    @Test
+    public void notEqualsWithNull() {
+        // given
+        CancelPacket packet = new CancelPacket(new UINT32(0));
+
+        // verify
+        assertFalse(packet.equals(null));
+    }
+
+    @Test
+    public void notEqualsWithDifferentClass() {
+        // given
+        CancelPacket packet = new CancelPacket(TRANSACTION_ID);
+
+        // verify
+        assertFalse(packet.equals("foo"));
+    }
+
+    @Test
+    public void notEqualsWithTransactionID() {
+        // given
+        CancelPacket packet1 = new CancelPacket(new UINT32(0));
+        CancelPacket packet2 = new CancelPacket(new UINT32(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    // equals
+
+    @Test
+    public void equalsWithSameInstance() {
+        // given
+        CancelPacket packet = new CancelPacket(TRANSACTION_ID);
+
+        // verify
+        assertTrue(packet.equals(packet));
+    }
+
+    @Test
+    public void equals() {
+        // given
+        CancelPacket packet1 = new CancelPacket(TRANSACTION_ID);
+        CancelPacket packet2 = new CancelPacket(TRANSACTION_ID);
+
+        // verify
+        assertTrue(packet1.equals(packet2));
     }
 }

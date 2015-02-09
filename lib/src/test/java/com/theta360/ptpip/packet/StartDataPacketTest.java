@@ -12,7 +12,8 @@ import java.io.IOException;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.START_DATA;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.*;
 
 public class StartDataPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES + UINT64.SIZE_IN_BYTES];
@@ -109,5 +110,98 @@ public class StartDataPacketTest {
         assertThat(actual.getTransactionID(), is(TRANSACTION_ID));
         assertThat(actual.getTotalDataLength(), is(TOTAL_DATA_LENGTH));
         assertThat(actual.getPayload(), is(givenPayload));
+    }
+
+    // hashCode
+
+    @Test
+    public void hashCodeOfDifferentTransactionID() {
+        // given
+        StartDataPacket packet1 = new StartDataPacket(new UINT32(0), TOTAL_DATA_LENGTH);
+        StartDataPacket packet2 = new StartDataPacket(new UINT32(1), TOTAL_DATA_LENGTH);
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void hashCodeOfDifferentTotalDataLength() {
+        // given
+        StartDataPacket packet1 = new StartDataPacket(TRANSACTION_ID, new UINT64(0));
+        StartDataPacket packet2 = new StartDataPacket(TRANSACTION_ID, new UINT64(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void testHashCode() {
+        // given
+        StartDataPacket packet1 = new StartDataPacket(TRANSACTION_ID, TOTAL_DATA_LENGTH);
+        StartDataPacket packet2 = new StartDataPacket(TRANSACTION_ID, TOTAL_DATA_LENGTH);
+
+        // verify
+        assertThat(packet1.hashCode(), is(packet2.hashCode()));
+    }
+
+    // not equals
+
+    @Test
+    public void notEqualsWithNull() {
+        // given
+        StartDataPacket packet = new StartDataPacket(TRANSACTION_ID, TOTAL_DATA_LENGTH);
+
+        // verify
+        assertFalse(packet.equals(null));
+    }
+
+    @Test
+    public void notEqualsWithDifferentClass() {
+        // given
+        StartDataPacket packet = new StartDataPacket(TRANSACTION_ID, TOTAL_DATA_LENGTH);
+
+        // verify
+        assertFalse(packet.equals("foo"));
+    }
+
+    @Test
+    public void notEqualsWithTransactionID() {
+        // given
+        StartDataPacket packet1 = new StartDataPacket(new UINT32(0), TOTAL_DATA_LENGTH);
+        StartDataPacket packet2 = new StartDataPacket(new UINT32(1), TOTAL_DATA_LENGTH);
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    @Test
+    public void notEqualsWithTotalDataLength() {
+        // given
+        StartDataPacket packet1 = new StartDataPacket(TRANSACTION_ID, new UINT64(0));
+        StartDataPacket packet2 = new StartDataPacket(TRANSACTION_ID, new UINT64(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    // equals
+
+    @Test
+    public void equalsWithSameInstance() {
+        // given
+        StartDataPacket packet = new StartDataPacket(TRANSACTION_ID, TOTAL_DATA_LENGTH);
+
+        // verify
+        assertTrue(packet.equals(packet));
+    }
+
+    @Test
+    public void equals() {
+        // given
+        StartDataPacket packet1 = new StartDataPacket(TRANSACTION_ID, TOTAL_DATA_LENGTH);
+        StartDataPacket packet2 = new StartDataPacket(TRANSACTION_ID, TOTAL_DATA_LENGTH);
+
+        // verify
+        assertTrue(packet1.equals(packet2));
     }
 }

@@ -41,6 +41,26 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
         );
     }
 
+    // Static Factory Method
+
+    public static InitCommandRequestPacket read(PtpInputStream pis) throws IOException {
+        Validators.validateNonNull("pis", pis);
+
+        // Read Header
+        long length = pis.readUINT32().longValue();
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        // Validate Header
+        PacketUtils.assertType(type, Type.INIT_COMMAND_REQUEST);
+
+        // Read Body
+        UUID guid = GUID.read(pis);
+        String name = PtpIpString.read(pis);
+        UINT32 protocolVersion = pis.readUINT32();
+
+        return new InitCommandRequestPacket(guid, name, protocolVersion);
+    }
+
     // Getter
 
     public UUID getGUID() {
@@ -53,23 +73,6 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
 
     public UINT32 getProtocolVersion() {
         return protocolVersion;
-    }
-
-    // Static Factory Method
-
-    public static InitCommandRequestPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - HEADER_SIZE_IN_BYTES;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.INIT_COMMAND_REQUEST);
-        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE_IN_BYTES);
-
-        UUID guid = GUID.read(pis);
-        String name = PtpIpString.read(pis);
-        UINT32 protocolVersion = pis.readUINT32();
-
-        return new InitCommandRequestPacket(guid, name, protocolVersion);
     }
 
     // Basic Method

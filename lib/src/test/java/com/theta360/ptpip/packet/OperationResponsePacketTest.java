@@ -12,7 +12,8 @@ import java.io.IOException;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.OPERATION_RESPONSE;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.*;
 
 public class OperationResponsePacketTest {
     private static final byte[] PAYLOAD = new byte[UINT16.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES * 5];
@@ -156,5 +157,222 @@ public class OperationResponsePacketTest {
         assertThat(actual.getP4(), is(P4));
         assertThat(actual.getP5(), is(P5));
         assertThat(actual.getPayload(), is(givenPayload));
+    }
+
+    // hashCode
+
+    @Test
+    public void hashCodeOfDifferentOperationCode() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(new UINT16(0), TRANSACTION_ID);
+        OperationResponsePacket packet2 = new OperationResponsePacket(new UINT16(1), TRANSACTION_ID);
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void hashCodeOfDifferentTransactionID() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, new UINT32(0));
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, new UINT32(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void hashCodeOfDifferentP1() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                new UINT32(0));
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                new UINT32(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void hashCodeOfDifferentP2() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, new UINT32(0));
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, new UINT32(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void hashCodeOfDifferentP3() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, new UINT32(0));
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, new UINT32(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void hashCodeOfDifferentP4() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, P3, new UINT32(0));
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, P3, new UINT32(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void hashCodeOfDifferentP5() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, P3, P4, new UINT32(0));
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, P3, P4, new UINT32(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void testHashCode() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, P3, P4, P5);
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, P3, P4, P5);
+
+        // verify
+        assertThat(packet1.hashCode(), is(packet2.hashCode()));
+    }
+
+    // not equals
+
+    @Test
+    public void notEqualsWithNull() {
+        // given
+        OperationResponsePacket packet = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID);
+
+        // verify
+        assertFalse(packet.equals(null));
+    }
+
+    @Test
+    public void notEqualsWithDifferentClass() {
+        // given
+        OperationResponsePacket packet = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID);
+
+        // verify
+        assertFalse(packet.equals("foo"));
+    }
+
+    @Test
+    public void notEqualsWithOperationCode() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(new UINT16(0), TRANSACTION_ID);
+        OperationResponsePacket packet2 = new OperationResponsePacket(new UINT16(1), TRANSACTION_ID);
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    @Test
+    public void notEqualsWithTransactionID() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, new UINT32(0));
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, new UINT32(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    @Test
+    public void notEqualsWithP1() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                new UINT32(0));
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                new UINT32(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    @Test
+    public void notEqualsWithP2() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, new UINT32(0));
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, new UINT32(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    @Test
+    public void notEqualsWithP3() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, new UINT32(0));
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, new UINT32(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    @Test
+    public void notEqualsWithP4() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, P3, new UINT32(0));
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, P3, new UINT32(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    @Test
+    public void notEqualsWithP5() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, P3, P4, new UINT32(0));
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, P3, P4, new UINT32(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    // equals
+
+    @Test
+    public void equalsWithSameInstance() {
+        // given
+        OperationResponsePacket packet = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID);
+
+        // verify
+        assertTrue(packet.equals(packet));
+    }
+
+    @Test
+    public void equals() {
+        // given
+        OperationResponsePacket packet1 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, P3, P4, P5);
+        OperationResponsePacket packet2 = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID,
+                P1, P2, P3, P4, P5);
+
+        // verify
+        assertTrue(packet1.equals(packet2));
     }
 }
