@@ -2,7 +2,10 @@ package com.theta360.ptp;
 
 import com.theta360.ptp.code.Code;
 import com.theta360.ptp.data.*;
-import com.theta360.ptp.type.*;
+import com.theta360.ptp.type.UINT16;
+import com.theta360.ptp.type.UINT32;
+import com.theta360.ptp.type.UINT64;
+import com.theta360.ptp.type.UINT8;
 
 import java.io.Closeable;
 import java.io.IOException;
