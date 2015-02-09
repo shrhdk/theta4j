@@ -4,6 +4,7 @@ import com.theta360.ptp.type.UINT16;
 import com.theta360.util.Validators;
 
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -20,6 +21,7 @@ final class PtpIpString {
     private static Charset CHARSET = Charset.forName("UTF-16LE");
 
     private PtpIpString() {
+        throw new AssertionError();
     }
 
     public static byte[] toBytes(String str) {
@@ -36,12 +38,12 @@ final class PtpIpString {
         for (; ; ) {
             int b0 = is.read();
             if (b0 == -1) {
-                throw new IllegalArgumentException();
+                throw new EOFException();
             }
 
             int b1 = is.read();
             if (b1 == -1) {
-                throw new IllegalArgumentException();
+                throw new EOFException();
             }
 
             // End with NULL?
