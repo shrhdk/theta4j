@@ -4,7 +4,6 @@ import com.theta360.ptp.type.*;
 import com.theta360.util.Validators;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -16,10 +15,6 @@ public final class PtpInputStream extends InputStream {
     private final InputStream is;
 
     // Constructor
-
-    public PtpInputStream(byte[] bytes) {
-        this(new ByteArrayInputStream(bytes));
-    }
 
     /**
      * Wrap InputStream by PtpInputStream.
