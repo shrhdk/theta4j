@@ -3,6 +3,7 @@ package com.theta360.ptpip.packet;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -51,30 +52,36 @@ public class PtpIpStringTest {
         assertThat(actual, is(expected));
     }
 
-    // read with error
+    // read
 
     @Test(expected = NullPointerException.class)
     public void readWithNull() throws IOException {
         PtpIpString.read(null);
     }
 
-
-    @Test(expected = RuntimeException.class)
-    public void readInvalidName() throws IOException {
+    @Test(expected = EOFException.class)
+    public void readWithoutTerminator() throws IOException {
         // given
-        byte[] invalidNameBytes = new byte[]{0x01};  // Not end with 0x00
+        byte[] given = "test".getBytes(CHARSET);
 
         // arrange
-        InputStream pis = new ByteArrayInputStream(invalidNameBytes);
+        InputStream givenInputStream = new ByteArrayInputStream(given);
 
         // act
-        PtpIpString.read(pis);
+        PtpIpString.read(givenInputStream);
     }
 
-    // read
+    @Test(expected = EOFException.class)
+    public void readOddLengthByteArray() throws IOException {
+        // given
+        InputStream given = new ByteArrayInputStream(new byte[]{0x00});
+
+        // act
+        PtpIpString.read(given);
+    }
 
     @Test
-    public void readWithEmpty() throws IOException {
+    public void readEmpty() throws IOException {
         // given
         byte[] given = "\u0000".getBytes(CHARSET);
 
