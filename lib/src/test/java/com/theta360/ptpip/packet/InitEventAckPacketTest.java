@@ -9,7 +9,7 @@ import java.io.IOException;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_ACK;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class InitEventAckPacketTest {
     // Constructor
@@ -75,5 +75,58 @@ public class InitEventAckPacketTest {
         // verify
         assertThat(actual.getType(), is(INIT_EVENT_ACK));
         assertThat(actual.getPayload(), is(new byte[0]));
+    }
+
+    // hashCode
+
+    @Test
+    public void testHashCode() {
+        // given
+        InitEventAckPacket packet1 = new InitEventAckPacket();
+        InitEventAckPacket packet2 = new InitEventAckPacket();
+
+        // verify
+        assertThat(packet1.hashCode(), is(packet2.hashCode()));
+    }
+
+    // not equals
+
+    @Test
+    public void notEqualsWithNull() {
+        // given
+        InitEventAckPacket packet = new InitEventAckPacket();
+
+        // verify
+        assertFalse(packet.equals(null));
+    }
+
+    @Test
+    public void notEqualsWithDifferentClass() {
+        // given
+        InitEventAckPacket packet = new InitEventAckPacket();
+
+        // verify
+        assertFalse(packet.equals("foo"));
+    }
+
+    // equals
+
+    @Test
+    public void equalsWithSameInstance() {
+        // given
+        InitEventAckPacket packet = new InitEventAckPacket();
+
+        // verify
+        assertTrue(packet.equals(packet));
+    }
+
+    @Test
+    public void equals() {
+        // given
+        InitEventAckPacket packet1 = new InitEventAckPacket();
+        InitEventAckPacket packet2 = new InitEventAckPacket();
+
+        // verify
+        assertTrue(packet1.equals(packet2));
     }
 }

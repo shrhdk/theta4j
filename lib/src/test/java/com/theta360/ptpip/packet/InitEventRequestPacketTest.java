@@ -10,7 +10,8 @@ import java.io.IOException;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.*;
 
 public class InitEventRequestPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES];
@@ -86,5 +87,78 @@ public class InitEventRequestPacketTest {
         assertThat(actual.getType(), is(INIT_EVENT_REQUEST));
         assertThat(actual.getConnectionNumber(), is(CONNECTION_NUMBER));
         assertThat(actual.getPayload(), is(CONNECTION_NUMBER.bytes()));
+    }
+
+    // hashCode
+
+    @Test
+    public void hashCodeOfDifferentConnectionNumber() {
+        // given
+        InitEventRequestPacket packet1 = new InitEventRequestPacket(new UINT32(0));
+        InitEventRequestPacket packet2 = new InitEventRequestPacket(new UINT32(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void testHashCode() {
+        // given
+        InitEventRequestPacket packet1 = new InitEventRequestPacket(CONNECTION_NUMBER);
+        InitEventRequestPacket packet2 = new InitEventRequestPacket(CONNECTION_NUMBER);
+
+        // verify
+        assertThat(packet1.hashCode(), is(packet2.hashCode()));
+    }
+
+    // not equals
+
+    @Test
+    public void notEqualsWithNull() {
+        // given
+        InitEventRequestPacket packet = new InitEventRequestPacket(CONNECTION_NUMBER);
+
+        // verify
+        assertFalse(packet.equals(null));
+    }
+
+    @Test
+    public void notEqualsWithDifferentClass() {
+        // given
+        InitEventRequestPacket packet = new InitEventRequestPacket(CONNECTION_NUMBER);
+
+        // verify
+        assertFalse(packet.equals("foo"));
+    }
+
+    @Test
+    public void notEqualsWithConnectionNumber() {
+        // given
+        InitEventRequestPacket packet1 = new InitEventRequestPacket(new UINT32(0));
+        InitEventRequestPacket packet2 = new InitEventRequestPacket(new UINT32(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    // equals
+
+    @Test
+    public void equalsWithSameInstance() {
+        // given
+        InitEventRequestPacket packet = new InitEventRequestPacket(CONNECTION_NUMBER);
+
+        // verify
+        assertTrue(packet.equals(packet));
+    }
+
+    @Test
+    public void equals() {
+        // given
+        InitEventRequestPacket packet1 = new InitEventRequestPacket(CONNECTION_NUMBER);
+        InitEventRequestPacket packet2 = new InitEventRequestPacket(CONNECTION_NUMBER);
+
+        // verify
+        assertTrue(packet1.equals(packet2));
     }
 }

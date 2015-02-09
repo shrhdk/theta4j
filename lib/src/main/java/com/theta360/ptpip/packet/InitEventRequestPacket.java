@@ -26,25 +26,30 @@ public final class InitEventRequestPacket extends PtpIpPacket {
         super.payload = connectionNumber.bytes();
     }
 
-    // Getter
-
-    public UINT32 getConnectionNumber() {
-        return connectionNumber;
-    }
-
     // Static Factory Method
 
     public static InitEventRequestPacket read(PtpInputStream pis) throws IOException {
+        Validators.validateNonNull("pis", pis);
+
+        // Read Header
         long length = pis.readUINT32().longValue();
         long payloadLength = length - HEADER_SIZE_IN_BYTES;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
+        // Validate Header
         PacketUtils.assertType(type, Type.INIT_EVENT_REQUEST);
         PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
+        // Read Body
         UINT32 connectionNumber = pis.readUINT32();
 
         return new InitEventRequestPacket(connectionNumber);
+    }
+
+    // Getter
+
+    public UINT32 getConnectionNumber() {
+        return connectionNumber;
     }
 
     // Basic Method

@@ -1,6 +1,7 @@
 package com.theta360.ptpip.packet;
 
 import com.theta360.ptp.io.PtpInputStream;
+import com.theta360.util.Validators;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
@@ -20,10 +21,14 @@ public final class ProbeResponsePacket extends PtpIpPacket {
     // Static Factory Method
 
     public static ProbeResponsePacket read(PtpInputStream pis) throws IOException {
+        Validators.validateNonNull("pis", pis);
+
+        // Read Header
         long length = pis.readUINT32().longValue();
         long payloadLength = length - HEADER_SIZE_IN_BYTES;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
+        // Validate Header
         PacketUtils.assertType(type, Type.PROBE_RESPONSE.value(), Type.PROBE_RESPONSE);
         PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
@@ -34,15 +39,8 @@ public final class ProbeResponsePacket extends PtpIpPacket {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
+        return this == o || !(o == null || getClass() != o.getClass());
 
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        return true;
     }
 
     @Override

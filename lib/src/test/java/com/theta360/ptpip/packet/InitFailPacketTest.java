@@ -10,7 +10,8 @@ import java.io.IOException;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_FAIL;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.*;
 
 public class InitFailPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES];
@@ -86,5 +87,78 @@ public class InitFailPacketTest {
         assertThat(actual.getType(), is(INIT_FAIL));
         assertThat(actual.getReason(), is(REASON));
         assertThat(actual.getPayload(), is(REASON.bytes()));
+    }
+
+    // hashCode
+
+    @Test
+    public void hashCodeOfDifferentReason() {
+        // given
+        InitFailPacket packet1 = new InitFailPacket(new UINT32(0));
+        InitFailPacket packet2 = new InitFailPacket(new UINT32(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void testHashCode() {
+        // given
+        InitFailPacket packet1 = new InitFailPacket(REASON);
+        InitFailPacket packet2 = new InitFailPacket(REASON);
+
+        // verify
+        assertThat(packet1.hashCode(), is(packet2.hashCode()));
+    }
+
+    // not equals
+
+    @Test
+    public void notEqualsWithNull() {
+        // given
+        InitFailPacket packet = new InitFailPacket(REASON);
+
+        // verify
+        assertFalse(packet.equals(null));
+    }
+
+    @Test
+    public void notEqualsWithDifferentClass() {
+        // given
+        InitFailPacket packet = new InitFailPacket(REASON);
+
+        // verify
+        assertFalse(packet.equals("foo"));
+    }
+
+    @Test
+    public void notEqualsWithReason() {
+        // given
+        InitFailPacket packet1 = new InitFailPacket(new UINT32(0));
+        InitFailPacket packet2 = new InitFailPacket(new UINT32(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    // equals
+
+    @Test
+    public void equalsWithSameInstance() {
+        // given
+        InitFailPacket packet = new InitFailPacket(REASON);
+
+        // verify
+        assertTrue(packet.equals(packet));
+    }
+
+    @Test
+    public void equals() {
+        // given
+        InitFailPacket packet1 = new InitFailPacket(REASON);
+        InitFailPacket packet2 = new InitFailPacket(REASON);
+
+        // verify
+        assertTrue(packet1.equals(packet2));
     }
 }

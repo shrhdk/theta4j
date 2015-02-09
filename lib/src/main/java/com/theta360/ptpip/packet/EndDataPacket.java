@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.EOFException;
 import java.io.IOException;
 
 /**
@@ -36,6 +37,32 @@ public final class EndDataPacket extends PtpIpPacket {
         );
     }
 
+    // Static Factory Method
+
+    public static EndDataPacket read(PtpInputStream pis) throws IOException {
+        Validators.validateNonNull("pis", pis);
+
+        // Read Header
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - HEADER_SIZE_IN_BYTES;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        // Validate Header
+        PacketUtils.assertType(type, Type.END_DATA);
+
+        // Read Body (TransactionID)
+        UINT32 transactionID = pis.readUINT32();
+
+        // Read Body (Data)
+        long dataLength = payloadLength - UINT32.SIZE_IN_BYTES; // -TransactionID
+        byte[] dataPayload = new byte[(int) dataLength];
+        if (pis.read(dataPayload) != dataLength) {
+            throw new EOFException();
+        }
+
+        return new EndDataPacket(transactionID, dataPayload);
+    }
+
     // Getter
 
     public UINT32 getTransactionID() {
@@ -44,28 +71,6 @@ public final class EndDataPacket extends PtpIpPacket {
 
     public byte[] getDataPayload() {
         return dataPayload.clone();
-    }
-
-    // Static Factory Method
-
-    public static EndDataPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - HEADER_SIZE_IN_BYTES;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.END_DATA);
-        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE_IN_BYTES);
-
-        long dataLength = payloadLength - UINT32.SIZE_IN_BYTES;              // -TransactionID
-
-        UINT32 transactionID = pis.readUINT32();
-        byte[] dataPayload = new byte[(int) dataLength];
-
-        if (pis.read(dataPayload) == -1) {
-            throw new IOException();
-        }
-
-        return new EndDataPacket(transactionID, dataPayload);
     }
 
     // Basic Method

@@ -12,7 +12,8 @@ import java.io.IOException;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.EVENT;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.*;
 
 public class EventPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT16.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES * 3];
@@ -138,5 +139,172 @@ public class EventPacketTest {
         assertThat(actual.getP2(), is(P2));
         assertThat(actual.getP3(), is(P3));
         assertThat(actual.getPayload(), is(givenPayload));
+    }
+
+    // hashCode
+
+    @Test
+    public void hashCodeOfDifferentEventCode() {
+        // given
+        EventPacket packet1 = new EventPacket(new UINT16(0), TRANSACTION_ID);
+        EventPacket packet2 = new EventPacket(new UINT16(1), TRANSACTION_ID);
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void hashCodeOfDifferentTransactionID() {
+        // given
+        EventPacket packet1 = new EventPacket(EVENT_CODE, new UINT32(0));
+        EventPacket packet2 = new EventPacket(EVENT_CODE, new UINT32(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void hashCodeOfDifferentP1() {
+        // given
+        EventPacket packet1 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                new UINT32(0));
+        EventPacket packet2 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                new UINT32(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void hashCodeOfDifferentP2() {
+        // given
+        EventPacket packet1 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                P1, new UINT32(0));
+        EventPacket packet2 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                P1, new UINT32(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void hashCodeOfDifferentP3() {
+        // given
+        EventPacket packet1 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                P1, P2, new UINT32(0));
+        EventPacket packet2 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                P1, P2, new UINT32(1));
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void testHashCode() {
+        // given
+        EventPacket packet1 = new EventPacket(EVENT_CODE, TRANSACTION_ID);
+        EventPacket packet2 = new EventPacket(EVENT_CODE, TRANSACTION_ID);
+
+        // verify
+        assertThat(packet1.hashCode(), is(packet2.hashCode()));
+    }
+
+    // not equals
+
+    @Test
+    public void notEqualsWithNull() {
+        // given
+        EventPacket packet = new EventPacket(EVENT_CODE, TRANSACTION_ID);
+
+        // verify
+        assertFalse(packet.equals(null));
+    }
+
+    @Test
+    public void notEqualsWithDifferentClass() {
+        // given
+        EventPacket packet = new EventPacket(EVENT_CODE, TRANSACTION_ID);
+
+        // verify
+        assertFalse(packet.equals("foo"));
+    }
+
+    @Test
+    public void notEqualsWithEventCode() {
+        // given
+        EventPacket packet1 = new EventPacket(new UINT16(0), TRANSACTION_ID);
+        EventPacket packet2 = new EventPacket(new UINT16(1), TRANSACTION_ID);
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    @Test
+    public void notEqualsWithTransactionID() {
+        // given
+        EventPacket packet1 = new EventPacket(EVENT_CODE, new UINT32(0));
+        EventPacket packet2 = new EventPacket(EVENT_CODE, new UINT32(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    @Test
+    public void notEqualsWithP1() {
+        // given
+        EventPacket packet1 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                new UINT32(0));
+        EventPacket packet2 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                new UINT32(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    @Test
+    public void notEqualsWithP2() {
+        // given
+        EventPacket packet1 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                P1, new UINT32(0));
+        EventPacket packet2 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                P1, new UINT32(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    @Test
+    public void notEqualsWithP3() {
+        // given
+        EventPacket packet1 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                P1, P2, new UINT32(0));
+        EventPacket packet2 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                P1, P2, new UINT32(1));
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    // equals
+
+    @Test
+    public void equalsWithSameInstance() {
+        // given
+        EventPacket packet = new EventPacket(EVENT_CODE, TRANSACTION_ID);
+
+        // verify
+        assertTrue(packet.equals(packet));
+    }
+
+    @Test
+    public void equals() {
+        // given
+        EventPacket packet1 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                P1, P2, P3);
+        EventPacket packet2 = new EventPacket(EVENT_CODE, TRANSACTION_ID,
+                P1, P2, P3);
+
+        // verify
+        assertTrue(packet1.equals(packet2));
     }
 }

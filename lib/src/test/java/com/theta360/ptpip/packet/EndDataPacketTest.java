@@ -6,12 +6,14 @@ import com.theta360.util.ByteUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.END_DATA;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.*;
 
 public class EndDataPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES];
@@ -73,7 +75,7 @@ public class EndDataPacketTest {
         EndDataPacket.read(givenInputStream);
     }
 
-    @Test(expected = IOException.class)
+    @Test(expected = EOFException.class)
     public void readTooShortPayload() throws IOException {
         // given
         byte[] givenPayload = new byte[PAYLOAD.length - 1];  // min length - 1
@@ -81,6 +83,23 @@ public class EndDataPacketTest {
         // arrange
         PtpIpPacket givenPacket = new PtpIpPacket(END_DATA, givenPayload);
         PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+
+        // act
+        EndDataPacket.read(givenInputStream);
+    }
+
+    @Test(expected = EOFException.class)
+    public void readInsufficientDataPayload() throws IOException {
+        // given (has length in header larger than actual)
+        byte[] givenPacketBytes = ByteUtils.join(
+                new UINT32(100).bytes(),
+                PtpIpPacket.Type.END_DATA.value().bytes(),
+                TRANSACTION_ID.bytes(),
+                DATA_PAYLOAD
+        );
+
+        // arrange
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         EndDataPacket.read(givenInputStream);
@@ -109,4 +128,98 @@ public class EndDataPacketTest {
         assertThat(actual.getDataPayload(), is(DATA_PAYLOAD));
         assertThat(actual.getPayload(), is(givenPayload));
     }
+
+    // hashCode
+
+    @Test
+    public void hashCodeOfDifferentTransactionID() {
+        // given
+        EndDataPacket packet1 = new EndDataPacket(new UINT32(0), DATA_PAYLOAD);
+        EndDataPacket packet2 = new EndDataPacket(new UINT32(1), DATA_PAYLOAD);
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void hashCodeOfDifferentData() {
+        // given
+        EndDataPacket packet1 = new EndDataPacket(TRANSACTION_ID, new byte[]{});
+        EndDataPacket packet2 = new EndDataPacket(TRANSACTION_ID, new byte[]{0x00});
+
+        // verify
+        assertThat(packet1.hashCode(), not(packet2.hashCode()));
+    }
+
+    @Test
+    public void testHashCode() {
+        // given
+        EndDataPacket packet1 = new EndDataPacket(TRANSACTION_ID, DATA_PAYLOAD);
+        EndDataPacket packet2 = new EndDataPacket(TRANSACTION_ID, DATA_PAYLOAD);
+
+        // verify
+        assertThat(packet1.hashCode(), is(packet2.hashCode()));
+    }
+
+    // not equals
+
+    @Test
+    public void notEqualsWithNull() {
+        // given
+        EndDataPacket packet = new EndDataPacket(TRANSACTION_ID, DATA_PAYLOAD);
+
+        // verify
+        assertFalse(packet.equals(null));
+    }
+
+    @Test
+    public void notEqualsWithDifferentClass() {
+        // given
+        EndDataPacket packet = new EndDataPacket(TRANSACTION_ID, DATA_PAYLOAD);
+
+        // verify
+        assertFalse(packet.equals("foo"));
+    }
+
+    @Test
+    public void notEqualsWithTransactionID() {
+        // given
+        EndDataPacket packet1 = new EndDataPacket(new UINT32(0), DATA_PAYLOAD);
+        EndDataPacket packet2 = new EndDataPacket(new UINT32(1), DATA_PAYLOAD);
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    @Test
+    public void notEqualsWithData() {
+        // given
+        EndDataPacket packet1 = new EndDataPacket(TRANSACTION_ID, new byte[]{});
+        EndDataPacket packet2 = new EndDataPacket(TRANSACTION_ID, new byte[]{0x00});
+
+        // verify
+        assertFalse(packet1.equals(packet2));
+    }
+
+    // equals
+
+    @Test
+    public void equalsWithSameInstance() {
+        // given
+        EndDataPacket packet = new EndDataPacket(TRANSACTION_ID, DATA_PAYLOAD);
+
+        // verify
+        assertTrue(packet.equals(packet));
+    }
+
+    @Test
+    public void equals() {
+        // given
+        EndDataPacket packet1 = new EndDataPacket(TRANSACTION_ID, DATA_PAYLOAD);
+        EndDataPacket packet2 = new EndDataPacket(TRANSACTION_ID, DATA_PAYLOAD);
+
+        // verify
+        assertTrue(packet1.equals(packet2));
+    }
 }
+

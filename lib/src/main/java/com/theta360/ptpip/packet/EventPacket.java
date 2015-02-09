@@ -57,6 +57,30 @@ public final class EventPacket extends PtpIpPacket {
         );
     }
 
+    // Static Factory Method
+
+    public static EventPacket read(PtpInputStream pis) throws IOException {
+        Validators.validateNonNull("pis", pis);
+
+        // Read Header
+        long length = pis.readUINT32().longValue();
+        long payloadLength = length - HEADER_SIZE_IN_BYTES;
+        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
+
+        // Validate Header
+        PacketUtils.assertType(type, Type.EVENT);
+        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
+
+        // Read Body
+        UINT16 eventCode = pis.readUINT16();
+        UINT32 transactionID = pis.readUINT32();
+        UINT32 p1 = pis.readUINT32();
+        UINT32 p2 = pis.readUINT32();
+        UINT32 p3 = pis.readUINT32();
+
+        return new EventPacket(eventCode, transactionID, p1, p2, p3);
+    }
+
     // Getter
 
     public UINT16 getEventCode() {
@@ -77,25 +101,6 @@ public final class EventPacket extends PtpIpPacket {
 
     public UINT32 getP3() {
         return p3;
-    }
-
-    // Static Factory Method
-
-    public static EventPacket read(PtpInputStream pis) throws IOException {
-        long length = pis.readUINT32().longValue();
-        long payloadLength = length - HEADER_SIZE_IN_BYTES;
-        PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
-
-        PacketUtils.assertType(type, Type.EVENT);
-        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
-
-        UINT16 eventCode = pis.readUINT16();
-        UINT32 transactionID = pis.readUINT32();
-        UINT32 p1 = pis.readUINT32();
-        UINT32 p2 = pis.readUINT32();
-        UINT32 p3 = pis.readUINT32();
-
-        return new EventPacket(eventCode, transactionID, p1, p2, p3);
     }
 
     // Basic Method

@@ -159,6 +159,7 @@ public class PtpIpPacket {
 
         public static Type read(PtpInputStream pis) throws IOException {
             Validators.validateNonNull("pis", pis);
+            
             UINT32 typeValue = pis.readUINT32();
             return valueOf(typeValue);
         }

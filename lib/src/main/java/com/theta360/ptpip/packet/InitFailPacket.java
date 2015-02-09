@@ -26,25 +26,30 @@ public final class InitFailPacket extends PtpIpPacket {
         super.payload = reason.bytes();
     }
 
-    // Getter
-
-    public UINT32 getReason() {
-        return reason;
-    }
-
     // Static Factory Method
 
     public static InitFailPacket read(PtpInputStream pis) throws IOException {
+        Validators.validateNonNull("pis", pis);
+
+        // Read Header
         long length = pis.readUINT32().longValue();
         long payloadLength = length - HEADER_SIZE_IN_BYTES;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
+        // Validate Header
         PacketUtils.assertType(type, Type.INIT_FAIL);
         PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
+        // Read Body
         UINT32 reason = pis.readUINT32();
 
         return new InitFailPacket(reason);
+    }
+
+    // Getter
+
+    public UINT32 getReason() {
+        return reason;
     }
 
     // Basic Method
@@ -62,7 +67,6 @@ public final class InitFailPacket extends PtpIpPacket {
         InitFailPacket rhs = (InitFailPacket) o;
 
         return reason.equals(rhs.reason);
-
     }
 
     @Override
