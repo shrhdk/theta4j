@@ -177,6 +177,26 @@ public final class DeviceInfo {
     // Basic Method
 
     @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(standardVersion)
+                .append(vendorExtensionID)
+                .append(vendorExtensionVersion)
+                .append(vendorExtensionDesc)
+                .append(functionalMode)
+                .append(operationsSupported)
+                .append(eventsSupported)
+                .append(devicePropertiesSupported)
+                .append(captureFormats)
+                .append(imageFormats)
+                .append(manufacturer)
+                .append(model)
+                .append(deviceVersion)
+                .append(serialNumber)
+                .toHashCode();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -204,26 +224,6 @@ public final class DeviceInfo {
                 .append(deviceVersion, rhs.deviceVersion)
                 .append(serialNumber, rhs.serialNumber)
                 .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder()
-                .append(standardVersion)
-                .append(vendorExtensionID)
-                .append(vendorExtensionVersion)
-                .append(vendorExtensionDesc)
-                .append(functionalMode)
-                .append(operationsSupported)
-                .append(eventsSupported)
-                .append(devicePropertiesSupported)
-                .append(captureFormats)
-                .append(imageFormats)
-                .append(manufacturer)
-                .append(model)
-                .append(deviceVersion)
-                .append(serialNumber)
-                .toHashCode();
     }
 
     @Override
