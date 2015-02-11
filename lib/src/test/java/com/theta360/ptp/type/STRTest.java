@@ -1,5 +1,6 @@
 package com.theta360.ptp.type;
 
+import com.theta360.TestUtils;
 import com.theta360.util.ArrayUtils;
 import org.junit.Test;
 
@@ -11,9 +12,17 @@ import java.nio.charset.Charset;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class STRTest {
     private static Charset CHARSET = Charset.forName("UTF-16LE");
+
+    // Constructor
+
+    @Test
+    public void isUtilClass() {
+        assertTrue(TestUtils.isUtilClass(STR.class));
+    }
 
     // toBytes
 

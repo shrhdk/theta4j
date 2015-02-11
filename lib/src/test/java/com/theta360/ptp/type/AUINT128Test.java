@@ -1,5 +1,6 @@
 package com.theta360.ptp.type;
 
+import com.theta360.TestUtils;
 import com.theta360.util.ArrayUtils;
 import org.junit.Test;
 
@@ -12,8 +13,16 @@ import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class AUINT128Test {
+    // Constructor
+
+    @Test
+    public void isUtilClass() {
+        assertTrue(TestUtils.isUtilClass(AUINT128.class));
+    }
+
     // read with error
 
     @Test(expected = NullPointerException.class)

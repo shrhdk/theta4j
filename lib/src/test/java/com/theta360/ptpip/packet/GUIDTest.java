@@ -1,5 +1,6 @@
 package com.theta360.ptpip.packet;
 
+import com.theta360.TestUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -10,8 +11,16 @@ import java.util.UUID;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class GUIDTest {
+    // Constructor
+
+    @Test
+    public void isUtilClass() {
+        assertTrue(TestUtils.isUtilClass(GUID.class));
+    }
+
     // toBytes
 
     @Test(expected = NullPointerException.class)

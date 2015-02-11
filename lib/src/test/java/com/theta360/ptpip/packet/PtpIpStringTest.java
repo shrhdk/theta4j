@@ -1,5 +1,6 @@
 package com.theta360.ptpip.packet;
 
+import com.theta360.TestUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -10,9 +11,17 @@ import java.nio.charset.Charset;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class PtpIpStringTest {
     private static Charset CHARSET = Charset.forName("UTF-16LE");
+
+    // Constructor
+
+    @Test
+    public void isUtilClass() {
+        assertTrue(TestUtils.isUtilClass(PtpIpString.class));
+    }
 
     // toBytes
 
