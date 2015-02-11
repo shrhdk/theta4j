@@ -5,9 +5,6 @@ import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.io.PtpOutputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.util.Validators;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,7 +31,7 @@ public abstract class PtpIpPacket {
     // Converter
 
     public final byte[] bytes() {
-        UINT32 length = new UINT32(UINT32.SIZE_IN_BYTES + Type.SIZE + getPayload().length);
+        UINT32 length = new UINT32(UINT32.SIZE_IN_BYTES + Type.SIZE_IN_BYTES + getPayload().length);
 
         try (
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -67,7 +64,7 @@ public abstract class PtpIpPacket {
         PROBE_REQUEST(0x000D),
         PROBE_RESPONSE(0x000D);
 
-        public static final int SIZE = 4;
+        public static final int SIZE_IN_BYTES = 4;
 
         private final UINT32 value;
 
