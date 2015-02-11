@@ -3,7 +3,7 @@ package com.theta360.ptpip.packet;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -58,7 +58,7 @@ public class InitCommandAckPacketTest {
         String givenName = "";
 
         // expected
-        byte[] expectedPayload = ByteUtils.join(
+        byte[] expectedPayload = ArrayUtils.join(
                 CONNECTION_NUMBER.bytes(),
                 GUID.toBytes(GUID_),
                 PtpIpString.toBytes(givenName),
@@ -79,7 +79,7 @@ public class InitCommandAckPacketTest {
     @Test
     public void constructAndGet() {
         // expected
-        byte[] expectedPayload = ByteUtils.join(
+        byte[] expectedPayload = ArrayUtils.join(
                 CONNECTION_NUMBER.bytes(),
                 GUID.toBytes(GUID_),
                 PtpIpString.toBytes(NAME),
@@ -136,7 +136,7 @@ public class InitCommandAckPacketTest {
     @Test
     public void read() throws IOException {
         // given
-        byte[] givenPayload = ByteUtils.join(
+        byte[] givenPayload = ArrayUtils.join(
                 CONNECTION_NUMBER.bytes(),
                 GUID.toBytes(GUID_),
                 PtpIpString.toBytes(NAME),

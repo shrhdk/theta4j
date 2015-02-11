@@ -6,7 +6,7 @@ import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.ptp.type.UINT64;
 import com.theta360.ptpip.packet.*;
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -299,10 +299,10 @@ public class PtpIpInputStreamTest {
         UINT32 transactionID = new UINT32(1);
         byte[] data1 = new byte[]{0x00, 0x01, 0x02, 0x03};
         byte[] data2 = new byte[]{0x04, 0x05, 0x06, 0x07};
-        byte[] data = ByteUtils.join(data1, data2);
+        byte[] data = ArrayUtils.join(data1, data2);
 
         // arrange
-        byte[] givenBytes = ByteUtils.join(
+        byte[] givenBytes = ArrayUtils.join(
                 new StartDataPacket(transactionID, new UINT64(data1.length + data2.length)).bytes(),
                 new DataPacket(transactionID, data1).bytes(),
                 new EndDataPacket(transactionID, data2).bytes()

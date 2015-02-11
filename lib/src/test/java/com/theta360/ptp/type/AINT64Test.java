@@ -1,6 +1,6 @@
 package com.theta360.ptp.type;
 
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -76,7 +76,7 @@ public class AINT64Test {
         expected.add(given);
 
         // arrange
-        byte[] givenBytes = ByteUtils.join(
+        byte[] givenBytes = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 given.bytes()
         );

@@ -1,7 +1,7 @@
 package com.theta360.theta.data;
 
 import com.theta360.ptp.type.UINT32;
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
@@ -45,7 +45,7 @@ public class RationalTest {
     @Test
     public void valueOfAndGet() {
         // given
-        byte[] given = ByteUtils.join(  // == 1/2
+        byte[] given = ArrayUtils.join(  // == 1/2
                 new UINT32(1).bytes(),
                 new UINT32(2).bytes()
         );

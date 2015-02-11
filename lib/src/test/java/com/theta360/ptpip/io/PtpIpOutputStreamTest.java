@@ -6,7 +6,7 @@ import com.theta360.ptpip.packet.CancelPacket;
 import com.theta360.ptpip.packet.EndDataPacket;
 import com.theta360.ptpip.packet.PtpIpPacket;
 import com.theta360.ptpip.packet.StartDataPacket;
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,7 +55,7 @@ public class PtpIpOutputStreamTest {
         byte[] given = new byte[]{0x12, 0x34};
 
         // expected
-        byte[] expected = ByteUtils.join(
+        byte[] expected = ArrayUtils.join(
                 new StartDataPacket(transactionID, new UINT64(given.length)).bytes(),
                 new EndDataPacket(transactionID, given).bytes()
         );

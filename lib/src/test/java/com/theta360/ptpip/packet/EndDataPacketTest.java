@@ -2,7 +2,7 @@ package com.theta360.ptpip.packet;
 
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -10,7 +10,6 @@ import java.io.EOFException;
 import java.io.IOException;
 
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.END_DATA;
-import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
@@ -40,7 +39,7 @@ public class EndDataPacketTest {
     @Test
     public void constructAndGet() {
         // expected
-        byte[] expectedPayload = ByteUtils.join(
+        byte[] expectedPayload = ArrayUtils.join(
                 TRANSACTION_ID.bytes(),
                 DATA_PAYLOAD
         );
@@ -92,7 +91,7 @@ public class EndDataPacketTest {
     @Test(expected = EOFException.class)
     public void readInsufficientDataPayload() throws IOException {
         // given (has length in header larger than actual)
-        byte[] givenPacketBytes = ByteUtils.join(
+        byte[] givenPacketBytes = ArrayUtils.join(
                 new UINT32(100).bytes(),
                 PtpIpPacket.Type.END_DATA.value().bytes(),
                 TRANSACTION_ID.bytes(),
@@ -111,7 +110,7 @@ public class EndDataPacketTest {
     @Test
     public void read() throws IOException {
         // given
-        byte[] givenPayload = ByteUtils.join(
+        byte[] givenPayload = ArrayUtils.join(
                 TRANSACTION_ID.bytes(),
                 DATA_PAYLOAD
         );

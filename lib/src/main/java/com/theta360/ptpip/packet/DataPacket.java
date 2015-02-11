@@ -2,7 +2,7 @@ package com.theta360.ptpip.packet;
 
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import com.theta360.util.Validators;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -31,7 +31,7 @@ public final class DataPacket extends PtpIpPacket {
         this.transactionID = transactionID;
         this.dataPayload = dataPayload.clone();
 
-        this.payload = ByteUtils.join(
+        this.payload = ArrayUtils.join(
                 transactionID.bytes(),
                 this.dataPayload
         );

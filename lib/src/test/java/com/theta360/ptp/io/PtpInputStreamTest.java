@@ -1,7 +1,7 @@
 package com.theta360.ptp.io;
 
 import com.theta360.ptp.type.*;
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -227,7 +227,7 @@ public class PtpInputStreamTest {
     @Test
     public void readAINT8() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(3).bytes(),
                 INT8.MAX_VALUE.bytes(),
                 INT8.MAX_VALUE.bytes(),
@@ -301,7 +301,7 @@ public class PtpInputStreamTest {
     @Test
     public void readAUINT8() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(3).bytes(),
                 UINT8.MAX_VALUE.bytes(),
                 UINT8.MAX_VALUE.bytes(),
@@ -356,7 +356,7 @@ public class PtpInputStreamTest {
     @Test(expected = EOFException.class)
     public void readAINT16InvalidBody() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 INT8.MAX_VALUE.bytes()  // Invalid Type Element
         );
@@ -391,7 +391,7 @@ public class PtpInputStreamTest {
     @Test
     public void readAINT16() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(3).bytes(),
                 INT16.MAX_VALUE.bytes(),
                 INT16.MAX_VALUE.bytes(),
@@ -446,7 +446,7 @@ public class PtpInputStreamTest {
     @Test(expected = EOFException.class)
     public void readAUINT16InvalidBody() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 INT8.MAX_VALUE.bytes()  // Invalid Type Element
         );
@@ -481,7 +481,7 @@ public class PtpInputStreamTest {
     @Test
     public void readAUINT16() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(3).bytes(),
                 UINT16.MAX_VALUE.bytes(),
                 UINT16.MAX_VALUE.bytes(),
@@ -536,7 +536,7 @@ public class PtpInputStreamTest {
     @Test(expected = EOFException.class)
     public void readAINT32InvalidBody() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 INT8.MAX_VALUE.bytes()  // Invalid Type Element
         );
@@ -571,7 +571,7 @@ public class PtpInputStreamTest {
     @Test
     public void readAINT32() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(3).bytes(),
                 INT32.MAX_VALUE.bytes(),
                 INT32.MAX_VALUE.bytes(),
@@ -626,7 +626,7 @@ public class PtpInputStreamTest {
     @Test(expected = EOFException.class)
     public void readAUINT32InvalidBody() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 INT8.MAX_VALUE.bytes()  // Invalid Type Element
         );
@@ -661,7 +661,7 @@ public class PtpInputStreamTest {
     @Test
     public void readAUINT32() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(3).bytes(),
                 UINT32.MAX_VALUE.bytes(),
                 UINT32.MAX_VALUE.bytes(),
@@ -716,7 +716,7 @@ public class PtpInputStreamTest {
     @Test(expected = EOFException.class)
     public void readAINT64InvalidBody() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 INT8.MAX_VALUE.bytes()  // Invalid Type Element
         );
@@ -751,7 +751,7 @@ public class PtpInputStreamTest {
     @Test
     public void readAINT64() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(3).bytes(),
                 INT64.MAX_VALUE.bytes(),
                 INT64.MAX_VALUE.bytes(),
@@ -806,7 +806,7 @@ public class PtpInputStreamTest {
     @Test(expected = EOFException.class)
     public void readAUINT64InvalidBody() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 INT8.MAX_VALUE.bytes()  // Invalid Type Element
         );
@@ -841,7 +841,7 @@ public class PtpInputStreamTest {
     @Test
     public void readAUINT64() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(3).bytes(),
                 UINT64.MAX_VALUE.bytes(),
                 UINT64.MAX_VALUE.bytes(),
@@ -896,7 +896,7 @@ public class PtpInputStreamTest {
     @Test(expected = EOFException.class)
     public void readAINT128InvalidBody() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 INT8.MAX_VALUE.bytes()  // Invalid Type Element
         );
@@ -931,7 +931,7 @@ public class PtpInputStreamTest {
     @Test
     public void readAINT128() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(3).bytes(),
                 INT128.MAX_VALUE.bytes(),
                 INT128.MAX_VALUE.bytes(),
@@ -986,7 +986,7 @@ public class PtpInputStreamTest {
     @Test(expected = EOFException.class)
     public void readAUINT128InvalidBody() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 INT8.MAX_VALUE.bytes()  // Invalid Type Element
         );
@@ -1021,7 +1021,7 @@ public class PtpInputStreamTest {
     @Test
     public void readAUINT128() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(3).bytes(),
                 UINT128.MAX_VALUE.bytes(),
                 UINT128.MAX_VALUE.bytes(),
@@ -1273,7 +1273,7 @@ public class PtpInputStreamTest {
     @SuppressWarnings("unchecked")
     public void readAsAINT8() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 INT8.MAX_VALUE.bytes()
         );
@@ -1297,7 +1297,7 @@ public class PtpInputStreamTest {
     @SuppressWarnings("unchecked")
     public void readAsAUINT8() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 UINT8.MAX_VALUE.bytes()
         );
@@ -1321,7 +1321,7 @@ public class PtpInputStreamTest {
     @SuppressWarnings("unchecked")
     public void readAsAINT16() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 INT16.MAX_VALUE.bytes()
         );
@@ -1345,7 +1345,7 @@ public class PtpInputStreamTest {
     @SuppressWarnings("unchecked")
     public void readAsAUINT16() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 UINT16.MAX_VALUE.bytes()
         );
@@ -1369,7 +1369,7 @@ public class PtpInputStreamTest {
     @SuppressWarnings("unchecked")
     public void readAsAINT32() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 INT32.MAX_VALUE.bytes()
         );
@@ -1393,7 +1393,7 @@ public class PtpInputStreamTest {
     @SuppressWarnings("unchecked")
     public void readAsAUINT32() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 UINT32.MAX_VALUE.bytes()
         );
@@ -1417,7 +1417,7 @@ public class PtpInputStreamTest {
     @SuppressWarnings("unchecked")
     public void readAsAINT64() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 INT64.MAX_VALUE.bytes()
         );
@@ -1441,7 +1441,7 @@ public class PtpInputStreamTest {
     @SuppressWarnings("unchecked")
     public void readAsAUINT64() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 UINT64.MAX_VALUE.bytes()
         );
@@ -1465,7 +1465,7 @@ public class PtpInputStreamTest {
     @SuppressWarnings("unchecked")
     public void readAsAINT128() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 INT128.MAX_VALUE.bytes()
         );
@@ -1489,7 +1489,7 @@ public class PtpInputStreamTest {
     @SuppressWarnings("unchecked")
     public void readAsAUINT128() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 new UINT32(1).bytes(),
                 UINT128.MAX_VALUE.bytes()
         );

@@ -3,7 +3,7 @@ package com.theta360.ptpip.packet;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import com.theta360.util.Validators;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -62,7 +62,7 @@ public final class OperationResponsePacket extends PtpIpPacket {
         this.p4 = p4;
         this.p5 = p5;
 
-        this.payload = ByteUtils.join(
+        this.payload = ArrayUtils.join(
                 responseCode.bytes(),
                 transactionID.bytes(),
                 p1.bytes(), p2.bytes(), p3.bytes(), p4.bytes(), p5.bytes()

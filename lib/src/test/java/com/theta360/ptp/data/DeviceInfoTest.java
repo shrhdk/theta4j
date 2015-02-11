@@ -3,7 +3,7 @@ package com.theta360.ptp.data;
 import com.theta360.ptp.type.STR;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -187,7 +187,7 @@ public class DeviceInfoTest {
     @Test
     public void read() throws IOException {
         // given
-        byte[] given = ByteUtils.join(
+        byte[] given = ArrayUtils.join(
                 STANDARD_VERSION.bytes(),
                 VENDOR_EXTENSION_ID.bytes(),
                 VENDOR_EXTENSION_VERSION.bytes(),
