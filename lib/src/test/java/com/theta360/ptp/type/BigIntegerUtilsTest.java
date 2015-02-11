@@ -1,5 +1,6 @@
 package com.theta360.ptp.type;
 
+import com.theta360.TestUtils;
 import org.junit.Test;
 
 import java.math.BigInteger;
@@ -7,8 +8,16 @@ import java.math.BigInteger;
 import static com.theta360.ptp.type.BigIntegerUtils.*;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class BigIntegerUtilsTest {
+    // Constructor
+
+    @Test
+    public void isUtilClass() {
+        assertTrue(TestUtils.isUtilClass(BigIntegerUtils.class));
+    }
+
     @Test
     public void testMinOfSigned() {
         assertThat(minOfSigned(1), is(BigInteger.valueOf(Byte.MIN_VALUE)));

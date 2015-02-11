@@ -2,6 +2,7 @@ package com.theta360.util;
 
 public final class Validators {
     private Validators() {
+        throw new AssertionError();
     }
 
     public static void validateNonNull(String name, Object value) {

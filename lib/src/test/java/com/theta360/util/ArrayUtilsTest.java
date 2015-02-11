@@ -1,11 +1,22 @@
 package com.theta360.util;
 
+import com.theta360.TestUtils;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class ArrayUtilsTest {
+    // Constructor
+
+    @Test
+    public void isUtilClass() throws Throwable {
+        assertTrue(TestUtils.isUtilClass(ArrayUtils.class));
+    }
+
+    // join
+
     @Test(expected = NullPointerException.class)
     public void joinWithNull() {
         // act
