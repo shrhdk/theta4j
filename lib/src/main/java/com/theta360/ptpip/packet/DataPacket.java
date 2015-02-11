@@ -48,7 +48,7 @@ public final class DataPacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         // Validate Header
-        PacketUtils.assertType(type, Type.DATA);
+        PtpIpPacketUtils.assertType(type, Type.DATA);
 
         // Read Body (TransactionID)
         UINT32 transactionID = pis.readUINT32();

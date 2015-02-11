@@ -24,8 +24,8 @@ public final class InitEventAckPacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         // Validate Header
-        PacketUtils.assertType(type, Type.INIT_EVENT_ACK);
-        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
+        PtpIpPacketUtils.assertType(type, Type.INIT_EVENT_ACK);
+        PtpIpPacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
         return new InitEventAckPacket();
     }

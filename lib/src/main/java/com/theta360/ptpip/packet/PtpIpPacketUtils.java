@@ -5,8 +5,8 @@ import com.theta360.ptp.type.UINT32;
 import java.io.EOFException;
 import java.io.IOException;
 
-class PacketUtils {
-    private PacketUtils() {
+class PtpIpPacketUtils {
+    private PtpIpPacketUtils() {
     }
 
     public static void assertType(PtpIpPacket.Type actual, PtpIpPacket.Type expected) throws IOException {

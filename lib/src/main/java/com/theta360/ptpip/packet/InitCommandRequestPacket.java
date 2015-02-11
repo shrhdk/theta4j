@@ -52,8 +52,8 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         // Validate Header
-        PacketUtils.assertType(type, Type.INIT_COMMAND_REQUEST);
-        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE_IN_BYTES);
+        PtpIpPacketUtils.assertType(type, Type.INIT_COMMAND_REQUEST);
+        PtpIpPacketUtils.checkMinLength((int) payloadLength, MIN_SIZE_IN_BYTES);
 
         // Read Body
         UUID guid = GUID.read(pis);

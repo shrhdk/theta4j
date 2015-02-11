@@ -24,8 +24,8 @@ public final class ProbeResponsePacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         // Validate Header
-        PacketUtils.assertType(type, Type.PROBE_RESPONSE.value(), Type.PROBE_RESPONSE);
-        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
+        PtpIpPacketUtils.assertType(type, Type.PROBE_RESPONSE.value(), Type.PROBE_RESPONSE);
+        PtpIpPacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
         return new ProbeResponsePacket();
     }

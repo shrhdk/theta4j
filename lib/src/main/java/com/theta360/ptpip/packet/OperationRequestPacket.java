@@ -88,8 +88,8 @@ public final class OperationRequestPacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         // Validate Header
-        PacketUtils.assertType(type, Type.OPERATION_REQUEST);
-        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
+        PtpIpPacketUtils.assertType(type, Type.OPERATION_REQUEST);
+        PtpIpPacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
         // Read Body
         UINT32 dataPhaseInfo = pis.readUINT32();

@@ -48,8 +48,8 @@ public final class StartDataPacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         // Validate Header
-        PacketUtils.assertType(type, Type.START_DATA);
-        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
+        PtpIpPacketUtils.assertType(type, Type.START_DATA);
+        PtpIpPacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
         // Read Body
         UINT32 transactionID = pis.readUINT32();
