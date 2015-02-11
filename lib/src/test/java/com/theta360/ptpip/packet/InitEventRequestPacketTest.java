@@ -161,4 +161,19 @@ public class InitEventRequestPacketTest {
         // verify
         assertTrue(packet1.equals(packet2));
     }
+
+    // toString
+
+    @Test
+    public void testToString() {
+        // given
+        InitEventRequestPacket packet = new InitEventRequestPacket(CONNECTION_NUMBER);
+
+        // act
+        String actual = packet.toString();
+
+        // verify
+        assertTrue(actual.contains(packet.getClass().getSimpleName()));
+        assertTrue(actual.contains("connectionNumber"));
+    }
 }

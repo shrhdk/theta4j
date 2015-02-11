@@ -77,7 +77,7 @@ public final class InitFailPacket extends PtpIpPacket {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append(reason)
+                .append("reason", reason)
                 .toString();
     }
 }

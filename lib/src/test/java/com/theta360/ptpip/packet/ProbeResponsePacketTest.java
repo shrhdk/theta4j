@@ -129,4 +129,18 @@ public class ProbeResponsePacketTest {
         // verify
         assertTrue(packet1.equals(packet2));
     }
+
+    // toString
+
+    @Test
+    public void testToString() {
+        // given
+        ProbeResponsePacket packet = new ProbeResponsePacket();
+
+        // act
+        String actual = packet.toString();
+
+        // verify
+        assertTrue(actual.contains(packet.getClass().getSimpleName()));
+    }
 }

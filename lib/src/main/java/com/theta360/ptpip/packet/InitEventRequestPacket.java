@@ -78,7 +78,7 @@ public final class InitEventRequestPacket extends PtpIpPacket {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append(connectionNumber)
+                .append("connectionNumber", connectionNumber)
                 .toString();
     }
 }

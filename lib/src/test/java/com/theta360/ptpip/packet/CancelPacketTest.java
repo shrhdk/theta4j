@@ -167,4 +167,19 @@ public class CancelPacketTest {
         // verify
         assertTrue(packet1.equals(packet2));
     }
+
+    // toString
+
+    @Test
+    public void testToString() {
+        // given
+        CancelPacket packet = new CancelPacket(TRANSACTION_ID);
+
+        // act
+        String actual = packet.toString();
+
+        // verify
+        assertTrue(actual.contains(packet.getClass().getSimpleName()));
+        assertTrue(actual.contains("transactionID"));
+    }
 }
