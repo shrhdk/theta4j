@@ -20,18 +20,18 @@ public final class DataPacket extends PtpIpPacket {
     private final UINT32 transactionID;
     private final byte[] dataPayload;
 
+    private final byte[] payload;
+
     // Constructor
 
     public DataPacket(UINT32 transactionID, byte[] dataPayload) {
-        super(Type.DATA);
-
         Validators.validateNonNull("transactionID", transactionID);
         Validators.validateNonNull("dataPayload", dataPayload);
 
         this.transactionID = transactionID;
         this.dataPayload = dataPayload.clone();
 
-        super.payload = ByteUtils.join(
+        this.payload = ByteUtils.join(
                 transactionID.bytes(),
                 this.dataPayload
         );
@@ -61,6 +61,18 @@ public final class DataPacket extends PtpIpPacket {
         }
 
         return new DataPacket(transactionID, dataPayload);
+    }
+
+    // PtpIpPacket
+
+    @Override
+    Type getType() {
+        return Type.DATA;
+    }
+
+    @Override
+    byte[] getPayload() {
+        return payload;
     }
 
     // Getter

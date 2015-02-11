@@ -1,12 +1,14 @@
 package com.theta360.ptpip.packet;
 
 import com.theta360.ptp.io.PtpInputStream;
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
+import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_FAIL;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.PROBE_RESPONSE;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -38,8 +40,8 @@ public class ProbeResponsePacketTest {
         PtpIpPacket.Type invalidType = INIT_EVENT_REQUEST;
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(invalidType, new byte[0]);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(invalidType, ArrayUtils.EMPTY_BYTE_ARRAY);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         ProbeResponsePacket.read(givenInputStream);
@@ -51,8 +53,8 @@ public class ProbeResponsePacketTest {
         byte[] givenPayload = new byte[1]; // expected length + 1
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(PROBE_RESPONSE, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(PROBE_RESPONSE, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         ProbeResponsePacket.read(givenInputStream);
@@ -66,8 +68,8 @@ public class ProbeResponsePacketTest {
         byte[] givenPayload = new byte[0];
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(PROBE_RESPONSE, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(PROBE_RESPONSE, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         ProbeResponsePacket actual = ProbeResponsePacket.read(givenInputStream);

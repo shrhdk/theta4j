@@ -20,18 +20,18 @@ public final class StartDataPacket extends PtpIpPacket {
     private final UINT32 transactionID;
     private final UINT64 totalDataLength;
 
+    private final byte[] payload;
+
     // Constructor
 
     public StartDataPacket(UINT32 transactionID, UINT64 totalDataLength) {
-        super(Type.START_DATA);
-
         Validators.validateNonNull("transactionID", transactionID);
         Validators.validateNonNull("totalDataLength", totalDataLength);
 
         this.transactionID = transactionID;
         this.totalDataLength = totalDataLength;
 
-        super.payload = ByteUtils.join(
+        this.payload = ByteUtils.join(
                 transactionID.bytes(),
                 totalDataLength.bytes()
         );
@@ -56,6 +56,18 @@ public final class StartDataPacket extends PtpIpPacket {
         UINT64 totalDataLength = pis.readUINT64();
 
         return new StartDataPacket(transactionID, totalDataLength);
+    }
+
+    // PtpIpPacket
+
+    @Override
+    Type getType() {
+        return Type.START_DATA;
+    }
+
+    @Override
+    byte[] getPayload() {
+        return payload;
     }
 
     // Getter

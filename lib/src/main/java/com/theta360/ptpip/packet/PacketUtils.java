@@ -2,6 +2,7 @@ package com.theta360.ptpip.packet;
 
 import com.theta360.ptp.type.UINT32;
 
+import java.io.EOFException;
 import java.io.IOException;
 
 class PacketUtils {
@@ -26,9 +27,9 @@ class PacketUtils {
         }
     }
 
-    public static void checkMinLength(int actual, int min) throws IOException {
+    public static void checkMinLength(int actual, int min) throws EOFException {
         if (actual < min) {
-            throw new IOException(String.format("Too short packet length: actual=%d, min=%d.", actual, min));
+            throw new EOFException(String.format("Too short packet length: actual=%d, min=%d.", actual, min));
         }
     }
 }

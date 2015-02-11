@@ -20,18 +20,18 @@ public final class EndDataPacket extends PtpIpPacket {
     private final UINT32 transactionID;
     private final byte[] dataPayload;
 
+    private final byte[] payload;
+
     // Constructor
 
     public EndDataPacket(UINT32 transactionID, byte[] dataPayload) {
-        super(Type.END_DATA);
-
         Validators.validateNonNull("transactionID", transactionID);
         Validators.validateNonNull("dataPayload", dataPayload);
 
         this.transactionID = transactionID;
         this.dataPayload = dataPayload.clone();
 
-        super.payload = ByteUtils.join(
+        this.payload = ByteUtils.join(
                 transactionID.bytes(),
                 this.dataPayload
         );
@@ -61,6 +61,18 @@ public final class EndDataPacket extends PtpIpPacket {
         }
 
         return new EndDataPacket(transactionID, dataPayload);
+    }
+
+    // PtpIpPacket
+
+    @Override
+    Type getType() {
+        return Type.END_DATA;
+    }
+
+    @Override
+    byte[] getPayload() {
+        return payload;
     }
 
     // Getter

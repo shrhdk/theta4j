@@ -21,6 +21,8 @@ public final class OperationResponsePacket extends PtpIpPacket {
     private final UINT32 transactionID;
     private final UINT32 p1, p2, p3, p4, p5;
 
+    private final byte[] payload;
+
     // Constructor
 
     public OperationResponsePacket(UINT16 responseCode, UINT32 transactionID) {
@@ -44,8 +46,6 @@ public final class OperationResponsePacket extends PtpIpPacket {
     }
 
     public OperationResponsePacket(UINT16 responseCode, UINT32 transactionID, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) {
-        super(Type.OPERATION_RESPONSE);
-
         Validators.validateNonNull("responseCode", responseCode);
         Validators.validateNonNull("transactionID", transactionID);
         Validators.validateNonNull("p1", p1);
@@ -62,7 +62,7 @@ public final class OperationResponsePacket extends PtpIpPacket {
         this.p4 = p4;
         this.p5 = p5;
 
-        super.payload = ByteUtils.join(
+        this.payload = ByteUtils.join(
                 responseCode.bytes(),
                 transactionID.bytes(),
                 p1.bytes(), p2.bytes(), p3.bytes(), p4.bytes(), p5.bytes()
@@ -93,6 +93,18 @@ public final class OperationResponsePacket extends PtpIpPacket {
         UINT32 p5 = pis.readUINT32();
 
         return new OperationResponsePacket(responseCode, transactionID, p1, p2, p3, p4, p5);
+    }
+
+    // PtpIpPacket
+
+    @Override
+    Type getType() {
+        return Type.OPERATION_RESPONSE;
+    }
+
+    @Override
+    byte[] getPayload() {
+        return payload;
     }
 
     // Getter

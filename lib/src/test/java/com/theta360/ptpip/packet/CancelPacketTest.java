@@ -55,8 +55,8 @@ public class CancelPacketTest {
         PtpIpPacket.Type invalidType = INIT_EVENT_REQUEST;
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(invalidType, PAYLOAD);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(invalidType, PAYLOAD);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         CancelPacket.read(givenInputStream);
@@ -68,8 +68,8 @@ public class CancelPacketTest {
         byte[] givenPayload = new byte[PAYLOAD.length - 1];  // expected length - 1
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(CANCEL, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(CANCEL, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         CancelPacket.read(givenInputStream);
@@ -83,8 +83,8 @@ public class CancelPacketTest {
         byte[] givenPayload = TRANSACTION_ID.bytes();
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(CANCEL, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(CANCEL, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         CancelPacket actual = CancelPacket.read(givenInputStream);

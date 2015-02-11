@@ -15,16 +15,16 @@ public final class CancelPacket extends PtpIpPacket {
 
     private final UINT32 transactionID;
 
+    private final byte[] payload;
+
     // Constructor
 
     public CancelPacket(UINT32 transactionID) {
-        super(Type.CANCEL);
-
         Validators.validateNonNull("transactionID", transactionID);
 
         this.transactionID = transactionID;
 
-        super.payload = this.transactionID.bytes();
+        this.payload = this.transactionID.bytes();
     }
 
     // Static Factory Method
@@ -45,6 +45,18 @@ public final class CancelPacket extends PtpIpPacket {
         UINT32 transactionID = pis.readUINT32();
 
         return new CancelPacket(transactionID);
+    }
+
+    // PtpIpPacket
+
+    @Override
+    Type getType() {
+        return Type.CANCEL;
+    }
+
+    @Override
+    byte[] getPayload() {
+        return payload;
     }
 
     // Getter

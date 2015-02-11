@@ -15,15 +15,15 @@ public final class InitFailPacket extends PtpIpPacket {
 
     private final UINT32 reason;
 
+    private final byte[] payload;
+
     // Constructor
 
     public InitFailPacket(UINT32 reason) {
-        super(Type.INIT_FAIL);
-
         Validators.validateNonNull("reason", reason);
 
         this.reason = reason;
-        super.payload = reason.bytes();
+        this.payload = reason.bytes();
     }
 
     // Static Factory Method
@@ -44,6 +44,18 @@ public final class InitFailPacket extends PtpIpPacket {
         UINT32 reason = pis.readUINT32();
 
         return new InitFailPacket(reason);
+    }
+
+    // PtpIpPacket
+
+    @Override
+    Type getType() {
+        return Type.INIT_FAIL;
+    }
+
+    @Override
+    byte[] getPayload() {
+        return payload;
     }
 
     // Getter

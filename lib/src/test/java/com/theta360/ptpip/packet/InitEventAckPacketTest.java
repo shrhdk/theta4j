@@ -1,11 +1,13 @@
 package com.theta360.ptpip.packet;
 
 import com.theta360.ptp.io.PtpInputStream;
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_ACK;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
@@ -38,8 +40,8 @@ public class InitEventAckPacketTest {
         PtpIpPacket.Type invalidType = INIT_EVENT_REQUEST;
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(invalidType, new byte[0]);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(invalidType, ArrayUtils.EMPTY_BYTE_ARRAY);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         InitEventAckPacket.read(givenInputStream);
@@ -51,8 +53,8 @@ public class InitEventAckPacketTest {
         byte[] givenPayload = new byte[1]; // expected length + 1
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(INIT_EVENT_ACK, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(INIT_EVENT_ACK, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         InitEventAckPacket.read(givenInputStream);
@@ -66,8 +68,8 @@ public class InitEventAckPacketTest {
         byte[] givenPayload = new byte[0];
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(INIT_EVENT_ACK, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(INIT_EVENT_ACK, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         InitEventAckPacket actual = InitEventAckPacket.read(givenInputStream);

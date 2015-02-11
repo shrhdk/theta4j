@@ -2,6 +2,7 @@ package com.theta360.ptpip.io;
 
 import com.theta360.ptp.type.UINT32;
 import com.theta360.ptp.type.UINT64;
+import com.theta360.ptpip.packet.CancelPacket;
 import com.theta360.ptpip.packet.EndDataPacket;
 import com.theta360.ptpip.packet.PtpIpPacket;
 import com.theta360.ptpip.packet.StartDataPacket;
@@ -34,17 +35,13 @@ public class PtpIpOutputStreamTest {
     @Test
     public void write() throws IOException {
         // given
-        byte[] given = new byte[]{0x12, 0x34};
+        PtpIpPacket given = new CancelPacket(UINT32.MAX_VALUE);
 
         // expected
-        byte[] expected = new byte[]{
-                0x0A, 0x00, 0x00, 0x00, // Length
-                0x01, 0x00, 0x00, 0x00, // Type
-                0x12, 0x34
-        };
+        byte[] expected = given.bytes();
 
         // act
-        pos.write(new PtpIpPacket(PtpIpPacket.Type.INIT_COMMAND_REQUEST, given));
+        pos.write(new CancelPacket(UINT32.MAX_VALUE));
 
         // verify
         byte[] actual = baos.toByteArray();

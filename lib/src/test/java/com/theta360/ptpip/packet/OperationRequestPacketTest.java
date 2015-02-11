@@ -118,8 +118,8 @@ public class OperationRequestPacketTest {
         PtpIpPacket.Type invalidType = INIT_EVENT_REQUEST;
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(invalidType, PAYLOAD);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(invalidType, PAYLOAD);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         OperationRequestPacket.read(givenInputStream);
@@ -131,8 +131,8 @@ public class OperationRequestPacketTest {
         byte[] givenPayload = new byte[PAYLOAD.length - 1];  // expected length - 1
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(OPERATION_REQUEST, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(OPERATION_REQUEST, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         OperationRequestPacket.read(givenInputStream);
@@ -151,8 +151,8 @@ public class OperationRequestPacketTest {
         );
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(OPERATION_REQUEST, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(OPERATION_REQUEST, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         OperationRequestPacket actual = OperationRequestPacket.read(givenInputStream);

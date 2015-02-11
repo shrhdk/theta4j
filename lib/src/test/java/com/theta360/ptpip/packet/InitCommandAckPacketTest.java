@@ -111,8 +111,8 @@ public class InitCommandAckPacketTest {
         PtpIpPacket.Type invalidType = INIT_COMMAND_REQUEST;
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(invalidType, PAYLOAD);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(invalidType, PAYLOAD);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         InitCommandAckPacket.read(givenInputStream);
@@ -124,8 +124,8 @@ public class InitCommandAckPacketTest {
         byte[] givenPayload = new byte[PAYLOAD.length - 1]; // min length - 1
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(INIT_COMMAND_ACK, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(INIT_COMMAND_ACK, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         InitCommandAckPacket.read(givenInputStream);
@@ -143,8 +143,8 @@ public class InitCommandAckPacketTest {
                 PROTOCOL_VERSION.bytes());
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(INIT_COMMAND_ACK, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(INIT_COMMAND_ACK, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         InitCommandAckPacket actual = InitCommandAckPacket.read(givenInputStream);

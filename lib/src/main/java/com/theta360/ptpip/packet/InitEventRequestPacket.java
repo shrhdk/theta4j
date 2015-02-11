@@ -15,15 +15,15 @@ public final class InitEventRequestPacket extends PtpIpPacket {
 
     private final UINT32 connectionNumber;
 
+    private final byte[] payload;
+
     // Constructor
 
     public InitEventRequestPacket(UINT32 connectionNumber) {
-        super(Type.INIT_EVENT_REQUEST);
-
         Validators.validateNonNull("connectionNumber", connectionNumber);
 
         this.connectionNumber = connectionNumber;
-        super.payload = connectionNumber.bytes();
+        this.payload = connectionNumber.bytes();
     }
 
     // Static Factory Method
@@ -44,6 +44,18 @@ public final class InitEventRequestPacket extends PtpIpPacket {
         UINT32 connectionNumber = pis.readUINT32();
 
         return new InitEventRequestPacket(connectionNumber);
+    }
+
+    // PtpIpPacket
+
+    @Override
+    Type getType() {
+        return Type.INIT_EVENT_REQUEST;
+    }
+
+    @Override
+    byte[] getPayload() {
+        return payload;
     }
 
     // Getter

@@ -10,6 +10,7 @@ import java.io.EOFException;
 import java.io.IOException;
 
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.END_DATA;
+import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
 import static com.theta360.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
@@ -68,8 +69,8 @@ public class EndDataPacketTest {
         PtpIpPacket.Type invalidType = INIT_EVENT_REQUEST;
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(invalidType, PAYLOAD);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(invalidType, PAYLOAD);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         EndDataPacket.read(givenInputStream);
@@ -81,8 +82,8 @@ public class EndDataPacketTest {
         byte[] givenPayload = new byte[PAYLOAD.length - 1];  // min length - 1
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(END_DATA, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(END_DATA, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         EndDataPacket.read(givenInputStream);
@@ -116,8 +117,8 @@ public class EndDataPacketTest {
         );
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(END_DATA, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(END_DATA, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         EndDataPacket actual = EndDataPacket.read(givenInputStream);
