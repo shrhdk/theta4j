@@ -119,11 +119,11 @@ public enum ErrorInfo {
 
     // Getter
 
-    public UINT32 getValue() {
+    public UINT32 value() {
         return value;
     }
 
-    public Level getLevel() {
+    public Level level() {
         return level;
     }
 
