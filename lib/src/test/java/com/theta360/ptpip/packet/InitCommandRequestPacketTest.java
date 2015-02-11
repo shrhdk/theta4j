@@ -260,4 +260,21 @@ public class InitCommandRequestPacketTest {
         // verify
         assertTrue(packet1.equals(packet2));
     }
+
+    // toString
+
+    @Test
+    public void testToString() {
+        // given
+        InitCommandRequestPacket packet = new InitCommandRequestPacket(GUID_, NAME, PROTOCOL_VERSION);
+
+        // act
+        String actual = packet.toString();
+
+        // verify
+        assertTrue(actual.contains(packet.getClass().getSimpleName()));
+        assertTrue(actual.contains("guid"));
+        assertTrue(actual.contains("name"));
+        assertTrue(actual.contains("protocolVersion"));
+    }
 }

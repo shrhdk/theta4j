@@ -375,4 +375,25 @@ public class OperationResponsePacketTest {
         // verify
         assertTrue(packet1.equals(packet2));
     }
+
+    // toString
+
+    @Test
+    public void testToString() {
+        // given
+        OperationResponsePacket packet = new OperationResponsePacket(RESPONSE_CODE, TRANSACTION_ID);
+
+        // act
+        String actual = packet.toString();
+
+        // verify
+        assertTrue(actual.contains(packet.getClass().getSimpleName()));
+        assertTrue(actual.contains("responseCode"));
+        assertTrue(actual.contains("transactionID"));
+        assertTrue(actual.contains("p1"));
+        assertTrue(actual.contains("p2"));
+        assertTrue(actual.contains("p3"));
+        assertTrue(actual.contains("p4"));
+        assertTrue(actual.contains("p5"));
+    }
 }

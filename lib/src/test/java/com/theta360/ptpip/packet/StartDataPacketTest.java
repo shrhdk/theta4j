@@ -204,4 +204,20 @@ public class StartDataPacketTest {
         // verify
         assertTrue(packet1.equals(packet2));
     }
+
+    // toString
+
+    @Test
+    public void testToString() {
+        // given
+        StartDataPacket packet = new StartDataPacket(TRANSACTION_ID, TOTAL_DATA_LENGTH);
+
+        // act
+        String actual = packet.toString();
+
+        // verify
+        assertTrue(actual.contains(packet.getClass().getSimpleName()));
+        assertTrue(actual.contains("transactionID"));
+        assertTrue(actual.contains("totalDataLength"));
+    }
 }

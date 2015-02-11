@@ -307,4 +307,23 @@ public class EventPacketTest {
         // verify
         assertTrue(packet1.equals(packet2));
     }
+
+    // toString
+
+    @Test
+    public void testToString() {
+        // given
+        EventPacket packet = new EventPacket(EVENT_CODE, TRANSACTION_ID);
+
+        // act
+        String actual = packet.toString();
+
+        // verify
+        assertTrue(actual.contains(packet.getClass().getSimpleName()));
+        assertTrue(actual.contains("eventCode"));
+        assertTrue(actual.contains("transactionID"));
+        assertTrue(actual.contains("p1"));
+        assertTrue(actual.contains("p2"));
+        assertTrue(actual.contains("p3"));
+    }
 }

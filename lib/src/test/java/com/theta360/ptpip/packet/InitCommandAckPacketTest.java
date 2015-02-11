@@ -290,4 +290,22 @@ public class InitCommandAckPacketTest {
         // verify
         assertTrue(packet1.equals(packet2));
     }
+
+    // toString
+
+    @Test
+    public void testToString() {
+        // given
+        InitCommandAckPacket packet = new InitCommandAckPacket(CONNECTION_NUMBER, GUID_, NAME, PROTOCOL_VERSION);
+
+        // act
+        String actual = packet.toString();
+
+        // verify
+        assertTrue(actual.contains(packet.getClass().getSimpleName()));
+        assertTrue(actual.contains("connectionNumber"));
+        assertTrue(actual.contains("guid"));
+        assertTrue(actual.contains("name"));
+        assertTrue(actual.contains("protocolVersion"));
+    }
 }

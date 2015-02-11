@@ -221,4 +221,20 @@ public class DataPacketTest {
         // verify
         assertTrue(packet1.equals(packet2));
     }
+
+    // toString
+
+    @Test
+    public void testToString() {
+        // given
+        DataPacket packet = new DataPacket(TRANSACTION_ID, DATA_PAYLOAD);
+
+        // act
+        String actual = packet.toString();
+
+        // verify
+        assertTrue(actual.contains(packet.getClass().getSimpleName()));
+        assertTrue(actual.contains("transactionID"));
+        assertTrue(actual.contains("dataPayload"));
+    }
 }
