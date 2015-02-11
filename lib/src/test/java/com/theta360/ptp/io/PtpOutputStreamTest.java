@@ -1,7 +1,7 @@
 package com.theta360.ptp.io;
 
 import com.theta360.ptp.type.*;
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -229,7 +229,7 @@ public class PtpOutputStreamTest {
         given.add(INT8.MAX_VALUE);
 
         // expected
-        byte[] expected = ByteUtils.join(
+        byte[] expected = ArrayUtils.join(
                 INT8.MIN_VALUE.bytes(),
                 INT8.MAX_VALUE.bytes()
         );
@@ -250,7 +250,7 @@ public class PtpOutputStreamTest {
         given.add(UINT8.MAX_VALUE);
 
         // expected
-        byte[] expected = ByteUtils.join(
+        byte[] expected = ArrayUtils.join(
                 UINT8.MIN_VALUE.bytes(),
                 UINT8.MAX_VALUE.bytes()
         );
@@ -271,7 +271,7 @@ public class PtpOutputStreamTest {
         given.add(INT16.MAX_VALUE);
 
         // expected
-        byte[] expected = ByteUtils.join(
+        byte[] expected = ArrayUtils.join(
                 INT16.MIN_VALUE.bytes(),
                 INT16.MAX_VALUE.bytes()
         );
@@ -292,7 +292,7 @@ public class PtpOutputStreamTest {
         given.add(UINT16.MAX_VALUE);
 
         // expected
-        byte[] expected = ByteUtils.join(
+        byte[] expected = ArrayUtils.join(
                 UINT16.MIN_VALUE.bytes(),
                 UINT16.MAX_VALUE.bytes()
         );
@@ -313,7 +313,7 @@ public class PtpOutputStreamTest {
         given.add(INT32.MAX_VALUE);
 
         // expected
-        byte[] expected = ByteUtils.join(
+        byte[] expected = ArrayUtils.join(
                 INT32.MIN_VALUE.bytes(),
                 INT32.MAX_VALUE.bytes()
         );
@@ -334,7 +334,7 @@ public class PtpOutputStreamTest {
         given.add(UINT32.MAX_VALUE);
 
         // expected
-        byte[] expected = ByteUtils.join(
+        byte[] expected = ArrayUtils.join(
                 UINT32.MIN_VALUE.bytes(),
                 UINT32.MAX_VALUE.bytes()
         );
@@ -355,7 +355,7 @@ public class PtpOutputStreamTest {
         given.add(INT64.MAX_VALUE);
 
         // expected
-        byte[] expected = ByteUtils.join(
+        byte[] expected = ArrayUtils.join(
                 INT64.MIN_VALUE.bytes(),
                 INT64.MAX_VALUE.bytes()
         );
@@ -376,7 +376,7 @@ public class PtpOutputStreamTest {
         given.add(UINT64.MAX_VALUE);
 
         // expected
-        byte[] expected = ByteUtils.join(
+        byte[] expected = ArrayUtils.join(
                 UINT64.MIN_VALUE.bytes(),
                 UINT64.MAX_VALUE.bytes()
         );
@@ -397,7 +397,7 @@ public class PtpOutputStreamTest {
         given.add(INT128.MAX_VALUE);
 
         // expected
-        byte[] expected = ByteUtils.join(
+        byte[] expected = ArrayUtils.join(
                 INT128.MIN_VALUE.bytes(),
                 INT128.MAX_VALUE.bytes()
         );
@@ -418,7 +418,7 @@ public class PtpOutputStreamTest {
         given.add(UINT128.MAX_VALUE);
 
         // expected
-        byte[] expected = ByteUtils.join(
+        byte[] expected = ArrayUtils.join(
                 UINT128.MIN_VALUE.bytes(),
                 UINT128.MAX_VALUE.bytes()
         );

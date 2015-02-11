@@ -1,6 +1,6 @@
 package com.theta360.ptp.type;
 
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import com.theta360.util.Validators;
 import org.apache.commons.lang3.StringUtils;
 
@@ -109,7 +109,7 @@ class BigIntegerUtils {
         // UINT64 constructor arguments are little endian and are not two's complement.
         // BigInteger constructor needs big endian two's complement value.
         // So it need to reverse order of arguments and add 0x00 to top.
-        bigEndian = ByteUtils.join(new byte[]{0x00}, bigEndian);
+        bigEndian = ArrayUtils.join(new byte[]{0x00}, bigEndian);
 
         return new BigInteger(bigEndian);
     }

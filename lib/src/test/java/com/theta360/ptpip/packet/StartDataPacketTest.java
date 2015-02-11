@@ -3,7 +3,7 @@ package com.theta360.ptpip.packet;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
 import com.theta360.ptp.type.UINT64;
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -39,7 +39,7 @@ public class StartDataPacketTest {
     @Test
     public void constructAndGet() {
         // expected
-        byte[] expectedPayload = ByteUtils.join(
+        byte[] expectedPayload = ArrayUtils.join(
                 TRANSACTION_ID.bytes(),
                 TOTAL_DATA_LENGTH.bytes()
         );
@@ -93,7 +93,7 @@ public class StartDataPacketTest {
     @Test
     public void read() throws IOException {
         // given
-        byte[] givenPayload = ByteUtils.join(
+        byte[] givenPayload = ArrayUtils.join(
                 TRANSACTION_ID.bytes(),
                 TOTAL_DATA_LENGTH.bytes()
         );

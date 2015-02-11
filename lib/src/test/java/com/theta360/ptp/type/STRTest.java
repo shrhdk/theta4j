@@ -1,6 +1,6 @@
 package com.theta360.ptp.type;
 
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -44,7 +44,7 @@ public class STRTest {
         String given = "test";
 
         // expected
-        byte[] expected = ByteUtils.join(
+        byte[] expected = ArrayUtils.join(
                 new byte[]{(byte) given.length()},
                 given.getBytes(CHARSET)
         );
@@ -123,7 +123,7 @@ public class STRTest {
         String given = "test";
 
         // arrange
-        byte[] givenBytes = ByteUtils.join(
+        byte[] givenBytes = ArrayUtils.join(
                 new byte[]{(byte) given.length()},
                 given.getBytes(CHARSET)
         );

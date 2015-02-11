@@ -2,7 +2,7 @@ package com.theta360.theta.data;
 
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import com.theta360.util.Validators;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -38,7 +38,7 @@ public class Rational implements Comparable<Rational> {
         this.molecule = molecule;
         this.denominator = denominator;
 
-        this.bytes = ByteUtils.join(
+        this.bytes = ArrayUtils.join(
                 new UINT32(molecule).bytes(),
                 new UINT32(denominator).bytes()
         );

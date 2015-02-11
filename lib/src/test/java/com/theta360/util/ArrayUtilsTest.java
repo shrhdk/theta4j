@@ -5,17 +5,17 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class ByteUtilsTest {
+public class ArrayUtilsTest {
     @Test(expected = NullPointerException.class)
     public void joinWithNull() {
         // act
-        ByteUtils.join((byte[]) null);
+        ArrayUtils.join((byte[]) null);
     }
 
     @Test(expected = NullPointerException.class)
     public void joinWithNull2() {
         // act
-        ByteUtils.join(new byte[0], null);
+        ArrayUtils.join(new byte[0], null);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class ByteUtilsTest {
         byte[] expected = new byte[0];
 
         // act
-        byte[] actual = ByteUtils.join(given1, given2);
+        byte[] actual = ArrayUtils.join(given1, given2);
 
         // verify
         assertThat(actual, is(expected));
@@ -40,7 +40,7 @@ public class ByteUtilsTest {
         byte[] expected = new byte[0];
 
         // act
-        byte[] actual = ByteUtils.join();
+        byte[] actual = ArrayUtils.join();
 
         // verify
         assertThat(actual, is(expected));
@@ -56,7 +56,7 @@ public class ByteUtilsTest {
         byte[] expected = new byte[]{0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
 
         // act
-        byte[] actual = ByteUtils.join(given1, given2);
+        byte[] actual = ArrayUtils.join(given1, given2);
 
         // verify
         assertThat(actual, is(expected));

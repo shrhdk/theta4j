@@ -3,8 +3,8 @@ package com.theta360.util;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public final class ByteUtils {
-    private ByteUtils() {
+public final class ArrayUtils {
+    private ArrayUtils() {
     }
 
     public static byte[] join(byte[]... byteArrays) {

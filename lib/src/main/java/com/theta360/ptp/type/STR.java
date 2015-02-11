@@ -1,6 +1,6 @@
 package com.theta360.ptp.type;
 
-import com.theta360.util.ByteUtils;
+import com.theta360.util.ArrayUtils;
 import com.theta360.util.Validators;
 
 import java.io.EOFException;
@@ -27,7 +27,7 @@ public final class STR {
         Validators.validateNonNull("str", str);
 
         byte[] length = new byte[]{(byte) str.length()};
-        return ByteUtils.join(length, str.getBytes(CHARSET));
+        return ArrayUtils.join(length, str.getBytes(CHARSET));
     }
 
     public static String read(InputStream is) throws IOException {
