@@ -8,6 +8,8 @@ import com.theta360.ptpip.packet.*;
 
 import java.io.*;
 
+import static com.theta360.ptpip.packet.PtpIpPacket.Type.*;
+
 /**
  * InputStream of PTP-IP.
  */
@@ -24,20 +26,6 @@ public final class PtpIpInputStream implements Closeable {
     }
 
     // Check Next
-
-    /**
-     * Get length of next PTP-IP Packet.
-     * This method does not change the position of stream.
-     *
-     * @throws IOException
-     */
-    public long nextLength() throws IOException {
-        pis.mark(UINT32.SIZE_IN_BYTES);
-        UINT32 length = pis.readUINT32();
-        pis.reset();
-
-        return length.longValue();
-    }
 
     /**
      * Get type of next PTP-IP Packet.
@@ -70,7 +58,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public InitCommandRequestPacket readInitCommandRequestPacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.INIT_COMMAND_REQUEST);
+        assertNextTypeIs(INIT_COMMAND_REQUEST);
 
         return InitCommandRequestPacket.read(pis);
     }
@@ -82,7 +70,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public InitCommandAckPacket readInitCommandAckPacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.INIT_COMMAND_ACK);
+        assertNextTypeIs(INIT_COMMAND_ACK);
 
         return InitCommandAckPacket.read(pis);
     }
@@ -94,7 +82,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public InitEventRequestPacket readInitEventRequestPacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.INIT_EVENT_REQUEST);
+        assertNextTypeIs(INIT_EVENT_REQUEST);
 
         return InitEventRequestPacket.read(pis);
     }
@@ -106,7 +94,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public InitEventAckPacket readInitEventAckPacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.INIT_EVENT_ACK);
+        assertNextTypeIs(INIT_EVENT_ACK);
 
         return InitEventAckPacket.read(pis);
     }
@@ -118,7 +106,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public InitFailPacket readInitFailPacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.INIT_FAIL);
+        assertNextTypeIs(INIT_FAIL);
 
         return InitFailPacket.read(pis);
     }
@@ -130,7 +118,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public OperationRequestPacket readOperationRequestPacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.OPERATION_REQUEST);
+        assertNextTypeIs(OPERATION_REQUEST);
 
         return OperationRequestPacket.read(pis);
     }
@@ -142,7 +130,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public OperationResponsePacket readOperationResponsePacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.OPERATION_RESPONSE);
+        assertNextTypeIs(OPERATION_RESPONSE);
 
         return OperationResponsePacket.read(pis);
     }
@@ -154,7 +142,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public EventPacket readEventPacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.EVENT);
+        assertNextTypeIs(EVENT);
 
         return EventPacket.read(pis);
     }
@@ -166,7 +154,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public StartDataPacket readStartDataPacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.START_DATA);
+        assertNextTypeIs(START_DATA);
 
         return StartDataPacket.read(pis);
     }
@@ -178,7 +166,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public DataPacket readDataPacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.DATA);
+        assertNextTypeIs(DATA);
 
         return DataPacket.read(pis);
     }
@@ -190,7 +178,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public EndDataPacket readEndDataPacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.END_DATA);
+        assertNextTypeIs(END_DATA);
 
         return EndDataPacket.read(pis);
     }
@@ -202,7 +190,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public CancelPacket readCancelPacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.CANCEL);
+        assertNextTypeIs(CANCEL);
 
         return CancelPacket.read(pis);
     }
@@ -214,7 +202,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public ProbeRequestPacket readProbeRequestPacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.PROBE_REQUEST);
+        assertNextTypeIs(PROBE_REQUEST);
 
         return ProbeRequestPacket.read(pis);
     }
@@ -226,7 +214,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public ProbeResponsePacket readProbeResponsePacket() throws IOException {
-        assertNextTypeIs(PtpIpPacket.Type.PROBE_RESPONSE);
+        assertNextTypeIs(PROBE_RESPONSE);
 
         return ProbeResponsePacket.read(pis);
     }
@@ -252,11 +240,11 @@ public final class PtpIpInputStream implements Closeable {
      * @throws IOException
      */
     public void readData(OutputStream dst) throws IOException, PtpException {
-        if (nextType() == PtpIpPacket.Type.OPERATION_RESPONSE) {
+        if (nextType() == OPERATION_RESPONSE) {
             OperationResponsePacket response = readOperationResponsePacket();
 
             if (response.getResponseCode().equals(ResponseCode.OK.value())) {
-                throw new RuntimeException("Expected StartData but was OperationResponse(OK)");
+                throw new IOException("Expected StartData but was OperationResponse(OK)");
             } else {
                 throw new PtpException(response.getResponseCode().intValue());
             }
@@ -289,6 +277,14 @@ public final class PtpIpInputStream implements Closeable {
 
     private void assertNextTypeIs(PtpIpPacket.Type expected) throws IOException {
         PtpIpPacket.Type actual = nextType();
+
+        if (expected == PROBE_REQUEST || expected == PROBE_RESPONSE) {
+            if (actual != PROBE_REQUEST && actual != PROBE_RESPONSE) {
+                throw new RuntimeException(String.format("Expected %s but was %s", expected, actual));
+            }
+
+            return;
+        }
 
         if (actual != expected) {
             throw new RuntimeException(String.format("Expected %s but was %s", expected, actual));
