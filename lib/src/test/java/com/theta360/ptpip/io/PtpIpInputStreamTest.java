@@ -275,7 +275,7 @@ public class PtpIpInputStreamTest {
         PtpIpInputStream pis = new PtpIpInputStream(givenInputStream);
 
         // act
-        byte[] actual = pis.readData();
+        pis.readData();
     }
 
     @Test(expected = PtpException.class)
@@ -290,7 +290,7 @@ public class PtpIpInputStreamTest {
         PtpIpInputStream pis = new PtpIpInputStream(givenInputStream);
 
         // act
-        byte[] actual = pis.readData();
+        pis.readData();
     }
 
     @Test
