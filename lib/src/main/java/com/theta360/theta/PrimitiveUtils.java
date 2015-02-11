@@ -5,8 +5,8 @@ import com.theta360.ptp.type.UINT32;
 import java.util.ArrayList;
 import java.util.List;
 
-class PrimitiveTypeUtils {
-    private PrimitiveTypeUtils() {
+class PrimitiveUtils {
+    private PrimitiveUtils() {
         throw new AssertionError();
     }
 

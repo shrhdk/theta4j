@@ -158,7 +158,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public List<Long> getStorageIDs() throws IOException, PtpException {
-        return PrimitiveTypeUtils.convert(ptpInitiator.getStorageIDs());
+        return PrimitiveUtils.convert(ptpInitiator.getStorageIDs());
     }
 
     /**
@@ -189,7 +189,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public List<Long> getObjectHandles() throws IOException, PtpException {
-        return PrimitiveTypeUtils.convert(ptpInitiator.getObjectHandles());
+        return PrimitiveUtils.convert(ptpInitiator.getObjectHandles());
     }
 
     /**
