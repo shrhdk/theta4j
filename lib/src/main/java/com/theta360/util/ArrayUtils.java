@@ -5,6 +5,7 @@ import java.io.IOException;
 
 public final class ArrayUtils {
     private ArrayUtils() {
+        throw new AssertionError();
     }
 
     public static byte[] join(byte[]... byteArrays) {
