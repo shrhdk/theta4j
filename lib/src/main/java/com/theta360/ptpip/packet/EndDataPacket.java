@@ -48,7 +48,7 @@ public final class EndDataPacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         // Validate Header
-        PacketUtils.assertType(type, Type.END_DATA);
+        PtpIpPacketUtils.assertType(type, Type.END_DATA);
 
         // Read Body (TransactionID)
         UINT32 transactionID = pis.readUINT32();

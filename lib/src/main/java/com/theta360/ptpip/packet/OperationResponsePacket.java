@@ -80,8 +80,8 @@ public final class OperationResponsePacket extends PtpIpPacket {
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         // Validate Header
-        PacketUtils.assertType(type, Type.OPERATION_RESPONSE);
-        PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
+        PtpIpPacketUtils.assertType(type, Type.OPERATION_RESPONSE);
+        PtpIpPacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
         // Read Body
         UINT16 responseCode = pis.readUINT16();
