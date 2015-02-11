@@ -122,7 +122,6 @@ public class StorageInfo {
 
     // Basic Method
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
