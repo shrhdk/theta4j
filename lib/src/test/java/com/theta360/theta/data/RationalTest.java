@@ -20,7 +20,7 @@ public class RationalTest {
         new Rational(-1, 1);
     }
 
-    @Test(expected = ArithmeticException.class)
+    @Test
     public void withZeroDenominator() {
         // act
         new Rational(1, 0);

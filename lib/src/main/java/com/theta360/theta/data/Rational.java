@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Exif2.3 standard RATIONAL
  */
-public class Rational implements Comparable<Rational> {
+public class Rational {
     private final long molecule;
     private final long denominator;
     private final byte[] bytes;
@@ -29,9 +29,7 @@ public class Rational implements Comparable<Rational> {
             throw new IllegalArgumentException();
         }
 
-        if (denominator == 0) {
-            throw new ArithmeticException();
-        } else if (denominator < 0) {
+        if (denominator < 0) {
             throw new IllegalArgumentException();
         }
 
@@ -75,19 +73,6 @@ public class Rational implements Comparable<Rational> {
 
     public byte[] bytes() {
         return bytes.clone();
-    }
-
-    // Comparable
-
-    @Override
-    public int compareTo(Rational o) {
-        if (molecule == o.molecule && denominator == o.denominator) {
-            return 0;
-        }
-
-        return Double.compare(
-                (double) molecule / denominator,
-                (double) o.molecule / o.denominator);
     }
 
     // Basic Method
