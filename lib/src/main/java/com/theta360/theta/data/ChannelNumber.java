@@ -20,7 +20,7 @@ public enum ChannelNumber {
 
     // Getter
 
-    public UINT8 getValue() {
+    public UINT8 value() {
         return value;
     }
 

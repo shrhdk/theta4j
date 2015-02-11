@@ -24,7 +24,7 @@ public enum CaptureStatus {
 
     // Getter
 
-    public UINT8 getValue() {
+    public UINT8 value() {
         return value;
     }
 

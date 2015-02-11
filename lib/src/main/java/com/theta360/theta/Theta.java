@@ -341,7 +341,7 @@ public final class Theta implements Closeable {
     public void setWhiteBalance(WhiteBalance whiteBalance) throws IOException, PtpException {
         Validators.validateNonNull("whiteBalance", whiteBalance);
 
-        ptpInitiator.setDevicePropValue(DevicePropCode.WHITE_BALANCE, whiteBalance.getValue());
+        ptpInitiator.setDevicePropValue(DevicePropCode.WHITE_BALANCE, whiteBalance.value());
     }
 
     /**
@@ -369,7 +369,7 @@ public final class Theta implements Closeable {
     public void setExposureIndex(ISOSpeed isoSpeed) throws IOException, PtpException {
         Validators.validateNonNull("isoSpeed", isoSpeed);
 
-        ptpInitiator.setDevicePropValue(DevicePropCode.EXPOSURE_INDEX, isoSpeed.getValue());
+        ptpInitiator.setDevicePropValue(DevicePropCode.EXPOSURE_INDEX, isoSpeed.value());
     }
 
     /**
@@ -449,7 +449,7 @@ public final class Theta implements Closeable {
     public void setStillCaptureMode(StillCaptureMode stillCaptureMode) throws IOException, PtpException {
         Validators.validateNonNull("stillCaptureMode", stillCaptureMode);
 
-        ptpInitiator.setDevicePropValue(DevicePropCode.STILL_CAPTURE_MODE, stillCaptureMode.getValue());
+        ptpInitiator.setDevicePropValue(DevicePropCode.STILL_CAPTURE_MODE, stillCaptureMode.value());
     }
 
     /**
@@ -582,7 +582,7 @@ public final class Theta implements Closeable {
     public void setShutterSpeed(ShutterSpeed shutterSpeed) throws IOException, PtpException {
         Validators.validateNonNull("shutterSpeed", shutterSpeed);
 
-        ptpInitiator.setDevicePropValue(DevicePropCode.SHUTTER_SPEED, shutterSpeed.getValue().bytes());
+        ptpInitiator.setDevicePropValue(DevicePropCode.SHUTTER_SPEED, shutterSpeed.value().bytes());
     }
 
     // TODO: Add the GPSInfo class and replace String with GPSInfo.

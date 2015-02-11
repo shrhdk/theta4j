@@ -49,7 +49,7 @@ public enum ShutterSpeed {
 
     // Getter
 
-    public Rational getValue() {
+    public Rational value() {
         return value;
     }
 

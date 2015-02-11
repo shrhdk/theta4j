@@ -39,7 +39,7 @@ public enum StillCaptureMode {
 
     // Getter
 
-    public UINT16 getValue() {
+    public UINT16 value() {
         return value;
     }
 
