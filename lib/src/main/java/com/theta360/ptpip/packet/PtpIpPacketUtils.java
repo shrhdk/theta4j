@@ -7,6 +7,7 @@ import java.io.IOException;
 
 class PtpIpPacketUtils {
     private PtpIpPacketUtils() {
+        throw new AssertionError();
     }
 
     public static void assertType(PtpIpPacket.Type actual, PtpIpPacket.Type expected) throws IOException {
