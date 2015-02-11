@@ -2,6 +2,7 @@ package com.theta360.ptpip.packet;
 
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.util.Validators;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
@@ -11,12 +12,6 @@ import java.io.IOException;
  */
 public final class InitEventAckPacket extends PtpIpPacket {
     private static final int SIZE_IN_BYTES = 0;
-
-    // Constructor
-
-    public InitEventAckPacket() {
-        super(Type.INIT_EVENT_ACK);
-    }
 
     // Static Factory Method
 
@@ -33,6 +28,18 @@ public final class InitEventAckPacket extends PtpIpPacket {
         PacketUtils.checkLength((int) payloadLength, SIZE_IN_BYTES);
 
         return new InitEventAckPacket();
+    }
+
+    // PtpIpPacket
+
+    @Override
+    Type getType() {
+        return Type.INIT_EVENT_ACK;
+    }
+
+    @Override
+    byte[] getPayload() {
+        return ArrayUtils.EMPTY_BYTE_ARRAY;
     }
 
     // Basic Method

@@ -52,8 +52,8 @@ public class InitFailPacketTest {
         PtpIpPacket.Type invalidType = INIT_COMMAND_REQUEST;
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(invalidType, PAYLOAD);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(invalidType, PAYLOAD);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         InitFailPacket.read(givenInputStream);
@@ -65,8 +65,8 @@ public class InitFailPacketTest {
         byte[] givenPayload = new byte[PAYLOAD.length - 1]; // expected length - 1
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(INIT_FAIL, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(INIT_FAIL, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         InitFailPacket.read(givenInputStream);
@@ -77,8 +77,8 @@ public class InitFailPacketTest {
     @Test
     public void read() throws IOException {
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(INIT_FAIL, REASON.bytes());
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(INIT_FAIL, REASON.bytes());
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         InitFailPacket actual = InitFailPacket.read(givenInputStream);

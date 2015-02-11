@@ -17,90 +17,36 @@ import java.util.Map;
 /**
  * PTP-IP Packet
  */
-public class PtpIpPacket {
-    private final Type type;
-    byte[] payload;
-
+public abstract class PtpIpPacket {
     // Utility Field
 
-    protected static final int HEADER_SIZE_IN_BYTES = UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES;
+    static final int HEADER_SIZE_IN_BYTES = UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES;
 
-    // Constructor
-
-    public PtpIpPacket(Type type) {
-        this(type, new byte[0]);
-    }
-
-    public PtpIpPacket(Type type, byte[] payload) {
-        Validators.validateNonNull("type", type);
-        Validators.validateNonNull("payload", payload);
-
-        this.type = type;
-        this.payload = payload.clone();
+    PtpIpPacket() {
     }
 
     // Getter
 
-    public Type getType() {
-        return type;
-    }
+    abstract Type getType();
 
-    public byte[] getPayload() {
-        return payload.clone();
-    }
+    abstract byte[] getPayload();
 
     // Converter
 
     public final byte[] bytes() {
-        UINT32 length = new UINT32(UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES + payload.length);
+        UINT32 length = new UINT32(UINT32.SIZE_IN_BYTES + Type.SIZE + getPayload().length);
 
         try (
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 PtpOutputStream pos = new PtpOutputStream(baos);
         ) {
             pos.write(length);
-            pos.write(type.value);
-            pos.write(payload);
+            pos.write(getType().value);
+            pos.write(getPayload());
             return baos.toByteArray();
         } catch (IOException e) {
             throw new AssertionError(e);
         }
-    }
-
-    // Basic Method
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        PtpIpPacket rhs = (PtpIpPacket) o;
-
-        return new EqualsBuilder()
-                .append(type, rhs.type)
-                .append(payload, rhs.payload)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder()
-                .append(type)
-                .append(payload)
-                .toHashCode();
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("type", type)
-                .append("payload", payload)
-                .toString();
     }
 
     // Inner Types
@@ -159,7 +105,7 @@ public class PtpIpPacket {
 
         public static Type read(PtpInputStream pis) throws IOException {
             Validators.validateNonNull("pis", pis);
-            
+
             UINT32 typeValue = pis.readUINT32();
             return valueOf(typeValue);
         }

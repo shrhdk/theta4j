@@ -22,11 +22,11 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
     private final String name;
     private final UINT32 protocolVersion;
 
+    private final byte[] payload;
+
     // Constructor
 
     public InitCommandRequestPacket(UUID guid, String name, UINT32 protocolVersion) {
-        super(Type.INIT_COMMAND_REQUEST);
-
         Validators.validateNonNull("guid", guid);
         Validators.validateNonNull("name", name);
         Validators.validateNonNull("protocolVersion", protocolVersion);
@@ -34,7 +34,7 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
         this.guid = guid;
         this.name = name;
         this.protocolVersion = protocolVersion;
-        super.payload = ByteUtils.join(
+        this.payload = ByteUtils.join(
                 GUID.toBytes(guid),
                 PtpIpString.toBytes(name),
                 protocolVersion.bytes()
@@ -48,10 +48,12 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
 
         // Read Header
         long length = pis.readUINT32().longValue();
+        long payloadLength = length - HEADER_SIZE_IN_BYTES;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         // Validate Header
         PacketUtils.assertType(type, Type.INIT_COMMAND_REQUEST);
+        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE_IN_BYTES);
 
         // Read Body
         UUID guid = GUID.read(pis);
@@ -59,6 +61,18 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
         UINT32 protocolVersion = pis.readUINT32();
 
         return new InitCommandRequestPacket(guid, name, protocolVersion);
+    }
+
+    // PtpIpPacket
+
+    @Override
+    Type getType() {
+        return Type.INIT_COMMAND_REQUEST;
+    }
+
+    @Override
+    byte[] getPayload() {
+        return payload;
     }
 
     // Getter

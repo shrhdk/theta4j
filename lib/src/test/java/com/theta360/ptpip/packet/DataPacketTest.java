@@ -68,8 +68,8 @@ public class DataPacketTest {
         PtpIpPacket.Type invalidType = INIT_EVENT_REQUEST;
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(invalidType, PAYLOAD);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(invalidType, PAYLOAD);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         DataPacket.read(givenInputStream);
@@ -81,8 +81,8 @@ public class DataPacketTest {
         byte[] givenPayload = new byte[PAYLOAD.length - 1];  // min length - 1
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(DATA, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(DATA, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         DataPacket.read(givenInputStream);
@@ -116,8 +116,8 @@ public class DataPacketTest {
         );
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(DATA, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(DATA, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         DataPacket actual = DataPacket.read(givenInputStream);
@@ -235,6 +235,5 @@ public class DataPacketTest {
         // verify
         assertTrue(actual.contains(packet.getClass().getSimpleName()));
         assertTrue(actual.contains("transactionID"));
-        assertTrue(actual.contains("dataPayload"));
     }
 }

@@ -21,6 +21,8 @@ public final class EventPacket extends PtpIpPacket {
     private final UINT32 transactionID;
     private final UINT32 p1, p2, p3;
 
+    private final byte[] payload;
+
     // Constructor
 
     public EventPacket(UINT16 eventCode, UINT32 transactionID) {
@@ -36,8 +38,6 @@ public final class EventPacket extends PtpIpPacket {
     }
 
     public EventPacket(UINT16 eventCode, UINT32 transactionID, UINT32 p1, UINT32 p2, UINT32 p3) {
-        super(Type.EVENT);
-
         Validators.validateNonNull("eventCode", eventCode);
         Validators.validateNonNull("transactionID", transactionID);
         Validators.validateNonNull("p1", p1);
@@ -50,7 +50,7 @@ public final class EventPacket extends PtpIpPacket {
         this.p2 = p2;
         this.p3 = p3;
 
-        super.payload = ByteUtils.join(
+        this.payload = ByteUtils.join(
                 eventCode.bytes(),
                 transactionID.bytes(),
                 p1.bytes(), p2.bytes(), p3.bytes()
@@ -79,6 +79,18 @@ public final class EventPacket extends PtpIpPacket {
         UINT32 p3 = pis.readUINT32();
 
         return new EventPacket(eventCode, transactionID, p1, p2, p3);
+    }
+
+    // PtpIpPacket
+
+    @Override
+    Type getType() {
+        return Type.EVENT;
+    }
+
+    @Override
+    byte[] getPayload() {
+        return payload;
     }
 
     // Getter

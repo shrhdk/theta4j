@@ -23,11 +23,11 @@ public final class InitCommandAckPacket extends PtpIpPacket {
     private final String name;
     private final UINT32 protocolVersion;
 
+    private final byte[] payload;
+
     // Constructor
 
     public InitCommandAckPacket(UINT32 connectionNumber, UUID guid, String name, UINT32 protocolVersion) {
-        super(Type.INIT_COMMAND_ACK);
-
         Validators.validateNonNull("connectionNumber", connectionNumber);
         Validators.validateNonNull("guid", guid);
         Validators.validateNonNull("name", name);
@@ -37,7 +37,8 @@ public final class InitCommandAckPacket extends PtpIpPacket {
         this.guid = guid;
         this.name = name;
         this.protocolVersion = protocolVersion;
-        super.payload = ByteUtils.join(
+
+        this.payload = ByteUtils.join(
                 connectionNumber.bytes(),
                 GUID.toBytes(guid),
                 PtpIpString.toBytes(name),
@@ -52,10 +53,12 @@ public final class InitCommandAckPacket extends PtpIpPacket {
 
         // Read Header
         long length = pis.readUINT32().longValue();
+        long payloadLength = length - HEADER_SIZE_IN_BYTES;
         PtpIpPacket.Type type = PtpIpPacket.Type.read(pis);
 
         // Validate Header
         PacketUtils.assertType(type, Type.INIT_COMMAND_ACK);
+        PacketUtils.checkMinLength((int) payloadLength, MIN_SIZE_IN_BYTES);
 
         // Read Body
         UINT32 connectionNumber = pis.readUINT32();
@@ -64,6 +67,18 @@ public final class InitCommandAckPacket extends PtpIpPacket {
         UINT32 protocolVersion = pis.readUINT32();
 
         return new InitCommandAckPacket(connectionNumber, guid, name, protocolVersion);
+    }
+
+    // PtpIpPacket
+
+    @Override
+    Type getType() {
+        return Type.INIT_COMMAND_ACK;
+    }
+
+    @Override
+    byte[] getPayload() {
+        return payload;
     }
 
     // Getter

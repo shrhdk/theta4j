@@ -52,8 +52,8 @@ public class InitEventRequestPacketTest {
         PtpIpPacket.Type invalidType = INIT_COMMAND_REQUEST;
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(invalidType, new byte[0]);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(invalidType, PAYLOAD);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         InitEventRequestPacket.read(givenInputStream);
@@ -65,8 +65,8 @@ public class InitEventRequestPacketTest {
         byte[] givenPayload = new byte[PAYLOAD.length - 1]; // min length - 1
 
         // arrange
-        PtpIpPacket givenPacket = new PtpIpPacket(INIT_EVENT_REQUEST, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(INIT_EVENT_REQUEST, givenPayload);
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         InitEventRequestPacket.read(givenInputStream);
@@ -77,8 +77,8 @@ public class InitEventRequestPacketTest {
     @Test
     public void read() throws IOException {
         // given
-        PtpIpPacket givenPacket = new PtpIpPacket(INIT_EVENT_REQUEST, CONNECTION_NUMBER.bytes());
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacket.bytes()));
+        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(INIT_EVENT_REQUEST, CONNECTION_NUMBER.bytes());
+        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
         // act
         InitEventRequestPacket actual = InitEventRequestPacket.read(givenInputStream);

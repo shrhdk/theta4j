@@ -22,6 +22,8 @@ public final class OperationRequestPacket extends PtpIpPacket {
     private final UINT32 transactionID;
     private final UINT32 p1, p2, p3, p4, p5;
 
+    private final byte[] payload;
+
     // Constructor
 
     public OperationRequestPacket(UINT32 dataPhaseInfo, UINT16 operationCode, UINT32 transactionID) {
@@ -45,8 +47,6 @@ public final class OperationRequestPacket extends PtpIpPacket {
     }
 
     public OperationRequestPacket(UINT32 dataPhaseInfo, UINT16 operationCode, UINT32 transactionID, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) {
-        super(Type.OPERATION_REQUEST);
-
         Validators.validateNonNull("dataPhaseInfo", dataPhaseInfo);
         Validators.validateNonNull("operationCode", operationCode);
         Validators.validateNonNull("transactionID", transactionID);
@@ -65,7 +65,7 @@ public final class OperationRequestPacket extends PtpIpPacket {
         this.p4 = p4;
         this.p5 = p5;
 
-        super.payload = ByteUtils.join(
+        this.payload = ByteUtils.join(
                 dataPhaseInfo.bytes(),
                 operationCode.bytes(),
                 transactionID.bytes(),
@@ -102,6 +102,18 @@ public final class OperationRequestPacket extends PtpIpPacket {
         UINT32 p5 = pis.readUINT32();
 
         return new OperationRequestPacket(dataPhaseInfo, operationCode, transactionID, p1, p2, p3, p4, p5);
+    }
+
+    // PtpIpPacket
+
+    @Override
+    Type getType() {
+        return Type.OPERATION_REQUEST;
+    }
+
+    @Override
+    byte[] getPayload() {
+        return payload;
     }
 
     // Getter
