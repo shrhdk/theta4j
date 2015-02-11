@@ -21,11 +21,11 @@ public class DeviceInfoTest {
     private static final List<UINT16> LIST_1 = Arrays.asList(UINT16.MIN_VALUE);
     private static final List<UINT16> LIST_2 = Arrays.asList(UINT16.MAX_VALUE);
 
-    private static final UINT16 STANDARD_VERSION = UINT16.MAX_VALUE;
-    private static final UINT32 VENDOR_EXTENSION_ID = UINT32.MAX_VALUE;
-    private static final UINT16 VENDOR_EXTENSION_VERSION = UINT16.MAX_VALUE;
+    private static final UINT16 STANDARD_VERSION = new UINT16(0);
+    private static final UINT32 VENDOR_EXTENSION_ID = new UINT32(1);
+    private static final UINT16 VENDOR_EXTENSION_VERSION = new UINT16(2);
     private static final String VENDOR_EXTENSION_DESC = "VendorExtensionDesc";
-    private static final UINT16 FUNCTIONAL_MODE = UINT16.MAX_VALUE;
+    private static final UINT16 FUNCTIONAL_MODE = new UINT16(3);
     private static final List<UINT16> OPERATIONS_SUPPORTED = new ArrayList<>();
     private static final List<UINT16> EVENTS_SUPPORTED = new ArrayList<>();
     private static final List<UINT16> DEVICE_PROPERTIES_SUPPORTED = new ArrayList<>();

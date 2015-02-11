@@ -1,5 +1,6 @@
 package com.theta360.ptp.data;
 
+import com.theta360.ptp.code.Code;
 import com.theta360.ptp.io.PtpInputStream;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
@@ -287,9 +288,24 @@ public class ObjectInfo {
     /**
      * ProtectionStatus in ObjectInfo defined in PTP
      */
-    public enum ProtectionStatus {
-        NO_PROTECTION(new UINT16(0x0000)),
-        READ_ONLY(new UINT16(0x0001));
+    public enum ProtectionStatus implements Code<UINT16> {
+        NO_PROTECTION(0x0000),
+        READ_ONLY(0x0001);
+
+        private final UINT16 value;
+
+        private ProtectionStatus(int value) {
+            this.value = new UINT16(value);
+        }
+
+        // Code
+
+        @Override
+        public UINT16 value() {
+            return value;
+        }
+
+        // valueOf
 
         private static final Map<UINT16, ProtectionStatus> PROTECTION_STATUS_MAP = new HashMap<>();
 
@@ -297,12 +313,6 @@ public class ObjectInfo {
             for (ProtectionStatus type : ProtectionStatus.values()) {
                 PROTECTION_STATUS_MAP.put(type.value, type);
             }
-        }
-
-        private final UINT16 value;
-
-        private ProtectionStatus(UINT16 value) {
-            this.value = value;
         }
 
         /**
