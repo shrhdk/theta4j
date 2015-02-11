@@ -7,6 +7,7 @@ import java.util.List;
 
 class PrimitiveTypeUtils {
     private PrimitiveTypeUtils() {
+        throw new AssertionError();
     }
 
     public static List<Long> convert(List<UINT32> src) {
