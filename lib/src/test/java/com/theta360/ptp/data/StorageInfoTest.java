@@ -16,12 +16,12 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 public class StorageInfoTest {
-    private static final UINT16 STORAGE_TYPE = UINT16.MAX_VALUE;
-    private static final UINT16 FILE_SYSTEM_TYPE = UINT16.MAX_VALUE;
-    private static final UINT16 ACCESS_CAPABILITY = UINT16.MAX_VALUE;
-    private static final UINT64 MAX_CAPACITY = UINT64.MAX_VALUE;
-    private static final UINT64 FREE_SPACE_IN_BYTES = UINT64.MAX_VALUE;
-    private static final UINT32 FREE_SPACE_IN_IMAGES = UINT32.MAX_VALUE;
+    private static final UINT16 STORAGE_TYPE = new UINT16(0);
+    private static final UINT16 FILE_SYSTEM_TYPE = new UINT16(1);
+    private static final UINT16 ACCESS_CAPABILITY = new UINT16(2);
+    private static final UINT64 MAX_CAPACITY = new UINT64(3);
+    private static final UINT64 FREE_SPACE_IN_BYTES = new UINT64(4);
+    private static final UINT32 FREE_SPACE_IN_IMAGES = new UINT32(5);
     private static final String STORAGE_DESCRIPTION = "StorageDescription";
     private static final String VOLUME_LABEL = "VolumeLabel";
 
