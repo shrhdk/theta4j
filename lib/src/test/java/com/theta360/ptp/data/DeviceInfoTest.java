@@ -24,17 +24,17 @@ public class DeviceInfoTest {
     private static final UINT16 STANDARD_VERSION = UINT16.MAX_VALUE;
     private static final UINT32 VENDOR_EXTENSION_ID = UINT32.MAX_VALUE;
     private static final UINT16 VENDOR_EXTENSION_VERSION = UINT16.MAX_VALUE;
-    private static final String VENDOR_EXTENSION_DESC = "vendorExtensionDesc";
+    private static final String VENDOR_EXTENSION_DESC = "VendorExtensionDesc";
     private static final UINT16 FUNCTIONAL_MODE = UINT16.MAX_VALUE;
     private static final List<UINT16> OPERATIONS_SUPPORTED = new ArrayList<>();
     private static final List<UINT16> EVENTS_SUPPORTED = new ArrayList<>();
     private static final List<UINT16> DEVICE_PROPERTIES_SUPPORTED = new ArrayList<>();
     private static final List<UINT16> CAPTURE_FORMATS = new ArrayList<>();
     private static final List<UINT16> IMAGE_FORMATS = new ArrayList<>();
-    private static final String MANUFACTURER = "manufacturer";
-    private static final String MODEL = "model";
-    private static final String DEVICE_VERSION = "deviceVersion";
-    private static final String SERIAL_NUMBER = "serialNumber";
+    private static final String MANUFACTURER = "Manufacturer";
+    private static final String MODEL = "Model";
+    private static final String DEVICE_VERSION = "DeviceVersion";
+    private static final String SERIAL_NUMBER = "SerialNumber";
 
     // Construct with error
 
@@ -743,4 +743,33 @@ public class DeviceInfoTest {
     }
 
     // toString
+
+    @Test
+    public void testToString() {
+        // given
+        DeviceInfo deviceInfo = new DeviceInfo(
+                STANDARD_VERSION, VENDOR_EXTENSION_ID, VENDOR_EXTENSION_VERSION, VENDOR_EXTENSION_DESC,
+                FUNCTIONAL_MODE, OPERATIONS_SUPPORTED, EVENTS_SUPPORTED, DEVICE_PROPERTIES_SUPPORTED,
+                CAPTURE_FORMATS, IMAGE_FORMATS, MANUFACTURER, MODEL, DEVICE_VERSION, SERIAL_NUMBER);
+
+        // act
+        String actual = deviceInfo.toString();
+
+        // verify
+        assertTrue(actual.contains(DeviceInfo.class.getSimpleName()));
+        assertTrue(actual.contains("standardVersion"));
+        assertTrue(actual.contains("vendorExtensionID"));
+        assertTrue(actual.contains("vendorExtensionVersion"));
+        assertTrue(actual.contains("vendorExtensionDesc"));
+        assertTrue(actual.contains("functionalMode"));
+        assertTrue(actual.contains("operationsSupported"));
+        assertTrue(actual.contains("eventsSupported"));
+        assertTrue(actual.contains("devicePropertiesSupported"));
+        assertTrue(actual.contains("captureFormats"));
+        assertTrue(actual.contains("imageFormats"));
+        assertTrue(actual.contains("manufacturer"));
+        assertTrue(actual.contains("model"));
+        assertTrue(actual.contains("deviceVersion"));
+        assertTrue(actual.contains("serialNumber"));
+    }
 }
