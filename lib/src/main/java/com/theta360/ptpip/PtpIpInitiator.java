@@ -166,7 +166,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
         return port;
     }
 
-    // AbstractPtp
+    // AbstractPtpInitiator
 
     @Override
     public UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) throws IOException {
