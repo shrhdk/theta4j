@@ -7,6 +7,7 @@ import com.theta360.ptp.type.UINT32;
  */
 class ProtocolVersions {
     private ProtocolVersions() {
+        throw new AssertionError();
     }
 
     /**
