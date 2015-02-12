@@ -73,6 +73,86 @@ public class ResponseTest {
     @Test
     public void constructAndGet() {
         // act
+        Response actual = new Response(RESPONSE_CODE, SESSION_ID, TRANSACTION_ID);
+
+        // verify
+        assertThat(actual.getResponseCode(), is(RESPONSE_CODE));
+        assertThat(actual.getSessionID(), is(SESSION_ID));
+        assertThat(actual.getTransactionID(), is(TRANSACTION_ID));
+        assertThat(actual.getP1(), is(UINT32.ZERO));
+        assertThat(actual.getP2(), is(UINT32.ZERO));
+        assertThat(actual.getP3(), is(UINT32.ZERO));
+        assertThat(actual.getP4(), is(UINT32.ZERO));
+        assertThat(actual.getP5(), is(UINT32.ZERO));
+    }
+
+    @Test
+    public void constructAndGetWithP1() {
+        // act
+        Response actual = new Response(RESPONSE_CODE, SESSION_ID, TRANSACTION_ID, P1);
+
+        // verify
+        assertThat(actual.getResponseCode(), is(RESPONSE_CODE));
+        assertThat(actual.getSessionID(), is(SESSION_ID));
+        assertThat(actual.getTransactionID(), is(TRANSACTION_ID));
+        assertThat(actual.getP1(), is(P1));
+        assertThat(actual.getP2(), is(UINT32.ZERO));
+        assertThat(actual.getP3(), is(UINT32.ZERO));
+        assertThat(actual.getP4(), is(UINT32.ZERO));
+        assertThat(actual.getP5(), is(UINT32.ZERO));
+    }
+
+    @Test
+    public void constructAndGetWithP12() {
+        // act
+        Response actual = new Response(RESPONSE_CODE, SESSION_ID, TRANSACTION_ID, P1, P2);
+
+        // verify
+        assertThat(actual.getResponseCode(), is(RESPONSE_CODE));
+        assertThat(actual.getSessionID(), is(SESSION_ID));
+        assertThat(actual.getTransactionID(), is(TRANSACTION_ID));
+        assertThat(actual.getP1(), is(P1));
+        assertThat(actual.getP2(), is(P2));
+        assertThat(actual.getP3(), is(UINT32.ZERO));
+        assertThat(actual.getP4(), is(UINT32.ZERO));
+        assertThat(actual.getP5(), is(UINT32.ZERO));
+    }
+
+    @Test
+    public void constructAndGetWithP123() {
+        // act
+        Response actual = new Response(RESPONSE_CODE, SESSION_ID, TRANSACTION_ID, P1, P2, P3);
+
+        // verify
+        assertThat(actual.getResponseCode(), is(RESPONSE_CODE));
+        assertThat(actual.getSessionID(), is(SESSION_ID));
+        assertThat(actual.getTransactionID(), is(TRANSACTION_ID));
+        assertThat(actual.getP1(), is(P1));
+        assertThat(actual.getP2(), is(P2));
+        assertThat(actual.getP3(), is(P3));
+        assertThat(actual.getP4(), is(UINT32.ZERO));
+        assertThat(actual.getP5(), is(UINT32.ZERO));
+    }
+
+    @Test
+    public void constructAndGetWithP1234() {
+        // act
+        Response actual = new Response(RESPONSE_CODE, SESSION_ID, TRANSACTION_ID, P1, P2, P3, P4);
+
+        // verify
+        assertThat(actual.getResponseCode(), is(RESPONSE_CODE));
+        assertThat(actual.getSessionID(), is(SESSION_ID));
+        assertThat(actual.getTransactionID(), is(TRANSACTION_ID));
+        assertThat(actual.getP1(), is(P1));
+        assertThat(actual.getP2(), is(P2));
+        assertThat(actual.getP3(), is(P3));
+        assertThat(actual.getP4(), is(P4));
+        assertThat(actual.getP5(), is(UINT32.ZERO));
+    }
+
+    @Test
+    public void constructAndGetP12345() {
+        // act
         Response actual = new Response(RESPONSE_CODE, SESSION_ID, TRANSACTION_ID, P1, P2, P3, P4, P5);
 
         // verify
