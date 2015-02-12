@@ -15,6 +15,18 @@ public class Event {
 
     // Constructor
 
+    public Event(UINT16 eventCode, UINT32 sessionID, UINT32 transactionID) {
+        this(eventCode, sessionID, transactionID, UINT32.ZERO);
+    }
+
+    public Event(UINT16 eventCode, UINT32 sessionID, UINT32 transactionID, UINT32 p1) {
+        this(eventCode, sessionID, transactionID, p1, UINT32.ZERO);
+    }
+
+    public Event(UINT16 eventCode, UINT32 sessionID, UINT32 transactionID, UINT32 p1, UINT32 p2) {
+        this(eventCode, sessionID, transactionID, p1, p2, UINT32.ZERO);
+    }
+
     public Event(UINT16 eventCode, UINT32 sessionID, UINT32 transactionID, UINT32 p1, UINT32 p2, UINT32 p3) {
         Validators.validateNonNull("eventCode", eventCode);
         Validators.validateNonNull("sessionID", sessionID);
