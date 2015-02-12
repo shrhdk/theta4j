@@ -2,19 +2,16 @@ package com.theta360.theta;
 
 import com.theta360.ptp.PtpException;
 import com.theta360.ptp.type.UINT32;
-import com.theta360.test.categories.IntegrationTest;
 import com.theta360.theta.data.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Date;
 
-@Category(IntegrationTest.class)
 public class SetDevicePropTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(SetDevicePropTest.class);
     private static final UINT32 SESSION_ID = new UINT32(1);

@@ -1,19 +1,16 @@
 package com.theta360.theta;
 
 import com.theta360.ptp.PtpException;
-import com.theta360.test.categories.IntegrationTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-@Category(IntegrationTest.class)
-public class GetDevicePropTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GetDevicePropTest.class);
+public class GetDevicePropDescTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetDevicePropDescTest.class);
 
     private static ThetaEventListener listener = new ThetaEventListener() {
         @Override
@@ -61,95 +58,95 @@ public class GetDevicePropTest {
         Thread.sleep(TestParameters.INTERVAL_MS);
     }
 
-    // Test
+    // Get DevicePropDesc
 
     @Test
     public void getBatteryLevel() throws IOException, PtpException {
-        LOGGER.info("Battery Level: " + theta.getBatteryLevel());
+        LOGGER.info("DevicePropDesc of BatteryLevel: " + theta.getBatteryLevel());
     }
 
     @Test
     public void getWhiteBalance() throws IOException, PtpException {
-        LOGGER.info("White Balance: " + theta.getWhiteBalance());
+        LOGGER.info("DevicePropDesc of WhiteBalance: " + theta.getWhiteBalance());
     }
 
     @Test
     public void getExposureIndex() throws IOException, PtpException {
-        LOGGER.info("Exposure Index: " + theta.getExposureIndex());
+        LOGGER.info("DevicePropDesc of ExposureIndex: " + theta.getExposureIndex());
     }
 
     @Test
     public void getExposureBiasCompensation() throws IOException, PtpException {
-        LOGGER.info("Exposure Bias Compensation: " + theta.getExposureIndex());
+        LOGGER.info("DevicePropDesc of ExposureBiasCompensation: " + theta.getExposureBiasCompensation());
     }
 
     @Test
     public void getDateTime() throws IOException, PtpException {
-        LOGGER.info("DateTime: " + theta.getDateTime());
+        LOGGER.info("DevicePropDesc of DateTime: " + theta.getDateTime());
     }
 
     @Test
     public void getStillCaptureMode() throws IOException, PtpException {
-        LOGGER.info("Still Capture Mode: " + theta.getStillCaptureMode());
+        LOGGER.info("DevicePropDesc of StillCaptureMode(: " + theta.getStillCaptureMode());
     }
 
     @Test
     public void getTimelapseNumber() throws IOException, PtpException {
-        LOGGER.info("Timelapse Number: " + theta.getTimelapseNumber());
+        LOGGER.info("DevicePropDesc of TimelapseNumber: " + theta.getTimelapseNumber());
     }
 
     @Test
     public void getTimelapseInterval() throws IOException, PtpException {
-        LOGGER.info("Timelapse Interval: " + theta.getTimelapseInterval());
+        LOGGER.info("DevicePropDesc of TimelapseInterval: " + theta.getTimelapseInterval());
     }
 
     @Test
     public void getAudioVolume() throws IOException, PtpException {
-        LOGGER.info("Audio Volume: " + theta.getAudioVolume());
+        LOGGER.info("DevicePropDesc of AudioVolume: " + theta.getAudioVolume());
     }
 
     @Test
     public void getErrorInfo() throws IOException, PtpException {
-        LOGGER.info("Error Info: " + theta.getErrorInfo());
+        LOGGER.info("DevicePropDesc of ErrorInfo: " + theta.getErrorInfo());
     }
 
     @Test
     public void getShutterSpeed() throws IOException, PtpException {
-        LOGGER.info("Shutter Speed: " + theta.getShutterSpeed());
+        LOGGER.info("DevicePropDesc of ShutterSpeed: " + theta.getShutterSpeed());
     }
 
     @Test
-    public void getGPSInfo() throws IOException, PtpException {
-        LOGGER.info("GPS Info: " + theta.getGPSInfo());
+    public void getGpsInfo() throws IOException, PtpException {
+        LOGGER.info("DevicePropDesc of GpsInfo: " + theta.getGPSInfo());
     }
 
     @Test
     public void getAutoPowerOffDelay() throws IOException, PtpException {
-        LOGGER.info("Auto Power Delay: " + theta.getAutoPowerOffDelay());
+        LOGGER.info("DevicePropDesc of AutoPowerOffDelay: " + theta.getAutoPowerOffDelay());
     }
 
     @Test
     public void getSleepDelay() throws IOException, PtpException {
-        LOGGER.info("Sleep Delay: " + theta.getSleepDelay());
+        LOGGER.info("DevicePropDesc of SleepDelay: " + theta.getSleepDelay());
     }
 
     @Test
     public void getChannelNumber() throws IOException, PtpException {
-        LOGGER.info("Channel Number: " + theta.getChannelNumber());
+        LOGGER.info("DevicePropDesc of ChannelNumber: " + theta.getChannelNumber());
     }
 
     @Test
     public void getCaptureStatus() throws IOException, PtpException {
-        LOGGER.info("Capture Status: " + theta.getCaptureStatus());
+        LOGGER.info("DevicePropDesc of CaptureStatus: " + theta.getCaptureStatus());
     }
 
     @Test
     public void getRecordingTime() throws IOException, PtpException {
-        LOGGER.info("Recording Time: " + theta.getRecordingTime());
+        LOGGER.info("DevicePropDesc of RecordingTime: " + theta.getRecordingTime());
     }
 
     @Test
     public void getRemainingRecordingTime() throws IOException, PtpException {
-        LOGGER.info("Remaining Recording Time: " + theta.getRemainingRecordingTime());
+        LOGGER.info("DevicePropDesc of RemainingRecordingTime: " + theta.getRemainingRecordingTime());
     }
 }

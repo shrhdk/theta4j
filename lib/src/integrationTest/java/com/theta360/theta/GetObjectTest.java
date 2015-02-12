@@ -1,21 +1,19 @@
 package com.theta360.theta;
 
 import com.theta360.ptp.PtpException;
-import com.theta360.ptp.data.ObjectInfo;
-import com.theta360.test.categories.IntegrationTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-@Category(IntegrationTest.class)
-public class ThetaTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ThetaTest.class);
+public class GetObjectTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetObjectTest.class);
 
     private static ThetaEventListener listener = new ThetaEventListener() {
         @Override
@@ -66,19 +64,26 @@ public class ThetaTest {
     // Operations
 
     @Test
-    public void getDeviceInfo() throws IOException, PtpException {
-        LOGGER.info("Device Info" + theta.getDeviceInfo());
-    }
-
-    @Test
-    public void getObjectHandles() throws IOException, PtpException {
-        LOGGER.info("Object Handles: " + theta.getObjectHandles());
-    }
-
-    @Test
-    public void getObjectInfo() throws IOException, PtpException {
+    public void getObject() throws IOException, PtpException {
         List<Long> objectHandles = theta.getObjectHandles();
-        ObjectInfo objectInfo = theta.getObjectInfo(objectHandles.get(0));
-        LOGGER.info("Object Info: " + objectInfo);
+        try (FileOutputStream file = new FileOutputStream(new File("raw.jpg"))) {
+            theta.getObject(objectHandles.get(2), file);
+        }
+    }
+
+    @Test
+    public void getThumb() throws IOException, PtpException {
+        List<Long> objectHandles = theta.getObjectHandles();
+        try (FileOutputStream file = new FileOutputStream(new File("thumb.jpg"))) {
+            theta.getThumb(objectHandles.get(2), file);
+        }
+    }
+
+    @Test
+    public void getResizedImageObject() throws IOException, PtpException {
+        List<Long> objectHandles = theta.getObjectHandles();
+        try (FileOutputStream file = new FileOutputStream(new File("resized.jpg"))) {
+            theta.getResizedImageObject(objectHandles.get(2), file);
+        }
     }
 }
