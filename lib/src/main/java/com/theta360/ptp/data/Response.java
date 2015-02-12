@@ -15,6 +15,26 @@ public class Response {
 
     // Constructor
 
+    public Response(UINT16 responseCode, UINT32 sessionID, UINT32 transactionID) {
+        this(responseCode, sessionID, transactionID, UINT32.ZERO);
+    }
+
+    public Response(UINT16 responseCode, UINT32 sessionID, UINT32 transactionID, UINT32 p1) {
+        this(responseCode, sessionID, transactionID, p1, UINT32.ZERO);
+    }
+
+    public Response(UINT16 responseCode, UINT32 sessionID, UINT32 transactionID, UINT32 p1, UINT32 p2) {
+        this(responseCode, sessionID, transactionID, p1, p2, UINT32.ZERO);
+    }
+
+    public Response(UINT16 responseCode, UINT32 sessionID, UINT32 transactionID, UINT32 p1, UINT32 p2, UINT32 p3) {
+        this(responseCode, sessionID, transactionID, p1, p2, p3, UINT32.ZERO);
+    }
+
+    public Response(UINT16 responseCode, UINT32 sessionID, UINT32 transactionID, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4) {
+        this(responseCode, sessionID, transactionID, p1, p2, p3, p4, UINT32.ZERO);
+    }
+
     public Response(UINT16 responseCode, UINT32 sessionID, UINT32 transactionID, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) {
         Validators.validateNonNull("responseCode", responseCode);
         Validators.validateNonNull("sessionID", sessionID);
