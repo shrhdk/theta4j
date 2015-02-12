@@ -246,7 +246,7 @@ public final class PtpIpInputStream implements Closeable {
             if (response.getResponseCode().equals(ResponseCode.OK.value())) {
                 throw new IOException("Expected StartData but was OperationResponse(OK)");
             } else {
-                throw new PtpException(response.getResponseCode().intValue());
+                throw new PtpException(response.getResponseCode());
             }
         }
 
