@@ -1,9 +1,8 @@
 package com.theta360.theta;
 
 import com.theta360.ptp.PtpException;
-import com.theta360.test.categories.IntegrationTest;
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,9 +10,6 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.fail;
-
-@Category(IntegrationTest.class)
 public class CaptureTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(CaptureTest.class);
 
@@ -58,7 +54,7 @@ public class CaptureTest {
             theta.addListener(listener);
             theta.initiateCapture();
             if (!onObjectAdded.await(10, TimeUnit.SECONDS)) {
-                fail("onObjectAdded event is timed out.");
+                Assert.fail("onObjectAdded event is timed out.");
             }
         }
         Thread.sleep(TestParameters.INTERVAL_MS);

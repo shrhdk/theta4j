@@ -3,24 +3,26 @@ apply plugin: 'findbugs'
 apply plugin: 'jacoco'
 apply plugin: 'sonar-runner'
 
+archivesBaseName = 'theta'
+version = rootProject.version
+
+sourceSets {
+    integrationTest {
+        java.srcDir file('src/integrationTest/java')
+        resources.srcDir file('src/integrationTest/resources')
+    }
+}
+
 dependencies {
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'org.slf4j:slf4j-api:1.7.10'
     compile 'ch.qos.logback:logback-classic:1.1.2'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
-}
-
-archivesBaseName = 'theta'
-version = rootProject.version
-
-test {
-    useJUnit {
-        // IntegrationTest is manual execution-only.
-        // Because these tests requires connection with real RICOH THETA.
-        // "integrationTest" task executes these tests.
-        excludeCategories 'com.theta360.test.categories.IntegrationTest'
-    }
+    integrationTestCompile sourceSets.main.output
+    integrationTestCompile configurations.testCompile
+    integrationTestCompile sourceSets.test.output
+    integrationTestRuntime configurations.testRuntime
 }
 
 javadoc {
@@ -43,9 +45,8 @@ sonarRunner {
 }
 
 task integrationTest(type: Test) {
-    useJUnit {
-        includeCategories 'com.theta360.test.categories.IntegrationTest'
-    }
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
 }
 
 task javadocArchive(type: Zip, dependsOn: [clean, javadoc]) {
