@@ -1,37 +1,36 @@
 package com.theta360.ptp;
 
-public class PtpException extends Exception {
-    private final int code;
+import com.theta360.ptp.code.Code;
+import com.theta360.ptp.type.UINT16;
+
+public class PtpException extends Exception implements Code<UINT16> {
+    private final UINT16 value;
 
     // Constructor
 
-    public PtpException(int code) {
-        this.code = code;
+    public PtpException(UINT16 value) {
+        this.value = value;
     }
 
-    public PtpException(int code, String message) {
+    public PtpException(UINT16 value, String message) {
         super(message);
-        this.code = code;
+        this.value = value;
     }
 
-    public PtpException(int code, String message, Throwable cause) {
+    public PtpException(UINT16 value, String message, Throwable cause) {
         super(message, cause);
-        this.code = code;
+        this.value = value;
     }
 
-    public PtpException(int code, Throwable cause) {
+    public PtpException(UINT16 value, Throwable cause) {
         super(cause);
-        this.code = code;
+        this.value = value;
     }
 
-    public PtpException(int code, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-        this.code = code;
-    }
+    // Code
 
-    // Getter
-
-    public int getCode() {
-        return code;
+    @Override
+    public UINT16 value() {
+        return value;
     }
 }

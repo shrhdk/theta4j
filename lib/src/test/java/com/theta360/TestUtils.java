@@ -10,9 +10,9 @@ public class TestUtils {
     }
 
     public static boolean isUtilClass(Class<?> class_) {
-        // It has only one constructor?
+        // It has only one constructor.
         int numOfConstructor = class_.getDeclaredConstructors().length;
-        if (2 <= numOfConstructor) {
+        if (1 != numOfConstructor) {
             return false;
         }
 

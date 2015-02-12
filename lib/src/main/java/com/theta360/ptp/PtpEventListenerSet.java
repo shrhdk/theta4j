@@ -14,6 +14,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> implements PtpEventListener {
     private final Set<PtpEventListener> listeners = new CopyOnWriteArraySet<>();
 
+    // Set<PtpEventListener>
+
     @Override
     public boolean add(PtpEventListener listener) {
         return listeners.add(listener);
@@ -38,6 +40,8 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
     public int size() {
         return listeners.size();
     }
+
+    // PtpEventListener
 
     @Override
     public void onCancelTransaction() {
@@ -175,13 +179,13 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
         }
     }
 
+    // Utility method
+
     public void raise(Event event) {
         Validators.validateNonNull("event", event);
 
         UINT16 eventCode = event.getEventCode();
         UINT32 p1 = event.getP1();
-        UINT32 p2 = event.getP2();
-        UINT32 p3 = event.getP3();
 
         if (eventCode.equals(EventCode.UNDEFINED.value())) {
             onError(new RuntimeException("Undefined Event Code: " + eventCode));
