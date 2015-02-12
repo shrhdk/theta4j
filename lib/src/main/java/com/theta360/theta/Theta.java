@@ -4,6 +4,7 @@ import com.theta360.ptp.PtpEventListener;
 import com.theta360.ptp.PtpException;
 import com.theta360.ptp.PtpInitiator;
 import com.theta360.ptp.data.DeviceInfo;
+import com.theta360.ptp.data.Event;
 import com.theta360.ptp.data.ObjectInfo;
 import com.theta360.ptp.data.StorageInfo;
 import com.theta360.ptp.type.*;
@@ -122,7 +123,7 @@ public final class Theta implements Closeable {
             }
 
             @Override
-            public void onVendorExtendedCode(UINT16 eventCode, UINT32 p1, UINT32 p2, UINT32 p3) {
+            public void onVendorExtendedCode(Event event) {
                 LOGGER.warn("Unsupported Event: VendorExtendedCode");
             }
 

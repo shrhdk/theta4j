@@ -158,14 +158,11 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
     }
 
     @Override
-    public void onVendorExtendedCode(UINT16 eventCode, UINT32 p1, UINT32 p2, UINT32 p3) {
-        Validators.validateNonNull("eventCode", eventCode);
-        Validators.validateNonNull("p1", p1);
-        Validators.validateNonNull("p2", p2);
-        Validators.validateNonNull("p3", p3);
+    public void onVendorExtendedCode(Event event) {
+        Validators.validateNonNull("event", event);
 
         for (PtpEventListener listener : listeners) {
-            listener.onVendorExtendedCode(eventCode, p1, p2, p3);
+            listener.onVendorExtendedCode(event);
         }
     }
 
@@ -217,7 +214,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
         } else if (EventCode.isReservedCode(eventCode)) {
             onError(new RuntimeException("Reserved Event Code: " + eventCode));
         } else if (EventCode.isVendorExtendedCode(eventCode)) {
-            onVendorExtendedCode(eventCode, p1, p2, p3);
+            onVendorExtendedCode(event);
         } else {
             onError(new RuntimeException("Unknown Event Code: " + eventCode));
         }
