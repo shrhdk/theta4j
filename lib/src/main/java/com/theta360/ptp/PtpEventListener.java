@@ -1,5 +1,6 @@
 package com.theta360.ptp;
 
+import com.theta360.ptp.data.Event;
 import com.theta360.ptp.type.UINT16;
 import com.theta360.ptp.type.UINT32;
 
@@ -35,7 +36,7 @@ public interface PtpEventListener {
 
     void onUnreportedStatus();
 
-    void onVendorExtendedCode(UINT16 eventCode, UINT32 p1, UINT32 p2, UINT32 p3);
+    void onVendorExtendedCode(Event event);
 
     void onError(Exception e);
 }
