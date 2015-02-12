@@ -211,6 +211,8 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
             onStoreFull(p1);
         } else if (eventCode.equals(EventCode.DEVICE_RESET.value())) {
             onDeviceReset();
+        } else if (eventCode.equals(EventCode.STORAGE_INFO_CHANGED.value())) {
+            onStorageInfoChanged(p1);
         } else if (eventCode.equals(EventCode.CAPTURE_COMPLETE.value())) {
             onCaptureComplete(p1);
         } else if (eventCode.equals(EventCode.UNREPORTED_STATUS.value())) {
