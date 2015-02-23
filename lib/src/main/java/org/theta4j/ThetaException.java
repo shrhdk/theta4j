@@ -1,41 +1,39 @@
 package org.theta4j;
 
 import org.theta4j.ptp.PtpException;
-import org.theta4j.ptp.code.Code;
 
-public class ThetaException extends Exception implements Code<Long> {
-    private long value;
+public class ThetaException extends Exception {
+    private long code;
 
     // Constructor
 
     ThetaException(PtpException e) {
         super(e.getMessage(), e);
-        value = e.value().longValue();
+        code = e.value().longValue();
     }
 
-    public ThetaException(long value) {
-        this.value = value;
+    public ThetaException(long code) {
+        this.code = code;
     }
 
-    public ThetaException(long value, String message) {
+    public ThetaException(long code, String message) {
         super(message);
-        this.value = value;
+        this.code = code;
     }
 
-    public ThetaException(long value, String message, Throwable cause) {
+    public ThetaException(long code, String message, Throwable cause) {
         super(message, cause);
-        this.value = value;
+        this.code = code;
     }
 
-    public ThetaException(long value, Throwable cause) {
+    public ThetaException(long code, Throwable cause) {
         super(cause);
-        this.value = value;
+        this.code = code;
     }
 
-    // Code
+    // Getter
 
-    @Override
-    public Long value() {
-        return value;
+    public long getCode() {
+        return code;
     }
 }
