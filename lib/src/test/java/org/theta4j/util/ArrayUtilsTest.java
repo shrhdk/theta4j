@@ -1,7 +1,7 @@
 package org.theta4j.util;
 
-import org.theta4j.TestUtils;
 import org.junit.Test;
+import org.theta4j.TestUtils;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

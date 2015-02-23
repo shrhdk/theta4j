@@ -1,6 +1,5 @@
 package org.theta4j;
 
-import org.theta4j.ptp.PtpException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -49,7 +48,7 @@ public class CaptureTest {
     };
 
     @Test
-    public void initiateCapture() throws IOException, PtpException, InterruptedException {
+    public void initiateCapture() throws IOException, ThetaException, InterruptedException {
         try (Theta theta = new Theta()) {
             theta.addListener(listener);
             theta.initiateCapture();

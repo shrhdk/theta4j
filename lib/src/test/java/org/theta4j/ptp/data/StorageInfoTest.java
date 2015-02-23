@@ -1,11 +1,11 @@
 package org.theta4j.ptp.data;
 
+import org.junit.Test;
 import org.theta4j.ptp.type.STR;
 import org.theta4j.ptp.type.UINT16;
 import org.theta4j.ptp.type.UINT32;
 import org.theta4j.ptp.type.UINT64;
 import org.theta4j.util.ArrayUtils;
-import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

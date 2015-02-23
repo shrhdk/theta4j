@@ -1,8 +1,8 @@
 package org.theta4j.ptp.type;
 
+import org.junit.Test;
 import org.theta4j.TestUtils;
 import org.theta4j.util.ArrayUtils;
-import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;

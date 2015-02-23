@@ -1,11 +1,11 @@
 package org.theta4j.ptp;
 
-import org.theta4j.ptp.data.Event;
-import org.theta4j.ptp.type.UINT16;
-import org.theta4j.ptp.type.UINT32;
 import org.junit.Before;
 import org.junit.Test;
 import org.theta4j.ptp.code.EventCode;
+import org.theta4j.ptp.data.Event;
+import org.theta4j.ptp.type.UINT16;
+import org.theta4j.ptp.type.UINT32;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;

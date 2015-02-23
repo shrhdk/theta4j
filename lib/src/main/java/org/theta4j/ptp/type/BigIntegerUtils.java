@@ -1,8 +1,8 @@
 package org.theta4j.ptp.type;
 
+import org.apache.commons.lang3.StringUtils;
 import org.theta4j.util.ArrayUtils;
 import org.theta4j.util.Validators;
-import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigInteger;
 import java.util.Arrays;

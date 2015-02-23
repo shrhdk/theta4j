@@ -1,11 +1,11 @@
 package org.theta4j;
 
-import org.theta4j.ptp.PtpException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.theta4j.ptp.PtpException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,7 +64,7 @@ public class GetObjectTest {
     // Operations
 
     @Test
-    public void getObject() throws IOException, PtpException {
+    public void getObject() throws IOException, ThetaException {
         List<Long> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(new File("raw.jpg"))) {
             theta.getObject(objectHandles.get(2), file);
@@ -72,7 +72,7 @@ public class GetObjectTest {
     }
 
     @Test
-    public void getThumb() throws IOException, PtpException {
+    public void getThumb() throws IOException, ThetaException {
         List<Long> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(new File("thumb.jpg"))) {
             theta.getThumb(objectHandles.get(2), file);
@@ -80,7 +80,7 @@ public class GetObjectTest {
     }
 
     @Test
-    public void getResizedImageObject() throws IOException, PtpException {
+    public void getResizedImageObject() throws IOException, ThetaException {
         List<Long> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(new File("resized.jpg"))) {
             theta.getResizedImageObject(objectHandles.get(2), file);

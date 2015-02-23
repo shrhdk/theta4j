@@ -1,8 +1,8 @@
 package org.theta4j.ptp.data;
 
+import org.junit.Test;
 import org.theta4j.ptp.type.UINT16;
 import org.theta4j.ptp.type.UINT32;
-import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;

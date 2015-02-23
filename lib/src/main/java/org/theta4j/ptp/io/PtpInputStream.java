@@ -1,7 +1,7 @@
 package org.theta4j.ptp.io;
 
-import org.theta4j.util.Validators;
 import org.theta4j.ptp.type.*;
+import org.theta4j.util.Validators;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

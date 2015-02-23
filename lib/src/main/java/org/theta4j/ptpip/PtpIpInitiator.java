@@ -1,5 +1,7 @@
 package org.theta4j.ptpip;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.theta4j.ptp.*;
 import org.theta4j.ptp.code.Code;
 import org.theta4j.ptp.data.Event;
@@ -8,10 +10,8 @@ import org.theta4j.ptp.type.UINT16;
 import org.theta4j.ptp.type.UINT32;
 import org.theta4j.ptpip.io.PtpIpInputStream;
 import org.theta4j.ptpip.io.PtpIpOutputStream;
-import org.theta4j.util.Validators;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.theta4j.ptpip.packet.*;
+import org.theta4j.util.Validators;
 
 import java.io.IOException;
 import java.io.OutputStream;

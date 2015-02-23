@@ -1,5 +1,8 @@
 package org.theta4j.ptpip.io;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.theta4j.ptp.type.UINT32;
 import org.theta4j.ptp.type.UINT64;
 import org.theta4j.ptpip.packet.CancelPacket;
@@ -7,9 +10,6 @@ import org.theta4j.ptpip.packet.EndDataPacket;
 import org.theta4j.ptpip.packet.PtpIpPacket;
 import org.theta4j.ptpip.packet.StartDataPacket;
 import org.theta4j.util.ArrayUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -1,11 +1,11 @@
 package org.theta4j.ptp;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.theta4j.ptp.code.Code;
 import org.theta4j.ptp.code.OperationCode;
 import org.theta4j.ptp.type.UINT16;
 import org.theta4j.ptp.type.UINT32;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.io.IOException;
 

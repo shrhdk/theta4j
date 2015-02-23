@@ -1,7 +1,7 @@
 package org.theta4j.ptpip.packet;
 
-import org.theta4j.TestUtils;
 import org.junit.Test;
+import org.theta4j.TestUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;

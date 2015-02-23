@@ -1,17 +1,17 @@
 package org.theta4j.ptpip.packet;
 
+import org.junit.Test;
 import org.theta4j.ptp.io.PtpInputStream;
 import org.theta4j.ptp.type.UINT32;
-import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
-import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_FAIL;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
+import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
+import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_FAIL;
 
 public class InitFailPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES];

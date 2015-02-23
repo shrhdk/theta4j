@@ -1,9 +1,9 @@
 package org.theta4j.ptpip.packet;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.theta4j.ptp.io.PtpInputStream;
 import org.theta4j.ptp.type.UINT32;
 import org.theta4j.util.Validators;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
 

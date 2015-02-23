@@ -49,7 +49,7 @@ task integrationTest(type: Test) {
     classpath = sourceSets.integrationTest.runtimeClasspath
 }
 
-check.dependsOn -= integrationTest
+test.dependsOn -= integrationTest
 
 task javadocArchive(type: Zip, dependsOn: [clean, javadoc]) {
     mustRunAfter clean

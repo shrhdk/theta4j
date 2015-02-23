@@ -1,11 +1,11 @@
 package org.theta4j.ptp.data;
 
-import org.theta4j.ptp.type.UINT16;
-import org.theta4j.ptp.type.UINT32;
-import org.theta4j.util.Validators;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.theta4j.ptp.type.UINT16;
+import org.theta4j.ptp.type.UINT32;
+import org.theta4j.util.Validators;
 
 public class Event {
     private final UINT16 eventCode;

@@ -1,7 +1,7 @@
 package org.theta4j.ptp.code;
 
-import org.theta4j.ptp.type.UINT16;
 import org.junit.Test;
+import org.theta4j.ptp.type.UINT16;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

@@ -1,10 +1,10 @@
 package org.theta4j.ptp.io;
 
-import org.theta4j.ptp.type.*;
-import org.theta4j.util.ArrayUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.theta4j.ptp.type.*;
+import org.theta4j.util.ArrayUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

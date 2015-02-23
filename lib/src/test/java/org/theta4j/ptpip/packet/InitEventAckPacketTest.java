@@ -1,16 +1,16 @@
 package org.theta4j.ptpip.packet;
 
-import org.theta4j.ptp.io.PtpInputStream;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
+import org.theta4j.ptp.io.PtpInputStream;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_ACK;
-import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
+import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_ACK;
+import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 
 public class InitEventAckPacketTest {
     // Constructor

@@ -1,8 +1,8 @@
 package org.theta4j.data;
 
+import org.junit.Test;
 import org.theta4j.ptp.type.UINT32;
 import org.theta4j.util.ArrayUtils;
-import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

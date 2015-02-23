@@ -1,21 +1,21 @@
 package org.theta4j.ptpip.packet;
 
+import org.junit.Test;
 import org.theta4j.ptp.io.PtpInputStream;
 import org.theta4j.ptp.type.STR;
 import org.theta4j.ptp.type.UINT32;
 import org.theta4j.util.ArrayUtils;
-import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.UUID;
 
-import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_ACK;
-import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
+import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_ACK;
+import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_COMMAND_REQUEST;
 
 public class InitCommandAckPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES + GUID.SIZE_IN_BYTES + STR.MIN_SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES];

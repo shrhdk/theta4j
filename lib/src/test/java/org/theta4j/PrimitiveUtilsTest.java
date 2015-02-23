@@ -1,7 +1,7 @@
 package org.theta4j;
 
-import org.theta4j.ptp.type.UINT32;
 import org.junit.Test;
+import org.theta4j.ptp.type.UINT32;
 
 import java.util.ArrayList;
 import java.util.List;

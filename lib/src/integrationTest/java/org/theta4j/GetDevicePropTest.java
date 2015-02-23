@@ -1,6 +1,5 @@
 package org.theta4j;
 
-import org.theta4j.ptp.PtpException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -47,13 +46,13 @@ public class GetDevicePropTest {
     private static Theta theta;
 
     @BeforeClass
-    public static void connect() throws IOException, PtpException {
+    public static void connect() throws IOException {
         theta = new Theta();
         theta.addListener(listener);
     }
 
     @AfterClass
-    public static void close() throws IOException, InterruptedException, PtpException {
+    public static void close() throws IOException, InterruptedException {
         theta.close();
         Thread.sleep(TestParameters.INTERVAL_MS);
     }
@@ -61,92 +60,92 @@ public class GetDevicePropTest {
     // Test
 
     @Test
-    public void getBatteryLevel() throws IOException, PtpException {
+    public void getBatteryLevel() throws IOException, ThetaException {
         LOGGER.info("Battery Level: " + theta.getBatteryLevel());
     }
 
     @Test
-    public void getWhiteBalance() throws IOException, PtpException {
+    public void getWhiteBalance() throws IOException, ThetaException {
         LOGGER.info("White Balance: " + theta.getWhiteBalance());
     }
 
     @Test
-    public void getExposureIndex() throws IOException, PtpException {
+    public void getExposureIndex() throws IOException, ThetaException {
         LOGGER.info("Exposure Index: " + theta.getExposureIndex());
     }
 
     @Test
-    public void getExposureBiasCompensation() throws IOException, PtpException {
+    public void getExposureBiasCompensation() throws IOException, ThetaException {
         LOGGER.info("Exposure Bias Compensation: " + theta.getExposureIndex());
     }
 
     @Test
-    public void getDateTime() throws IOException, PtpException {
+    public void getDateTime() throws IOException, ThetaException {
         LOGGER.info("DateTime: " + theta.getDateTime());
     }
 
     @Test
-    public void getStillCaptureMode() throws IOException, PtpException {
+    public void getStillCaptureMode() throws IOException, ThetaException {
         LOGGER.info("Still Capture Mode: " + theta.getStillCaptureMode());
     }
 
     @Test
-    public void getTimelapseNumber() throws IOException, PtpException {
+    public void getTimelapseNumber() throws IOException, ThetaException {
         LOGGER.info("Timelapse Number: " + theta.getTimelapseNumber());
     }
 
     @Test
-    public void getTimelapseInterval() throws IOException, PtpException {
+    public void getTimelapseInterval() throws IOException, ThetaException {
         LOGGER.info("Timelapse Interval: " + theta.getTimelapseInterval());
     }
 
     @Test
-    public void getAudioVolume() throws IOException, PtpException {
+    public void getAudioVolume() throws IOException, ThetaException {
         LOGGER.info("Audio Volume: " + theta.getAudioVolume());
     }
 
     @Test
-    public void getErrorInfo() throws IOException, PtpException {
+    public void getErrorInfo() throws IOException, ThetaException {
         LOGGER.info("Error Info: " + theta.getErrorInfo());
     }
 
     @Test
-    public void getShutterSpeed() throws IOException, PtpException {
+    public void getShutterSpeed() throws IOException, ThetaException {
         LOGGER.info("Shutter Speed: " + theta.getShutterSpeed());
     }
 
     @Test
-    public void getGPSInfo() throws IOException, PtpException {
+    public void getGPSInfo() throws IOException, ThetaException {
         LOGGER.info("GPS Info: " + theta.getGPSInfo());
     }
 
     @Test
-    public void getAutoPowerOffDelay() throws IOException, PtpException {
+    public void getAutoPowerOffDelay() throws IOException, ThetaException {
         LOGGER.info("Auto Power Delay: " + theta.getAutoPowerOffDelay());
     }
 
     @Test
-    public void getSleepDelay() throws IOException, PtpException {
+    public void getSleepDelay() throws IOException, ThetaException {
         LOGGER.info("Sleep Delay: " + theta.getSleepDelay());
     }
 
     @Test
-    public void getChannelNumber() throws IOException, PtpException {
+    public void getChannelNumber() throws IOException, ThetaException {
         LOGGER.info("Channel Number: " + theta.getChannelNumber());
     }
 
     @Test
-    public void getCaptureStatus() throws IOException, PtpException {
+    public void getCaptureStatus() throws IOException, ThetaException {
         LOGGER.info("Capture Status: " + theta.getCaptureStatus());
     }
 
     @Test
-    public void getRecordingTime() throws IOException, PtpException {
+    public void getRecordingTime() throws IOException, ThetaException {
         LOGGER.info("Recording Time: " + theta.getRecordingTime());
     }
 
     @Test
-    public void getRemainingRecordingTime() throws IOException, PtpException {
+    public void getRemainingRecordingTime() throws IOException, ThetaException {
         LOGGER.info("Remaining Recording Time: " + theta.getRemainingRecordingTime());
     }
 }

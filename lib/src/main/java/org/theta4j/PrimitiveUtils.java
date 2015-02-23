@@ -18,7 +18,7 @@ class PrimitiveUtils {
         for (UINT32 uint32 : src) {
             dst.add(uint32.longValue());
         }
-        
+
         return dst;
     }
 }

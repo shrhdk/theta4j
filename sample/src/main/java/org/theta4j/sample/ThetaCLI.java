@@ -1,11 +1,11 @@
 package org.theta4j.sample;
 
-import org.theta4j.ptp.PtpException;
-import org.theta4j.Theta;
-import org.theta4j.ThetaEventListener;
 import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.theta4j.Theta;
+import org.theta4j.ThetaEventListener;
+import org.theta4j.ThetaException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -74,7 +74,7 @@ public final class ThetaCLI {
         return parser.parse(options, args);
     }
 
-    public static void main(String[] args) throws IOException, PtpException, ParseException, InterruptedException {
+    public static void main(String[] args) throws IOException, ThetaException, ParseException, InterruptedException {
         CommandLine cmd = parseArgs(args);
 
         try (Theta theta = new Theta()) {

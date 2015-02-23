@@ -1,12 +1,12 @@
 package org.theta4j;
 
-import org.theta4j.ptp.PtpException;
-import org.theta4j.ptp.data.ObjectInfo;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.theta4j.ptp.PtpException;
+import org.theta4j.ptp.data.ObjectInfo;
 
 import java.io.IOException;
 import java.util.List;
@@ -63,17 +63,17 @@ public class ThetaTest {
     // Operations
 
     @Test
-    public void getDeviceInfo() throws IOException, PtpException {
+    public void getDeviceInfo() throws IOException, ThetaException {
         LOGGER.info("Device Info" + theta.getDeviceInfo());
     }
 
     @Test
-    public void getObjectHandles() throws IOException, PtpException {
+    public void getObjectHandles() throws IOException, ThetaException {
         LOGGER.info("Object Handles: " + theta.getObjectHandles());
     }
 
     @Test
-    public void getObjectInfo() throws IOException, PtpException {
+    public void getObjectInfo() throws IOException, ThetaException {
         List<Long> objectHandles = theta.getObjectHandles();
         ObjectInfo objectInfo = theta.getObjectInfo(objectHandles.get(0));
         LOGGER.info("Object Info: " + objectInfo);

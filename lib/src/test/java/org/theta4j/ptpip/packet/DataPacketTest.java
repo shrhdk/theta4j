@@ -1,19 +1,19 @@
 package org.theta4j.ptpip.packet;
 
+import org.junit.Test;
 import org.theta4j.ptp.io.PtpInputStream;
 import org.theta4j.ptp.type.UINT32;
 import org.theta4j.util.ArrayUtils;
-import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 
-import static org.theta4j.ptpip.packet.PtpIpPacket.Type.DATA;
-import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
+import static org.theta4j.ptpip.packet.PtpIpPacket.Type.DATA;
+import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 
 public class DataPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES];
