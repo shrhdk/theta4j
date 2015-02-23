@@ -1,7 +1,6 @@
-package org.theta4j.code;
+package org.theta4j;
 
 import org.junit.Test;
-import org.theta4j.DevicePropCode;
 import org.theta4j.ptp.type.UINT16;
 
 import static org.hamcrest.core.Is.is;
