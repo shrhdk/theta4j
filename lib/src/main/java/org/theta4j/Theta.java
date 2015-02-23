@@ -2,8 +2,6 @@ package org.theta4j;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.theta4j.code.DevicePropCode;
-import org.theta4j.code.OperationCode;
 import org.theta4j.data.*;
 import org.theta4j.ptp.PtpEventListener;
 import org.theta4j.ptp.PtpException;

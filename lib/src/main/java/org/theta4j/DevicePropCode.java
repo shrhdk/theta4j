@@ -1,9 +1,9 @@
-package org.theta4j.code;
+package org.theta4j;
 
 import org.theta4j.ptp.code.Code;
 import org.theta4j.ptp.type.UINT16;
 
-public enum DevicePropCode implements Code<UINT16> {
+enum DevicePropCode implements Code<UINT16> {
     BATTERY_LEVEL(0x5001),
     WHITE_BALANCE(0x5005),
     EXPOSURE_INDEX(0x500F),
