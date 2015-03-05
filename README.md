@@ -1,5 +1,7 @@
 # theta4j
 
+[![Join the chat at https://gitter.im/shrhdk/theta4j](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/shrhdk/theta4j?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/shrhdk/theta4j.svg?branch=master)](https://travis-ci.org/shrhdk/theta4j) [![Coverage](https://img.shields.io/sonar/http/shiro.be:9000/theta4j:lib/coverage.svg?style=flat)](http://shiro.be:9000/dashboard/index/theta4j:lib)
 
 RICOH THETA SDK for Java. (Unofficial)
