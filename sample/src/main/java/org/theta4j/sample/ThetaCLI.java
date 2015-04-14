@@ -20,6 +20,7 @@ public final class ThetaCLI {
     private static final CountDownLatch waitObjectAdded = new CountDownLatch(1);
 
     private ThetaCLI() {
+        throw new AssertionError();
     }
 
     private static ThetaEventListener listener = new ThetaEventListener() {
