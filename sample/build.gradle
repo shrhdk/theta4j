@@ -3,22 +3,21 @@ apply plugin: 'findbugs'
 
 dependencies {
     compile project(':lib')
-    compile 'commons-cli:commons-cli:1.2'
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.9'
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.2'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-archivesBaseName = 'sample'
+archivesBaseName = 'theta-capture'
 version = rootProject.version
 
 jar {
     mustRunAfter clean
 
     manifest {
-        attributes 'Implementation-Title': 'Sample Application for RICOH THETA SDK'
+        attributes 'Implementation-Title': 'Image Capturer for RICOH THETA'
         attributes 'Implementation-Version': version
-        attributes "Main-Class": "org.theta4j.sample.ThetaCLI"
+        attributes "Main-Class": "org.theta4j.sample.ThetaCapturer"
     }
 
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
