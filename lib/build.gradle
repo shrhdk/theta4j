@@ -36,8 +36,8 @@ jar {
 sonarRunner {
     sonarProperties {
         property "sonar.projectName", archivesBaseName
-        property "sonar.host.url", "http://shiro.be:9000"
-        property "sonar.jdbc.url", "jdbc:mysql://shiro.be:3306/sonar"
+        property "sonar.host.url", "http://sonar.shiro.be"
+        property "sonar.jdbc.url", "jdbc:mysql://sonar.shiro.be:3306/sonar"
         property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
         property "sonar.jdbc.username", java.lang.System.getenv()['SONAR_DB_USER']
         property "sonar.jdbc.password", java.lang.System.getenv()['SONAR_DB_PASSWORD']

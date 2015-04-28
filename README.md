@@ -4,8 +4,8 @@
 
 [travis-url]:https://travis-ci.org/shrhdk/theta4j
 [travis-image]:https://travis-ci.org/shrhdk/theta4j.svg?branch=master
-[sonar-url]:http://shiro.be:9000/dashboard/index/theta4j:lib
-[sonar-image]:https://img.shields.io/sonar/http/shiro.be:9000/theta4j:lib/coverage.svg?style=flat
+[sonar-url]:http://sonar.shiro.be/dashboard/index/theta4j:lib
+[sonar-image]:https://img.shields.io/sonar/http/sonar.shiro.be/theta4j:lib/coverage.svg?style=flat
 [gitter-url]:https://gitter.im/shrhdk/theta4j?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [gitter-image]:https://badges.gitter.im/Join%20Chat.svg
 
