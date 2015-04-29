@@ -24,13 +24,13 @@ theta4j aims the followings compared with the official SDK.
 ## Getting Started
 
 1. Include the `theta4j-x.x.x.jar` to your project.
-1. See the documents or the [sample](https://github.com/shrhdk/theta4j/blob/master/sample/src/main/java/org/theta4j/sample/ThetaCapturer.java).
+1. See the documents or the [sample](sample/src/main/java/org/theta4j/sample/ThetaCapturer.java).
 
 ## Documents
 
 - [Tutorial](doc/tutorial.md)
 - [Javadoc](https://github.com/shrhdk/theta4j/releases)
-- [Contribution Guide](doc/contribute.md)
+- [Contribution Guide](doc/contribution.md)
 
 ## License
 
