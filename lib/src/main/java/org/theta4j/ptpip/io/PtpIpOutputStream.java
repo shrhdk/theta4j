@@ -37,7 +37,7 @@ public final class PtpIpOutputStream implements Closeable {
     }
 
     /**
-     * Write data to the stream as content of DataPhase (StartData -> [Data] -> EndData)
+     * Write data to the stream as content of DataPhase (StartData -&gt; [Data] -&gt; EndData)
      *
      * @param transactionID
      * @param data

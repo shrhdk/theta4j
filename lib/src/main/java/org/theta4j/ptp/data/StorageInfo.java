@@ -14,7 +14,7 @@ import java.io.InputStream;
 
 /**
  * StorageInfo data set
- * <p/>
+ *
  * The StorageInfo data set defined in PTP
  */
 public class StorageInfo {

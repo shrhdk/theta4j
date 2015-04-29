@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  * ObjectInfo data set
- * <p/>
+ *
  * The ObjectInfo data set defined in PTP
  */
 public class ObjectInfo {

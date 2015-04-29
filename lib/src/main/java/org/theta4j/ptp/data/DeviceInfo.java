@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * DeviceInfo data set
- * <p/>
+ *
  * The DeviceInfo data set defined in PTP
  */
 public final class DeviceInfo {

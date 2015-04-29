@@ -319,7 +319,7 @@ public final class Theta implements Closeable {
 
     /**
      * Starts the video recording or the interval shooting.
-     * <p/>
+     *
      * After starts, it can exit by the #terminateOpenCapture(long)
      *
      * @throws IOException
@@ -402,7 +402,7 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the white balance.
-     * <p/>
+     *
      * Returns to the default value when the power is turned off.
      *
      * @throws IOException
@@ -434,9 +434,9 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the ISO sensitivity.
-     * <p/>
+     *
      * Returns to the default value when the power is turned off.
-     * <p/>
+     *
      * ISO sensitivity can be changed when ShutterSpeed is AUTO.
      *
      * @param isoSpeed An ISO speed
@@ -469,7 +469,7 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the exposure bias compensation value.
-     * <p/>
+     *
      * Returns to the default value when the power is turned off.
      *
      * @param exposureBiasCompensation An exposure bias compensation value to set.
@@ -543,7 +543,7 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the still image shooting method.
-     * <p/>
+     *
      * Returns to the default value when the power is turned off or when #initiateOpenCapture() ends.
      *
      * @param stillCaptureMode A still capture mode to set.
@@ -576,9 +576,9 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the upper limit value for interval shooting.
-     * <p/>
+     *
      * Returns to the default value when the power is turned off.
-     * <p/>
+     *
      * This property cannot be set when the StillCaptureMode is interval shooting mode.
      * So, this property has to be set before switching the StillCaptureMode to interval shooting mode.
      *
@@ -617,9 +617,9 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the shooting interval in msec for interval shooting.
-     * <p/>
+     *
      * Returns to the default value when the power is turned off.
-     * <p/>
+     *
      * This property cannot be set when the StillCaptureMode is interval shooting mode.
      * So, this property has to be set before switching the StillCaptureMode to interval shooting mode.
      *
@@ -658,7 +658,7 @@ public final class Theta implements Closeable {
 
     /**
      * Set the volume for the shutter sound.
-     * <p/>
+     *
      * Returns to the default value when the power is turned off. // TODO: Confirm the actual behavior.
      *
      * @param audioVolume The volume for the shutter sound. The valid range is in 0-100.
@@ -712,7 +712,7 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the shutter speed.
-     * <p/>
+     *
      * Returns to the default value when the power is turned off.
      *
      * @param shutterSpeed The shutter speed to set.
@@ -749,7 +749,7 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the GPS information.
-     * <p/>
+     *
      * Returns to the default value when the power is turned off.
      *
      * @param gpsInfo The GPS information to set.
@@ -851,7 +851,7 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the wireless LAN channel number.
-     * <p/>
+     *
      * This operation effects after wireless LAN OFF/ON.
      *
      * @param channelNumber The wireless LAN channel number to set.

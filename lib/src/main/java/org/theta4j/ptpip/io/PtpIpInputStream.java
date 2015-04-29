@@ -222,7 +222,7 @@ public final class PtpIpInputStream implements Closeable {
     // Read Data
 
     /**
-     * Process Data Phase (StartData -> [Data] -> EndData) and returns all data as byte array.
+     * Process Data Phase (StartData -&gt; [Data] -&gt; EndData) and returns all data as byte array.
      *
      * @throws IOException
      */
@@ -233,7 +233,7 @@ public final class PtpIpInputStream implements Closeable {
     }
 
     /**
-     * Process Data Phase (StartData -> [Data] -> EndData) and writes all data to dst.
+     * Process Data Phase (StartData -&gt; [Data] -&gt; EndData) and writes all data to dst.
      *
      * @param dst
      * @throws RuntimeException if it is not Data Phase.
