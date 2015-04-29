@@ -45,6 +45,7 @@ sonarRunner {
 }
 
 task integrationTest(type: Test) {
+    description 'Execute tests with real device. A Wi-Fi connection to real THETA must be established before execution.'
     testClassesDir = sourceSets.integrationTest.output.classesDir
     classpath = sourceSets.integrationTest.runtimeClasspath
 }
@@ -59,6 +60,8 @@ task javadocArchive(type: Zip, dependsOn: [clean, javadoc]) {
 }
 
 task distribute(type: Copy, dependsOn: [clean, jar, javadocArchive]) {
+    description "Build JAR and Javadoc and copy to $distsDir."
+
     mustRunAfter clean
 
     from libsDir

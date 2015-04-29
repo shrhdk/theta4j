@@ -9,7 +9,7 @@
 [gitter-url]:https://gitter.im/shrhdk/theta4j?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [gitter-image]:https://badges.gitter.im/Join%20Chat.svg
 
-RICOH THETA SDK for Java. (Unofficial)
+RICOH THETA SDK for Java.
 
 theta4j aims the followings compared with the official SDK.
 
@@ -30,6 +30,7 @@ theta4j aims the followings compared with the official SDK.
 
 - [Tutorial](doc/tutorial.md)
 - [Javadoc](https://github.com/shrhdk/theta4j/releases)
+- [Contribution Guide](doc/contribute.md)
 
 ## License
 
