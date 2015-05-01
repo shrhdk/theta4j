@@ -2,6 +2,8 @@ package org.theta4j.ptpip.packet;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
 import org.theta4j.ptp.io.PtpInputStream;
 
 import java.io.ByteArrayInputStream;
@@ -12,136 +14,135 @@ import static org.junit.Assert.*;
 import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 import static org.theta4j.ptpip.packet.PtpIpPacket.Type.PROBE_RESPONSE;
 
+@RunWith(Enclosed.class)
 public class ProbeResponsePacketTest {
-    // Constructor
+    public static class Construct {
+        @Test
+        public void andGet() {
+            // act
+            ProbeResponsePacket packet = new ProbeResponsePacket();
 
-    @Test
-    public void constructAndGet() {
-        // act
-        ProbeResponsePacket packet = new ProbeResponsePacket();
-
-        // verify
-        assertThat(packet.getType(), is(PROBE_RESPONSE));
-        assertThat(packet.getPayload(), is(new byte[0]));
+            // verify
+            assertThat(packet.getType(), is(PROBE_RESPONSE));
+            assertThat(packet.getPayload(), is(new byte[0]));
+        }
     }
 
-    // read with error
+    public static class Read {
+        @Test(expected = NullPointerException.class)
+        public void nullValue() throws IOException {
+            // act
+            ProbeResponsePacket.read(null);
+        }
 
-    @Test(expected = NullPointerException.class)
-    public void readNull() throws IOException {
-        // act
-        ProbeResponsePacket.read(null);
+        @Test(expected = IOException.class)
+        public void invalidType() throws IOException {
+            // given
+            PtpIpPacket.Type invalidType = INIT_EVENT_REQUEST;
+
+            // arrange
+            byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(invalidType, ArrayUtils.EMPTY_BYTE_ARRAY);
+            PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
+
+            // act
+            ProbeResponsePacket.read(givenInputStream);
+        }
+
+        @Test(expected = IOException.class)
+        public void invalidLengthPayload() throws IOException {
+            // given
+            byte[] givenPayload = new byte[1]; // expected length + 1
+
+            // arrange
+            byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(PROBE_RESPONSE, givenPayload);
+            PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
+
+            // act
+            ProbeResponsePacket.read(givenInputStream);
+        }
+
+        @Test
+        public void normal() throws IOException {
+            // given
+            byte[] givenPayload = new byte[0];
+
+            // arrange
+            byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(PROBE_RESPONSE, givenPayload);
+            PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
+
+            // act
+            ProbeResponsePacket actual = ProbeResponsePacket.read(givenInputStream);
+
+            // verify
+            assertThat(actual.getType(), is(PROBE_RESPONSE));
+            assertThat(actual.getPayload(), is(new byte[0]));
+        }
     }
 
-    @Test(expected = IOException.class)
-    public void readInvalidType() throws IOException {
-        // given
-        PtpIpPacket.Type invalidType = INIT_EVENT_REQUEST;
+    public static class HashCode {
+        @Test
+        public void ofSameValues() {
+            // given
+            ProbeResponsePacket packet1 = new ProbeResponsePacket();
+            ProbeResponsePacket packet2 = new ProbeResponsePacket();
 
-        // arrange
-        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(invalidType, ArrayUtils.EMPTY_BYTE_ARRAY);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
-
-        // act
-        ProbeResponsePacket.read(givenInputStream);
+            // verify
+            assertThat(packet1.hashCode(), is(packet2.hashCode()));
+        }
     }
 
-    @Test(expected = IOException.class)
-    public void readInvalidLengthPayload() throws IOException {
-        // given
-        byte[] givenPayload = new byte[1]; // expected length + 1
+    public static class NotEquals {
+        @Test
+        public void withNull() {
+            // given
+            ProbeResponsePacket packet = new ProbeResponsePacket();
 
-        // arrange
-        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(PROBE_RESPONSE, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
+            // verify
+            assertFalse(packet.equals(null));
+        }
 
-        // act
-        ProbeResponsePacket.read(givenInputStream);
+        @Test
+        public void withDifferentClass() {
+            // given
+            ProbeResponsePacket packet = new ProbeResponsePacket();
+
+            // verify
+            assertFalse(packet.equals("foo"));
+        }
     }
 
-    // read
+    public static class Equals {
+        @Test
+        public void withSameInstances() {
+            // given
+            ProbeResponsePacket packet = new ProbeResponsePacket();
 
-    @Test
-    public void read() throws IOException {
-        // given
-        byte[] givenPayload = new byte[0];
+            // verify
+            assertTrue(packet.equals(packet));
+        }
 
-        // arrange
-        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(PROBE_RESPONSE, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
+        @Test
+        public void withSameValues() {
+            // given
+            ProbeResponsePacket packet1 = new ProbeResponsePacket();
+            ProbeResponsePacket packet2 = new ProbeResponsePacket();
 
-        // act
-        ProbeResponsePacket actual = ProbeResponsePacket.read(givenInputStream);
-
-        // verify
-        assertThat(actual.getType(), is(PROBE_RESPONSE));
-        assertThat(actual.getPayload(), is(new byte[0]));
+            // verify
+            assertTrue(packet1.equals(packet2));
+        }
     }
 
-    // hashCode
+    public static class ToString {
+        @Test
+        public void normal() {
+            // given
+            ProbeResponsePacket packet = new ProbeResponsePacket();
 
-    @Test
-    public void testHashCode() {
-        // given
-        ProbeResponsePacket packet1 = new ProbeResponsePacket();
-        ProbeResponsePacket packet2 = new ProbeResponsePacket();
+            // act
+            String actual = packet.toString();
 
-        // verify
-        assertThat(packet1.hashCode(), is(packet2.hashCode()));
-    }
-
-    // not equals
-
-    @Test
-    public void notEqualsWithNull() {
-        // given
-        ProbeResponsePacket packet = new ProbeResponsePacket();
-
-        // verify
-        assertFalse(packet.equals(null));
-    }
-
-    @Test
-    public void notEqualsWithDifferentClass() {
-        // given
-        ProbeResponsePacket packet = new ProbeResponsePacket();
-
-        // verify
-        assertFalse(packet.equals("foo"));
-    }
-
-    // equals
-
-    @Test
-    public void equalsWithSameInstance() {
-        // given
-        ProbeResponsePacket packet = new ProbeResponsePacket();
-
-        // verify
-        assertTrue(packet.equals(packet));
-    }
-
-    @Test
-    public void equals() {
-        // given
-        ProbeResponsePacket packet1 = new ProbeResponsePacket();
-        ProbeResponsePacket packet2 = new ProbeResponsePacket();
-
-        // verify
-        assertTrue(packet1.equals(packet2));
-    }
-
-    // toString
-
-    @Test
-    public void testToString() {
-        // given
-        ProbeResponsePacket packet = new ProbeResponsePacket();
-
-        // act
-        String actual = packet.toString();
-
-        // verify
-        assertTrue(actual.contains(packet.getClass().getSimpleName()));
+            // verify
+            assertTrue(actual.contains(packet.getClass().getSimpleName()));
+        }
     }
 }

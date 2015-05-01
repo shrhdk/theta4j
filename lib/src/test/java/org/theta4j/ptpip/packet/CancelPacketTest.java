@@ -1,6 +1,8 @@
 package org.theta4j.ptpip.packet;
 
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
 import org.theta4j.ptp.io.PtpInputStream;
 import org.theta4j.ptp.type.UINT32;
 
@@ -13,173 +15,170 @@ import static org.junit.Assert.*;
 import static org.theta4j.ptpip.packet.PtpIpPacket.Type.CANCEL;
 import static org.theta4j.ptpip.packet.PtpIpPacket.Type.INIT_EVENT_REQUEST;
 
+@RunWith(Enclosed.class)
 public class CancelPacketTest {
     private static final byte[] PAYLOAD = new byte[UINT32.SIZE_IN_BYTES];
     private static final UINT32 TRANSACTION_ID = new UINT32(0);
 
-    // Constructor with error
+    public static class Construct {
+        @Test(expected = NullPointerException.class)
+        public void withNullTransactionID() {
+            // act
+            new CancelPacket(null);
+        }
 
-    @Test(expected = NullPointerException.class)
-    public void withNullTransactionID() {
-        // act
-        new CancelPacket(null);
+        @Test
+        public void andGet() {
+            // expected
+            byte[] expectedPayload = TRANSACTION_ID.bytes();
+
+            // act
+            CancelPacket packet = new CancelPacket(TRANSACTION_ID);
+
+            // verify
+            assertThat(packet.getType(), is(CANCEL));
+            assertThat(packet.getTransactionID(), is(TRANSACTION_ID));
+            assertThat(packet.getPayload(), is(expectedPayload));
+        }
     }
 
-    // Constructor
+    public static class Read {
+        @Test(expected = NullPointerException.class)
+        public void nullValue() throws IOException {
+            // act
+            CancelPacket.read(null);
+        }
 
-    @Test
-    public void constructAndGet() {
-        // expected
-        byte[] expectedPayload = TRANSACTION_ID.bytes();
+        @Test(expected = IOException.class)
+        public void invalidType() throws IOException {
+            // given
+            PtpIpPacket.Type invalidType = INIT_EVENT_REQUEST;
 
-        // act
-        CancelPacket packet = new CancelPacket(TRANSACTION_ID);
+            // arrange
+            byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(invalidType, PAYLOAD);
+            PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
 
-        // verify
-        assertThat(packet.getType(), is(CANCEL));
-        assertThat(packet.getTransactionID(), is(TRANSACTION_ID));
-        assertThat(packet.getPayload(), is(expectedPayload));
+            // act
+            CancelPacket.read(givenInputStream);
+        }
+
+        @Test(expected = IOException.class)
+        public void invalidLengthPayload() throws IOException {
+            // given
+            byte[] givenPayload = new byte[PAYLOAD.length - 1];  // expected length - 1
+
+            // arrange
+            byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(CANCEL, givenPayload);
+            PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
+
+            // act
+            CancelPacket.read(givenInputStream);
+        }
+
+        @Test
+        public void normal() throws IOException {
+            // given
+            byte[] givenPayload = TRANSACTION_ID.bytes();
+
+            // arrange
+            byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(CANCEL, givenPayload);
+            PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
+
+            // act
+            CancelPacket actual = CancelPacket.read(givenInputStream);
+
+            // verify
+            assertThat(actual.getType(), is(CANCEL));
+            assertThat(actual.getTransactionID(), is(TRANSACTION_ID));
+            assertThat(actual.getPayload(), is(givenPayload));
+        }
     }
 
-    // read with error
+    public static class HashCode {
+        @Test
+        public void ofDifferentTransactionID() {
+            // given
+            CancelPacket packet1 = new CancelPacket(new UINT32(0));
+            CancelPacket packet2 = new CancelPacket(new UINT32(1));
 
-    @Test(expected = NullPointerException.class)
-    public void readNull() throws IOException {
-        // act
-        CancelPacket.read(null);
+            // verify
+            assertThat(packet1.hashCode(), not(packet2.hashCode()));
+        }
+
+        @Test
+        public void ofSameValues() {
+            // given
+            CancelPacket packet1 = new CancelPacket(TRANSACTION_ID);
+            CancelPacket packet2 = new CancelPacket(TRANSACTION_ID);
+
+            // verify
+            assertThat(packet1.hashCode(), is(packet2.hashCode()));
+        }
     }
 
-    @Test(expected = IOException.class)
-    public void readInvalidType() throws IOException {
-        // given
-        PtpIpPacket.Type invalidType = INIT_EVENT_REQUEST;
+    public static class NotEquals {
+        @Test
+        public void withNull() {
+            // given
+            CancelPacket packet = new CancelPacket(new UINT32(0));
 
-        // arrange
-        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(invalidType, PAYLOAD);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
+            // verify
+            assertFalse(packet.equals(null));
+        }
 
-        // act
-        CancelPacket.read(givenInputStream);
+        @Test
+        public void withDifferentClass() {
+            // given
+            CancelPacket packet = new CancelPacket(TRANSACTION_ID);
+
+            // verify
+            assertFalse(packet.equals("foo"));
+        }
+
+        @Test
+        public void withTransactionID() {
+            // given
+            CancelPacket packet1 = new CancelPacket(new UINT32(0));
+            CancelPacket packet2 = new CancelPacket(new UINT32(1));
+
+            // verify
+            assertFalse(packet1.equals(packet2));
+        }
     }
 
-    @Test(expected = IOException.class)
-    public void readInvalidLengthPayload() throws IOException {
-        // given
-        byte[] givenPayload = new byte[PAYLOAD.length - 1];  // expected length - 1
+    public static class Equals {
+        @Test
+        public void withSameInstances() {
+            // given
+            CancelPacket packet = new CancelPacket(TRANSACTION_ID);
 
-        // arrange
-        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(CANCEL, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
+            // verify
+            assertTrue(packet.equals(packet));
+        }
 
-        // act
-        CancelPacket.read(givenInputStream);
+        @Test
+        public void withSameValues() {
+            // given
+            CancelPacket packet1 = new CancelPacket(TRANSACTION_ID);
+            CancelPacket packet2 = new CancelPacket(TRANSACTION_ID);
+
+            // verify
+            assertTrue(packet1.equals(packet2));
+        }
     }
 
-    // read
+    public static class ToString {
+        @Test
+        public void normal() {
+            // given
+            CancelPacket packet = new CancelPacket(TRANSACTION_ID);
 
-    @Test
-    public void read() throws IOException {
-        // given
-        byte[] givenPayload = TRANSACTION_ID.bytes();
+            // act
+            String actual = packet.toString();
 
-        // arrange
-        byte[] givenPacketBytes = PtpIpPacketTestUtils.bytes(CANCEL, givenPayload);
-        PtpInputStream givenInputStream = new PtpInputStream(new ByteArrayInputStream(givenPacketBytes));
-
-        // act
-        CancelPacket actual = CancelPacket.read(givenInputStream);
-
-        // verify
-        assertThat(actual.getType(), is(CANCEL));
-        assertThat(actual.getTransactionID(), is(TRANSACTION_ID));
-        assertThat(actual.getPayload(), is(givenPayload));
-    }
-
-    // hashCode
-
-    @Test
-    public void hashCodeOfDifferentTransactionID() {
-        // given
-        CancelPacket packet1 = new CancelPacket(new UINT32(0));
-        CancelPacket packet2 = new CancelPacket(new UINT32(1));
-
-        // verify
-        assertThat(packet1.hashCode(), not(packet2.hashCode()));
-    }
-
-    @Test
-    public void testHashCode() {
-        // given
-        CancelPacket packet1 = new CancelPacket(TRANSACTION_ID);
-        CancelPacket packet2 = new CancelPacket(TRANSACTION_ID);
-
-        // verify
-        assertThat(packet1.hashCode(), is(packet2.hashCode()));
-    }
-
-    // not equals
-
-    @Test
-    public void notEqualsWithNull() {
-        // given
-        CancelPacket packet = new CancelPacket(new UINT32(0));
-
-        // verify
-        assertFalse(packet.equals(null));
-    }
-
-    @Test
-    public void notEqualsWithDifferentClass() {
-        // given
-        CancelPacket packet = new CancelPacket(TRANSACTION_ID);
-
-        // verify
-        assertFalse(packet.equals("foo"));
-    }
-
-    @Test
-    public void notEqualsWithTransactionID() {
-        // given
-        CancelPacket packet1 = new CancelPacket(new UINT32(0));
-        CancelPacket packet2 = new CancelPacket(new UINT32(1));
-
-        // verify
-        assertFalse(packet1.equals(packet2));
-    }
-
-    // equals
-
-    @Test
-    public void equalsWithSameInstance() {
-        // given
-        CancelPacket packet = new CancelPacket(TRANSACTION_ID);
-
-        // verify
-        assertTrue(packet.equals(packet));
-    }
-
-    @Test
-    public void equals() {
-        // given
-        CancelPacket packet1 = new CancelPacket(TRANSACTION_ID);
-        CancelPacket packet2 = new CancelPacket(TRANSACTION_ID);
-
-        // verify
-        assertTrue(packet1.equals(packet2));
-    }
-
-    // toString
-
-    @Test
-    public void testToString() {
-        // given
-        CancelPacket packet = new CancelPacket(TRANSACTION_ID);
-
-        // act
-        String actual = packet.toString();
-
-        // verify
-        assertTrue(actual.contains(packet.getClass().getSimpleName()));
-        assertTrue(actual.contains("transactionID"));
+            // verify
+            assertTrue(actual.contains(packet.getClass().getSimpleName()));
+            assertTrue(actual.contains("transactionID"));
+        }
     }
 }
