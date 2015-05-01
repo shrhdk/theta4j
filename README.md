@@ -14,23 +14,32 @@ RICOH THETA SDK for Java.
 theta4j aims the followings compared with the official SDK.
 
 - Open Source
-- Maven Integration (WIP)
-- Better Implementation
+- Maven Integration
 
 ## Requirements
 
 - JDK 1.7
 
-## Getting Started
-
-1. Include the `theta4j-x.x.x.jar` to your project.
-1. See the documents or the [sample](sample/src/main/java/org/theta4j/sample/ThetaCapturer.java).
-
 ## Documents
 
 - [Tutorial](doc/tutorial.md)
 - [Javadoc](https://github.com/shrhdk/theta4j/releases)
+- [Sample Application](sample/src/main/java/org/theta4j/sample/ThetaCapturer.java)
 - [Contribution Guide](doc/contribution.md)
+
+## Set up
+
+Add codes below to "build.gradle" if you are using Gradle.
+
+```gradle
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.theta4j:theta4j:0.4.0'
+}
+```
 
 ## License
 

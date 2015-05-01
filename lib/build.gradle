@@ -1,17 +1,9 @@
 apply plugin: 'java'
 apply plugin: 'findbugs'
 apply plugin: 'jacoco'
-apply plugin: 'sonar-runner'
 
 archivesBaseName = 'theta4j'
 version = rootProject.version
-
-sourceSets {
-    integrationTest {
-        java.srcDir file('src/integrationTest/java')
-        resources.srcDir file('src/integrationTest/resources')
-    }
-}
 
 dependencies {
     compile 'org.apache.commons:commons-lang3:3.3.2'
@@ -19,19 +11,11 @@ dependencies {
     compile 'ch.qos.logback:logback-classic:1.1.2'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
-    integrationTestCompile sourceSets.main.output
-    integrationTestCompile configurations.testCompile
-    integrationTestCompile sourceSets.test.output
-    integrationTestRuntime configurations.testRuntime
 }
 
-javadoc {
-    mustRunAfter clean
-}
+// SonarQurbe
 
-jar {
-    mustRunAfter clean
-}
+apply plugin: 'sonar-runner'
 
 sonarRunner {
     sonarProperties {
@@ -44,6 +28,22 @@ sonarRunner {
     }
 }
 
+// Integration Test
+
+sourceSets {
+    integrationTest {
+        java.srcDir file('src/integrationTest/java')
+        resources.srcDir file('src/integrationTest/resources')
+    }
+}
+
+dependencies {
+    integrationTestCompile sourceSets.main.output
+    integrationTestCompile configurations.testCompile
+    integrationTestCompile sourceSets.test.output
+    integrationTestRuntime configurations.testRuntime
+}
+
 task integrationTest(type: Test) {
     description 'Execute tests with real device. A Wi-Fi connection to real THETA must be established before execution.'
     testClassesDir = sourceSets.integrationTest.output.classesDir
@@ -52,18 +52,72 @@ task integrationTest(type: Test) {
 
 test.dependsOn -= integrationTest
 
-task javadocArchive(type: Zip, dependsOn: [clean, javadoc]) {
-    mustRunAfter clean
+// Publish
 
-    baseName "javadoc-$archivesBaseName"
-    from javadoc.destinationDir
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
 }
 
-task distribute(type: Copy, dependsOn: [clean, jar, javadocArchive]) {
-    description "Build JAR and Javadoc and copy to $distsDir."
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allJava
+}
 
-    mustRunAfter clean
+artifacts {
+    archives jar, javadocJar, sourcesJar
+}
 
-    from libsDir
-    into distsDir
+if (new File('gradle.properties', projectDir).exists()) {
+    signing {
+        sign configurations.archives
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                pom.project {
+                    groupId 'org.theta4j'
+                    name archivesBaseName
+                    packaging 'jar'
+                    description 'RICOH THETA SDK for Java.'
+                    url 'http://www.example.com/example-application'
+
+                    scm {
+                        connection 'scm:git:git://github.com/shrhdk/theta4j.git'
+                        developerConnection 'scm:git:git://github.com/shrhdk/theta4j.git'
+                        url 'https://github.com/shrhdk/theta4j.git'
+                    }
+
+                    licenses {
+                        license {
+                            name 'Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'shrhdk'
+                            name 'Hideki Shiro'
+                            email 'hideki@shiro.be'
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

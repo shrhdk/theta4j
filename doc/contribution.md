@@ -27,7 +27,6 @@ Other tasks are below.
 | assemble | Assemble theta4j. |
 | check | Execute unit-tests and the FindBugs. |
 | integrationTest | Execute tests with real device. A Wi-Fi connection to real THETA must be established before execution. |
-| distribute | Build JAR and Javadoc and copy to build/distributes. |
 
 ## Continuous Integration
 
