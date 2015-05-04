@@ -1,8 +1,7 @@
 package org.theta4j.sample;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.theta4j.Theta;
+import org.theta4j.ThetaEventAdapter;
 import org.theta4j.ThetaEventListener;
 import org.theta4j.ThetaException;
 import org.theta4j.ptp.data.DeviceInfo;
@@ -12,44 +11,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicLong;
 
 public final class ThetaCapturer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ThetaCapturer.class);
+    private static final AtomicLong OBJECT_HANDLE = new AtomicLong();
+    private static final CountDownLatch WAIT_OBJECT_ADDED = new CountDownLatch(1);
 
-    private static long objectHandle;
-    private static final CountDownLatch waitObjectAdded = new CountDownLatch(1);
-
-    private static ThetaEventListener listener = new ThetaEventListener() {
+    private static final ThetaEventListener LISTENER = new ThetaEventAdapter() {
         @Override
         public void onObjectAdded(long objectHandle) {
-            LOGGER.info("onObjectAdded: " + objectHandle);
-            ThetaCapturer.objectHandle = objectHandle;
-            waitObjectAdded.countDown();
-        }
-
-        @Override
-        public void onCaptureStatusChanged() {
-            LOGGER.info("onCaptureStatusChanged");
-        }
-
-        @Override
-        public void onRecordingTimeChanged() {
-            LOGGER.info("onRecordingTimeChanged");
-        }
-
-        @Override
-        public void onRemainingRecordingTimeChanged() {
-            LOGGER.info("onRemainingRecordingTimeChanged");
-        }
-
-        @Override
-        public void onStoreFull(long storageID) {
-            LOGGER.info("onStoreFull: " + storageID);
-        }
-
-        @Override
-        public void onCaptureComplete(long transactionID) {
-            LOGGER.info("onCaptureComplete: " + transactionID);
+            OBJECT_HANDLE.set(objectHandle);
+            WAIT_OBJECT_ADDED.countDown();
         }
     };
 
@@ -61,18 +33,18 @@ public final class ThetaCapturer {
         }
 
         try (Theta theta = new Theta()) {
-            theta.addListener(listener);
+            theta.addListener(LISTENER);
 
             // Get the model name from THETA
             DeviceInfo deviceInfo = theta.getDeviceInfo();
-            System.out.println(deviceInfo.getModel());
+            System.out.println("Connected to " + deviceInfo.getModel());
 
-            // Capture, wait, and save to the file
+            // Start capture, wait, and save to the file
             theta.initiateCapture();
-            waitObjectAdded.await();
+            WAIT_OBJECT_ADDED.await();
             File file = new File(args[0]);
             try (OutputStream output = new FileOutputStream(file)) {
-                theta.getResizedImageObject(objectHandle, output);
+                theta.getResizedImageObject(OBJECT_HANDLE.get(), output);
             }
         }
     }

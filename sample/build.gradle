@@ -3,8 +3,6 @@ apply plugin: 'findbugs'
 
 dependencies {
     compile project(':lib')
-    compile 'org.slf4j:slf4j-api:1.7.9'
-    compile 'ch.qos.logback:logback-classic:1.1.2'
     testCompile 'junit:junit:4.11'
 }
 
