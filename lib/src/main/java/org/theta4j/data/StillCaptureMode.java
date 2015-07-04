@@ -54,7 +54,7 @@ public enum StillCaptureMode {
     }
 
     public static StillCaptureMode valueOf(UINT16 value) {
-        Validators.validateNonNull("value", value);
+        Validators.notNull("value", value);
 
         if (!STILL_CAPTURE_MODE_MAP.containsKey(value)) {
             throw new IllegalArgumentException("Unknown StillCaptureMode Value: " + value);

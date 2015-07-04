@@ -33,14 +33,14 @@ public class StorageInfo {
                        UINT16 accessCapability, UINT64 maxCapacity, UINT64 freeSpaceInBytes, UINT32 freeSpaceInImages,
                        String storageDescription, String volumeLabel
     ) {
-        Validators.validateNonNull("storageType", storageType);
-        Validators.validateNonNull("fileSystemType", fileSystemType);
-        Validators.validateNonNull("accessCapability", accessCapability);
-        Validators.validateNonNull("maxCapacity", maxCapacity);
-        Validators.validateNonNull("freeSpaceInBytes", freeSpaceInBytes);
-        Validators.validateNonNull("freeSpaceInImages", freeSpaceInImages);
-        Validators.validateNonNull("storageDescription", storageDescription);
-        Validators.validateNonNull("volumeLabel", volumeLabel);
+        Validators.notNull("storageType", storageType);
+        Validators.notNull("fileSystemType", fileSystemType);
+        Validators.notNull("accessCapability", accessCapability);
+        Validators.notNull("maxCapacity", maxCapacity);
+        Validators.notNull("freeSpaceInBytes", freeSpaceInBytes);
+        Validators.notNull("freeSpaceInImages", freeSpaceInImages);
+        Validators.notNull("storageDescription", storageDescription);
+        Validators.notNull("volumeLabel", volumeLabel);
 
         this.storageType = storageType;
         this.fileSystemType = fileSystemType;
@@ -69,7 +69,7 @@ public class StorageInfo {
      * @throws IOException
      */
     public static StorageInfo read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         UINT16 storageType = pis.readUINT16();
         UINT16 fileSystemType = pis.readUINT16();

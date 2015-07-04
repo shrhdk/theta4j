@@ -15,7 +15,7 @@ public abstract class PtpInteger extends Number implements Comparable<PtpInteger
     }
 
     PtpInteger(BigInteger value) {
-        Validators.validateNonNull("value", value);
+        Validators.notNull("value", value);
 
         if (value.compareTo(min()) < 0 || 0 < value.compareTo(max())) {
             throw new IllegalArgumentException();
@@ -26,8 +26,8 @@ public abstract class PtpInteger extends Number implements Comparable<PtpInteger
     }
 
     PtpInteger(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
-        Validators.validateLength("bytes", bytes, sizeInBytes());
+        Validators.notNull("bytes", bytes);
+        Validators.length("bytes", bytes, sizeInBytes());
 
         this.bytes = bytes.clone();
         if (isSigned()) {

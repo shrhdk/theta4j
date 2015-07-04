@@ -64,7 +64,7 @@ public enum ShutterSpeed {
     }
 
     public static ShutterSpeed valueOf(Rational value) {
-        Validators.validateNonNull("value", value);
+        Validators.notNull("value", value);
 
         if (!SHUTTER_SPEED_MAP.containsKey(value)) {
             throw new IllegalArgumentException("Unknown ShutterSpeed value: " + value);

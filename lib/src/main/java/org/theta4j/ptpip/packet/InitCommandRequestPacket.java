@@ -27,9 +27,9 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
     // Constructor
 
     public InitCommandRequestPacket(UUID guid, String name, UINT32 protocolVersion) {
-        Validators.validateNonNull("guid", guid);
-        Validators.validateNonNull("name", name);
-        Validators.validateNonNull("protocolVersion", protocolVersion);
+        Validators.notNull("guid", guid);
+        Validators.notNull("name", name);
+        Validators.notNull("protocolVersion", protocolVersion);
 
         this.guid = guid;
         this.name = name;
@@ -44,7 +44,7 @@ public final class InitCommandRequestPacket extends PtpIpPacket {
     // Static Factory Method
 
     public static InitCommandRequestPacket read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         // Read Header
         long length = pis.readUINT32().longValue();

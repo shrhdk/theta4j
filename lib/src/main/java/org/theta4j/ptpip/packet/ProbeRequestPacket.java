@@ -16,7 +16,7 @@ public final class ProbeRequestPacket extends PtpIpPacket {
     // Static Factory Method
 
     public static ProbeRequestPacket read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         // Read Header
         long length = pis.readUINT32().longValue();

@@ -42,20 +42,20 @@ public final class DeviceInfo {
             List<UINT16> operationsSupported, List<UINT16> eventsSupported, List<UINT16> devicePropertiesSupported,
             List<UINT16> captureFormats, List<UINT16> imageFormats,
             String manufacturer, String model, String deviceVersion, String serialNumber) {
-        Validators.validateNonNull("standardVersion", standardVersion);
-        Validators.validateNonNull("vendorExtensionID", vendorExtensionID);
-        Validators.validateNonNull("vendorExtensionVersion", vendorExtensionVersion);
-        Validators.validateNonNull("vendorExtensionDesc", vendorExtensionDesc);
-        Validators.validateNonNull("functionalMode", functionalMode);
-        Validators.validateNonNull("operationsSupported", operationsSupported);
-        Validators.validateNonNull("eventsSupported", eventsSupported);
-        Validators.validateNonNull("devicePropertiesSupported", devicePropertiesSupported);
-        Validators.validateNonNull("captureFormats", captureFormats);
-        Validators.validateNonNull("imageFormats", imageFormats);
-        Validators.validateNonNull("manufacturer", manufacturer);
-        Validators.validateNonNull("model", model);
-        Validators.validateNonNull("deviceVersion", deviceVersion);
-        Validators.validateNonNull("serialNumber", serialNumber);
+        Validators.notNull("standardVersion", standardVersion);
+        Validators.notNull("vendorExtensionID", vendorExtensionID);
+        Validators.notNull("vendorExtensionVersion", vendorExtensionVersion);
+        Validators.notNull("vendorExtensionDesc", vendorExtensionDesc);
+        Validators.notNull("functionalMode", functionalMode);
+        Validators.notNull("operationsSupported", operationsSupported);
+        Validators.notNull("eventsSupported", eventsSupported);
+        Validators.notNull("devicePropertiesSupported", devicePropertiesSupported);
+        Validators.notNull("captureFormats", captureFormats);
+        Validators.notNull("imageFormats", imageFormats);
+        Validators.notNull("manufacturer", manufacturer);
+        Validators.notNull("model", model);
+        Validators.notNull("deviceVersion", deviceVersion);
+        Validators.notNull("serialNumber", serialNumber);
 
         this.standardVersion = standardVersion;
         this.vendorExtensionID = vendorExtensionID;
@@ -92,7 +92,7 @@ public final class DeviceInfo {
      * @throws IOException
      */
     public static DeviceInfo read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         UINT16 standardVersion = pis.readUINT16();
         UINT32 vendorExtensionID = pis.readUINT32();

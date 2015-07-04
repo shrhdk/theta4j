@@ -89,7 +89,7 @@ public abstract class PtpIpPacket {
         }
 
         public static Type valueOf(UINT32 value) {
-            Validators.validateNonNull("value", value);
+            Validators.notNull("value", value);
 
             if (!TYPE_MAP.containsKey(value)) {
                 throw new IllegalArgumentException();
@@ -101,7 +101,7 @@ public abstract class PtpIpPacket {
         // read
 
         public static Type read(PtpInputStream pis) throws IOException {
-            Validators.validateNonNull("pis", pis);
+            Validators.notNull("pis", pis);
 
             UINT32 typeValue = pis.readUINT32();
             return valueOf(typeValue);

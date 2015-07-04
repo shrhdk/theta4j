@@ -22,7 +22,7 @@ public final class PtpInputStream extends InputStream {
      * @param is
      */
     public PtpInputStream(InputStream is) {
-        Validators.validateNonNull("is", is);
+        Validators.notNull("is", is);
 
         this.is = new BufferedInputStream(is);
     }
@@ -231,7 +231,7 @@ public final class PtpInputStream extends InputStream {
      * @throws IOException
      */
     public Object readAs(DataType dataType) throws IOException {
-        Validators.validateNonNull("dataType", dataType);
+        Validators.notNull("dataType", dataType);
 
         switch (dataType) {
             case INT8:

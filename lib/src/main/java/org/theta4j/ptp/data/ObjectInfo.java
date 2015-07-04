@@ -48,25 +48,25 @@ public class ObjectInfo {
                       UINT32 parentObject, UINT16 associationType, UINT32 associationDesc, UINT32 sequenceNumber,
                       String fileName, String captureDate, String modificationDate, String keywords
     ) {
-        Validators.validateNonNull("storageID", storageID);
-        Validators.validateNonNull("objectFormat", objectFormat);
-        Validators.validateNonNull("protectionStatus", protectionStatus);
-        Validators.validateNonNull("objectCompressedSize", objectCompressedSize);
-        Validators.validateNonNull("thumbFormat", thumbFormat);
-        Validators.validateNonNull("thumbCompressedSize", thumbCompressedSize);
-        Validators.validateNonNull("thumbPixWidth", thumbPixWidth);
-        Validators.validateNonNull("thumbPixHeight", thumbPixHeight);
-        Validators.validateNonNull("imagePixWidth", imagePixWidth);
-        Validators.validateNonNull("imagePixHeight", imagePixHeight);
-        Validators.validateNonNull("imageBitDepth", imageBitDepth);
-        Validators.validateNonNull("parentObject", parentObject);
-        Validators.validateNonNull("associationType", associationType);
-        Validators.validateNonNull("associationDesc", associationDesc);
-        Validators.validateNonNull("sequenceNumber", sequenceNumber);
-        Validators.validateNonNull("fileName", fileName);
-        Validators.validateNonNull("captureDate", captureDate);
-        Validators.validateNonNull("modificationDate", modificationDate);
-        Validators.validateNonNull("keywords", keywords);
+        Validators.notNull("storageID", storageID);
+        Validators.notNull("objectFormat", objectFormat);
+        Validators.notNull("protectionStatus", protectionStatus);
+        Validators.notNull("objectCompressedSize", objectCompressedSize);
+        Validators.notNull("thumbFormat", thumbFormat);
+        Validators.notNull("thumbCompressedSize", thumbCompressedSize);
+        Validators.notNull("thumbPixWidth", thumbPixWidth);
+        Validators.notNull("thumbPixHeight", thumbPixHeight);
+        Validators.notNull("imagePixWidth", imagePixWidth);
+        Validators.notNull("imagePixHeight", imagePixHeight);
+        Validators.notNull("imageBitDepth", imageBitDepth);
+        Validators.notNull("parentObject", parentObject);
+        Validators.notNull("associationType", associationType);
+        Validators.notNull("associationDesc", associationDesc);
+        Validators.notNull("sequenceNumber", sequenceNumber);
+        Validators.notNull("fileName", fileName);
+        Validators.notNull("captureDate", captureDate);
+        Validators.notNull("modificationDate", modificationDate);
+        Validators.notNull("keywords", keywords);
 
         this.storageID = storageID;
         this.objectFormat = objectFormat;
@@ -95,7 +95,7 @@ public class ObjectInfo {
      * Construct ObjectInfo from InputStream
      */
     public static ObjectInfo read(InputStream is) throws IOException {
-        Validators.validateNonNull("is", is);
+        Validators.notNull("is", is);
 
         try (PtpInputStream pis = new PtpInputStream(is)) {
             return read(pis);
@@ -108,7 +108,7 @@ public class ObjectInfo {
      * @throws IOException
      */
     public static ObjectInfo read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         UINT32 storageID = pis.readUINT32();
         UINT16 objectFormat = pis.readUINT16();
@@ -321,7 +321,7 @@ public class ObjectInfo {
          * @param value
          */
         public static ProtectionStatus valueOf(UINT16 value) {
-            Validators.validateNonNull("value", value);
+            Validators.notNull("value", value);
 
             if (!PROTECTION_STATUS_MAP.containsKey(value)) {
                 throw new IllegalArgumentException();

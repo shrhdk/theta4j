@@ -39,7 +39,7 @@ public enum CaptureStatus {
     }
 
     public static CaptureStatus valueOf(UINT8 value) {
-        Validators.validateNonNull("value", value);
+        Validators.notNull("value", value);
 
         if (!CAPTURE_STATUS_MAP.containsKey(value)) {
             throw new IllegalArgumentException("Unknown CaptureStatus Value: " + value);

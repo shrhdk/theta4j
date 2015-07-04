@@ -20,7 +20,7 @@ public final class CancelPacket extends PtpIpPacket {
     // Constructor
 
     public CancelPacket(UINT32 transactionID) {
-        Validators.validateNonNull("transactionID", transactionID);
+        Validators.notNull("transactionID", transactionID);
 
         this.transactionID = transactionID;
 
@@ -30,7 +30,7 @@ public final class CancelPacket extends PtpIpPacket {
     // Static Factory Method
 
     public static CancelPacket read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         // Read Header
         long length = pis.readUINT32().longValue();

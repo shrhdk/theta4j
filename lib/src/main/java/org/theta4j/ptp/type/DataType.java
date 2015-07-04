@@ -54,7 +54,7 @@ public enum DataType implements Code<UINT16> {
     }
 
     public static DataType valueOf(UINT16 value) {
-        Validators.validateNonNull("value", value);
+        Validators.notNull("value", value);
 
         if (!DATA_TYPE_MAP.containsKey(value)) {
             throw new IllegalArgumentException("Unknown DataType Value: " + value);

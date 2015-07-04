@@ -37,7 +37,7 @@ public enum ISOSpeed {
     }
 
     public static ISOSpeed valueOf(UINT16 value) {
-        Validators.validateNonNull("value", value);
+        Validators.notNull("value", value);
 
         if (!ISO_SPEED_MAP.containsKey(value)) {
             throw new IllegalArgumentException("Unknown ISOSpeed value: " + value);

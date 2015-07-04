@@ -25,8 +25,8 @@ public final class EndDataPacket extends PtpIpPacket {
     // Constructor
 
     public EndDataPacket(UINT32 transactionID, byte[] dataPayload) {
-        Validators.validateNonNull("transactionID", transactionID);
-        Validators.validateNonNull("dataPayload", dataPayload);
+        Validators.notNull("transactionID", transactionID);
+        Validators.notNull("dataPayload", dataPayload);
 
         this.transactionID = transactionID;
         this.dataPayload = dataPayload.clone();
@@ -40,7 +40,7 @@ public final class EndDataPacket extends PtpIpPacket {
     // Static Factory Method
 
     public static EndDataPacket read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         // Read Header
         long length = pis.readUINT32().longValue();

@@ -50,7 +50,7 @@ public enum BatteryLevel {
     }
 
     public static BatteryLevel valueOf(UINT8 value) {
-        Validators.validateNonNull("value", value);
+        Validators.notNull("value", value);
 
         if (!BATTERY_LEVEL_MAP.containsKey(value)) {
             throw new IllegalArgumentException("Unknown BatteryLevel value: " + value);

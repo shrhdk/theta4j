@@ -24,14 +24,14 @@ public final class STR {
     }
 
     public static byte[] toBytes(String str) {
-        Validators.validateNonNull("str", str);
+        Validators.notNull("str", str);
 
         byte[] length = new byte[]{(byte) str.length()};
         return ArrayUtils.join(length, str.getBytes(CHARSET));
     }
 
     public static String read(InputStream is) throws IOException {
-        Validators.validateNonNull("is", is);
+        Validators.notNull("is", is);
 
         int numChars = is.read();
 

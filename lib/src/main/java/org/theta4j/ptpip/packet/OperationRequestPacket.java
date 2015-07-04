@@ -47,14 +47,14 @@ public final class OperationRequestPacket extends PtpIpPacket {
     }
 
     public OperationRequestPacket(UINT32 dataPhaseInfo, UINT16 operationCode, UINT32 transactionID, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) {
-        Validators.validateNonNull("dataPhaseInfo", dataPhaseInfo);
-        Validators.validateNonNull("operationCode", operationCode);
-        Validators.validateNonNull("transactionID", transactionID);
-        Validators.validateNonNull("p1", p1);
-        Validators.validateNonNull("p2", p2);
-        Validators.validateNonNull("p3", p3);
-        Validators.validateNonNull("p4", p4);
-        Validators.validateNonNull("p5", p5);
+        Validators.notNull("dataPhaseInfo", dataPhaseInfo);
+        Validators.notNull("operationCode", operationCode);
+        Validators.notNull("transactionID", transactionID);
+        Validators.notNull("p1", p1);
+        Validators.notNull("p2", p2);
+        Validators.notNull("p3", p3);
+        Validators.notNull("p4", p4);
+        Validators.notNull("p5", p5);
 
         this.dataPhaseInfo = dataPhaseInfo;
         this.operationCode = operationCode;
@@ -80,7 +80,7 @@ public final class OperationRequestPacket extends PtpIpPacket {
     // Static Factory Method
 
     public static OperationRequestPacket read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         // Read Header
         long length = pis.readUINT32().longValue();

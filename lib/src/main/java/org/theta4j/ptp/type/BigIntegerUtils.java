@@ -58,7 +58,7 @@ class BigIntegerUtils {
     }
 
     public static byte[] toLittleEndian(BigInteger integer, int sizeInBytes) {
-        Validators.validateNonNull("integer", integer);
+        Validators.notNull("integer", integer);
 
         boolean isPositive = 0 <= integer.signum();
         byte[] bigEndian = integer.toByteArray();
@@ -89,7 +89,7 @@ class BigIntegerUtils {
      * @param bytes signed little endian byte array
      */
     public static BigInteger asSignedLittleEndian(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
+        Validators.notNull("bytes", bytes);
 
         byte[] bigEndian = reverse(bytes);
 
@@ -102,7 +102,7 @@ class BigIntegerUtils {
      * @param bytes unsigned little endian byte array
      */
     public static BigInteger asUnsignedLittleEndian(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
+        Validators.notNull("bytes", bytes);
 
         byte[] bigEndian = reverse(bytes);
 
@@ -131,7 +131,7 @@ class BigIntegerUtils {
     }
 
     public static String toHexString(BigInteger integer, int size) {
-        Validators.validateNonNull("integer", integer);
+        Validators.notNull("integer", integer);
         if (size < 1) {
             throw new IllegalArgumentException();
         }

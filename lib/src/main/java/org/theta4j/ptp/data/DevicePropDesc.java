@@ -47,7 +47,7 @@ public class DevicePropDesc<T> {
     }
 
     public static DevicePropDesc<?> read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         UINT16 devicePropCode = pis.readUINT16();
         DataType dataType = DataType.valueOf(pis.readUINT16());
@@ -221,7 +221,7 @@ public class DevicePropDesc<T> {
         }
 
         public static FormFlag valueOf(byte value) {
-            Validators.validateNonNull("value", value);
+            Validators.notNull("value", value);
 
             if (!formFlagMap.containsKey(value)) {
                 throw new IllegalArgumentException("Unknown Form Flag Value: " + value);

@@ -25,13 +25,13 @@ final class PtpIpString {
     }
 
     public static byte[] toBytes(String str) {
-        Validators.validateNonNull("str", str);
+        Validators.notNull("str", str);
 
         return (str + "\u0000").getBytes(CHARSET);
     }
 
     public static String read(InputStream is) throws IOException {
-        Validators.validateNonNull("is", is);
+        Validators.notNull("is", is);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 

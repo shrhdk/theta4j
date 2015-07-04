@@ -28,12 +28,12 @@ public class Event {
     }
 
     public Event(UINT16 eventCode, UINT32 sessionID, UINT32 transactionID, UINT32 p1, UINT32 p2, UINT32 p3) {
-        Validators.validateNonNull("eventCode", eventCode);
-        Validators.validateNonNull("sessionID", sessionID);
-        Validators.validateNonNull("transactionID", transactionID);
-        Validators.validateNonNull("p1", p1);
-        Validators.validateNonNull("p2", p2);
-        Validators.validateNonNull("p3", p3);
+        Validators.notNull("eventCode", eventCode);
+        Validators.notNull("sessionID", sessionID);
+        Validators.notNull("transactionID", transactionID);
+        Validators.notNull("p1", p1);
+        Validators.notNull("p2", p2);
+        Validators.notNull("p3", p3);
 
         this.eventCode = eventCode;
         this.sessionID = sessionID;

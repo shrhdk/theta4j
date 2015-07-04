@@ -57,9 +57,9 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     // Connect
 
     public PtpIpInitiator(UUID guid, String host, int port) throws IOException {
-        Validators.validateNonNull("guid", guid);
-        Validators.validateNonNull("host", host);
-        Validators.validatePortNumber(port);
+        Validators.notNull("guid", guid);
+        Validators.notNull("host", host);
+        Validators.portNumber(port);
 
         this.guid = guid;
         this.host = host;
@@ -170,12 +170,12 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
 
     @Override
     public UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) throws IOException {
-        Validators.validateNonNull("operationCode", operationCode);
-        Validators.validateNonNull("p1", p1);
-        Validators.validateNonNull("p2", p2);
-        Validators.validateNonNull("p3", p3);
-        Validators.validateNonNull("p4", p4);
-        Validators.validateNonNull("p5", p5);
+        Validators.notNull("operationCode", operationCode);
+        Validators.notNull("p1", p1);
+        Validators.notNull("p2", p2);
+        Validators.notNull("p3", p3);
+        Validators.notNull("p4", p4);
+        Validators.notNull("p5", p5);
 
         UINT32 transactionID = transactionIDIterator.next();
 
@@ -213,14 +213,14 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
 
     @Override
     public void sendData(byte[] data) throws IOException {
-        Validators.validateNonNull("data", data);
+        Validators.notNull("data", data);
 
         co.writeData(transactionIDIterator.next(), data);
     }
 
     @Override
     public void receiveData(OutputStream dst) throws IOException {
-        Validators.validateNonNull("dst", dst);
+        Validators.notNull("dst", dst);
 
         ci.readData(dst);
     }
@@ -228,13 +228,13 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     // Listener
 
     public final boolean addListener(PtpEventListener listener) {
-        Validators.validateNonNull("listener", listener);
+        Validators.notNull("listener", listener);
 
         return listenerSet.add(listener);
     }
 
     public final boolean removeListener(PtpEventListener listener) {
-        Validators.validateNonNull("listener", listener);
+        Validators.notNull("listener", listener);
 
         return listenerSet.remove(listener);
     }

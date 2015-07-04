@@ -28,10 +28,10 @@ public final class InitCommandAckPacket extends PtpIpPacket {
     // Constructor
 
     public InitCommandAckPacket(UINT32 connectionNumber, UUID guid, String name, UINT32 protocolVersion) {
-        Validators.validateNonNull("connectionNumber", connectionNumber);
-        Validators.validateNonNull("guid", guid);
-        Validators.validateNonNull("name", name);
-        Validators.validateNonNull("protocolVersion", protocolVersion);
+        Validators.notNull("connectionNumber", connectionNumber);
+        Validators.notNull("guid", guid);
+        Validators.notNull("name", name);
+        Validators.notNull("protocolVersion", protocolVersion);
 
         this.connectionNumber = connectionNumber;
         this.guid = guid;
@@ -49,7 +49,7 @@ public final class InitCommandAckPacket extends PtpIpPacket {
     // Static Factory Method
 
     public static InitCommandAckPacket read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         // Read Header
         long length = pis.readUINT32().longValue();

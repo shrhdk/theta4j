@@ -290,8 +290,8 @@ public final class Theta implements Closeable {
      * @throws IOException
      */
     public void getResizedImageObject(long objectHandle, OutputStream dst) throws IOException {
-        Validators.validateNonNull("objectHandle", objectHandle);
-        Validators.validateNonNull("dst", dst);
+        Validators.notNull("objectHandle", objectHandle);
+        Validators.notNull("dst", dst);
 
         ptpInitiator.sendOperation(OperationCode.GET_RESIZED_IMAGE_OBJECT, new UINT32(objectHandle), new UINT32(2048), new UINT32(1024));
 
@@ -340,7 +340,7 @@ public final class Theta implements Closeable {
      * @throws IOException
      */
     public void setWhiteBalance(WhiteBalance whiteBalance) throws IOException {
-        Validators.validateNonNull("whiteBalance", whiteBalance);
+        Validators.notNull("whiteBalance", whiteBalance);
 
         ptpInitiator.setDevicePropValue(DevicePropCode.WHITE_BALANCE, whiteBalance.value());
     }
@@ -368,7 +368,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public void setExposureIndex(ISOSpeed isoSpeed) throws IOException {
-        Validators.validateNonNull("isoSpeed", isoSpeed);
+        Validators.notNull("isoSpeed", isoSpeed);
 
         ptpInitiator.setDevicePropValue(DevicePropCode.EXPOSURE_INDEX, isoSpeed.value());
     }
@@ -422,7 +422,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public void setDateTime(Date dateTime) throws IOException {
-        Validators.validateNonNull("dateTime", dateTime);
+        Validators.notNull("dateTime", dateTime);
 
         String str = new SimpleDateFormat(DATE_TIME_FORMAT).format(dateTime);
 
@@ -450,7 +450,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public void setStillCaptureMode(StillCaptureMode stillCaptureMode) throws IOException {
-        Validators.validateNonNull("stillCaptureMode", stillCaptureMode);
+        Validators.notNull("stillCaptureMode", stillCaptureMode);
 
         ptpInitiator.setDevicePropValue(DevicePropCode.STILL_CAPTURE_MODE, stillCaptureMode.value());
     }
@@ -584,7 +584,7 @@ public final class Theta implements Closeable {
      */
 
     public void setShutterSpeed(ShutterSpeed shutterSpeed) throws IOException {
-        Validators.validateNonNull("shutterSpeed", shutterSpeed);
+        Validators.notNull("shutterSpeed", shutterSpeed);
 
         ptpInitiator.setDevicePropValue(DevicePropCode.SHUTTER_SPEED, shutterSpeed.value().bytes());
     }
@@ -613,7 +613,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public void setGPSInfo(String gpsInfo) throws IOException {
-        Validators.validateNonNull("gpsInfo", gpsInfo);
+        Validators.notNull("gpsInfo", gpsInfo);
 
         ptpInitiator.setDevicePropValue(DevicePropCode.GPS_INFO, gpsInfo);
     }
@@ -690,7 +690,7 @@ public final class Theta implements Closeable {
      * @throws IOException
      */
     public void setChannelNumber(ChannelNumber channelNumber) throws IOException {
-        Validators.validateNonNull("channelNumber", channelNumber);
+        Validators.notNull("channelNumber", channelNumber);
     }
 
     /**

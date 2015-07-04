@@ -22,7 +22,7 @@ public class PtpOutputStream extends OutputStream {
      * @param os
      */
     public PtpOutputStream(OutputStream os) {
-        Validators.validateNonNull("os", os);
+        Validators.notNull("os", os);
 
         this.os = os;
     }

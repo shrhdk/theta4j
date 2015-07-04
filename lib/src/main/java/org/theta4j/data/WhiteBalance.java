@@ -71,7 +71,7 @@ public enum WhiteBalance {
     }
 
     public static WhiteBalance valueOf(UINT16 value) {
-        Validators.validateNonNull("value", value);
+        Validators.notNull("value", value);
 
         if (!WHITE_BALANCE_MAP.containsKey(value)) {
             throw new IllegalArgumentException("Unknown WhiteBalance Value: " + value);

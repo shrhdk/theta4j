@@ -13,7 +13,7 @@ public class AUINT128 {
     }
 
     public static List<UINT128> read(InputStream is) throws IOException {
-        Validators.validateNonNull("is", is);
+        Validators.notNull("is", is);
 
         long length = UINT32.read(is).longValue();
 

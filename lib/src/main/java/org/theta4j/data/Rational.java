@@ -45,8 +45,8 @@ public class Rational {
     // Static Factory Method
 
     public static Rational valueOf(byte[] bytes) {
-        Validators.validateNonNull("bytes", bytes);
-        Validators.validateLength("bytes", bytes, SIZE_IN_BYTES);
+        Validators.notNull("bytes", bytes);
+        Validators.length("bytes", bytes, SIZE_IN_BYTES);
 
         try (
                 ByteArrayInputStream bais = new ByteArrayInputStream(bytes);

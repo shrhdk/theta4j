@@ -12,7 +12,7 @@ class PrimitiveUtils {
     }
 
     public static List<Long> convert(List<UINT32> src) {
-        Validators.validateNonNull("src", src);
+        Validators.notNull("src", src);
 
         List<Long> dst = new ArrayList<>();
         for (UINT32 uint32 : src) {

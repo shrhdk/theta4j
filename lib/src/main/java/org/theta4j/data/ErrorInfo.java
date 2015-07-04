@@ -138,7 +138,7 @@ public enum ErrorInfo {
     }
 
     public static ErrorInfo valueOf(UINT32 value) {
-        Validators.validateNonNull("value", value);
+        Validators.notNull("value", value);
 
         if (!ERROR_INFO_MAP.containsKey(value)) {
             throw new IllegalArgumentException("Unknown ErrorInfo Value:" + value);

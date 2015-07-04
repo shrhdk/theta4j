@@ -38,11 +38,11 @@ public final class EventPacket extends PtpIpPacket {
     }
 
     public EventPacket(UINT16 eventCode, UINT32 transactionID, UINT32 p1, UINT32 p2, UINT32 p3) {
-        Validators.validateNonNull("eventCode", eventCode);
-        Validators.validateNonNull("transactionID", transactionID);
-        Validators.validateNonNull("p1", p1);
-        Validators.validateNonNull("p2", p2);
-        Validators.validateNonNull("p3", p3);
+        Validators.notNull("eventCode", eventCode);
+        Validators.notNull("transactionID", transactionID);
+        Validators.notNull("p1", p1);
+        Validators.notNull("p2", p2);
+        Validators.notNull("p3", p3);
 
         this.eventCode = eventCode;
         this.transactionID = transactionID;
@@ -60,7 +60,7 @@ public final class EventPacket extends PtpIpPacket {
     // Static Factory Method
 
     public static EventPacket read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         // Read Header
         long length = pis.readUINT32().longValue();

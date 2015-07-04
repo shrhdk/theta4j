@@ -52,7 +52,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     @Override
     public void onObjectAdded(UINT32 objectHandle) {
-        Validators.validateNonNull("objectHandle", objectHandle);
+        Validators.notNull("objectHandle", objectHandle);
 
         for (PtpEventListener listener : listeners) {
             listener.onObjectAdded(objectHandle);
@@ -61,7 +61,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     @Override
     public void onObjectRemoved(UINT32 objectHandle) {
-        Validators.validateNonNull("objectHandle", objectHandle);
+        Validators.notNull("objectHandle", objectHandle);
 
         for (PtpEventListener listener : listeners) {
             listener.onObjectRemoved(objectHandle);
@@ -70,7 +70,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     @Override
     public void onStoreAdded(UINT32 storageID) {
-        Validators.validateNonNull("storageID", storageID);
+        Validators.notNull("storageID", storageID);
 
         for (PtpEventListener listener : listeners) {
             listener.onStoreAdded(storageID);
@@ -79,7 +79,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     @Override
     public void onStoreRemoved(UINT32 storageID) {
-        Validators.validateNonNull("storageID", storageID);
+        Validators.notNull("storageID", storageID);
 
         for (PtpEventListener listener : listeners) {
             listener.onStoreRemoved(storageID);
@@ -88,7 +88,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     @Override
     public void onDevicePropChanged(UINT16 devicePropCode) {
-        Validators.validateNonNull("devicePropCode", devicePropCode);
+        Validators.notNull("devicePropCode", devicePropCode);
 
         for (PtpEventListener listener : listeners) {
             listener.onDevicePropChanged(devicePropCode);
@@ -97,7 +97,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     @Override
     public void onObjectInfoChanged(UINT32 objectHandle) {
-        Validators.validateNonNull("objectHandle", objectHandle);
+        Validators.notNull("objectHandle", objectHandle);
 
         for (PtpEventListener listener : listeners) {
             listener.onObjectInfoChanged(objectHandle);
@@ -113,7 +113,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     @Override
     public void onRequestObjectTransfer(UINT32 objectHandle) {
-        Validators.validateNonNull("objectHandle", objectHandle);
+        Validators.notNull("objectHandle", objectHandle);
 
         for (PtpEventListener listener : listeners) {
             listener.onRequestObjectTransfer(objectHandle);
@@ -122,7 +122,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     @Override
     public void onStoreFull(UINT32 storageID) {
-        Validators.validateNonNull("storageID", storageID);
+        Validators.notNull("storageID", storageID);
 
         for (PtpEventListener listener : listeners) {
             listener.onStoreFull(storageID);
@@ -138,7 +138,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     @Override
     public void onStorageInfoChanged(UINT32 storageID) {
-        Validators.validateNonNull("storageID", storageID);
+        Validators.notNull("storageID", storageID);
 
         for (PtpEventListener listener : listeners) {
             listener.onStorageInfoChanged(storageID);
@@ -147,7 +147,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     @Override
     public void onCaptureComplete(UINT32 transactionID) {
-        Validators.validateNonNull("transactionID", transactionID);
+        Validators.notNull("transactionID", transactionID);
 
         for (PtpEventListener listener : listeners) {
             listener.onCaptureComplete(transactionID);
@@ -163,7 +163,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     @Override
     public void onVendorExtendedCode(Event event) {
-        Validators.validateNonNull("event", event);
+        Validators.notNull("event", event);
 
         for (PtpEventListener listener : listeners) {
             listener.onVendorExtendedCode(event);
@@ -172,7 +172,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     @Override
     public void onError(Exception e) {
-        Validators.validateNonNull("e", e);
+        Validators.notNull("e", e);
 
         for (PtpEventListener listener : listeners) {
             listener.onError(e);
@@ -182,7 +182,7 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
     // Utility method
 
     public void raise(Event event) {
-        Validators.validateNonNull("event", event);
+        Validators.notNull("event", event);
 
         UINT16 eventCode = event.getEventCode();
         UINT32 p1 = event.getP1();

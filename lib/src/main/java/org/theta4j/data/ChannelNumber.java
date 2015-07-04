@@ -35,7 +35,7 @@ public enum ChannelNumber {
     }
 
     public static ChannelNumber valueOf(UINT8 value) {
-        Validators.validateNonNull("value", value);
+        Validators.notNull("value", value);
 
         if (!CHANNEL_NUMBER_MAP.containsKey(value)) {
             throw new IllegalArgumentException("Unknown ChannelNumber Value: " + value);

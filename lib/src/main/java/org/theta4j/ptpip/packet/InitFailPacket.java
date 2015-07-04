@@ -20,7 +20,7 @@ public final class InitFailPacket extends PtpIpPacket {
     // Constructor
 
     public InitFailPacket(UINT32 reason) {
-        Validators.validateNonNull("reason", reason);
+        Validators.notNull("reason", reason);
 
         this.reason = reason;
         this.payload = reason.bytes();
@@ -29,7 +29,7 @@ public final class InitFailPacket extends PtpIpPacket {
     // Static Factory Method
 
     public static InitFailPacket read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         // Read Header
         long length = pis.readUINT32().longValue();

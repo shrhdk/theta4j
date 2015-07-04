@@ -25,8 +25,8 @@ public final class StartDataPacket extends PtpIpPacket {
     // Constructor
 
     public StartDataPacket(UINT32 transactionID, UINT64 totalDataLength) {
-        Validators.validateNonNull("transactionID", transactionID);
-        Validators.validateNonNull("totalDataLength", totalDataLength);
+        Validators.notNull("transactionID", transactionID);
+        Validators.notNull("totalDataLength", totalDataLength);
 
         this.transactionID = transactionID;
         this.totalDataLength = totalDataLength;
@@ -40,7 +40,7 @@ public final class StartDataPacket extends PtpIpPacket {
     // Static Factory Method
 
     public static StartDataPacket read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         // Read Header
         long length = pis.readUINT32().longValue();

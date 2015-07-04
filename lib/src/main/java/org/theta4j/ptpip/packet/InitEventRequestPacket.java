@@ -20,7 +20,7 @@ public final class InitEventRequestPacket extends PtpIpPacket {
     // Constructor
 
     public InitEventRequestPacket(UINT32 connectionNumber) {
-        Validators.validateNonNull("connectionNumber", connectionNumber);
+        Validators.notNull("connectionNumber", connectionNumber);
 
         this.connectionNumber = connectionNumber;
         this.payload = connectionNumber.bytes();
@@ -29,7 +29,7 @@ public final class InitEventRequestPacket extends PtpIpPacket {
     // Static Factory Method
 
     public static InitEventRequestPacket read(PtpInputStream pis) throws IOException {
-        Validators.validateNonNull("pis", pis);
+        Validators.notNull("pis", pis);
 
         // Read Header
         long length = pis.readUINT32().longValue();
