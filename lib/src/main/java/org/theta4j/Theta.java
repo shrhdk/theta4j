@@ -3,6 +3,7 @@ package org.theta4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.theta4j.data.*;
+import org.theta4j.ptp.PtpEventAdapter;
 import org.theta4j.ptp.PtpEventListener;
 import org.theta4j.ptp.PtpException;
 import org.theta4j.ptp.PtpInitiator;
@@ -41,30 +42,10 @@ public final class Theta implements Closeable {
     public Theta() throws IOException {
         ptpInitiator = new PtpIpInitiator(UUID.randomUUID(), IP_ADDRESS, TCP_PORT);
 
-        ptpInitiator.addListener(new PtpEventListener() {
-            @Override
-            public void onCancelTransaction() {
-                LOGGER.warn("Unsupported Event: CancelTransaction");
-            }
-
+        ptpInitiator.addListener(new PtpEventAdapter() {
             @Override
             public void onObjectAdded(UINT32 objectHandle) {
                 listenerSet.onObjectAdded(objectHandle.longValue());
-            }
-
-            @Override
-            public void onObjectRemoved(UINT32 objectHandle) {
-                LOGGER.warn("Unsupported Event: ObjectRemoved");
-            }
-
-            @Override
-            public void onStoreAdded(UINT32 storageID) {
-                LOGGER.warn("Unsupported Event: StoreAdded");
-            }
-
-            @Override
-            public void onStoreRemoved(UINT32 storageID) {
-                LOGGER.warn("Unsupported Event: StoreRemoved");
             }
 
             @Override
@@ -81,53 +62,13 @@ public final class Theta implements Closeable {
             }
 
             @Override
-            public void onObjectInfoChanged(UINT32 objectHandle) {
-                LOGGER.warn("Unsupported Event: ObjectInfoChanged");
-            }
-
-            @Override
-            public void onDeviceInfoChanged() {
-                LOGGER.warn("Unsupported Event: DeviceInfoChanged");
-            }
-
-            @Override
-            public void onRequestObjectTransfer(UINT32 objectHandle) {
-                LOGGER.warn("Unsupported Event: RequestObjectTransfer");
-            }
-
-            @Override
             public void onStoreFull(UINT32 storageID) {
                 listenerSet.onStoreFull(storageID.longValue());
             }
 
             @Override
-            public void onDeviceReset() {
-                LOGGER.warn("Unsupported Event: DeviceReset");
-            }
-
-            @Override
-            public void onStorageInfoChanged(UINT32 storageID) {
-                LOGGER.warn("Unsupported Event: StorageInfoChanged");
-            }
-
-            @Override
             public void onCaptureComplete(UINT32 transactionID) {
                 listenerSet.onCaptureComplete(transactionID.longValue());
-            }
-
-            @Override
-            public void onUnreportedStatus() {
-                LOGGER.warn("Unsupported Event: UnreportedStatus");
-            }
-
-            @Override
-            public void onVendorExtendedCode(Event event) {
-                LOGGER.warn("Unsupported Event: VendorExtendedCode");
-            }
-
-            @Override
-            public void onError(Exception e) {
-                LOGGER.warn("Unsupported Event: Error");
             }
         });
 
