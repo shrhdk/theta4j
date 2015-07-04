@@ -266,7 +266,7 @@ public class PtpIpInputStreamTest {
 
     public static class ReadData {
         @Test(expected = IOException.class)
-        public void butWasOperationResponse() throws IOException, PtpException {
+        public void butWasOperationResponse() throws IOException {
             // given
             UINT32 transactionID = new UINT32(1);
             UINT16 responseCode = ResponseCode.OK.value();
@@ -281,7 +281,7 @@ public class PtpIpInputStreamTest {
         }
 
         @Test(expected = PtpException.class)
-        public void withError() throws IOException, PtpException {
+        public void withError() throws IOException {
             // given
             UINT32 transactionID = new UINT32(1);
             UINT16 responseCode = ResponseCode.GENERAL_ERROR.value();
@@ -296,7 +296,7 @@ public class PtpIpInputStreamTest {
         }
 
         @Test
-        public void normal() throws IOException, PtpException {
+        public void normal() throws IOException {
             // given
             UINT32 transactionID = new UINT32(1);
             byte[] data1 = new byte[]{0x00, 0x01, 0x02, 0x03};

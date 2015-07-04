@@ -226,7 +226,7 @@ public final class PtpIpInputStream implements Closeable {
      *
      * @throws IOException
      */
-    public byte[] readData() throws IOException, PtpException {
+    public byte[] readData() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         readData(baos);
         return baos.toByteArray();
@@ -239,7 +239,7 @@ public final class PtpIpInputStream implements Closeable {
      * @throws RuntimeException if it is not Data Phase.
      * @throws IOException
      */
-    public void readData(OutputStream dst) throws IOException, PtpException {
+    public void readData(OutputStream dst) throws IOException {
         if (nextType() == OPERATION_RESPONSE) {
             OperationResponsePacket response = readOperationResponsePacket();
 

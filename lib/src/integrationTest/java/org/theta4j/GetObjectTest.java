@@ -50,13 +50,13 @@ public class GetObjectTest {
     private static Theta theta;
 
     @BeforeClass
-    public static void connect() throws IOException, PtpException {
+    public static void connect() throws IOException {
         theta = new Theta();
         theta.addListener(listener);
     }
 
     @AfterClass
-    public static void close() throws IOException, InterruptedException, PtpException {
+    public static void close() throws IOException, InterruptedException {
         theta.close();
         Thread.sleep(TestParameters.INTERVAL_MS);
     }
@@ -64,7 +64,7 @@ public class GetObjectTest {
     // Operations
 
     @Test
-    public void getObject() throws IOException, ThetaException {
+    public void getObject() throws IOException {
         List<Long> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(new File("raw.jpg"))) {
             theta.getObject(objectHandles.get(2), file);
@@ -72,7 +72,7 @@ public class GetObjectTest {
     }
 
     @Test
-    public void getThumb() throws IOException, ThetaException {
+    public void getThumb() throws IOException {
         List<Long> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(new File("thumb.jpg"))) {
             theta.getThumb(objectHandles.get(2), file);
@@ -80,7 +80,7 @@ public class GetObjectTest {
     }
 
     @Test
-    public void getResizedImageObject() throws IOException, ThetaException {
+    public void getResizedImageObject() throws IOException {
         List<Long> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(new File("resized.jpg"))) {
             theta.getResizedImageObject(objectHandles.get(2), file);

@@ -60,92 +60,92 @@ public class GetDevicePropDescTest {
     // Get DevicePropDesc
 
     @Test
-    public void getBatteryLevel() throws IOException, ThetaException {
+    public void getBatteryLevel() throws IOException {
         LOGGER.info("DevicePropDesc of BatteryLevel: " + theta.getBatteryLevel());
     }
 
     @Test
-    public void getWhiteBalance() throws IOException, ThetaException {
+    public void getWhiteBalance() throws IOException {
         LOGGER.info("DevicePropDesc of WhiteBalance: " + theta.getWhiteBalance());
     }
 
     @Test
-    public void getExposureIndex() throws IOException, ThetaException {
+    public void getExposureIndex() throws IOException {
         LOGGER.info("DevicePropDesc of ExposureIndex: " + theta.getExposureIndex());
     }
 
     @Test
-    public void getExposureBiasCompensation() throws IOException, ThetaException {
+    public void getExposureBiasCompensation() throws IOException {
         LOGGER.info("DevicePropDesc of ExposureBiasCompensation: " + theta.getExposureBiasCompensation());
     }
 
     @Test
-    public void getDateTime() throws IOException, ThetaException {
+    public void getDateTime() throws IOException {
         LOGGER.info("DevicePropDesc of DateTime: " + theta.getDateTime());
     }
 
     @Test
-    public void getStillCaptureMode() throws IOException, ThetaException {
+    public void getStillCaptureMode() throws IOException {
         LOGGER.info("DevicePropDesc of StillCaptureMode(: " + theta.getStillCaptureMode());
     }
 
     @Test
-    public void getTimelapseNumber() throws IOException, ThetaException {
+    public void getTimelapseNumber() throws IOException {
         LOGGER.info("DevicePropDesc of TimelapseNumber: " + theta.getTimelapseNumber());
     }
 
     @Test
-    public void getTimelapseInterval() throws IOException, ThetaException {
+    public void getTimelapseInterval() throws IOException {
         LOGGER.info("DevicePropDesc of TimelapseInterval: " + theta.getTimelapseInterval());
     }
 
     @Test
-    public void getAudioVolume() throws IOException, ThetaException {
+    public void getAudioVolume() throws IOException {
         LOGGER.info("DevicePropDesc of AudioVolume: " + theta.getAudioVolume());
     }
 
     @Test
-    public void getErrorInfo() throws IOException, ThetaException {
+    public void getErrorInfo() throws IOException {
         LOGGER.info("DevicePropDesc of ErrorInfo: " + theta.getErrorInfo());
     }
 
     @Test
-    public void getShutterSpeed() throws IOException, ThetaException {
+    public void getShutterSpeed() throws IOException {
         LOGGER.info("DevicePropDesc of ShutterSpeed: " + theta.getShutterSpeed());
     }
 
     @Test
-    public void getGpsInfo() throws IOException, ThetaException {
+    public void getGpsInfo() throws IOException {
         LOGGER.info("DevicePropDesc of GpsInfo: " + theta.getGPSInfo());
     }
 
     @Test
-    public void getAutoPowerOffDelay() throws IOException, ThetaException {
+    public void getAutoPowerOffDelay() throws IOException {
         LOGGER.info("DevicePropDesc of AutoPowerOffDelay: " + theta.getAutoPowerOffDelay());
     }
 
     @Test
-    public void getSleepDelay() throws IOException, ThetaException {
+    public void getSleepDelay() throws IOException {
         LOGGER.info("DevicePropDesc of SleepDelay: " + theta.getSleepDelay());
     }
 
     @Test
-    public void getChannelNumber() throws IOException, ThetaException {
+    public void getChannelNumber() throws IOException {
         LOGGER.info("DevicePropDesc of ChannelNumber: " + theta.getChannelNumber());
     }
 
     @Test
-    public void getCaptureStatus() throws IOException, ThetaException {
+    public void getCaptureStatus() throws IOException {
         LOGGER.info("DevicePropDesc of CaptureStatus: " + theta.getCaptureStatus());
     }
 
     @Test
-    public void getRecordingTime() throws IOException, ThetaException {
+    public void getRecordingTime() throws IOException {
         LOGGER.info("DevicePropDesc of RecordingTime: " + theta.getRecordingTime());
     }
 
     @Test
-    public void getRemainingRecordingTime() throws IOException, ThetaException {
+    public void getRemainingRecordingTime() throws IOException {
         LOGGER.info("DevicePropDesc of RemainingRecordingTime: " + theta.getRemainingRecordingTime());
     }
 }

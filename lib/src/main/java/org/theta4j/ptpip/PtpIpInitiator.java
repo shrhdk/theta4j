@@ -219,7 +219,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     }
 
     @Override
-    public void receiveData(OutputStream dst) throws IOException, PtpException {
+    public void receiveData(OutputStream dst) throws IOException {
         Validators.validateNonNull("dst", dst);
 
         ci.readData(dst);

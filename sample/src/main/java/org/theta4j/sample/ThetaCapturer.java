@@ -3,7 +3,6 @@ package org.theta4j.sample;
 import org.theta4j.Theta;
 import org.theta4j.ThetaEventAdapter;
 import org.theta4j.ThetaEventListener;
-import org.theta4j.ThetaException;
 import org.theta4j.ptp.data.DeviceInfo;
 
 import java.io.File;
@@ -25,7 +24,7 @@ public final class ThetaCapturer {
         }
     };
 
-    public static void main(String[] args) throws IOException, ThetaException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         if (args.length != 1) {
             System.out.println("theta-capture.jar captures image from THETA.");
             System.out.println("java -jar theta-capture-x.x.x.jar <dst-file-name>");

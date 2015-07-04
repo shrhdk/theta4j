@@ -144,28 +144,20 @@ public final class Theta implements Closeable {
      * Returns information and capabilities about the Responder device.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public DeviceInfo getDeviceInfo() throws IOException, ThetaException {
-        try {
-            return ptpInitiator.getDeviceInfo();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public DeviceInfo getDeviceInfo() throws IOException {
+        return ptpInitiator.getDeviceInfo();
     }
 
     /**
      * Returns a list of the currently valid StorageIDs.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public List<Long> getStorageIDs() throws IOException, ThetaException {
-        try {
-            return PrimitiveUtils.convert(ptpInitiator.getStorageIDs());
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public List<Long> getStorageIDs() throws IOException {
+        return PrimitiveUtils.convert(ptpInitiator.getStorageIDs());
     }
 
     /**
@@ -173,42 +165,30 @@ public final class Theta implements Closeable {
      *
      * @param storageID The StorageID of the storage area to acquire the StorageInfo.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public StorageInfo getStorageInfo(long storageID) throws IOException, ThetaException {
-        try {
-            return ptpInitiator.getStorageInfo(new UINT32(storageID));
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public StorageInfo getStorageInfo(long storageID) throws IOException {
+        return ptpInitiator.getStorageInfo(new UINT32(storageID));
     }
 
     /**
      * Returns the total number of objects present in the all storage.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public long getNumObjects() throws IOException, ThetaException {
-        try {
-            return ptpInitiator.getNumObjects().longValue();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public long getNumObjects() throws IOException {
+        return ptpInitiator.getNumObjects().longValue();
     }
 
     /**
      * Returns a list of the object handles.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public List<Long> getObjectHandles() throws IOException, ThetaException {
-        try {
-            return PrimitiveUtils.convert(ptpInitiator.getObjectHandles());
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public List<Long> getObjectHandles() throws IOException {
+        return PrimitiveUtils.convert(ptpInitiator.getObjectHandles());
     }
 
     /**
@@ -216,14 +196,10 @@ public final class Theta implements Closeable {
      *
      * @param objectHandle The ObjectHandle of the object to acquire the ObjectInfo.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public ObjectInfo getObjectInfo(long objectHandle) throws IOException, ThetaException {
-        try {
-            return ptpInitiator.getObjectInfo(new UINT32(objectHandle));
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public ObjectInfo getObjectInfo(long objectHandle) throws IOException {
+        return ptpInitiator.getObjectInfo(new UINT32(objectHandle));
     }
 
     /**
@@ -232,14 +208,10 @@ public final class Theta implements Closeable {
      * @param objectHandle The ObjectHandle of the object to acquire the data.
      * @param dst          The destination for the object's data.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void getObject(long objectHandle, OutputStream dst) throws IOException, ThetaException {
-        try {
-            ptpInitiator.getObject(new UINT32(objectHandle), dst);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public void getObject(long objectHandle, OutputStream dst) throws IOException {
+        ptpInitiator.getObject(new UINT32(objectHandle), dst);
     }
 
     /**
@@ -248,14 +220,10 @@ public final class Theta implements Closeable {
      * @param objectHandle The ObjectHandle of the object to acquire the thumbnail data.
      * @param dst          The destination for the object's thumbnail data.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void getThumb(long objectHandle, OutputStream dst) throws IOException, ThetaException {
-        try {
-            ptpInitiator.getThumb(new UINT32(objectHandle), dst);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public void getThumb(long objectHandle, OutputStream dst) throws IOException {
+        ptpInitiator.getThumb(new UINT32(objectHandle), dst);
     }
 
     /**
@@ -263,42 +231,30 @@ public final class Theta implements Closeable {
      *
      * @param objectHandle The ObjectHandle of the object to delete.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void deleteObject(long objectHandle) throws IOException, ThetaException {
-        try {
-            ptpInitiator.deleteObject(new UINT32(objectHandle));
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public void deleteObject(long objectHandle) throws IOException {
+        ptpInitiator.deleteObject(new UINT32(objectHandle));
     }
 
     /**
      * Starts shooting.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void initiateCapture() throws IOException, ThetaException {
-        try {
-            ptpInitiator.initiateCapture();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public void initiateCapture() throws IOException {
+        ptpInitiator.initiateCapture();
     }
 
     /**
      * Exits the all continuous shooting.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void terminateOpenCapture() throws IOException, ThetaException {
-        try {
-            ptpInitiator.terminateOpenCapture();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public void terminateOpenCapture() throws IOException {
+        ptpInitiator.terminateOpenCapture();
     }
 
     /**
@@ -306,32 +262,24 @@ public final class Theta implements Closeable {
      *
      * @param transactionID The TransactionID returned by Theta#initiateOpenCapture().
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      * @see #initiateOpenCapture()
      */
-    public void terminateOpenCapture(long transactionID) throws IOException, ThetaException {
-        try {
-            ptpInitiator.terminateOpenCapture(new UINT32(transactionID));
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public void terminateOpenCapture(long transactionID) throws IOException {
+        ptpInitiator.terminateOpenCapture(new UINT32(transactionID));
     }
 
     /**
      * Starts the video recording or the interval shooting.
-     *
+     * 
      * After starts, it can exit by the #terminateOpenCapture(long)
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      * @see #terminateOpenCapture(long)
      */
-    public long initiateOpenCapture() throws IOException, ThetaException {
-        try {
-            return ptpInitiator.initiateOpenCapture().longValue();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public long initiateOpenCapture() throws IOException {
+        return ptpInitiator.initiateOpenCapture().longValue();
     }
 
     /**
@@ -341,18 +289,14 @@ public final class Theta implements Closeable {
      * @param dst          The destination for the object's resized data.
      * @throws IOException
      */
-    public void getResizedImageObject(long objectHandle, OutputStream dst) throws IOException, ThetaException {
+    public void getResizedImageObject(long objectHandle, OutputStream dst) throws IOException {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
 
         ptpInitiator.sendOperation(OperationCode.GET_RESIZED_IMAGE_OBJECT, new UINT32(objectHandle), new UINT32(2048), new UINT32(1024));
 
-        try {
-            ptpInitiator.receiveData(dst);
-            ptpInitiator.checkResponse();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.receiveData(dst);
+        ptpInitiator.checkResponse();
     }
 
     /**
@@ -360,14 +304,10 @@ public final class Theta implements Closeable {
      *
      * @throws IOException
      */
-    public void turnOffWLAN() throws IOException, ThetaException {
+    public void turnOffWLAN() throws IOException {
         ptpInitiator.sendOperation(OperationCode.WLAN_POWER_CONTROL);
 
-        try {
-            ptpInitiator.checkResponse();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.checkResponse();
     }
 
     // Property
@@ -377,13 +317,9 @@ public final class Theta implements Closeable {
      *
      * @throws IOException
      */
-    public BatteryLevel getBatteryLevel() throws IOException, ThetaException {
-        try {
-            UINT8 value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.BATTERY_LEVEL);
-            return BatteryLevel.valueOf(value);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public BatteryLevel getBatteryLevel() throws IOException {
+        UINT8 value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.BATTERY_LEVEL);
+        return BatteryLevel.valueOf(value);
     }
 
     /**
@@ -391,114 +327,85 @@ public final class Theta implements Closeable {
      *
      * @throws IOException
      */
-    public WhiteBalance getWhiteBalance() throws IOException, ThetaException {
-        try {
-            UINT16 value = ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.WHITE_BALANCE);
-            return WhiteBalance.valueOf(value);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public WhiteBalance getWhiteBalance() throws IOException {
+        UINT16 value = ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.WHITE_BALANCE);
+        return WhiteBalance.valueOf(value);
     }
 
     /**
      * Sets the white balance.
-     *
+     * 
      * Returns to the default value when the power is turned off.
      *
      * @throws IOException
      */
-    public void setWhiteBalance(WhiteBalance whiteBalance) throws IOException, ThetaException {
+    public void setWhiteBalance(WhiteBalance whiteBalance) throws IOException {
         Validators.validateNonNull("whiteBalance", whiteBalance);
 
-        try {
-            ptpInitiator.setDevicePropValue(DevicePropCode.WHITE_BALANCE, whiteBalance.value());
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.setDevicePropValue(DevicePropCode.WHITE_BALANCE, whiteBalance.value());
     }
 
     /**
      * Acquires the ISO sensitivity.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public ISOSpeed getExposureIndex() throws IOException, ThetaException {
-        try {
-            UINT16 value = ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.EXPOSURE_INDEX);
-            return ISOSpeed.valueOf(value);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public ISOSpeed getExposureIndex() throws IOException {
+        UINT16 value = ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.EXPOSURE_INDEX);
+        return ISOSpeed.valueOf(value);
     }
 
     /**
      * Sets the ISO sensitivity.
-     *
+     * 
      * Returns to the default value when the power is turned off.
-     *
+     * 
      * ISO sensitivity can be changed when ShutterSpeed is AUTO.
      *
      * @param isoSpeed An ISO speed
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void setExposureIndex(ISOSpeed isoSpeed) throws IOException, ThetaException {
+    public void setExposureIndex(ISOSpeed isoSpeed) throws IOException {
         Validators.validateNonNull("isoSpeed", isoSpeed);
 
-        try {
-            ptpInitiator.setDevicePropValue(DevicePropCode.EXPOSURE_INDEX, isoSpeed.value());
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.setDevicePropValue(DevicePropCode.EXPOSURE_INDEX, isoSpeed.value());
     }
 
     /**
      * Acquires or set the exposure bias compensation value.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public int getExposureBiasCompensation() throws IOException, ThetaException {
-        try {
-            return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.EXPOSURE_BIAS_COMPENSATION).intValue();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public int getExposureBiasCompensation() throws IOException {
+        return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.EXPOSURE_BIAS_COMPENSATION).intValue();
     }
 
     /**
      * Sets the exposure bias compensation value.
-     *
+     * 
      * Returns to the default value when the power is turned off.
      *
      * @param exposureBiasCompensation An exposure bias compensation value to set.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void setExposureBiasCompensation(int exposureBiasCompensation) throws IOException, ThetaException {
+    public void setExposureBiasCompensation(int exposureBiasCompensation) throws IOException {
         UINT16 value = new UINT16(exposureBiasCompensation);
 
-        try {
-            ptpInitiator.setDevicePropValue(DevicePropCode.EXPOSURE_BIAS_COMPENSATION, value);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.setDevicePropValue(DevicePropCode.EXPOSURE_BIAS_COMPENSATION, value);
     }
 
     /**
      * Acquires the date and time.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public Date getDateTime() throws IOException, ThetaException {
-        String str;
-        try {
-            str = ptpInitiator.getDevicePropValueAsString(DevicePropCode.DATE_TIME);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public Date getDateTime() throws IOException {
+        String str = ptpInitiator.getDevicePropValueAsString(DevicePropCode.DATE_TIME);
 
         try {
             return new SimpleDateFormat(DATE_TIME_FORMAT).parse(str);
@@ -512,81 +419,65 @@ public final class Theta implements Closeable {
      *
      * @param dateTime A date and time to set.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void setDateTime(Date dateTime) throws IOException, ThetaException {
+    public void setDateTime(Date dateTime) throws IOException {
         Validators.validateNonNull("dateTime", dateTime);
 
         String str = new SimpleDateFormat(DATE_TIME_FORMAT).format(dateTime);
 
-        try {
-            ptpInitiator.setDevicePropValue(DevicePropCode.DATE_TIME, str);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.setDevicePropValue(DevicePropCode.DATE_TIME, str);
     }
 
     /**
      * Acquires the still image shooting method.¥
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public StillCaptureMode getStillCaptureMode() throws IOException, ThetaException {
-        try {
-            UINT16 value = ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.STILL_CAPTURE_MODE);
-            return StillCaptureMode.valueOf(value);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public StillCaptureMode getStillCaptureMode() throws IOException {
+        UINT16 value = ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.STILL_CAPTURE_MODE);
+        return StillCaptureMode.valueOf(value);
     }
 
     /**
      * Sets the still image shooting method.
-     *
+     * 
      * Returns to the default value when the power is turned off or when #initiateOpenCapture() ends.
      *
      * @param stillCaptureMode A still capture mode to set.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void setStillCaptureMode(StillCaptureMode stillCaptureMode) throws IOException, ThetaException {
+    public void setStillCaptureMode(StillCaptureMode stillCaptureMode) throws IOException {
         Validators.validateNonNull("stillCaptureMode", stillCaptureMode);
 
-        try {
-            ptpInitiator.setDevicePropValue(DevicePropCode.STILL_CAPTURE_MODE, stillCaptureMode.value());
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.setDevicePropValue(DevicePropCode.STILL_CAPTURE_MODE, stillCaptureMode.value());
     }
 
     /**
      * Acquires the upper limit value for interval shooting.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public int getTimelapseNumber() throws IOException, ThetaException {
-        try {
-            return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.TIMELAPSE_NUMBER).intValue();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public int getTimelapseNumber() throws IOException {
+        return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.TIMELAPSE_NUMBER).intValue();
     }
 
     /**
      * Sets the upper limit value for interval shooting.
-     *
+     * 
      * Returns to the default value when the power is turned off.
-     *
+     * 
      * This property cannot be set when the StillCaptureMode is interval shooting mode.
      * So, this property has to be set before switching the StillCaptureMode to interval shooting mode.
      *
      * @param timelapseNumber The upper limit value for interval shooting. The valid range is in 0 or 2-65535. The 0 means unlimited.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void setTimelapseNumber(int timelapseNumber) throws IOException, ThetaException {
+    public void setTimelapseNumber(int timelapseNumber) throws IOException {
         if (timelapseNumber < 0 || timelapseNumber == 1 || 65535 < timelapseNumber) {
             throw new IllegalArgumentException(
                     String.format("Timelapse number is not work with %d. Set 0 or 2-65535.", timelapseNumber));
@@ -594,40 +485,32 @@ public final class Theta implements Closeable {
 
         UINT16 value = new UINT16(timelapseNumber);
 
-        try {
-            ptpInitiator.setDevicePropValue(DevicePropCode.TIMELAPSE_NUMBER, value);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.setDevicePropValue(DevicePropCode.TIMELAPSE_NUMBER, value);
     }
 
     /**
      * Acquires the shooting interval in msec for interval shooting.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public long getTimelapseInterval() throws IOException, ThetaException {
-        try {
-            return ptpInitiator.getDevicePropValueAsUINT32(DevicePropCode.TIMELAPSE_INTERVAL).longValue();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public long getTimelapseInterval() throws IOException {
+        return ptpInitiator.getDevicePropValueAsUINT32(DevicePropCode.TIMELAPSE_INTERVAL).longValue();
     }
 
     /**
      * Sets the shooting interval in msec for interval shooting.
-     *
+     * 
      * Returns to the default value when the power is turned off.
-     *
+     * 
      * This property cannot be set when the StillCaptureMode is interval shooting mode.
      * So, this property has to be set before switching the StillCaptureMode to interval shooting mode.
      *
      * @param timelapseInterval The shooting interval in msec for interval shooting. The valid range is in 5000-3600000.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void setTimelapseInterval(long timelapseInterval) throws IOException, ThetaException {
+    public void setTimelapseInterval(long timelapseInterval) throws IOException {
         if (timelapseInterval < 5000 || 3600000 < timelapseInterval) {
             throw new IllegalArgumentException(
                     String.format("Timelapse interval is not work with %d. Set 5000-3600000.", timelapseInterval));
@@ -635,37 +518,29 @@ public final class Theta implements Closeable {
 
         UINT32 value = new UINT32(timelapseInterval);
 
-        try {
-            ptpInitiator.setDevicePropValue(DevicePropCode.TIMELAPSE_INTERVAL, value);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.setDevicePropValue(DevicePropCode.TIMELAPSE_INTERVAL, value);
     }
 
     /**
      * Acquires or set the volume for the shutter sound.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public long getAudioVolume() throws IOException, ThetaException {
-        try {
-            return ptpInitiator.getDevicePropValueAsUINT32(DevicePropCode.AUDIO_VOLUME).longValue();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public long getAudioVolume() throws IOException {
+        return ptpInitiator.getDevicePropValueAsUINT32(DevicePropCode.AUDIO_VOLUME).longValue();
     }
 
     /**
      * Set the volume for the shutter sound.
-     *
+     * 
      * Returns to the default value when the power is turned off. // TODO: Confirm the actual behavior.
      *
      * @param audioVolume The volume for the shutter sound. The valid range is in 0-100.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void setAudioVolume(long audioVolume) throws IOException, ThetaException {
+    public void setAudioVolume(long audioVolume) throws IOException {
         if (audioVolume < 0 || 100 < audioVolume) {
             throw new IllegalArgumentException(
                     String.format("Audio volume is not work with %d. Set 0-100.", audioVolume));
@@ -673,60 +548,45 @@ public final class Theta implements Closeable {
 
         UINT32 value = new UINT32(audioVolume);
 
-        try {
-            ptpInitiator.setDevicePropValue(DevicePropCode.AUDIO_VOLUME, value);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.setDevicePropValue(DevicePropCode.AUDIO_VOLUME, value);
     }
 
     /**
      * Acquires the error information.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public ErrorInfo getErrorInfo() throws IOException, ThetaException {
-        try {
-            UINT32 value = ptpInitiator.getDevicePropValueAsUINT32(DevicePropCode.ERROR_INFO);
-            return ErrorInfo.valueOf(value);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public ErrorInfo getErrorInfo() throws IOException {
+        UINT32 value = ptpInitiator.getDevicePropValueAsUINT32(DevicePropCode.ERROR_INFO);
+        return ErrorInfo.valueOf(value);
     }
 
     /**
      * Acquires the shutter speed.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public ShutterSpeed getShutterSpeed() throws IOException, ThetaException {
-        try {
-            UINT64 value = ptpInitiator.getDevicePropValueAsUINT64(DevicePropCode.SHUTTER_SPEED);
-            return ShutterSpeed.valueOf(Rational.valueOf(value.bytes()));
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public ShutterSpeed getShutterSpeed() throws IOException {
+        UINT64 value = ptpInitiator.getDevicePropValueAsUINT64(DevicePropCode.SHUTTER_SPEED);
+        return ShutterSpeed.valueOf(Rational.valueOf(value.bytes()));
     }
 
     /**
      * Sets the shutter speed.
-     *
+     * 
      * Returns to the default value when the power is turned off.
      *
      * @param shutterSpeed The shutter speed to set.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void setShutterSpeed(ShutterSpeed shutterSpeed) throws IOException, ThetaException {
+
+    public void setShutterSpeed(ShutterSpeed shutterSpeed) throws IOException {
         Validators.validateNonNull("shutterSpeed", shutterSpeed);
 
-        try {
-            ptpInitiator.setDevicePropValue(DevicePropCode.SHUTTER_SPEED, shutterSpeed.value().bytes());
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.setDevicePropValue(DevicePropCode.SHUTTER_SPEED, shutterSpeed.value().bytes());
     }
 
     // TODO: Add the GPSInfo class and replace String with GPSInfo.
@@ -735,49 +595,37 @@ public final class Theta implements Closeable {
      * Acquires the GPS information.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public String getGPSInfo() throws IOException, ThetaException {
-        try {
-            return STR.read(ptpInitiator.getDevicePropValue(DevicePropCode.GPS_INFO));
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public String getGPSInfo() throws IOException {
+        return STR.read(ptpInitiator.getDevicePropValue(DevicePropCode.GPS_INFO));
     }
 
     // TODO: Add the GPSInfo class and replace String with GPSInfo.
 
     /**
      * Sets the GPS information.
-     *
+     * 
      * Returns to the default value when the power is turned off.
      *
      * @param gpsInfo The GPS information to set.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void setGPSInfo(String gpsInfo) throws IOException, ThetaException {
+    public void setGPSInfo(String gpsInfo) throws IOException {
         Validators.validateNonNull("gpsInfo", gpsInfo);
 
-        try {
-            ptpInitiator.setDevicePropValue(DevicePropCode.GPS_INFO, gpsInfo);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.setDevicePropValue(DevicePropCode.GPS_INFO, gpsInfo);
     }
 
     /**
      * Acquires the time in minutes to start the auto power off.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public int getAutoPowerOffDelay() throws IOException, ThetaException {
-        try {
-            return ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.AUTO_POWER_OFF_DELAY).intValue();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public int getAutoPowerOffDelay() throws IOException {
+        return ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.AUTO_POWER_OFF_DELAY).intValue();
     }
 
     /**
@@ -785,33 +633,25 @@ public final class Theta implements Closeable {
      *
      * @param autoPowerOffDelay The time in minutes to start the auto power off. The valid range is in 0-30. The 0 disables the auto power off.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void setAutoPowerOffDelay(int autoPowerOffDelay) throws IOException, ThetaException {
+    public void setAutoPowerOffDelay(int autoPowerOffDelay) throws IOException {
         if (autoPowerOffDelay < 0 || 30 < autoPowerOffDelay) {
             throw new IllegalArgumentException(
                     String.format("Auto power off delay is not work with %d. Set 0-30.", autoPowerOffDelay));
         }
 
-        try {
-            ptpInitiator.setDevicePropValue(DevicePropCode.AUTO_POWER_OFF_DELAY, (byte) autoPowerOffDelay);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.setDevicePropValue(DevicePropCode.AUTO_POWER_OFF_DELAY, (byte) autoPowerOffDelay);
     }
 
     /**
      * Acquires the time in seconds to start sleep.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public int getSleepDelay() throws IOException, ThetaException {
-        try {
-            return ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.SLEEP_DELAY).intValue();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public int getSleepDelay() throws IOException {
+        return ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.SLEEP_DELAY).intValue();
     }
 
     /**
@@ -819,39 +659,31 @@ public final class Theta implements Closeable {
      *
      * @param sleepDelay The time in seconds to start sleep. The valid range is in 0-1800. Does not switch to sleep mode with 0.
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public void setSleepDelay(int sleepDelay) throws IOException, ThetaException {
+    public void setSleepDelay(int sleepDelay) throws IOException {
         if (sleepDelay < 0 || 1800 < sleepDelay) {
             throw new IllegalArgumentException(
                     String.format("Sleep delay is not work with %d. Set 0-1800.", sleepDelay));
         }
 
-        try {
-            ptpInitiator.setDevicePropValue(DevicePropCode.SLEEP_DELAY, new UINT16(sleepDelay));
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+        ptpInitiator.setDevicePropValue(DevicePropCode.SLEEP_DELAY, new UINT16(sleepDelay));
     }
 
     /**
      * Acquires the wireless LAN channel number.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public ChannelNumber getChannelNumber() throws IOException, ThetaException {
-        try {
-            UINT8 value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.CHANNEL_NUMBER);
-            return ChannelNumber.valueOf(value);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public ChannelNumber getChannelNumber() throws IOException {
+        UINT8 value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.CHANNEL_NUMBER);
+        return ChannelNumber.valueOf(value);
     }
 
     /**
      * Sets the wireless LAN channel number.
-     *
+     * 
      * This operation effects after wireless LAN OFF/ON.
      *
      * @param channelNumber The wireless LAN channel number to set.
@@ -865,43 +697,31 @@ public final class Theta implements Closeable {
      * Acquires the camera shooting execution status.
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public CaptureStatus getCaptureStatus() throws IOException, ThetaException {
-        try {
-            UINT8 value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.CAPTURE_STATUS);
-            return CaptureStatus.valueOf(value);
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public CaptureStatus getCaptureStatus() throws IOException {
+        UINT8 value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.CAPTURE_STATUS);
+        return CaptureStatus.valueOf(value);
     }
 
     /**
      * Acquires the video recording time in seconds. (Model: RICOH THETA m15)
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public int getRecordingTime() throws IOException, ThetaException {
-        try {
-            return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.RECORDING_TIME).intValue();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public int getRecordingTime() throws IOException {
+        return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.RECORDING_TIME).intValue();
     }
 
     /**
      * Acquires the amount of time remaining in seconds for recording video. (Model: RICOH THETA m15)
      *
      * @throws IOException
-     * @throws ThetaException
+     * @throws PtpException
      */
-    public int getRemainingRecordingTime() throws IOException, ThetaException {
-        try {
-            return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.REMAINING_RECORDING_TIME).intValue();
-        } catch (PtpException e) {
-            throw new ThetaException(e);
-        }
+    public int getRemainingRecordingTime() throws IOException {
+        return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.REMAINING_RECORDING_TIME).intValue();
     }
 
     // Listener

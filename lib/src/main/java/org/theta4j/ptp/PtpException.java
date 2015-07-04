@@ -3,7 +3,9 @@ package org.theta4j.ptp;
 import org.theta4j.ptp.code.Code;
 import org.theta4j.ptp.type.UINT16;
 
-public class PtpException extends Exception implements Code<UINT16> {
+import java.io.IOException;
+
+public class PtpException extends IOException implements Code<UINT16> {
     private final UINT16 value;
 
     // Constructor

@@ -48,7 +48,7 @@ public class CaptureTest {
     };
 
     @Test
-    public void initiateCapture() throws IOException, ThetaException, InterruptedException {
+    public void initiateCapture() throws IOException, InterruptedException {
         try (Theta theta = new Theta()) {
             theta.addListener(listener);
             theta.initiateCapture();

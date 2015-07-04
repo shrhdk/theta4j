@@ -49,7 +49,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     // Operations
 
     @Override
-    public DeviceInfo getDeviceInfo() throws IOException, PtpException {
+    public DeviceInfo getDeviceInfo() throws IOException {
         sendOperation(OperationCode.GET_DEVICE_INFO);
         DeviceInfo deviceInfo = DeviceInfo.read(receiveData());
         checkResponse();
@@ -58,7 +58,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public void openSession(UINT32 sessionID) throws IOException, PtpException {
+    public void openSession(UINT32 sessionID) throws IOException {
         Validators.validateNonNull("sessionID", sessionID);
 
         if (sessionID.longValue() == 0) {
@@ -72,7 +72,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public void closeSession() throws IOException, PtpException {
+    public void closeSession() throws IOException {
         sendOperation(OperationCode.CLOSE_SESSION);
         checkResponse();
 
@@ -80,7 +80,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public List<UINT32> getStorageIDs() throws IOException, PtpException {
+    public List<UINT32> getStorageIDs() throws IOException {
         sendOperation(OperationCode.GET_STORAGE_IDS);
         List<UINT32> storageIDs = AUINT32.read(receiveData());
         checkResponse();
@@ -89,7 +89,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public StorageInfo getStorageInfo(UINT32 storageID) throws IOException, PtpException {
+    public StorageInfo getStorageInfo(UINT32 storageID) throws IOException {
         Validators.validateNonNull("storageID", storageID);
 
         sendOperation(OperationCode.GET_STORAGE_INFO, storageID);
@@ -100,7 +100,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public UINT32 getNumObjects() throws IOException, PtpException {
+    public UINT32 getNumObjects() throws IOException {
         sendOperation(OperationCode.GET_NUM_OBJECTS);
         UINT32 numObjects = UINT32.read(receiveData());
         checkResponse();
@@ -109,12 +109,12 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public List<UINT32> getObjectHandles() throws IOException, PtpException {
+    public List<UINT32> getObjectHandles() throws IOException {
         return getObjectHandles(new UINT32(0xFFFFFFFFL));
     }
 
     @Override
-    public List<UINT32> getObjectHandles(UINT32 storageID) throws IOException, PtpException {
+    public List<UINT32> getObjectHandles(UINT32 storageID) throws IOException {
         Validators.validateNonNull("storageID", storageID);
 
         sendOperation(OperationCode.GET_OBJECT_HANDLES, storageID);
@@ -125,7 +125,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public ObjectInfo getObjectInfo(UINT32 objectHandle) throws IOException, PtpException {
+    public ObjectInfo getObjectInfo(UINT32 objectHandle) throws IOException {
         Validators.validateNonNull("objectHandle", objectHandle);
 
         sendOperation(OperationCode.GET_OBJECT_INFO, objectHandle);
@@ -136,7 +136,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public void getObject(UINT32 objectHandle, OutputStream dst) throws IOException, PtpException {
+    public void getObject(UINT32 objectHandle, OutputStream dst) throws IOException {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
 
@@ -146,7 +146,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public void getThumb(UINT32 objectHandle, OutputStream dst) throws IOException, PtpException {
+    public void getThumb(UINT32 objectHandle, OutputStream dst) throws IOException {
         Validators.validateNonNull("objectHandle", objectHandle);
         Validators.validateNonNull("dst", dst);
 
@@ -156,7 +156,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public void deleteObject(UINT32 objectHandle) throws IOException, PtpException {
+    public void deleteObject(UINT32 objectHandle) throws IOException {
         Validators.validateNonNull("objectHandle", objectHandle);
 
         sendOperation(OperationCode.DELETE_OBJECT, objectHandle);
@@ -164,13 +164,13 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public void initiateCapture() throws IOException, PtpException {
+    public void initiateCapture() throws IOException {
         sendOperation(OperationCode.INITIATE_CAPTURE);
         checkResponse();
     }
 
     @Override
-    public DevicePropDesc<?> getDevicePropDesc(Code<UINT16> devicePropCode) throws IOException, PtpException {
+    public DevicePropDesc<?> getDevicePropDesc(Code<UINT16> devicePropCode) throws IOException {
         sendOperation(OperationCode.GET_DEVICE_PROP_DESC, new UINT32(devicePropCode.value().intValue()));
         DevicePropDesc<?> devicePropDesc = DevicePropDesc.read(receiveData());
         checkResponse();
@@ -179,7 +179,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public InputStream getDevicePropValue(Code<UINT16> devicePropCode) throws IOException, PtpException {
+    public InputStream getDevicePropValue(Code<UINT16> devicePropCode) throws IOException {
         Validators.validateNonNull("devicePropCode", devicePropCode);
 
         sendOperation(OperationCode.GET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
@@ -190,32 +190,32 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public UINT8 getDevicePropValueAsUINT8(Code<UINT16> devicePropCode) throws IOException, PtpException {
+    public UINT8 getDevicePropValueAsUINT8(Code<UINT16> devicePropCode) throws IOException {
         return UINT8.read(getDevicePropValue(devicePropCode));
     }
 
     @Override
-    public UINT16 getDevicePropValueAsUINT16(Code<UINT16> devicePropCode) throws IOException, PtpException {
+    public UINT16 getDevicePropValueAsUINT16(Code<UINT16> devicePropCode) throws IOException {
         return UINT16.read(getDevicePropValue(devicePropCode));
     }
 
     @Override
-    public UINT32 getDevicePropValueAsUINT32(Code<UINT16> devicePropCode) throws IOException, PtpException {
+    public UINT32 getDevicePropValueAsUINT32(Code<UINT16> devicePropCode) throws IOException {
         return UINT32.read(getDevicePropValue(devicePropCode));
     }
 
     @Override
-    public UINT64 getDevicePropValueAsUINT64(Code<UINT16> devicePropCode) throws IOException, PtpException {
+    public UINT64 getDevicePropValueAsUINT64(Code<UINT16> devicePropCode) throws IOException {
         return UINT64.read(getDevicePropValue(devicePropCode));
     }
 
     @Override
-    public String getDevicePropValueAsString(Code<UINT16> devicePropCode) throws IOException, PtpException {
+    public String getDevicePropValueAsString(Code<UINT16> devicePropCode) throws IOException {
         return STR.read(getDevicePropValue(devicePropCode));
     }
 
     @Override
-    public void setDevicePropValue(Code<UINT16> devicePropCode, byte[] value) throws IOException, PtpException {
+    public void setDevicePropValue(Code<UINT16> devicePropCode, byte[] value) throws IOException {
         Validators.validateNonNull("devicePropCode", devicePropCode);
         Validators.validateNonNull("value", value);
 
@@ -225,38 +225,38 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     }
 
     @Override
-    public void setDevicePropValue(Code<UINT16> devicePropValue, byte value) throws IOException, PtpException {
+    public void setDevicePropValue(Code<UINT16> devicePropValue, byte value) throws IOException {
         setDevicePropValue(devicePropValue, new byte[]{value});
     }
 
     @Override
-    public void setDevicePropValue(Code<UINT16> devicePropValue, UINT16 value) throws IOException, PtpException {
+    public void setDevicePropValue(Code<UINT16> devicePropValue, UINT16 value) throws IOException {
         setDevicePropValue(devicePropValue, value.bytes());
     }
 
     @Override
-    public void setDevicePropValue(Code<UINT16> devicePropValue, UINT32 value) throws IOException, PtpException {
+    public void setDevicePropValue(Code<UINT16> devicePropValue, UINT32 value) throws IOException {
         setDevicePropValue(devicePropValue, value.bytes());
     }
 
     @Override
-    public void setDevicePropValue(Code<UINT16> devicePropValue, String value) throws IOException, PtpException {
+    public void setDevicePropValue(Code<UINT16> devicePropValue, String value) throws IOException {
         setDevicePropValue(devicePropValue, STR.toBytes(value + "\u0000"));
     }
 
     @Override
-    public void terminateOpenCapture() throws IOException, PtpException {
+    public void terminateOpenCapture() throws IOException {
         terminateOpenCapture(UINT32.MAX_VALUE);
     }
 
     @Override
-    public void terminateOpenCapture(UINT32 transactionID) throws IOException, PtpException {
+    public void terminateOpenCapture(UINT32 transactionID) throws IOException {
         sendOperation(OperationCode.TERMINATE_OPEN_CAPTURE, transactionID);
         checkResponse();
     }
 
     @Override
-    public UINT32 initiateOpenCapture() throws IOException, PtpException {
+    public UINT32 initiateOpenCapture() throws IOException {
         UINT32 transactionID = sendOperation(OperationCode.INITIATE_OPEN_CAPTURER);
         checkResponse();
 
@@ -266,7 +266,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     // Responses
 
     @Override
-    public void checkResponse() throws IOException, PtpException {
+    public void checkResponse() throws IOException {
         Response operationResponse = receiveResponse();
 
         if (!operationResponse.getResponseCode().equals(ResponseCode.OK.value())) {
@@ -278,7 +278,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     // Data
 
     @Override
-    public InputStream receiveData() throws IOException, PtpException {
+    public InputStream receiveData() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         receiveData(baos);
         return new ByteArrayInputStream(baos.toByteArray());

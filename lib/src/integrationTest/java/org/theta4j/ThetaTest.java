@@ -5,7 +5,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.theta4j.ptp.PtpException;
 import org.theta4j.ptp.data.ObjectInfo;
 
 import java.io.IOException;
@@ -49,13 +48,13 @@ public class ThetaTest {
     private static Theta theta;
 
     @BeforeClass
-    public static void connect() throws IOException, PtpException {
+    public static void connect() throws IOException {
         theta = new Theta();
         theta.addListener(listener);
     }
 
     @AfterClass
-    public static void close() throws IOException, InterruptedException, PtpException {
+    public static void close() throws IOException, InterruptedException {
         theta.close();
         Thread.sleep(TestParameters.INTERVAL_MS);
     }
@@ -63,17 +62,17 @@ public class ThetaTest {
     // Operations
 
     @Test
-    public void getDeviceInfo() throws IOException, ThetaException {
+    public void getDeviceInfo() throws IOException {
         LOGGER.info("Device Info" + theta.getDeviceInfo());
     }
 
     @Test
-    public void getObjectHandles() throws IOException, ThetaException {
+    public void getObjectHandles() throws IOException {
         LOGGER.info("Object Handles: " + theta.getObjectHandles());
     }
 
     @Test
-    public void getObjectInfo() throws IOException, ThetaException {
+    public void getObjectInfo() throws IOException {
         List<Long> objectHandles = theta.getObjectHandles();
         ObjectInfo objectInfo = theta.getObjectInfo(objectHandles.get(0));
         LOGGER.info("Object Info: " + objectInfo);
