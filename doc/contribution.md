@@ -8,13 +8,13 @@ This project uses Gradle build system.
 
 This repository includes Gradle. So, You don't have to install Gradle.
 
-Command to build theta4j is below.
+A command to build theta4j is below.
 
 ```
 $ ./gradlew assemble
 ```
 
-Command to execute unit-test is below
+A command to execute unit-test is below
 
 ```
 $ ./gradlew check
