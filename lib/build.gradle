@@ -94,7 +94,7 @@ if (new File('gradle.properties', projectDir).exists()) {
                     name archivesBaseName
                     packaging 'jar'
                     description 'RICOH THETA SDK for Java.'
-                    url 'http://www.example.com/example-application'
+                    url 'http://theta4j.org/'
 
                     scm {
                         connection 'scm:git:git://github.com/shrhdk/theta4j.git'
