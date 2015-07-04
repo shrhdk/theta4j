@@ -4,10 +4,12 @@ import org.theta4j.ptp.data.Event;
 import org.theta4j.ptp.type.UINT16;
 import org.theta4j.ptp.type.UINT32;
 
+import java.util.EventListener;
+
 /**
  * Listener Set for PTP Event.
  */
-public interface PtpEventListener {
+public interface PtpEventListener extends EventListener {
     void onCancelTransaction();
 
     void onObjectAdded(UINT32 objectHandle);

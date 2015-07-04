@@ -1,12 +1,14 @@
 package org.theta4j;
 
+import java.util.EventListener;
+
 /**
  * The listener interface for the events of RICOH THETA.
  *
  * @see Theta#addListener(ThetaEventListener)
  * @see Theta#removeListener(ThetaEventListener)
  */
-public interface ThetaEventListener {
+public interface ThetaEventListener extends EventListener {
     /**
      * Notification of an object addition
      *
