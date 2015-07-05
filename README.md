@@ -29,7 +29,7 @@ theta4j aims the followings compared with the official SDK.
 
 ## Set up
 
-Add codes below to `build.gradle` if you are using the Gradle.
+Add code below to `build.gradle` if you are using Gradle.
 
 ```gradle
 repositories {
