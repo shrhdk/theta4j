@@ -68,7 +68,7 @@ public final class Theta implements Closeable {
 
             @Override
             public void onCaptureComplete(UINT32 transactionID) {
-                listenerSet.onCaptureComplete(transactionID.longValue());
+                listenerSet.onCaptureComplete();
             }
         });
 

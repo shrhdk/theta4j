@@ -24,5 +24,5 @@ public interface ThetaEventListener extends EventListener {
 
     void onStoreFull(long storageID);
 
-    void onCaptureComplete(long transactionID);
+    void onCaptureComplete();
 }

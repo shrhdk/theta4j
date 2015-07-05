@@ -22,6 +22,6 @@ public abstract class ThetaEventAdapter implements ThetaEventListener {
     }
 
     @Override
-    public void onCaptureComplete(long transactionID) {
+    public void onCaptureComplete() {
     }
 }
