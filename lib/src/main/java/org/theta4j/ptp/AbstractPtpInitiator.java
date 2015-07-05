@@ -283,4 +283,20 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
         receiveData(baos);
         return new ByteArrayInputStream(baos.toByteArray());
     }
+
+    // Listener
+
+    protected final PtpEventListenerSet listenerSet = new PtpEventListenerSet();
+
+    public final boolean addListener(PtpEventListener listener) {
+        Validators.notNull("listener", listener);
+
+        return listenerSet.add(listener);
+    }
+
+    public final boolean removeListener(PtpEventListener listener) {
+        Validators.notNull("listener", listener);
+
+        return listenerSet.remove(listener);
+    }
 }

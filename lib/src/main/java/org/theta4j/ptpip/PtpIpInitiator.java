@@ -40,7 +40,6 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     // EventListener
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final PtpEventListenerSet listenerSet = new PtpEventListenerSet();
 
     // Command Data Connection
 
@@ -223,20 +222,6 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
         Validators.notNull("dst", dst);
 
         ci.readData(dst);
-    }
-
-    // Listener
-
-    public final boolean addListener(PtpEventListener listener) {
-        Validators.notNull("listener", listener);
-
-        return listenerSet.add(listener);
-    }
-
-    public final boolean removeListener(PtpEventListener listener) {
-        Validators.notNull("listener", listener);
-
-        return listenerSet.remove(listener);
     }
 
     // Closeable
