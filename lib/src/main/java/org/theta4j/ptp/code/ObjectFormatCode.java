@@ -34,10 +34,14 @@ public enum ObjectFormatCode implements Code<UINT16> {
     JP2(0x380F, Type.IMAGE_FILE),
     JPX(0x3810, Type.IMAGE_FILE);
 
+    // Property
+
     private final UINT16 value;
     private final Type type;
 
-    private ObjectFormatCode(int value, Type type) {
+    // Constructor
+
+    ObjectFormatCode(int value, Type type) {
         this.value = new UINT16(value);
         this.type = type;
     }
@@ -58,6 +62,6 @@ public enum ObjectFormatCode implements Code<UINT16> {
     // Inner Enum
 
     public enum Type {
-        IMAGE_FILE, ANCILLARY_DATA_FILE;
+        IMAGE_FILE, ANCILLARY_DATA_FILE
     }
 }

@@ -75,7 +75,7 @@ public class DevicePropDesc<T> {
                 throw new IllegalArgumentException("Unknown FormFlag: " + formFlag);
         }
 
-        return new DevicePropDesc<Object>(devicePropCode, dataType, isReadonly, defaultValue, currentValue, formFlag, rangeForm, enumForm);
+        return new DevicePropDesc<>(devicePropCode, dataType, isReadonly, defaultValue, currentValue, formFlag, rangeForm, enumForm);
     }
 
     // Getter
@@ -204,30 +204,36 @@ public class DevicePropDesc<T> {
         RANGE_FORM(0x01),
         ENUM_FORM(0x02);
 
+        // Map for valueOf method
+
+        private static final Map<Byte, FormFlag> FORM_FLAG_MAP = new HashMap<>();
+
+        static {
+            for (FormFlag formFlag : FormFlag.values()) {
+                FORM_FLAG_MAP.put(formFlag.value, formFlag);
+            }
+        }
+
+        // Property
+
         private final byte value;
 
-        private FormFlag(int value) {
+        // Constructor
+
+        FormFlag(int value) {
             this.value = (byte) value;
         }
 
         // valueOf
 
-        private static Map<Byte, FormFlag> formFlagMap = new HashMap<>();
-
-        static {
-            for (FormFlag formFlag : FormFlag.values()) {
-                formFlagMap.put(formFlag.value, formFlag);
-            }
-        }
-
         public static FormFlag valueOf(byte value) {
             Validators.notNull("value", value);
 
-            if (!formFlagMap.containsKey(value)) {
+            if (!FORM_FLAG_MAP.containsKey(value)) {
                 throw new IllegalArgumentException("Unknown Form Flag Value: " + value);
             }
 
-            return formFlagMap.get(value);
+            return FORM_FLAG_MAP.get(value);
         }
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 public class ThetaTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(ThetaTest.class);
 
-    private static ThetaEventListener listener = new ThetaEventListener() {
+    private static final ThetaEventListener LISTENER = new ThetaEventListener() {
         @Override
         public void onObjectAdded(long objectHandle) {
             LOGGER.info("onObjectAdded: " + objectHandle);
@@ -40,8 +40,8 @@ public class ThetaTest {
         }
 
         @Override
-        public void onCaptureComplete(long transactionID) {
-            LOGGER.info("onCaptureComplete: " + transactionID);
+        public void onCaptureComplete() {
+            LOGGER.info("onCaptureComplete");
         }
     };
 
@@ -50,7 +50,7 @@ public class ThetaTest {
     @BeforeClass
     public static void connect() throws IOException {
         theta = new Theta();
-        theta.addListener(listener);
+        theta.addListener(LISTENER);
     }
 
     @AfterClass

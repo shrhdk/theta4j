@@ -12,9 +12,23 @@ public enum ChannelNumber {
     CH_6(6),
     CH_11(11);
 
+    // Map for valueOf method
+
+    private static final Map<UINT8, ChannelNumber> CHANNEL_NUMBER_MAP = new HashMap<>();
+
+    static {
+        for (ChannelNumber channelNumber : ChannelNumber.values()) {
+            CHANNEL_NUMBER_MAP.put(channelNumber.value, channelNumber);
+        }
+    }
+
+    // Property
+
     private final UINT8 value;
 
-    private ChannelNumber(int value) {
+    // Constructor
+
+    ChannelNumber(int value) {
         this.value = new UINT8(value);
     }
 
@@ -25,14 +39,6 @@ public enum ChannelNumber {
     }
 
     // valueOf
-
-    private static final Map<UINT8, ChannelNumber> CHANNEL_NUMBER_MAP = new HashMap<>();
-
-    static {
-        for (ChannelNumber channelNumber : ChannelNumber.values()) {
-            CHANNEL_NUMBER_MAP.put(channelNumber.value, channelNumber);
-        }
-    }
 
     public static ChannelNumber valueOf(UINT8 value) {
         Validators.notNull("value", value);

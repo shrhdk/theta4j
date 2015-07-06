@@ -31,9 +31,23 @@ public enum StillCaptureMode {
      */
     INTERVAL_SHOT(0x0003);
 
+    // Map for valueOf method
+
+    private static final Map<UINT16, StillCaptureMode> STILL_CAPTURE_MODE_MAP = new HashMap<>();
+
+    static {
+        for (StillCaptureMode stillCaptureMode : StillCaptureMode.values()) {
+            STILL_CAPTURE_MODE_MAP.put(stillCaptureMode.value, stillCaptureMode);
+        }
+    }
+
+    // Property
+
     private final UINT16 value;
 
-    private StillCaptureMode(int value) {
+    // Constructor
+
+    StillCaptureMode(int value) {
         this.value = new UINT16(value);
     }
 
@@ -44,14 +58,6 @@ public enum StillCaptureMode {
     }
 
     // valueOf
-
-    private static final Map<UINT16, StillCaptureMode> STILL_CAPTURE_MODE_MAP = new HashMap<>();
-
-    static {
-        for (StillCaptureMode stillCaptureMode : StillCaptureMode.values()) {
-            STILL_CAPTURE_MODE_MAP.put(stillCaptureMode.value, stillCaptureMode);
-        }
-    }
 
     public static StillCaptureMode valueOf(UINT16 value) {
         Validators.notNull("value", value);

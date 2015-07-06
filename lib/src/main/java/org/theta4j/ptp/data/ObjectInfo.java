@@ -292,9 +292,23 @@ public class ObjectInfo {
         NO_PROTECTION(0x0000),
         READ_ONLY(0x0001);
 
+        // Map for valueOf method
+
+        private static final Map<UINT16, ProtectionStatus> PROTECTION_STATUS_MAP = new HashMap<>();
+
+        static {
+            for (ProtectionStatus type : ProtectionStatus.values()) {
+                PROTECTION_STATUS_MAP.put(type.value, type);
+            }
+        }
+
+        // Property
+
         private final UINT16 value;
 
-        private ProtectionStatus(int value) {
+        // Constructor
+
+        ProtectionStatus(int value) {
             this.value = new UINT16(value);
         }
 
@@ -306,14 +320,6 @@ public class ObjectInfo {
         }
 
         // valueOf
-
-        private static final Map<UINT16, ProtectionStatus> PROTECTION_STATUS_MAP = new HashMap<>();
-
-        static {
-            for (ProtectionStatus type : ProtectionStatus.values()) {
-                PROTECTION_STATUS_MAP.put(type.value, type);
-            }
-        }
 
         /**
          * Get ProtectionStatus from value.

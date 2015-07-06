@@ -33,9 +33,13 @@ public enum OperationCode implements Code<UINT16> {
     GET_PARTIAL_OBJECT(0x101B),
     INITIATE_OPEN_CAPTURER(0x101C);
 
+    // Property
+
     private final UINT16 value;
 
-    private OperationCode(int value) {
+    // Constructor
+
+    OperationCode(int value) {
         this.value = new UINT16(value);
     }
 

@@ -36,9 +36,13 @@ public enum DevicePropCode implements Code<UINT16> {
     ARTIST(0x501E),
     COPYRIGHT_INFO(0x501F);
 
+    // Property
+
     private final UINT16 value;
 
-    private DevicePropCode(int value) {
+    // Constructor
+
+    DevicePropCode(int value) {
         this.value = new UINT16(value);
     }
 

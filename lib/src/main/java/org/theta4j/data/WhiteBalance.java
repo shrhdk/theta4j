@@ -48,9 +48,23 @@ public enum WhiteBalance {
      */
     LIGHT_BULB(0x8006);
 
+    // Map for valueOf
+
+    private static final Map<UINT16, WhiteBalance> WHITE_BALANCE_MAP = new HashMap<>();
+
+    static {
+        for (WhiteBalance whiteBalance : WhiteBalance.values()) {
+            WHITE_BALANCE_MAP.put(whiteBalance.value, whiteBalance);
+        }
+    }
+
+    // Property
+
     private final UINT16 value;
 
-    private WhiteBalance(int value) {
+    // Constructor
+
+    WhiteBalance(int value) {
         this.value = new UINT16(value);
     }
 
@@ -61,14 +75,6 @@ public enum WhiteBalance {
     }
 
     // valueOf
-
-    private static final Map<UINT16, WhiteBalance> WHITE_BALANCE_MAP = new HashMap<>();
-
-    static {
-        for (WhiteBalance whiteBalance : WhiteBalance.values()) {
-            WHITE_BALANCE_MAP.put(whiteBalance.value, whiteBalance);
-        }
-    }
 
     public static WhiteBalance valueOf(UINT16 value) {
         Validators.notNull("value", value);

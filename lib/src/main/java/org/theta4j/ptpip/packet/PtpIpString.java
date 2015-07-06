@@ -18,7 +18,7 @@ final class PtpIpString {
      */
     public static final int MIN_SIZE = UINT16.SIZE_IN_BYTES;
 
-    private static Charset CHARSET = Charset.forName("UTF-16LE");
+    private static final Charset CHARSET = Charset.forName("UTF-16LE");
 
     private PtpIpString() {
         throw new AssertionError();

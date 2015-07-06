@@ -15,7 +15,7 @@ public class SetDevicePropTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(SetDevicePropTest.class);
     private static final UINT32 SESSION_ID = new UINT32(1);
 
-    private static ThetaEventListener listener = new ThetaEventListener() {
+    private static final ThetaEventListener LISTENER = new ThetaEventListener() {
         @Override
         public void onObjectAdded(long objectHandle) {
             LOGGER.info("onObjectAdded: " + objectHandle);
@@ -42,8 +42,8 @@ public class SetDevicePropTest {
         }
 
         @Override
-        public void onCaptureComplete(long transactionID) {
-            LOGGER.info("onCaptureComplete: " + transactionID);
+        public void onCaptureComplete() {
+            LOGGER.info("onCaptureComplete");
         }
     };
 
@@ -52,7 +52,7 @@ public class SetDevicePropTest {
     @BeforeClass
     public static void connect() throws IOException {
         theta = new Theta();
-        theta.addListener(listener);
+        theta.addListener(LISTENER);
     }
 
     @AfterClass

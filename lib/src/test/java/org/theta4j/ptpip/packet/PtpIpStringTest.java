@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(Enclosed.class)
 public class PtpIpStringTest {
-    private static Charset CHARSET = Charset.forName("UTF-16LE");
+    private static final Charset CHARSET = Charset.forName("UTF-16LE");
 
     public static class Design {
         @Test

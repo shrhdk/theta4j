@@ -39,6 +39,18 @@ public enum ShutterSpeed {
     SS_1_10(1, 10),
     SS_10_75(10, 75);
 
+    // Map for valueOf method
+
+    private static final Map<Rational, ShutterSpeed> SHUTTER_SPEED_MAP = new HashMap<>();
+
+    static {
+        for (ShutterSpeed shutterSpeed : ShutterSpeed.values()) {
+            SHUTTER_SPEED_MAP.put(shutterSpeed.value, shutterSpeed);
+        }
+    }
+
+    // Property
+
     private final Rational value;
 
     // Constructor
@@ -54,14 +66,6 @@ public enum ShutterSpeed {
     }
 
     // valueOf
-
-    private static final Map<Rational, ShutterSpeed> SHUTTER_SPEED_MAP = new HashMap<>();
-
-    static {
-        for (ShutterSpeed shutterSpeed : ShutterSpeed.values()) {
-            SHUTTER_SPEED_MAP.put(shutterSpeed.value, shutterSpeed);
-        }
-    }
 
     public static ShutterSpeed valueOf(Rational value) {
         Validators.notNull("value", value);

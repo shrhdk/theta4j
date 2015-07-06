@@ -19,9 +19,13 @@ public enum EventCode implements Code<UINT16> {
     CAPTURE_COMPLETE(0x400D),
     UNREPORTED_STATUS(0x400E);
 
+    // Property
+
     private final UINT16 value;
 
-    private EventCode(int value) {
+    // Constructor
+
+    EventCode(int value) {
         this.value = new UINT16(value);
     }
 

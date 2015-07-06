@@ -16,7 +16,7 @@ class PtpIpPacketTestUtils {
 
         try (
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                PtpOutputStream pos = new PtpOutputStream(baos);
+                PtpOutputStream pos = new PtpOutputStream(baos)
         ) {
             pos.write(length);
             pos.write(type.value());

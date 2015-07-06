@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class STRTest {
-    private static Charset CHARSET = Charset.forName("UTF-16LE");
+    private static final Charset CHARSET = Charset.forName("UTF-16LE");
 
     // Constructor
 

@@ -17,7 +17,7 @@ public final class STR {
      */
     public static final int MIN_SIZE_IN_BYTES = 1;
 
-    private static Charset CHARSET = Charset.forName("UTF-16LE");
+    private static final Charset CHARSET = Charset.forName("UTF-16LE");
 
     private STR() {
         throw new AssertionError();

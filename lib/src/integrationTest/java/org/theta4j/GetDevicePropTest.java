@@ -11,7 +11,7 @@ import java.io.IOException;
 public class GetDevicePropTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(GetDevicePropTest.class);
 
-    private static ThetaEventListener listener = new ThetaEventListener() {
+    private static final ThetaEventListener LISTENER = new ThetaEventListener() {
         @Override
         public void onObjectAdded(long objectHandle) {
             LOGGER.info("onObjectAdded: " + objectHandle);
@@ -38,8 +38,8 @@ public class GetDevicePropTest {
         }
 
         @Override
-        public void onCaptureComplete(long transactionID) {
-            LOGGER.info("onCaptureComplete: " + transactionID);
+        public void onCaptureComplete() {
+            LOGGER.info("onCaptureComplete");
         }
     };
 
@@ -48,7 +48,7 @@ public class GetDevicePropTest {
     @BeforeClass
     public static void connect() throws IOException {
         theta = new Theta();
-        theta.addListener(listener);
+        theta.addListener(LISTENER);
     }
 
     @AfterClass

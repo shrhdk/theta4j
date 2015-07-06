@@ -23,9 +23,13 @@ enum DevicePropCode implements Code<UINT16> {
     RECORDING_TIME(0xD809),
     REMAINING_RECORDING_TIME(0xD80A);
 
+    // Property
+
     private final UINT16 value;
 
-    private DevicePropCode(int value) {
+    // Constructor
+
+    DevicePropCode(int value) {
         this.value = new UINT16(value);
     }
 

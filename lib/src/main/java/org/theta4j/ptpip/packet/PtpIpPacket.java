@@ -19,7 +19,20 @@ public abstract class PtpIpPacket {
 
     static final int HEADER_SIZE_IN_BYTES = UINT32.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES;
 
+    // Map for valueOf method
+
+    private static final Map<UINT32, Type> TYPE_MAP = new HashMap<>();
+
+    static {
+        for (Type type : Type.values()) {
+            TYPE_MAP.put(type.value, type);
+        }
+    }
+
+    // Constructor
+
     PtpIpPacket() {
+        // Allow extension for same package classes.
     }
 
     // Getter
@@ -35,7 +48,7 @@ public abstract class PtpIpPacket {
 
         try (
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                PtpOutputStream pos = new PtpOutputStream(baos);
+                PtpOutputStream pos = new PtpOutputStream(baos)
         ) {
             pos.write(length);
             pos.write(getType().value);
@@ -66,9 +79,13 @@ public abstract class PtpIpPacket {
 
         public static final int SIZE_IN_BYTES = 4;
 
+        // Property
+
         private final UINT32 value;
 
-        private Type(int value) {
+        // Constructor
+
+        Type(int value) {
             this.value = new UINT32(value);
         }
 
@@ -79,14 +96,6 @@ public abstract class PtpIpPacket {
         }
 
         // valueOf
-
-        private static final Map<UINT32, Type> TYPE_MAP = new HashMap<>();
-
-        static {
-            for (Type type : Type.values()) {
-                TYPE_MAP.put(type.value, type);
-            }
-        }
 
         public static Type valueOf(UINT32 value) {
             Validators.notNull("value", value);

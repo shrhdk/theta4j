@@ -12,11 +12,23 @@ public enum ISOSpeed {
     ISO_640(640), ISO_800(800), ISO_1000(1000), ISO_1250(1250),
     AUTO(0xFFFF);
 
+    // Map for valueOf method
+
+    private static final Map<UINT16, ISOSpeed> ISO_SPEED_MAP = new HashMap<>();
+
+    static {
+        for (ISOSpeed isoSpeed : ISOSpeed.values()) {
+            ISO_SPEED_MAP.put(isoSpeed.value, isoSpeed);
+        }
+    }
+
+    // Property
+
     private final UINT16 value;
 
     // Constructor
 
-    private ISOSpeed(int value) {
+    ISOSpeed(int value) {
         this.value = new UINT16(value);
     }
 
@@ -27,14 +39,6 @@ public enum ISOSpeed {
     }
 
     // valueOf
-
-    private static final Map<UINT16, ISOSpeed> ISO_SPEED_MAP = new HashMap<>();
-
-    static {
-        for (ISOSpeed isoSpeed : ISOSpeed.values()) {
-            ISO_SPEED_MAP.put(isoSpeed.value, isoSpeed);
-        }
-    }
 
     public static ISOSpeed valueOf(UINT16 value) {
         Validators.notNull("value", value);

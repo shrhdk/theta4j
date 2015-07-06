@@ -37,9 +37,13 @@ public enum ResponseCode implements Code<UINT16> {
     TRANSACTION_CANCELLED(0x201F),
     SPECIFICATION_OF_DESTINATION_UNSUPPORTED(0x2020);
 
+    // Property
+
     private final UINT16 value;
 
-    private ResponseCode(int value) {
+    // Constructor
+
+    ResponseCode(int value) {
         this.value = new UINT16(value);
     }
 

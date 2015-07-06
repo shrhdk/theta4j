@@ -14,7 +14,7 @@ public class CaptureTest {
 
     private static final CountDownLatch onObjectAdded = new CountDownLatch(1);
 
-    private static ThetaEventListener listener = new ThetaEventListener() {
+    private static final ThetaEventListener LISTENER = new ThetaEventListener() {
         @Override
         public void onObjectAdded(long objectHandle) {
             onObjectAdded.countDown();
@@ -42,15 +42,15 @@ public class CaptureTest {
         }
 
         @Override
-        public void onCaptureComplete(long transactionID) {
-            LOGGER.info("onCaptureComplete: " + transactionID);
+        public void onCaptureComplete() {
+            LOGGER.info("onCaptureComplete");
         }
     };
 
     @Test
     public void initiateCapture() throws IOException, InterruptedException {
         try (Theta theta = new Theta()) {
-            theta.addListener(listener);
+            theta.addListener(LISTENER);
             theta.initiateCapture();
             if (!onObjectAdded.await(10, TimeUnit.SECONDS)) {
                 Assert.fail("onObjectAdded event is timed out.");

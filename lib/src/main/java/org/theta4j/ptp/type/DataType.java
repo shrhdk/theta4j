@@ -30,9 +30,23 @@ public enum DataType implements Code<UINT16> {
     AUINT128(0x400A),
     STR(0xFFFF);
 
+    // Map for valueOf method
+
+    private static final Map<UINT16, DataType> DATA_TYPE_MAP = new HashMap<>();
+
+    static {
+        for (DataType dataType : DataType.values()) {
+            DATA_TYPE_MAP.put(dataType.value, dataType);
+        }
+    }
+
+    // Property
+
     private final UINT16 value;
 
-    private DataType(int value) {
+    // Constructor
+
+    DataType(int value) {
         this.value = new UINT16(value);
     }
 
@@ -44,14 +58,6 @@ public enum DataType implements Code<UINT16> {
     }
 
     // valueOf
-
-    private static final Map<UINT16, DataType> DATA_TYPE_MAP = new HashMap<>();
-
-    static {
-        for (DataType dataType : DataType.values()) {
-            DATA_TYPE_MAP.put(dataType.value, dataType);
-        }
-    }
 
     public static DataType valueOf(UINT16 value) {
         Validators.notNull("value", value);

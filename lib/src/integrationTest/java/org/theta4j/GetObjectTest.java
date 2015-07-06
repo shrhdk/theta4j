@@ -5,7 +5,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.theta4j.ptp.PtpException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,7 +14,7 @@ import java.util.List;
 public class GetObjectTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(GetObjectTest.class);
 
-    private static ThetaEventListener listener = new ThetaEventListener() {
+    private static final ThetaEventListener LISTENER = new ThetaEventListener() {
         @Override
         public void onObjectAdded(long objectHandle) {
             LOGGER.info("onObjectAdded: " + objectHandle);
@@ -42,8 +41,8 @@ public class GetObjectTest {
         }
 
         @Override
-        public void onCaptureComplete(long transactionID) {
-            LOGGER.info("onCaptureComplete: " + transactionID);
+        public void onCaptureComplete() {
+            LOGGER.info("onCaptureComplete");
         }
     };
 
@@ -52,7 +51,7 @@ public class GetObjectTest {
     @BeforeClass
     public static void connect() throws IOException {
         theta = new Theta();
-        theta.addListener(listener);
+        theta.addListener(LISTENER);
     }
 
     @AfterClass

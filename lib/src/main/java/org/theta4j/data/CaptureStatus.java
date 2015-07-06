@@ -16,9 +16,23 @@ public enum CaptureStatus {
      */
     CAPTURING(1);
 
+    // Map for valueOf method
+
+    private static final Map<UINT8, CaptureStatus> CAPTURE_STATUS_MAP = new HashMap<>();
+
+    static {
+        for (CaptureStatus captureStatus : CaptureStatus.values()) {
+            CAPTURE_STATUS_MAP.put(captureStatus.value, captureStatus);
+        }
+    }
+
+    // Property
+
     private final UINT8 value;
 
-    private CaptureStatus(int value) {
+    // Constructor
+
+    CaptureStatus(int value) {
         this.value = new UINT8(value);
     }
 
@@ -29,14 +43,6 @@ public enum CaptureStatus {
     }
 
     // valueOf
-
-    private static final Map<UINT8, CaptureStatus> CAPTURE_STATUS_MAP = new HashMap<>();
-
-    static {
-        for (CaptureStatus captureStatus : CaptureStatus.values()) {
-            CAPTURE_STATUS_MAP.put(captureStatus.value, captureStatus);
-        }
-    }
 
     public static CaptureStatus valueOf(UINT8 value) {
         Validators.notNull("value", value);

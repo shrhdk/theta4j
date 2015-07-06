@@ -7,9 +7,13 @@ enum OperationCode implements Code<UINT16> {
     GET_RESIZED_IMAGE_OBJECT(0x1022),
     WLAN_POWER_CONTROL(0x99A1);
 
+    // Property
+
     private final UINT16 value;
 
-    private OperationCode(int value) {
+    // Constructor
+
+    OperationCode(int value) {
         this.value = new UINT16(value);
     }
 

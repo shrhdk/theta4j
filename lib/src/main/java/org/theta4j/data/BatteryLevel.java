@@ -27,9 +27,23 @@ public enum BatteryLevel {
      */
     END(0);
 
+    // Map for valueOf method
+
+    private static final Map<UINT8, BatteryLevel> BATTERY_LEVEL_MAP = new HashMap<>();
+
+    static {
+        for (BatteryLevel batteryLevel : BatteryLevel.values()) {
+            BATTERY_LEVEL_MAP.put(batteryLevel.value, batteryLevel);
+        }
+    }
+
+    // Property
+
     private final UINT8 value;
 
-    private BatteryLevel(int value) {
+    // Constructor
+
+    BatteryLevel(int value) {
         this.value = new UINT8(value);
     }
 
@@ -40,14 +54,6 @@ public enum BatteryLevel {
     }
 
     // valueOf
-
-    private static final Map<UINT8, BatteryLevel> BATTERY_LEVEL_MAP = new HashMap<>();
-
-    static {
-        for (BatteryLevel batteryLevel : BatteryLevel.values()) {
-            BATTERY_LEVEL_MAP.put(batteryLevel.value, batteryLevel);
-        }
-    }
 
     public static BatteryLevel valueOf(UINT8 value) {
         Validators.notNull("value", value);

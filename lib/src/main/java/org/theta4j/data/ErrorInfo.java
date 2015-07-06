@@ -109,10 +109,24 @@ public enum ErrorInfo {
      */
     HARDWARE_ERROR(0x0040_0000L, Level.ERROR);
 
+    // Map for valueOf method
+
+    private static final Map<UINT32, ErrorInfo> ERROR_INFO_MAP = new HashMap<>();
+
+    static {
+        for (ErrorInfo errorInfo : ErrorInfo.values()) {
+            ERROR_INFO_MAP.put(errorInfo.value, errorInfo);
+        }
+    }
+
+    // Property
+
     private final UINT32 value;
     private final Level level;
 
-    private ErrorInfo(long value, Level level) {
+    // Constructor
+
+    ErrorInfo(long value, Level level) {
         this.value = new UINT32(value);
         this.level = level;
     }
@@ -129,14 +143,6 @@ public enum ErrorInfo {
 
     // valueOf
 
-    private static final Map<UINT32, ErrorInfo> ERROR_INFO_MAP = new HashMap<>();
-
-    static {
-        for (ErrorInfo errorInfo : ErrorInfo.values()) {
-            ERROR_INFO_MAP.put(errorInfo.value, errorInfo);
-        }
-    }
-
     public static ErrorInfo valueOf(UINT32 value) {
         Validators.notNull("value", value);
 
@@ -150,6 +156,6 @@ public enum ErrorInfo {
     // Related Enum
 
     public enum Level {
-        NONE, WARN, ERROR;
+        NONE, WARN, ERROR
     }
 }
