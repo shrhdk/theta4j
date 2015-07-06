@@ -51,10 +51,10 @@ public final class PtpIpOutputStream implements Closeable {
         long packetLength = UINT32.SIZE_IN_BYTES + PtpIpPacket.Type.SIZE_IN_BYTES + UINT32.SIZE_IN_BYTES + data.length;
 
         // Send EndData
-        os.write(new UINT32(packetLength));             // Length
-        os.write(PtpIpPacket.Type.END_DATA.value());    // Packet Type
-        os.write(transactionID);                        // Transaction ID
-        os.write(data);                                 // Data Payload
+        os.write(new UINT32(packetLength));
+        os.write(PtpIpPacket.Type.END_DATA.value());
+        os.write(transactionID);
+        os.write(data);
         os.flush();
     }
 
