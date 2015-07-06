@@ -4,11 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.theta4j.data.*;
 import org.theta4j.ptp.PtpEventAdapter;
-import org.theta4j.ptp.PtpEventListener;
 import org.theta4j.ptp.PtpException;
 import org.theta4j.ptp.PtpInitiator;
 import org.theta4j.ptp.data.DeviceInfo;
-import org.theta4j.ptp.data.Event;
 import org.theta4j.ptp.data.ObjectInfo;
 import org.theta4j.ptp.data.StorageInfo;
 import org.theta4j.ptp.type.*;
@@ -582,7 +580,7 @@ public final class Theta implements Closeable {
                     String.format("Auto power off delay is not work with %d. Set 0-30.", autoPowerOffDelay));
         }
 
-        ptpInitiator.setDevicePropValue(DevicePropCode.AUTO_POWER_OFF_DELAY, (byte) autoPowerOffDelay);
+        ptpInitiator.setDevicePropValue(DevicePropCode.AUTO_POWER_OFF_DELAY, new UINT8(autoPowerOffDelay));
     }
 
     /**
@@ -632,6 +630,8 @@ public final class Theta implements Closeable {
      */
     public void setChannelNumber(ChannelNumber channelNumber) throws IOException {
         Validators.notNull("channelNumber", channelNumber);
+
+        ptpInitiator.setDevicePropValue(DevicePropCode.CHANNEL_NUMBER, channelNumber.value());
     }
 
     /**

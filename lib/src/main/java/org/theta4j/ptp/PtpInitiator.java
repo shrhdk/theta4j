@@ -151,7 +151,7 @@ public interface PtpInitiator extends Closeable {
 
     void setDevicePropValue(Code<UINT16> devicePropCode, byte[] value) throws IOException;
 
-    void setDevicePropValue(Code<UINT16> devicePropValue, byte value) throws IOException;
+    void setDevicePropValue(Code<UINT16> devicePropValue, UINT8 value) throws IOException;
 
     void setDevicePropValue(Code<UINT16> devicePropValue, UINT16 value) throws IOException;
 
