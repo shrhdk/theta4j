@@ -46,9 +46,9 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
     }
 
     @Override
-    public void onCaptureComplete(long transactionID) {
+    public void onCaptureComplete() {
         for (ThetaEventListener listener : listeners) {
-            listener.onCaptureComplete(transactionID);
+            listener.onCaptureComplete();
         }
     }
 
