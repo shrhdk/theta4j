@@ -1,4 +1,4 @@
-# Handling Object
+# Handle Object
 
 THETA is based on PTP protocol.
 In PTP protocol, **Object** means image data file.

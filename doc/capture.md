@@ -1,4 +1,4 @@
-# Capturing Images
+# Capture Image
 
 ## Start Capturing
 
@@ -30,11 +30,11 @@ Download captured image by [getObject](file.md) method.
 
 ## Start Interval Capturing
 
-WIP
+TBA
 
 ## Start Video Capturing
 
 This function is available for RICOH THETA m15.
 You can get model name by [Theta#getDeviceInfo](property.md#) method.
 
-WIP
+TBA

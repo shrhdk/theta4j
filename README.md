@@ -9,7 +9,7 @@
 [gitter-url]:https://gitter.im/shrhdk/theta4j?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [gitter-image]:https://badges.gitter.im/Join%20Chat.svg
 
-RICOH THETA SDK for Java.
+theta4j is a library for RICOH THETA written in Java.
 
 theta4j aims the followings compared with the official SDK.
 
@@ -20,26 +20,20 @@ theta4j aims the followings compared with the official SDK.
 
 - JDK 1.7
 
+## User Guide
+
+- [Introduction](doc/introduction.md)
+- [Connect to THETA](doc/connect.md)
+- [Capture Image](doc/capture.md)
+- [Handle Object](doc/object.md)
+- [Device Property](doc/property.md)
+- [Event](doc/event.md)
+
 ## Documents
 
-- [Tutorial](doc/tutorial.md)
 - [Javadoc](https://github.com/shrhdk/theta4j/releases)
 - [Sample Application](sample/src/main/java/org/theta4j/sample/ThetaCapturer.java)
 - [Contribution Guide](doc/contribution.md)
-
-## Set up
-
-Add code below to `build.gradle` if you are using Gradle.
-
-```gradle
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile 'org.theta4j:theta4j:0.4.0'
-}
-```
 
 ## License
 
