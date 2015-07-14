@@ -13,11 +13,12 @@ import org.theta4j.util.Validators;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * Exif2.3 standard RATIONAL
  */
-public class Rational {
+public class Rational implements Serializable {
     private final long molecule;
     private final long denominator;
     private final byte[] bytes;

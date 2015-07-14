@@ -292,12 +292,14 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
 
     protected final PtpEventListenerSet listenerSet = new PtpEventListenerSet();
 
+    @Override
     public final boolean addListener(PtpEventListener listener) {
         Validators.notNull("listener", listener);
 
         return listenerSet.add(listener);
     }
 
+    @Override
     public final boolean removeListener(PtpEventListener listener) {
         Validators.notNull("listener", listener);
 

@@ -95,6 +95,7 @@ public abstract class PtpIpPacket {
 
         // Code
 
+        @Override
         public UINT32 value() {
             return value;
         }

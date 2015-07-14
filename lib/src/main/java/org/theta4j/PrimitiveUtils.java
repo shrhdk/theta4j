@@ -10,7 +10,7 @@ import org.theta4j.util.Validators;
 import java.util.ArrayList;
 import java.util.List;
 
-class PrimitiveUtils {
+final class PrimitiveUtils {
     private PrimitiveUtils() {
         throw new AssertionError();
     }
