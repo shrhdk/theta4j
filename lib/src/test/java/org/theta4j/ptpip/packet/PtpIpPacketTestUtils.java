@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 theta4j project
+ */
+
 package org.theta4j.ptpip.packet;
 
 import org.theta4j.ptp.io.PtpOutputStream;

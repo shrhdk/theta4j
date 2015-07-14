@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 theta4j project
+ */
+
 package org.theta4j.ptp.type;
 
 import org.apache.commons.lang3.StringUtils;
