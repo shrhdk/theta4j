@@ -148,19 +148,19 @@ public class DevicePropTest {
         }
 
         @Test
-        public void setAndGetSingleShot() throws IOException {
-            setAndGetAndVerify(StillCaptureMode.SINGLE_SHOT);
+        public void setAndGetSingle() throws IOException {
+            setAndGetAndVerify(StillCaptureMode.SINGLE);
         }
 
         @Test
-        public void setAndGetIntervalShot() throws IOException {
-            setAndGetAndVerify(StillCaptureMode.INTERVAL_SHOT);
+        public void setAndGetTimeLapse() throws IOException {
+            setAndGetAndVerify(StillCaptureMode.TIME_LAPSE);
         }
     }
 
     public static class TimelapseNumberTest {
         public static void setAndGetAndVerify(int given) throws IOException {
-            changeStillCaptureModeFast(StillCaptureMode.SINGLE_SHOT);
+            changeStillCaptureModeFast(StillCaptureMode.SINGLE);
             theta.setTimelapseNumber(given);
             assertThat(theta.getTimelapseNumber(), is(given));
         }
@@ -177,7 +177,7 @@ public class DevicePropTest {
 
         @Test(expected = PtpException.class)
         public void setValueWhileIntervalMode() throws IOException {
-            changeStillCaptureModeFast(StillCaptureMode.INTERVAL_SHOT);
+            changeStillCaptureModeFast(StillCaptureMode.TIME_LAPSE);
             theta.setTimelapseNumber(2);
         }
 
@@ -199,7 +199,7 @@ public class DevicePropTest {
 
     public static class TimelapseIntervalTest {
         public static void setAndGetAndVerify(int given) throws IOException {
-            changeStillCaptureModeFast(StillCaptureMode.SINGLE_SHOT);
+            changeStillCaptureModeFast(StillCaptureMode.SINGLE);
             theta.setTimelapseInterval(given);
             assertThat(theta.getTimelapseInterval(), is(given));
         }
@@ -216,7 +216,7 @@ public class DevicePropTest {
 
         @Test(expected = PtpException.class)
         public void setValueWhileIntervalMode() throws IOException {
-            changeStillCaptureModeFast(StillCaptureMode.INTERVAL_SHOT);
+            changeStillCaptureModeFast(StillCaptureMode.TIME_LAPSE);
             theta.setTimelapseInterval(5000);
         }
 

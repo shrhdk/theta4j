@@ -23,7 +23,7 @@ public enum StillCaptureMode {
      *
      * Default value when the shooting mode is "Still image shooting mode".
      */
-    SINGLE_SHOT(0x0001),
+    SINGLE(0x0001),
     /**
      * Interval shooting mode.
      *
@@ -33,7 +33,7 @@ public enum StillCaptureMode {
      * @see org.theta4j.Theta#setTimelapseNumber(int)
      * @see org.theta4j.Theta#setTimelapseInterval(int)
      */
-    INTERVAL_SHOT(0x0003);
+    TIME_LAPSE(0x0003);
 
     // Map for valueOf method
 
