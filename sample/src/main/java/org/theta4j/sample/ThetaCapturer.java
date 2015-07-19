@@ -4,7 +4,6 @@
 
 package org.theta4j.sample;
 
-import org.theta4j.InitiateCaptureCallback;
 import org.theta4j.Theta;
 import org.theta4j.ptp.data.DeviceInfo;
 import org.theta4j.ptp.type.UINT32;
@@ -13,10 +12,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.concurrent.CountDownLatch;
 
 public final class ThetaCapturer {
-    private static final CountDownLatch latch = new CountDownLatch(1);
 
     public static void main(final String[] args) throws IOException, InterruptedException {
         if (args.length != 1) {
@@ -30,33 +27,19 @@ public final class ThetaCapturer {
             DeviceInfo deviceInfo = theta.getDeviceInfo();
             System.out.println("Connected to " + deviceInfo.getModel());
 
-            // Start capture, wait, and save to the file
-            theta.initiateCapture(new InitiateCaptureCallback() {
-                @Override
-                public void onObjectAdded(UINT32 objectHandle) {
-                    System.out.println("Object Added");
-                    File file = new File(args[0]);
-                    try (OutputStream output = new FileOutputStream(file)) {
-                        theta.getResizedImageObject(objectHandle, output);
-                    } catch (IOException e) {
-                        System.out.println("Error occurred while downloading image: " + e);
-                    }
-                }
+            // Capture
+            System.out.println("Start to capture...");
+            UINT32 objectHandle = theta.initiateCapture();
+            System.out.println("Finish to capture.");
 
-                @Override
-                public void onStoreFull() {
-                    System.out.println("Store Full");
-                    latch.countDown();
-                }
-
-                @Override
-                public void onCaptureComplete() {
-                    System.out.println("Capture Complete");
-                    latch.countDown();
-                }
-            });
-
-            latch.await();
+            // Download
+            try (OutputStream output = new FileOutputStream(new File(args[0]))) {
+                System.out.println("Start to download image...");
+                theta.getResizedImageObject(objectHandle, output);
+                System.out.println("Finish to download image.");
+            } catch (IOException e) {
+                System.out.println("Error occurred while downloading image: " + e);
+            }
         }
     }
 

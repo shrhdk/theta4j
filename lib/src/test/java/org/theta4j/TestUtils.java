@@ -51,7 +51,7 @@ public class TestUtils {
     }
 
     public static boolean isValidJPEG(File file) {
-        try (FileInputStream is = new FileInputStream(file)) {
+        try (InputStream is = new FileInputStream(file)) {
             return isValidJPEG(is);
         } catch (IOException e) {
             return false;

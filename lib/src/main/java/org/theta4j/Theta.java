@@ -11,6 +11,7 @@ import org.theta4j.ptp.PtpEventListener;
 import org.theta4j.ptp.PtpException;
 import org.theta4j.ptp.PtpInitiator;
 import org.theta4j.ptp.code.OperationCode;
+import org.theta4j.ptp.code.ResponseCode;
 import org.theta4j.ptp.data.DeviceInfo;
 import org.theta4j.ptp.data.Event;
 import org.theta4j.ptp.data.ObjectInfo;
@@ -26,6 +27,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This class provides the interface for RICOH THETA on PTP-IP.
@@ -183,46 +187,52 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public void initiateCapture() throws IOException {
-        ptpInitiator.sendOperation(OperationCode.INITIATE_CAPTURE);
-        ptpInitiator.checkResponse();
-    }
-
-    /**
-     * Starts shooting.
-     *
-     * @param callback Callback
-     * @throws IOException
-     */
-    public void initiateCapture(final InitiateCaptureCallback callback) throws IOException {
-        Validators.notNull("callback", callback);
+    public UINT32 initiateCapture() throws IOException, InterruptedException {
+        final CountDownLatch latch = new CountDownLatch(1);
+        final AtomicBoolean storeFull = new AtomicBoolean(false);
+        final AtomicReference<UINT32> transactionIDRef = new AtomicReference<>();
+        final AtomicReference<UINT32> objectHandleRef = new AtomicReference<>();
 
         ThetaEventListener listener = new ThetaEventAdapter() {
             @Override
             public void onObjectAdded(UINT32 objectHandle) {
-                callback.onObjectAdded(objectHandle);
+                objectHandleRef.set(objectHandle);
             }
 
             @Override
             public void onStoreFull() {
-                callback.onStoreFull();
-                removeListener(this);
+                storeFull.set(true);
+                latch.countDown();
             }
 
             @Override
             public void onCaptureComplete(UINT32 transactionID) {
-                callback.onCaptureComplete();
-                removeListener(this);
+                if (transactionIDRef.get().equals(transactionID)) {
+                    latch.countDown();
+                }
             }
         };
 
-        addListener(listener);
-
         try {
-            initiateCapture();
-        } catch (IOException e) {
+            addListener(listener);
+
+            try {
+                transactionIDRef.set(ptpInitiator.sendOperation(OperationCode.INITIATE_CAPTURE));
+                ptpInitiator.checkResponse();
+            } catch (IOException e) {
+                removeListener(listener);
+                throw e;
+            }
+
+            latch.await();
+
+            if (storeFull.get()) {
+                throw new PtpException(ResponseCode.STORE_FULL.value());
+            }
+
+            return objectHandleRef.get();
+        } finally {
             removeListener(listener);
-            throw e;
         }
     }
 

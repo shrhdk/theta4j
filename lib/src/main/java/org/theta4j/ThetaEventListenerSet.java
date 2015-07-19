@@ -69,13 +69,13 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
     // Set
 
     @Override
-    public int size() {
-        return listeners.size();
+    public boolean add(ThetaEventListener listener) {
+        return listeners.add(listener);
     }
 
     @Override
-    public boolean add(ThetaEventListener listener) {
-        return listeners.add(listener);
+    public boolean remove(Object object) {
+        return listeners.remove(object);
     }
 
     @Override
@@ -86,6 +86,11 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
     @Override
     public void clear() {
         listeners.clear();
+    }
+
+    @Override
+    public int size() {
+        return listeners.size();
     }
 
     // Utility method
