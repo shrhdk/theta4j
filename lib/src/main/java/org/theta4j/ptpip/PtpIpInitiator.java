@@ -6,7 +6,8 @@ package org.theta4j.ptpip;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.theta4j.ptp.*;
+import org.theta4j.ptp.AbstractPtpInitiator;
+import org.theta4j.ptp.TransactionIDIterator;
 import org.theta4j.ptp.code.Code;
 import org.theta4j.ptp.data.Event;
 import org.theta4j.ptp.data.Response;
@@ -117,28 +118,27 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
                             return;
                         }
 
-                        executor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                listenerSet.onError(e);
-                            }
-                        });
-                        continue;
+                        try {
+                            LOGGER.debug("Error occurred while receiving Event packet:" + e);
+                            LOGGER.debug("Try to close PtpIpInitiator");
+                            close();
+                        } catch (IOException e1) {
+                            LOGGER.debug("Error occurred while closing in event receiving thread" + e);
+                        }
+                        break;
                     }
 
                     executor.execute(new Runnable() {
                         @Override
                         public void run() {
-                            Event event = new Event(
+                            listenerSet.onEvent(new Event(
                                     eventPacket.getEventCode(),
                                     getSessionID(),
                                     eventPacket.getTransactionID(),
                                     eventPacket.getP1(),
                                     eventPacket.getP2(),
                                     eventPacket.getP3()
-                            );
-
-                            listenerSet.raise(event);
+                            ));
                         }
                     });
                 }

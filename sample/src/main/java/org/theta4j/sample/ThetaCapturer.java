@@ -8,21 +8,22 @@ import org.theta4j.Theta;
 import org.theta4j.ThetaEventAdapter;
 import org.theta4j.ThetaEventListener;
 import org.theta4j.ptp.data.DeviceInfo;
+import org.theta4j.ptp.type.UINT32;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class ThetaCapturer {
-    private static final AtomicLong OBJECT_HANDLE = new AtomicLong();
+    private static final AtomicReference<UINT32> OBJECT_HANDLE = new AtomicReference<>();
     private static final CountDownLatch WAIT_OBJECT_ADDED = new CountDownLatch(1);
 
     private static final ThetaEventListener LISTENER = new ThetaEventAdapter() {
         @Override
-        public void onObjectAdded(long objectHandle) {
+        public void onObjectAdded(UINT32 objectHandle) {
             OBJECT_HANDLE.set(objectHandle);
             WAIT_OBJECT_ADDED.countDown();
         }

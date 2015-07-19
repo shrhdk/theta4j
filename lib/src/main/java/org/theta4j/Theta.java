@@ -7,12 +7,13 @@ package org.theta4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.theta4j.data.*;
-import org.theta4j.ptp.PtpEventAdapter;
+import org.theta4j.ptp.PtpEventListener;
 import org.theta4j.ptp.PtpException;
 import org.theta4j.ptp.PtpInitiator;
+import org.theta4j.ptp.code.OperationCode;
 import org.theta4j.ptp.data.DeviceInfo;
+import org.theta4j.ptp.data.Event;
 import org.theta4j.ptp.data.ObjectInfo;
-import org.theta4j.ptp.data.StorageInfo;
 import org.theta4j.ptp.type.*;
 import org.theta4j.ptpip.PtpIpInitiator;
 import org.theta4j.util.Validators;
@@ -44,33 +45,10 @@ public final class Theta implements Closeable {
     public Theta() throws IOException {
         ptpInitiator = new PtpIpInitiator(UUID.randomUUID(), IP_ADDRESS, TCP_PORT);
 
-        ptpInitiator.addListener(new PtpEventAdapter() {
+        ptpInitiator.addListener(new PtpEventListener() {
             @Override
-            public void onObjectAdded(UINT32 objectHandle) {
-                listenerSet.onObjectAdded(objectHandle.longValue());
-            }
-
-            @Override
-            public void onDevicePropChanged(UINT16 devicePropCode) {
-                if (DevicePropCode.CAPTURE_STATUS.value().equals(devicePropCode)) {
-                    listenerSet.onCaptureStatusChanged();
-                } else if (DevicePropCode.RECORDING_TIME.value().equals(devicePropCode)) {
-                    listenerSet.onRecordingTimeChanged();
-                } else if (DevicePropCode.REMAINING_RECORDING_TIME.value().equals(devicePropCode)) {
-                    listenerSet.onRemainingRecordingTimeChanged();
-                } else {
-                    LOGGER.warn("Unknown DevicePropCode: " + devicePropCode);
-                }
-            }
-
-            @Override
-            public void onStoreFull(UINT32 storageID) {
-                listenerSet.onStoreFull(storageID.longValue());
-            }
-
-            @Override
-            public void onCaptureComplete(UINT32 transactionID) {
-                listenerSet.onCaptureComplete();
+            public void onEvent(Event event) {
+                listenerSet.raise(event);
             }
         });
 
@@ -84,7 +62,7 @@ public final class Theta implements Closeable {
     // Operation
 
     /**
-     * Returns information and capabilities about the Responder device.
+     * Returns information and capabilities about THETA.
      *
      * @throws IOException
      * @throws PtpException
@@ -94,34 +72,17 @@ public final class Theta implements Closeable {
     }
 
     /**
-     * Returns a list of the currently valid StorageIDs.
-     *
-     * @throws IOException
-     * @throws PtpException
-     */
-    public List<Long> getStorageIDs() throws IOException {
-        return PrimitiveUtils.convert(ptpInitiator.getStorageIDs());
-    }
-
-    /**
-     * Returns a StorageInfo of the storage area indicated in the storageID.
-     *
-     * @param storageID The StorageID of the storage area to acquire the StorageInfo.
-     * @throws IOException
-     * @throws PtpException
-     */
-    public StorageInfo getStorageInfo(long storageID) throws IOException {
-        return ptpInitiator.getStorageInfo(new UINT32(storageID));
-    }
-
-    /**
      * Returns the total number of objects present in the all storage.
      *
      * @throws IOException
      * @throws PtpException
      */
     public long getNumObjects() throws IOException {
-        return ptpInitiator.getNumObjects().longValue();
+        ptpInitiator.sendOperation(OperationCode.GET_NUM_OBJECTS);
+        UINT32 numObjects = UINT32.read(ptpInitiator.receiveData());
+        ptpInitiator.checkResponse();
+
+        return numObjects.longValue();
     }
 
     /**
@@ -130,8 +91,25 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public List<Long> getObjectHandles() throws IOException {
-        return PrimitiveUtils.convert(ptpInitiator.getObjectHandles());
+    public List<UINT32> getObjectHandles() throws IOException {
+        return getObjectHandles(new UINT32(0xFFFFFFFFL));
+    }
+
+    /**
+     * Returns list of object handles of the storage area indicated in the storageID.
+     *
+     * @param storageID Storage ID
+     * @return List of object handles which storage has.
+     * @throws IOException
+     */
+    protected List<UINT32> getObjectHandles(UINT32 storageID) throws IOException {
+        Validators.notNull("storageID", storageID);
+
+        ptpInitiator.sendOperation(OperationCode.GET_OBJECT_HANDLES, storageID);
+        List<UINT32> objectHandles = AUINT32.read(ptpInitiator.receiveData());
+        ptpInitiator.checkResponse();
+
+        return objectHandles;
     }
 
     /**
@@ -141,8 +119,14 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public ObjectInfo getObjectInfo(long objectHandle) throws IOException {
-        return ptpInitiator.getObjectInfo(new UINT32(objectHandle));
+    public ObjectInfo getObjectInfo(UINT32 objectHandle) throws IOException {
+        Validators.notNull("objectHandle", objectHandle);
+
+        ptpInitiator.sendOperation(OperationCode.GET_OBJECT_INFO, objectHandle);
+        ObjectInfo objectInfo = ObjectInfo.read(ptpInitiator.receiveData());
+        ptpInitiator.checkResponse();
+
+        return objectInfo;
     }
 
     /**
@@ -153,8 +137,13 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public void getObject(long objectHandle, OutputStream dst) throws IOException {
-        ptpInitiator.getObject(new UINT32(objectHandle), dst);
+    public void getObject(UINT32 objectHandle, OutputStream dst) throws IOException {
+        Validators.notNull("objectHandle", objectHandle);
+        Validators.notNull("dst", dst);
+
+        ptpInitiator.sendOperation(OperationCode.GET_OBJECT, objectHandle);
+        ptpInitiator.receiveData(dst);
+        ptpInitiator.checkResponse();
     }
 
     /**
@@ -165,8 +154,13 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public void getThumb(long objectHandle, OutputStream dst) throws IOException {
-        ptpInitiator.getThumb(new UINT32(objectHandle), dst);
+    public void getThumb(UINT32 objectHandle, OutputStream dst) throws IOException {
+        Validators.notNull("objectHandle", objectHandle);
+        Validators.notNull("dst", dst);
+
+        ptpInitiator.sendOperation(OperationCode.GET_THUMB, objectHandle);
+        ptpInitiator.receiveData(dst);
+        ptpInitiator.checkResponse();
     }
 
     /**
@@ -176,8 +170,11 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public void deleteObject(long objectHandle) throws IOException {
-        ptpInitiator.deleteObject(new UINT32(objectHandle));
+    public void deleteObject(UINT32 objectHandle) throws IOException {
+        Validators.notNull("objectHandle", objectHandle);
+
+        ptpInitiator.sendOperation(OperationCode.DELETE_OBJECT, objectHandle);
+        ptpInitiator.checkResponse();
     }
 
     /**
@@ -187,7 +184,8 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public void initiateCapture() throws IOException {
-        ptpInitiator.initiateCapture();
+        ptpInitiator.sendOperation(OperationCode.INITIATE_CAPTURE);
+        ptpInitiator.checkResponse();
     }
 
     /**
@@ -197,7 +195,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public void terminateOpenCapture() throws IOException {
-        ptpInitiator.terminateOpenCapture();
+        terminateOpenCapture(new UINT32(0xFFFFFFFFL));
     }
 
     /**
@@ -208,21 +206,24 @@ public final class Theta implements Closeable {
      * @throws PtpException
      * @see #initiateOpenCapture()
      */
-    public void terminateOpenCapture(long transactionID) throws IOException {
-        ptpInitiator.terminateOpenCapture(new UINT32(transactionID));
+    public void terminateOpenCapture(UINT32 transactionID) throws IOException {
+        ptpInitiator.sendOperation(OperationCode.TERMINATE_OPEN_CAPTURE, transactionID);
+        ptpInitiator.checkResponse();
     }
 
     /**
      * Starts the video recording or the interval shooting.
-     * 
      * After starts, it can exit by the #terminateOpenCapture(long)
      *
      * @throws IOException
      * @throws PtpException
-     * @see #terminateOpenCapture(long)
+     * @see #terminateOpenCapture(UINT32)
      */
-    public long initiateOpenCapture() throws IOException {
-        return ptpInitiator.initiateOpenCapture().longValue();
+    public UINT32 initiateOpenCapture() throws IOException {
+        UINT32 transactionID = ptpInitiator.sendOperation(OperationCode.INITIATE_OPEN_CAPTURER);
+        ptpInitiator.checkResponse();
+
+        return transactionID;
     }
 
     /**
@@ -232,11 +233,11 @@ public final class Theta implements Closeable {
      * @param dst          The destination for the object's resized data.
      * @throws IOException
      */
-    public void getResizedImageObject(long objectHandle, OutputStream dst) throws IOException {
+    public void getResizedImageObject(UINT32 objectHandle, OutputStream dst) throws IOException {
         Validators.notNull("objectHandle", objectHandle);
         Validators.notNull("dst", dst);
 
-        ptpInitiator.sendOperation(OperationCode.GET_RESIZED_IMAGE_OBJECT, new UINT32(objectHandle), new UINT32(2048), new UINT32(1024));
+        ptpInitiator.sendOperation(ThetaOperationCode.GET_RESIZED_IMAGE_OBJECT, objectHandle, new UINT32(2048), new UINT32(1024));
 
         ptpInitiator.receiveData(dst);
         ptpInitiator.checkResponse();
@@ -248,7 +249,7 @@ public final class Theta implements Closeable {
      * @throws IOException
      */
     public void turnOffWLAN() throws IOException {
-        ptpInitiator.sendOperation(OperationCode.WLAN_POWER_CONTROL);
+        ptpInitiator.sendOperation(ThetaOperationCode.WLAN_POWER_CONTROL);
 
         ptpInitiator.checkResponse();
     }
@@ -277,7 +278,6 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the white balance.
-     * 
      * Returns to the default value when the power is turned off.
      *
      * @throws IOException
@@ -301,10 +301,8 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the ISO sensitivity.
-     * 
-     * Returns to the default value when the power is turned off.
-     * 
      * ISO sensitivity can be changed when ShutterSpeed is AUTO.
+     * Returns to the default value when the power is turned off.
      *
      * @param isoSpeed An ISO speed
      * @throws IOException
@@ -328,7 +326,6 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the exposure bias compensation value.
-     * 
      * Returns to the default value when the power is turned off.
      *
      * @param exposureBiasCompensation An exposure bias compensation value to set.
@@ -385,7 +382,6 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the still image shooting method.
-     * 
      * Returns to the default value when the power is turned off or when #initiateOpenCapture() ends.
      *
      * @param stillCaptureMode A still capture mode to set.
@@ -410,9 +406,7 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the upper limit value for interval shooting.
-     * 
      * Returns to the default value when the power is turned off.
-     * 
      * This property cannot be set when the StillCaptureMode is interval shooting mode.
      * So, this property has to be set before switching the StillCaptureMode to interval shooting mode.
      *
@@ -443,9 +437,7 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the shooting interval in msec for interval shooting.
-     * 
      * Returns to the default value when the power is turned off.
-     * 
      * This property cannot be set when the StillCaptureMode is interval shooting mode.
      * So, this property has to be set before switching the StillCaptureMode to interval shooting mode.
      *
@@ -476,7 +468,6 @@ public final class Theta implements Closeable {
 
     /**
      * Set the volume for the shutter sound.
-     * 
      * Returns to the default value when the power is turned off. // TODO: Confirm the actual behavior.
      *
      * @param audioVolume The volume for the shutter sound. The valid range is in 0-100.
@@ -518,7 +509,6 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the shutter speed.
-     * 
      * Returns to the default value when the power is turned off.
      *
      * @param shutterSpeed The shutter speed to set.
@@ -548,7 +538,6 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the GPS information.
-     * 
      * Returns to the default value when the power is turned off.
      *
      * @param gpsInfo The GPS information to set.
@@ -626,7 +615,6 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the wireless LAN channel number.
-     * 
      * This operation effects after wireless LAN OFF/ON.
      *
      * @param channelNumber The wireless LAN channel number to set.

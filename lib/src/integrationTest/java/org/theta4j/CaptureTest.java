@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.theta4j.ptp.type.UINT32;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
@@ -18,36 +19,11 @@ public class CaptureTest {
 
     private static final CountDownLatch onObjectAdded = new CountDownLatch(1);
 
-    private static final ThetaEventListener LISTENER = new ThetaEventListener() {
+    private static final ThetaEventListener LISTENER = new ThetaEventAdapter() {
         @Override
-        public void onObjectAdded(long objectHandle) {
+        public void onObjectAdded(UINT32 objectHandle) {
             onObjectAdded.countDown();
             LOGGER.info("onObjectAdded: " + objectHandle);
-        }
-
-        @Override
-        public void onCaptureStatusChanged() {
-            LOGGER.info("onCaptureStatusChanged");
-        }
-
-        @Override
-        public void onRecordingTimeChanged() {
-            LOGGER.info("onRecordingTimeChanged");
-        }
-
-        @Override
-        public void onRemainingRecordingTimeChanged() {
-            LOGGER.info("onRemainingRecordingTimeChanged");
-        }
-
-        @Override
-        public void onStoreFull(long storageID) {
-            LOGGER.info("onStoreFull: " + storageID);
-        }
-
-        @Override
-        public void onCaptureComplete() {
-            LOGGER.info("onCaptureComplete");
         }
     };
 

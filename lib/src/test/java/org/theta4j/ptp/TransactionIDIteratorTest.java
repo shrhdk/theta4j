@@ -41,6 +41,6 @@ public class TransactionIDIteratorTest {
 
         assertThat(iterator.next().longValue(), is(0xFFFF_FFFEL));
         // Skip 0xFFFF_FFFFL because that is reserved.
-        assertThat(iterator.next().longValue(), is(0L));
+        assertThat(iterator.next().longValue(), is(1L));
     }
 }

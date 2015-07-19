@@ -7,12 +7,15 @@ package org.theta4j.ptp;
 import org.theta4j.ptp.code.Code;
 import org.theta4j.ptp.code.OperationCode;
 import org.theta4j.ptp.code.ResponseCode;
-import org.theta4j.ptp.data.*;
+import org.theta4j.ptp.data.DeviceInfo;
+import org.theta4j.ptp.data.Response;
 import org.theta4j.ptp.type.*;
 import org.theta4j.util.Validators;
 
-import java.io.*;
-import java.util.List;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public abstract class AbstractPtpInitiator implements PtpInitiator {
     // Session ID
@@ -107,137 +110,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
         this.sessionID = UINT32.ZERO;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<UINT32> getStorageIDs() throws IOException {
-        sendOperation(OperationCode.GET_STORAGE_IDS);
-        List<UINT32> storageIDs = AUINT32.read(receiveData());
-        checkResponse();
-
-        return storageIDs;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public StorageInfo getStorageInfo(UINT32 storageID) throws IOException {
-        Validators.notNull("storageID", storageID);
-
-        sendOperation(OperationCode.GET_STORAGE_INFO, storageID);
-        StorageInfo storageInfo = StorageInfo.read(receiveData());
-        checkResponse();
-
-        return storageInfo;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public UINT32 getNumObjects() throws IOException {
-        sendOperation(OperationCode.GET_NUM_OBJECTS);
-        UINT32 numObjects = UINT32.read(receiveData());
-        checkResponse();
-
-        return numObjects;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<UINT32> getObjectHandles() throws IOException {
-        return getObjectHandles(new UINT32(0xFFFFFFFFL));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<UINT32> getObjectHandles(UINT32 storageID) throws IOException {
-        Validators.notNull("storageID", storageID);
-
-        sendOperation(OperationCode.GET_OBJECT_HANDLES, storageID);
-        List<UINT32> objectHandles = AUINT32.read(receiveData());
-        checkResponse();
-
-        return objectHandles;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ObjectInfo getObjectInfo(UINT32 objectHandle) throws IOException {
-        Validators.notNull("objectHandle", objectHandle);
-
-        sendOperation(OperationCode.GET_OBJECT_INFO, objectHandle);
-        ObjectInfo objectInfo = ObjectInfo.read(receiveData());
-        checkResponse();
-
-        return objectInfo;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void getObject(UINT32 objectHandle, OutputStream dst) throws IOException {
-        Validators.notNull("objectHandle", objectHandle);
-        Validators.notNull("dst", dst);
-
-        sendOperation(OperationCode.GET_OBJECT, objectHandle);
-        receiveData(dst);
-        checkResponse();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void getThumb(UINT32 objectHandle, OutputStream dst) throws IOException {
-        Validators.notNull("objectHandle", objectHandle);
-        Validators.notNull("dst", dst);
-
-        sendOperation(OperationCode.GET_THUMB, objectHandle);
-        receiveData(dst);
-        checkResponse();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void deleteObject(UINT32 objectHandle) throws IOException {
-        Validators.notNull("objectHandle", objectHandle);
-
-        sendOperation(OperationCode.DELETE_OBJECT, objectHandle);
-        checkResponse();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void initiateCapture() throws IOException {
-        sendOperation(OperationCode.INITIATE_CAPTURE);
-        checkResponse();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DevicePropDesc<?> getDevicePropDesc(Code<UINT16> devicePropCode) throws IOException {
-        sendOperation(OperationCode.GET_DEVICE_PROP_DESC, new UINT32(devicePropCode.value().intValue()));
-        DevicePropDesc<?> devicePropDesc = DevicePropDesc.read(receiveData());
-        checkResponse();
-
-        return devicePropDesc;
-    }
+    // Device Property
 
     /**
      * {@inheritDoc}
@@ -336,34 +209,6 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     @Override
     public void setDevicePropValue(Code<UINT16> devicePropCode, String value) throws IOException {
         setDevicePropValue(devicePropCode, STR.toBytes(value + "\u0000"));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void terminateOpenCapture() throws IOException {
-        terminateOpenCapture(UINT32.MAX_VALUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void terminateOpenCapture(UINT32 transactionID) throws IOException {
-        sendOperation(OperationCode.TERMINATE_OPEN_CAPTURE, transactionID);
-        checkResponse();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public UINT32 initiateOpenCapture() throws IOException {
-        UINT32 transactionID = sendOperation(OperationCode.INITIATE_OPEN_CAPTURER);
-        checkResponse();
-
-        return transactionID;
     }
 
     // Responses

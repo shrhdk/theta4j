@@ -4,6 +4,8 @@
 
 package org.theta4j;
 
+import org.theta4j.ptp.type.UINT32;
+
 import java.util.EventListener;
 
 /**
@@ -18,7 +20,7 @@ public interface ThetaEventListener extends EventListener {
      *
      * @param objectHandle The ObjectHandle of the added object.
      */
-    void onObjectAdded(long objectHandle);
+    void onObjectAdded(UINT32 objectHandle);
 
     void onCaptureStatusChanged();
 
@@ -26,7 +28,7 @@ public interface ThetaEventListener extends EventListener {
 
     void onRemainingRecordingTimeChanged();
 
-    void onStoreFull(long storageID);
+    void onStoreFull();
 
-    void onCaptureComplete();
+    void onCaptureComplete(UINT32 transactionID);
 }

@@ -10,9 +10,9 @@ import org.theta4j.ptp.type.UINT16;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class OperationCodeTest {
+public class ThetaOperationCodeTest {
     @Test
     public void value() {
-        assertThat(OperationCode.GET_RESIZED_IMAGE_OBJECT.value(), is(new UINT16(0x1022)));
+        assertThat(ThetaOperationCode.GET_RESIZED_IMAGE_OBJECT.value(), is(new UINT16(0x1022)));
     }
 }

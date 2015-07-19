@@ -89,7 +89,7 @@ public interface PtpInitiator extends Closeable {
      */
     UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) throws IOException;
 
-    // Operations
+    // Operation
 
     /**
      * Get the DeviceInfo of the PTP-Responder.
@@ -114,96 +114,8 @@ public interface PtpInitiator extends Closeable {
      */
     void closeSession() throws IOException;
 
-    /**
-     * Get list of storage ID.
-     *
-     * @return List of storage ID which the PTP-Responder has.
-     * @throws IOException
-     */
-    List<UINT32> getStorageIDs() throws IOException;
 
-    /**
-     * @param storageID Get storage information.
-     * @return Storage information of specified by ID.
-     * @throws IOException
-     */
-    StorageInfo getStorageInfo(UINT32 storageID) throws IOException;
-
-    /**
-     * Get number of objects.
-     *
-     * @return Number of objects which the PTP-Responder has.
-     * @throws IOException
-     */
-    UINT32 getNumObjects() throws IOException;
-
-    /**
-     * Get list of object handle.
-     *
-     * @return List of object handles which the PTP-Responder has.
-     * @throws IOException
-     */
-    List<UINT32> getObjectHandles() throws IOException;
-
-    /**
-     * Get list of object handle.
-     *
-     * @param storageID Storage ID
-     * @return List of object handles which storage has.
-     * @throws IOException
-     */
-    List<UINT32> getObjectHandles(UINT32 storageID) throws IOException;
-
-    /**
-     * Get the information of the object.
-     *
-     * @param objectHandle The handle of the object to get information.
-     * @return Information of the object specified by handle.
-     * @throws IOException
-     */
-    ObjectInfo getObjectInfo(UINT32 objectHandle) throws IOException;
-
-    /**
-     * Get the object from the PTP-Responder.
-     *
-     * @param objectHandle The handle of the object to download.
-     * @param dst          The destination which to write the object received from PTP-Responder.
-     * @throws IOException
-     */
-    void getObject(UINT32 objectHandle, OutputStream dst) throws IOException;
-
-    /**
-     * Get the thumbnail of specified object handle from the PTP-Responder.
-     *
-     * @param objectHandle The handle of the object to download thumbnail.
-     * @param dst          The destination which to write the object thumbnail received from PTP-Responder.
-     * @throws IOException
-     */
-    void getThumb(UINT32 objectHandle, OutputStream dst) throws IOException;
-
-    /**
-     * Delete the specified object.
-     *
-     * @param objectHandle The handle of the object to delete.
-     * @throws IOException
-     */
-    void deleteObject(UINT32 objectHandle) throws IOException;
-
-    /**
-     * Send initiate capture request to the PTP-Responder.
-     *
-     * @throws IOException
-     */
-    void initiateCapture() throws IOException;
-
-    /**
-     * Get the description of the device property of PTP-Responder.
-     *
-     * @param devicePropCode The code of the device property to get the description.
-     * @return The description of device property.
-     * @throws IOException
-     */
-    DevicePropDesc<?> getDevicePropDesc(Code<UINT16> devicePropCode) throws IOException;
+    // Device Property
 
     /**
      * Get device property value of PTP-Responder.
@@ -298,30 +210,6 @@ public interface PtpInitiator extends Closeable {
      * @throws IOException
      */
     void setDevicePropValue(Code<UINT16> devicePropCode, String value) throws IOException;
-
-    /**
-     * Terminate all capture.
-     *
-     * @throws IOException
-     */
-    void terminateOpenCapture() throws IOException;
-
-    /**
-     * Terminate specified capture.
-     *
-     * @param transactionID Transaction ID
-     * @throws IOException
-     */
-    void terminateOpenCapture(UINT32 transactionID) throws IOException;
-
-    /**
-     * Initiate open capture.
-     *
-     * @return Transaction ID
-     * @throws IOException
-     * @see #terminateOpenCapture
-     */
-    UINT32 initiateOpenCapture() throws IOException;
 
     // Responses
 

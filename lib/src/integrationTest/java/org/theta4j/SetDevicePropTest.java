@@ -16,47 +16,11 @@ import java.io.IOException;
 import java.util.Date;
 
 public class SetDevicePropTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SetDevicePropTest.class);
-    private static final UINT32 SESSION_ID = new UINT32(1);
-
-    private static final ThetaEventListener LISTENER = new ThetaEventListener() {
-        @Override
-        public void onObjectAdded(long objectHandle) {
-            LOGGER.info("onObjectAdded: " + objectHandle);
-        }
-
-        @Override
-        public void onCaptureStatusChanged() {
-            LOGGER.info("onCaptureStatusChanged");
-        }
-
-        @Override
-        public void onRecordingTimeChanged() {
-            LOGGER.info("onRecordingTimeChanged");
-        }
-
-        @Override
-        public void onRemainingRecordingTimeChanged() {
-            LOGGER.info("onRemainingRecordingTimeChanged");
-        }
-
-        @Override
-        public void onStoreFull(long storageID) {
-            LOGGER.info("onStoreFull: " + storageID);
-        }
-
-        @Override
-        public void onCaptureComplete() {
-            LOGGER.info("onCaptureComplete");
-        }
-    };
-
     private static Theta theta;
 
     @BeforeClass
     public static void connect() throws IOException {
         theta = new Theta();
-        theta.addListener(LISTENER);
     }
 
     @AfterClass

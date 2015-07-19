@@ -4,9 +4,11 @@
 
 package org.theta4j;
 
+import org.theta4j.ptp.type.UINT32;
+
 public abstract class ThetaEventAdapter implements ThetaEventListener {
     @Override
-    public void onObjectAdded(long objectHandle) {
+    public void onObjectAdded(UINT32 objectHandle) {
     }
 
     @Override
@@ -22,10 +24,10 @@ public abstract class ThetaEventAdapter implements ThetaEventListener {
     }
 
     @Override
-    public void onStoreFull(long storageID) {
+    public void onStoreFull() {
     }
 
     @Override
-    public void onCaptureComplete() {
+    public void onCaptureComplete(UINT32 transactionID) {
     }
 }
