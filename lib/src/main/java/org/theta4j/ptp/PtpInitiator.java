@@ -5,14 +5,14 @@
 package org.theta4j.ptp;
 
 import org.theta4j.ptp.code.Code;
-import org.theta4j.ptp.data.*;
+import org.theta4j.ptp.data.DeviceInfo;
+import org.theta4j.ptp.data.Response;
 import org.theta4j.ptp.type.*;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
 
 public interface PtpInitiator extends Closeable {
     // Operation (Base)
@@ -124,6 +124,15 @@ public interface PtpInitiator extends Closeable {
     InputStream getDevicePropValue(Code<UINT16> devicePropCode) throws IOException;
 
     /**
+     * Get device property value as INT8.
+     *
+     * @param devicePropCode The code of the device property to get value.
+     * @return Device property value
+     * @throws IOException
+     */
+    INT8 getDevicePropValueAsINT8(Code<UINT16> devicePropCode) throws IOException;
+
+    /**
      * Get device property value as UINT8.
      *
      * @param devicePropCode The code of the device property to get value.
@@ -151,6 +160,15 @@ public interface PtpInitiator extends Closeable {
     UINT16 getDevicePropValueAsUINT16(Code<UINT16> devicePropCode) throws IOException;
 
     /**
+     * Get device property value as INT32.
+     *
+     * @param devicePropCode The code of the device property to get value.
+     * @return Device property value
+     * @throws IOException
+     */
+    INT32 getDevicePropValueAsINT32(Code<UINT16> devicePropCode) throws IOException;
+
+    /**
      * Get device property value as UINT32.
      *
      * @param devicePropCode The code of the device property to get value.
@@ -160,6 +178,15 @@ public interface PtpInitiator extends Closeable {
     UINT32 getDevicePropValueAsUINT32(Code<UINT16> devicePropCode) throws IOException;
 
     /**
+     * Get device property value as INT64.
+     *
+     * @param devicePropCode The code of the device property to get value.
+     * @return Device property value
+     * @throws IOException
+     */
+    INT64 getDevicePropValueAsINT64(Code<UINT16> devicePropCode) throws IOException;
+
+    /**
      * Get device property value as UINT64.
      *
      * @param devicePropCode The code of the device property to get value.
@@ -167,6 +194,24 @@ public interface PtpInitiator extends Closeable {
      * @throws IOException
      */
     UINT64 getDevicePropValueAsUINT64(Code<UINT16> devicePropCode) throws IOException;
+
+    /**
+     * Get device property value as INT128.
+     *
+     * @param devicePropCode The code of the device property to get value.
+     * @return Device property value
+     * @throws IOException
+     */
+    INT128 getDevicePropValueAsINT128(Code<UINT16> devicePropCode) throws IOException;
+
+    /**
+     * Get device property value as UINT128.
+     *
+     * @param devicePropCode The code of the device property to get value.
+     * @return Device property value
+     * @throws IOException
+     */
+    UINT128 getDevicePropValueAsUINT128(Code<UINT16> devicePropCode) throws IOException;
 
     /**
      * Get device property value as String.
@@ -186,36 +231,12 @@ public interface PtpInitiator extends Closeable {
     void setDevicePropValue(Code<UINT16> devicePropCode, byte[] value) throws IOException;
 
     /**
-     * Set device property value as UINT8.
+     * Set device property value.
      *
      * @param devicePropCode The code of the device property to set value.
      * @throws IOException
      */
-    void setDevicePropValue(Code<UINT16> devicePropCode, UINT8 value) throws IOException;
-
-    /**
-     * Set device property value as INT16.
-     *
-     * @param devicePropCode The code of the device property to set value.
-     * @throws IOException
-     */
-    void setDevicePropValue(Code<UINT16> devicePropCode, INT16 value) throws IOException;
-
-    /**
-     * Set device property value as UINT16.
-     *
-     * @param devicePropCode The code of the device property to set value.
-     * @throws IOException
-     */
-    void setDevicePropValue(Code<UINT16> devicePropCode, UINT16 value) throws IOException;
-
-    /**
-     * Set device property value as UINT32.
-     *
-     * @param devicePropCode The code of the device property to set value.
-     * @throws IOException
-     */
-    void setDevicePropValue(Code<UINT16> devicePropCode, UINT32 value) throws IOException;
+    void setDevicePropValue(Code<UINT16> devicePropCode, PtpInteger value) throws IOException;
 
     /**
      * Set device property value as String.

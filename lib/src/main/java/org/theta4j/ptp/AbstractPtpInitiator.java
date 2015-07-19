@@ -130,6 +130,14 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
      * {@inheritDoc}
      */
     @Override
+    public INT8 getDevicePropValueAsINT8(Code<UINT16> devicePropCode) throws IOException {
+        return INT8.read(getDevicePropValue(devicePropCode));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UINT8 getDevicePropValueAsUINT8(Code<UINT16> devicePropCode) throws IOException {
         return UINT8.read(getDevicePropValue(devicePropCode));
     }
@@ -154,6 +162,14 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
      * {@inheritDoc}
      */
     @Override
+    public INT32 getDevicePropValueAsINT32(Code<UINT16> devicePropCode) throws IOException {
+        return INT32.read(getDevicePropValue(devicePropCode));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UINT32 getDevicePropValueAsUINT32(Code<UINT16> devicePropCode) throws IOException {
         return UINT32.read(getDevicePropValue(devicePropCode));
     }
@@ -162,8 +178,32 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
      * {@inheritDoc}
      */
     @Override
+    public INT64 getDevicePropValueAsINT64(Code<UINT16> devicePropCode) throws IOException {
+        return INT64.read(getDevicePropValue(devicePropCode));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UINT64 getDevicePropValueAsUINT64(Code<UINT16> devicePropCode) throws IOException {
         return UINT64.read(getDevicePropValue(devicePropCode));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public INT128 getDevicePropValueAsINT128(Code<UINT16> devicePropCode) throws IOException {
+        return INT128.read(getDevicePropValue(devicePropCode));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UINT128 getDevicePropValueAsUINT128(Code<UINT16> devicePropCode) throws IOException {
+        return UINT128.read(getDevicePropValue(devicePropCode));
     }
 
     /**
@@ -191,31 +231,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
      * {@inheritDoc}
      */
     @Override
-    public void setDevicePropValue(Code<UINT16> devicePropCode, UINT8 value) throws IOException {
-        setDevicePropValue(devicePropCode, value.bytes());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setDevicePropValue(Code<UINT16> devicePropCode, INT16 value) throws IOException {
-        setDevicePropValue(devicePropCode, value.bytes());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setDevicePropValue(Code<UINT16> devicePropCode, UINT16 value) throws IOException {
-        setDevicePropValue(devicePropCode, value.bytes());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setDevicePropValue(Code<UINT16> devicePropCode, UINT32 value) throws IOException {
+    public void setDevicePropValue(Code<UINT16> devicePropCode, PtpInteger value) throws IOException {
         setDevicePropValue(devicePropCode, value.bytes());
     }
 
