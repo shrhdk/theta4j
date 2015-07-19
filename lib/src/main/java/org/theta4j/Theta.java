@@ -358,8 +358,9 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public int getExposureBiasCompensation() throws IOException {
-        return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.EXPOSURE_BIAS_COMPENSATION).intValue();
+    public ExposureBiasCompensation getExposureBiasCompensation() throws IOException {
+        INT16 value = ptpInitiator.getDevicePropValueAsINT16(DevicePropCode.EXPOSURE_BIAS_COMPENSATION);
+        return ExposureBiasCompensation.valueOf(value);
     }
 
     /**
@@ -370,10 +371,10 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public void setExposureBiasCompensation(int exposureBiasCompensation) throws IOException {
-        UINT16 value = new UINT16(exposureBiasCompensation);
+    public void setExposureBiasCompensation(ExposureBiasCompensation exposureBiasCompensation) throws IOException {
+        Validators.notNull("exposureBiasCompensation", exposureBiasCompensation);
 
-        ptpInitiator.setDevicePropValue(DevicePropCode.EXPOSURE_BIAS_COMPENSATION, value);
+        ptpInitiator.setDevicePropValue(DevicePropCode.EXPOSURE_BIAS_COMPENSATION, exposureBiasCompensation.value());
     }
 
     /**
@@ -469,8 +470,8 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public long getTimelapseInterval() throws IOException {
-        return ptpInitiator.getDevicePropValueAsUINT32(DevicePropCode.TIMELAPSE_INTERVAL).longValue();
+    public int getTimelapseInterval() throws IOException {
+        return ptpInitiator.getDevicePropValueAsUINT32(DevicePropCode.TIMELAPSE_INTERVAL).intValue();
     }
 
     /**
@@ -483,7 +484,7 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public void setTimelapseInterval(long timelapseInterval) throws IOException {
+    public void setTimelapseInterval(int timelapseInterval) throws IOException {
         if (timelapseInterval < 5000 || 3600000 < timelapseInterval) {
             throw new IllegalArgumentException(
                     String.format("Timelapse interval is not work with %d. Set 5000-3600000.", timelapseInterval));
@@ -500,8 +501,8 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public long getAudioVolume() throws IOException {
-        return ptpInitiator.getDevicePropValueAsUINT32(DevicePropCode.AUDIO_VOLUME).longValue();
+    public int getAudioVolume() throws IOException {
+        return ptpInitiator.getDevicePropValueAsUINT32(DevicePropCode.AUDIO_VOLUME).intValue();
     }
 
     /**
@@ -512,7 +513,7 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public void setAudioVolume(long audioVolume) throws IOException {
+    public void setAudioVolume(int audioVolume) throws IOException {
         if (audioVolume < 0 || 100 < audioVolume) {
             throw new IllegalArgumentException(
                     String.format("Audio volume is not work with %d. Set 0-100.", audioVolume));
@@ -621,7 +622,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public int getSleepDelay() throws IOException {
-        return ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.SLEEP_DELAY).intValue();
+        return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.SLEEP_DELAY).intValue();
     }
 
     /**

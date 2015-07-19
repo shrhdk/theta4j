@@ -31,7 +31,7 @@ public enum StillCaptureMode {
      * Change these setting values before switching to interval shooting mode.
      *
      * @see org.theta4j.Theta#setTimelapseNumber(int)
-     * @see org.theta4j.Theta#setTimelapseInterval(long)
+     * @see org.theta4j.Theta#setTimelapseInterval(int)
      */
     INTERVAL_SHOT(0x0003);
 

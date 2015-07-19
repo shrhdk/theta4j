@@ -6,10 +6,7 @@ package org.theta4j.ptp;
 
 import org.theta4j.ptp.code.Code;
 import org.theta4j.ptp.data.*;
-import org.theta4j.ptp.type.UINT16;
-import org.theta4j.ptp.type.UINT32;
-import org.theta4j.ptp.type.UINT64;
-import org.theta4j.ptp.type.UINT8;
+import org.theta4j.ptp.type.*;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -136,6 +133,15 @@ public interface PtpInitiator extends Closeable {
     UINT8 getDevicePropValueAsUINT8(Code<UINT16> devicePropCode) throws IOException;
 
     /**
+     * Get device property value as INT16.
+     *
+     * @param devicePropCode The code of the device property to get value.
+     * @return Device property value
+     * @throws IOException
+     */
+    INT16 getDevicePropValueAsINT16(Code<UINT16> devicePropCode) throws IOException;
+
+    /**
      * Get device property value as UINT16.
      *
      * @param devicePropCode The code of the device property to get value.
@@ -186,6 +192,14 @@ public interface PtpInitiator extends Closeable {
      * @throws IOException
      */
     void setDevicePropValue(Code<UINT16> devicePropCode, UINT8 value) throws IOException;
+
+    /**
+     * Set device property value as INT16.
+     *
+     * @param devicePropCode The code of the device property to set value.
+     * @throws IOException
+     */
+    void setDevicePropValue(Code<UINT16> devicePropCode, INT16 value) throws IOException;
 
     /**
      * Set device property value as UINT16.
