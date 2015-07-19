@@ -106,7 +106,7 @@ public abstract class PtpIpPacket {
             Validators.notNull("value", value);
 
             if (!TYPE_MAP.containsKey(value)) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Unknown Packet Type: " + value);
             }
 
             return TYPE_MAP.get(value);
