@@ -4,10 +4,7 @@
 
 package org.theta4j;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.theta4j.ptp.type.UINT32;
 
 import java.io.File;
@@ -16,8 +13,10 @@ import java.io.IOException;
 import java.util.List;
 
 @Ignore
-public class GetObjectTest {
+public class ObjectTest {
     private static Theta theta;
+
+    private File tempFile;
 
     @BeforeClass
     public static void connect() throws IOException {
@@ -30,29 +29,35 @@ public class GetObjectTest {
         Thread.sleep(TestParameters.INTERVAL_MS);
     }
 
-    // Operations
+    @Before
+    public void setUp() throws IOException {
+        tempFile = File.createTempFile("theta4j-", ".jpg");
+    }
 
     @Test
     public void getObject() throws IOException {
         List<UINT32> objectHandles = theta.getObjectHandles();
-        try (FileOutputStream file = new FileOutputStream(new File("raw.jpg"))) {
+        try (FileOutputStream file = new FileOutputStream(tempFile)) {
             theta.getObject(objectHandles.get(2), file);
+            TestUtils.isValidJPEG(tempFile);
         }
     }
 
     @Test
     public void getThumb() throws IOException {
         List<UINT32> objectHandles = theta.getObjectHandles();
-        try (FileOutputStream file = new FileOutputStream(new File("thumb.jpg"))) {
+        try (FileOutputStream file = new FileOutputStream(tempFile)) {
             theta.getThumb(objectHandles.get(2), file);
+            TestUtils.isValidJPEG(tempFile);
         }
     }
 
     @Test
     public void getResizedImageObject() throws IOException {
         List<UINT32> objectHandles = theta.getObjectHandles();
-        try (FileOutputStream file = new FileOutputStream(new File("resized.jpg"))) {
+        try (FileOutputStream file = new FileOutputStream(tempFile)) {
             theta.getResizedImageObject(objectHandles.get(2), file);
+            TestUtils.isValidJPEG(tempFile);
         }
     }
 }

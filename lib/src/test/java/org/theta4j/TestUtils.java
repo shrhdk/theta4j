@@ -4,6 +4,11 @@
 
 package org.theta4j;
 
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -43,5 +48,21 @@ public class TestUtils {
         }
 
         return false;
+    }
+
+    public static boolean isValidJPEG(File file) {
+        try (FileInputStream is = new FileInputStream(file)) {
+            return isValidJPEG(is);
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public static boolean isValidJPEG(InputStream is) {
+        try {
+            return ImageIO.read(is) != null;
+        } catch (IOException e) {
+            return false;
+        }
     }
 }
