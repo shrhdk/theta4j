@@ -189,6 +189,44 @@ public final class Theta implements Closeable {
     }
 
     /**
+     * Starts shooting.
+     *
+     * @param callback Callback
+     * @throws IOException
+     */
+    public void initiateCapture(final InitiateCaptureCallback callback) throws IOException {
+        Validators.notNull("callback", callback);
+
+        ThetaEventListener listener = new ThetaEventAdapter() {
+            @Override
+            public void onObjectAdded(UINT32 objectHandle) {
+                callback.onObjectAdded(objectHandle);
+            }
+
+            @Override
+            public void onStoreFull() {
+                callback.onStoreFull();
+                removeListener(this);
+            }
+
+            @Override
+            public void onCaptureComplete(UINT32 transactionID) {
+                callback.onCaptureComplete();
+                removeListener(this);
+            }
+        };
+
+        addListener(listener);
+
+        try {
+            initiateCapture();
+        } catch (IOException e) {
+            removeListener(listener);
+            throw e;
+        }
+    }
+
+    /**
      * Exits the all continuous shooting.
      *
      * @throws IOException
