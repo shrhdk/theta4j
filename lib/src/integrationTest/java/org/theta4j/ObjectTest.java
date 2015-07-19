@@ -12,26 +12,45 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.junit.Assert.assertThat;
+
 @Ignore
 public class ObjectTest {
     private static Theta theta;
+    private static UINT32 objectHandle;
 
     private File tempFile;
 
     @BeforeClass
-    public static void connect() throws IOException {
+    public static void connectAndCapture() throws IOException, InterruptedException {
         theta = new Theta();
+        objectHandle = theta.initiateCapture();
     }
 
     @AfterClass
-    public static void close() throws IOException, InterruptedException {
+    public static void deleteAndClose() throws IOException, InterruptedException {
+        theta.deleteObject(objectHandle);
+
         theta.close();
+
         Thread.sleep(TestParameters.INTERVAL_MS);
     }
 
     @Before
-    public void setUp() throws IOException {
+    public void createTempFile() throws IOException {
         tempFile = File.createTempFile("theta4j-", ".jpg");
+    }
+
+    @Test
+    public void getObjectInfo() throws IOException {
+        theta.getObjectInfo(objectHandle);
+    }
+
+    @Test
+    public void getObjectHandles() throws IOException {
+        List<UINT32> objectHandles = theta.getObjectHandles();
+        assertThat(objectHandles, hasItems(objectHandle));
     }
 
     @Test
