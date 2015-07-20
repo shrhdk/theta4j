@@ -249,13 +249,15 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
      * {@inheritDoc}
      */
     @Override
-    public void checkResponse() throws IOException {
+    public Response checkResponse() throws IOException {
         Response response = receiveResponse();
 
         if (!response.getResponseCode().equals(ResponseCode.OK.value())) {
             String message = "ResponseCode was not OK: " + response.getResponseCode();
             throw new PtpException(response.getResponseCode(), message);
         }
+
+        return response;
     }
 
     // Data

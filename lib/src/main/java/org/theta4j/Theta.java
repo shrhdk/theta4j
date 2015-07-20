@@ -16,6 +16,7 @@ import org.theta4j.ptp.code.ResponseCode;
 import org.theta4j.ptp.data.DeviceInfo;
 import org.theta4j.ptp.data.Event;
 import org.theta4j.ptp.data.ObjectInfo;
+import org.theta4j.ptp.data.Response;
 import org.theta4j.ptp.type.*;
 import org.theta4j.ptpip.PtpIpInitiator;
 import org.theta4j.util.Validators;
@@ -83,11 +84,10 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public long getNumObjects() throws IOException {
-        ptpInitiator.sendOperation(OperationCode.GET_NUM_OBJECTS);
-        UINT32 numObjects = UINT32.read(ptpInitiator.receiveData());
-        ptpInitiator.checkResponse();
+        ptpInitiator.sendOperation(OperationCode.GET_NUM_OBJECTS, UINT32.MAX_VALUE);
+        Response response = ptpInitiator.checkResponse();
 
-        return numObjects.longValue();
+        return response.getP1().longValue();
     }
 
     /**
