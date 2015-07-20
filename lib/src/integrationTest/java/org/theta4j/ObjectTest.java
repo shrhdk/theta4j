@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class ObjectTest extends BaseThetaTest {
     private static UINT32 objectHandle;
@@ -49,6 +50,14 @@ public class ObjectTest extends BaseThetaTest {
     public void getObjectHandles() throws IOException {
         List<UINT32> objectHandles = theta.getObjectHandles();
         assertThat(objectHandles, hasItems(objectHandle));
+    }
+
+    @Test
+    public void getNumObjects() throws IOException {
+        // numObjects is always 1 or more because THETA always has directory,
+        // and in this case we captured new image at BeforeClass.
+        // Therefore, numObjects must be 2 or more;
+        assertTrue(2 <= theta.getNumObjects());
     }
 
     @Test
