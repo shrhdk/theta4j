@@ -10,6 +10,7 @@ import org.theta4j.data.*;
 import org.theta4j.ptp.PtpEventListener;
 import org.theta4j.ptp.PtpException;
 import org.theta4j.ptp.PtpInitiator;
+import org.theta4j.ptp.code.EventCode;
 import org.theta4j.ptp.code.OperationCode;
 import org.theta4j.ptp.code.ResponseCode;
 import org.theta4j.ptp.data.DeviceInfo;
@@ -193,36 +194,29 @@ public final class Theta implements Closeable {
         final AtomicReference<UINT32> transactionIDRef = new AtomicReference<>();
         final AtomicReference<UINT32> objectHandleRef = new AtomicReference<>();
 
-        ThetaEventListener listener = new ThetaEventAdapter() {
+        PtpEventListener listener = new PtpEventListener() {
             @Override
-            public void onObjectAdded(UINT32 objectHandle) {
-                objectHandleRef.set(objectHandle);
-            }
-
-            @Override
-            public void onStoreFull() {
-                storeFull.set(true);
-                latch.countDown();
-            }
-
-            @Override
-            public void onCaptureComplete(UINT32 transactionID) {
-                if (transactionIDRef.get().equals(transactionID)) {
-                    latch.countDown();
+            public void onEvent(Event event) {
+                if (event.getEventCode().equals(EventCode.OBJECT_ADDED.value())) {
+                    objectHandleRef.set(event.getP1());
+                } else if (event.getEventCode().equals(EventCode.STORE_FULL.value())) {
+                    if (transactionIDRef.get().equals(event.getTransactionID())) {
+                        storeFull.set(true);
+                        latch.countDown();
+                    }
+                } else if (event.getEventCode().equals(EventCode.CAPTURE_COMPLETE.value())) {
+                    if (transactionIDRef.get().equals(event.getP1())) {
+                        latch.countDown();
+                    }
                 }
             }
         };
 
         try {
-            addListener(listener);
+            ptpInitiator.addListener(listener);
 
-            try {
-                transactionIDRef.set(ptpInitiator.sendOperation(OperationCode.INITIATE_CAPTURE));
-                ptpInitiator.checkResponse();
-            } catch (IOException e) {
-                removeListener(listener);
-                throw e;
-            }
+            transactionIDRef.set(ptpInitiator.sendOperation(OperationCode.INITIATE_CAPTURE));
+            ptpInitiator.checkResponse();
 
             latch.await();
 
@@ -232,7 +226,7 @@ public final class Theta implements Closeable {
 
             return objectHandleRef.get();
         } finally {
-            removeListener(listener);
+            ptpInitiator.removeListener(listener);
         }
     }
 
