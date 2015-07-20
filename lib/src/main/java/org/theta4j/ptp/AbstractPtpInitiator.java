@@ -77,7 +77,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     public DeviceInfo getDeviceInfo() throws IOException {
         sendOperation(OperationCode.GET_DEVICE_INFO);
         DeviceInfo deviceInfo = DeviceInfo.read(receiveData());
-        checkResponse();
+        checkAndReadResponse();
 
         return deviceInfo;
     }
@@ -94,7 +94,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
         }
 
         sendOperation(OperationCode.OPEN_SESSION, sessionID);
-        checkResponse();
+        checkAndReadResponse();
 
         this.sessionID = sessionID;
     }
@@ -105,7 +105,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
     @Override
     public void closeSession() throws IOException {
         sendOperation(OperationCode.CLOSE_SESSION);
-        checkResponse();
+        checkAndReadResponse();
 
         this.sessionID = UINT32.ZERO;
     }
@@ -121,7 +121,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
 
         sendOperation(OperationCode.GET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
         InputStream is = receiveData();
-        checkResponse();
+        checkAndReadResponse();
 
         return is;
     }
@@ -224,7 +224,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
 
         sendOperation(OperationCode.SET_DEVICE_PROP_VALUE, new UINT32(devicePropCode.value().intValue()));
         sendData(value);
-        checkResponse();
+        checkAndReadResponse();
     }
 
     /**
@@ -249,7 +249,7 @@ public abstract class AbstractPtpInitiator implements PtpInitiator {
      * {@inheritDoc}
      */
     @Override
-    public Response checkResponse() throws IOException {
+    public Response checkAndReadResponse() throws IOException {
         Response response = receiveResponse();
 
         if (!response.getResponseCode().equals(ResponseCode.OK.value())) {

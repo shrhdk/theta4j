@@ -85,7 +85,7 @@ public final class Theta implements Closeable {
      */
     public long getNumObjects() throws IOException {
         ptpInitiator.sendOperation(OperationCode.GET_NUM_OBJECTS, UINT32.MAX_VALUE);
-        Response response = ptpInitiator.checkResponse();
+        Response response = ptpInitiator.checkAndReadResponse();
 
         return response.getP1().longValue();
     }
@@ -112,7 +112,7 @@ public final class Theta implements Closeable {
 
         ptpInitiator.sendOperation(OperationCode.GET_OBJECT_HANDLES, storageID);
         List<UINT32> objectHandles = AUINT32.read(ptpInitiator.receiveData());
-        ptpInitiator.checkResponse();
+        ptpInitiator.checkAndReadResponse();
 
         return objectHandles;
     }
@@ -129,7 +129,7 @@ public final class Theta implements Closeable {
 
         ptpInitiator.sendOperation(OperationCode.GET_OBJECT_INFO, objectHandle);
         ObjectInfo objectInfo = ObjectInfo.read(ptpInitiator.receiveData());
-        ptpInitiator.checkResponse();
+        ptpInitiator.checkAndReadResponse();
 
         return objectInfo;
     }
@@ -148,7 +148,7 @@ public final class Theta implements Closeable {
 
         ptpInitiator.sendOperation(OperationCode.GET_OBJECT, objectHandle);
         ptpInitiator.receiveData(dst);
-        ptpInitiator.checkResponse();
+        ptpInitiator.checkAndReadResponse();
     }
 
     /**
@@ -165,7 +165,7 @@ public final class Theta implements Closeable {
 
         ptpInitiator.sendOperation(OperationCode.GET_THUMB, objectHandle);
         ptpInitiator.receiveData(dst);
-        ptpInitiator.checkResponse();
+        ptpInitiator.checkAndReadResponse();
     }
 
     /**
@@ -179,7 +179,7 @@ public final class Theta implements Closeable {
         Validators.notNull("objectHandle", objectHandle);
 
         ptpInitiator.sendOperation(OperationCode.DELETE_OBJECT, objectHandle);
-        ptpInitiator.checkResponse();
+        ptpInitiator.checkAndReadResponse();
     }
 
     /**
@@ -216,7 +216,7 @@ public final class Theta implements Closeable {
             ptpInitiator.addListener(listener);
 
             transactionIDRef.set(ptpInitiator.sendOperation(OperationCode.INITIATE_CAPTURE));
-            ptpInitiator.checkResponse();
+            ptpInitiator.checkAndReadResponse();
 
             latch.await();
 
@@ -250,7 +250,7 @@ public final class Theta implements Closeable {
      */
     public void terminateOpenCapture(UINT32 transactionID) throws IOException {
         ptpInitiator.sendOperation(OperationCode.TERMINATE_OPEN_CAPTURE, transactionID);
-        ptpInitiator.checkResponse();
+        ptpInitiator.checkAndReadResponse();
     }
 
     /**
@@ -263,7 +263,7 @@ public final class Theta implements Closeable {
      */
     public UINT32 initiateOpenCapture() throws IOException {
         UINT32 transactionID = ptpInitiator.sendOperation(OperationCode.INITIATE_OPEN_CAPTURER);
-        ptpInitiator.checkResponse();
+        ptpInitiator.checkAndReadResponse();
 
         return transactionID;
     }
@@ -282,7 +282,7 @@ public final class Theta implements Closeable {
         ptpInitiator.sendOperation(ThetaOperationCode.GET_RESIZED_IMAGE_OBJECT, objectHandle, new UINT32(2048), new UINT32(1024));
 
         ptpInitiator.receiveData(dst);
-        ptpInitiator.checkResponse();
+        ptpInitiator.checkAndReadResponse();
     }
 
     /**
@@ -293,7 +293,7 @@ public final class Theta implements Closeable {
     public void turnOffWLAN() throws IOException {
         ptpInitiator.sendOperation(ThetaOperationCode.WLAN_POWER_CONTROL);
 
-        ptpInitiator.checkResponse();
+        ptpInitiator.checkAndReadResponse();
     }
 
     // Property

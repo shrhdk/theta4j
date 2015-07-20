@@ -263,7 +263,7 @@ public interface PtpInitiator extends Closeable {
      * @throws PtpException if response code is not OK
      * @throws IOException
      */
-    Response checkResponse() throws IOException;
+    Response checkAndReadResponse() throws IOException;
 
     // Data
 
