@@ -4,8 +4,6 @@
 
 package org.theta4j;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
@@ -21,52 +19,14 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(Enclosed.class)
 public class DevicePropTest {
-    private static Theta theta;
-
-    static {
-        try {
-            theta = new Theta();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // TODO: fix workaround
-    private static void changeStillCaptureModeFast(StillCaptureMode mode) throws IOException {
-        StillCaptureMode current = theta.getStillCaptureMode();
-
-        if (current == mode) {
-            return;
-        }
-
-        theta.setStillCaptureMode(mode);
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @BeforeClass
-    public static void connect() throws IOException {
-
-    }
-
-    @AfterClass
-    public static void close() throws IOException, InterruptedException {
-        theta.close();
-        Thread.sleep(TestParameters.INTERVAL_MS);
-    }
-
-    public static class BatteryLevelTest {
+    public static class BatteryLevelTest extends BaseThetaTest {
         @Test
         public void get() throws IOException {
             theta.getBatteryLevel();
         }
     }
 
-    public static class WhiteBalanceTest {
+    public static class WhiteBalanceTest extends BaseThetaTest {
         @Test(expected = NullPointerException.class)
         public void setNull() throws IOException {
             theta.setWhiteBalance(null);
@@ -81,7 +41,7 @@ public class DevicePropTest {
         }
     }
 
-    public static class ExposureIndexTest {
+    public static class ExposureIndexTest extends BaseThetaTest {
         @Test(expected = NullPointerException.class)
         public void setNull() throws IOException {
             theta.setExposureIndex(null);
@@ -96,7 +56,7 @@ public class DevicePropTest {
         }
     }
 
-    public static class ExposureBiasCompensationTest {
+    public static class ExposureBiasCompensationTest extends BaseThetaTest {
         @Test(expected = NullPointerException.class)
         public void setNull() throws IOException {
             theta.setExposureBiasCompensation(null);
@@ -111,7 +71,7 @@ public class DevicePropTest {
         }
     }
 
-    public static class DateTimeTest {
+    public static class DateTimeTest extends BaseThetaTest {
         @Test(expected = NullPointerException.class)
         public void setNull() throws IOException {
             theta.setDateTime(null);
@@ -125,7 +85,7 @@ public class DevicePropTest {
         }
     }
 
-    public static class StillCaptureModeTest {
+    public static class StillCaptureModeTest extends BaseThetaTest {
         public static void setAndGetAndVerify(StillCaptureMode given) throws IOException {
             theta.setStillCaptureMode(given);
             try {
@@ -152,7 +112,7 @@ public class DevicePropTest {
         }
     }
 
-    public static class TimelapseNumberTest {
+    public static class TimelapseNumberTest extends BaseThetaTest {
         public static void setAndGetAndVerify(int given) throws IOException {
             changeStillCaptureModeFast(StillCaptureMode.SINGLE);
             theta.setTimelapseNumber(given);
@@ -191,7 +151,7 @@ public class DevicePropTest {
         }
     }
 
-    public static class TimelapseIntervalTest {
+    public static class TimelapseIntervalTest extends BaseThetaTest {
         public static void setAndGetAndVerify(int given) throws IOException {
             changeStillCaptureModeFast(StillCaptureMode.SINGLE);
             theta.setTimelapseInterval(given);
@@ -225,7 +185,7 @@ public class DevicePropTest {
         }
     }
 
-    public static class AudioVolumeTest {
+    public static class AudioVolumeTest extends BaseThetaTest {
         public static void setAndGetAndVerify(int given) throws IOException {
             theta.setAudioVolume(given);
             assertThat(theta.getAudioVolume(), is(given));
@@ -252,14 +212,14 @@ public class DevicePropTest {
         }
     }
 
-    public static class ErrorInfoTest {
+    public static class ErrorInfoTest extends BaseThetaTest {
         @Test
         public void get() throws IOException {
             theta.getErrorInfo();
         }
     }
 
-    public static class ShutterSpeedTest {
+    public static class ShutterSpeedTest extends BaseThetaTest {
         @Test(expected = NullPointerException.class)
         public void setNull() throws IOException {
             theta.setShutterSpeed(null);
@@ -275,7 +235,7 @@ public class DevicePropTest {
     }
 
     @Ignore
-    public static class GPSInfoTest {
+    public static class GPSInfoTest extends BaseThetaTest {
         @Test(expected = NullPointerException.class)
         public void setNull() throws IOException {
             theta.setGPSInfo(null);
@@ -289,7 +249,7 @@ public class DevicePropTest {
         }
     }
 
-    public static class AutoPowerOffDelayTest {
+    public static class AutoPowerOffDelayTest extends BaseThetaTest {
         public static void setAndGetAndVerify(int given) throws IOException {
             theta.setAutoPowerOffDelay(given);
             assertThat(theta.getAutoPowerOffDelay(), is(given));
@@ -316,7 +276,7 @@ public class DevicePropTest {
         }
     }
 
-    public static class SleepDelayTest {
+    public static class SleepDelayTest extends BaseThetaTest {
         public static void setAndGetAndVerify(int given) throws IOException {
             theta.setSleepDelay(given);
             assertThat(theta.getSleepDelay(), is(given));
@@ -343,7 +303,7 @@ public class DevicePropTest {
         }
     }
 
-    public static class ChannelNumberTest {
+    public static class ChannelNumberTest extends BaseThetaTest {
         @Test(expected = NullPointerException.class)
         public void setNull() throws IOException {
             theta.setChannelNumber(null);
@@ -358,21 +318,21 @@ public class DevicePropTest {
         }
     }
 
-    public static class CaptureStatusTest {
+    public static class CaptureStatusTest extends BaseThetaTest {
         @Test
         public void get() throws IOException {
             theta.getCaptureStatus();
         }
     }
 
-    public static class RecordingTimeTest {
+    public static class RecordingTimeTest extends BaseThetaTest {
         @Test
         public void get() throws IOException {
             theta.getRecordingTime();
         }
     }
 
-    public static class RemainingRecordingTimeTest {
+    public static class RemainingRecordingTimeTest extends BaseThetaTest {
         @Test
         public void get() throws IOException {
             theta.getRemainingRecordingTime();

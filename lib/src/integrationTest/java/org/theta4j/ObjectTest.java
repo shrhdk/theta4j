@@ -4,7 +4,10 @@
 
 package org.theta4j;
 
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.theta4j.ptp.type.UINT32;
 
 import java.io.File;
@@ -15,26 +18,21 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.assertThat;
 
-@Ignore
-public class ObjectTest {
-    private static Theta theta;
+public class ObjectTest extends BaseThetaTest {
     private static UINT32 objectHandle;
 
     private File tempFile;
 
     @BeforeClass
-    public static void connectAndCapture() throws IOException, InterruptedException {
-        theta = new Theta();
+    public static void capture() throws IOException, InterruptedException {
         objectHandle = theta.initiateCapture();
     }
 
     @AfterClass
-    public static void deleteAndClose() throws IOException, InterruptedException {
-        theta.deleteObject(objectHandle);
-
-        theta.close();
-
-        Thread.sleep(TestParameters.INTERVAL_MS);
+    public static void delete() throws IOException, InterruptedException {
+        if (theta != null && objectHandle != null) {
+            theta.deleteObject(objectHandle);
+        }
     }
 
     @Before

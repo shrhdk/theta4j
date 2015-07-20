@@ -7,14 +7,10 @@ package org.theta4j;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class ThetaTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ThetaTest.class);
-
     private static Theta theta;
 
     @BeforeClass
@@ -25,7 +21,7 @@ public class ThetaTest {
     @AfterClass
     public static void close() throws IOException, InterruptedException {
         theta.close();
-        Thread.sleep(TestParameters.INTERVAL_MS);
+        Thread.sleep(TestParameters.INTERVAL_AFTER_CLOSE);
     }
 
     @Test
