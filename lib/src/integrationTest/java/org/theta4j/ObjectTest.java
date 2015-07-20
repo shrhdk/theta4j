@@ -62,27 +62,24 @@ public class ObjectTest extends BaseThetaTest {
 
     @Test
     public void getObject() throws IOException {
-        List<UINT32> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(tempFile)) {
-            theta.getObject(objectHandles.get(2), file);
+            theta.getObject(objectHandle, file);
             TestUtils.isValidJPEG(tempFile);
         }
     }
 
     @Test
     public void getThumb() throws IOException {
-        List<UINT32> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(tempFile)) {
-            theta.getThumb(objectHandles.get(2), file);
+            theta.getThumb(objectHandle, file);
             TestUtils.isValidJPEG(tempFile);
         }
     }
 
     @Test
     public void getResizedImageObject() throws IOException {
-        List<UINT32> objectHandles = theta.getObjectHandles();
         try (FileOutputStream file = new FileOutputStream(tempFile)) {
-            theta.getResizedImageObject(objectHandles.get(2), file);
+            theta.getResizedImageObject(objectHandle, file);
             TestUtils.isValidJPEG(tempFile);
         }
     }
