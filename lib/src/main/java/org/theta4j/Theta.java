@@ -84,7 +84,9 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public long getNumObjects() throws IOException {
-        ptpInitiator.sendOperation(OperationCode.GET_NUM_OBJECTS, UINT32.MAX_VALUE);
+        UINT32 storageID = new UINT32(0xFFFFFFFFL);
+
+        ptpInitiator.sendOperation(OperationCode.GET_NUM_OBJECTS, storageID);
         Response response = ptpInitiator.checkAndReadResponse();
 
         return response.getP1().longValue();
@@ -97,18 +99,7 @@ public final class Theta implements Closeable {
      * @throws PtpException
      */
     public List<UINT32> getObjectHandles() throws IOException {
-        return getObjectHandles(new UINT32(0xFFFFFFFFL));
-    }
-
-    /**
-     * Returns list of object handles of the storage area indicated in the storageID.
-     *
-     * @param storageID Storage ID
-     * @return List of object handles which storage has.
-     * @throws IOException
-     */
-    protected List<UINT32> getObjectHandles(UINT32 storageID) throws IOException {
-        Validators.notNull("storageID", storageID);
+        UINT32 storageID = new UINT32(0xFFFFFFFFL);
 
         ptpInitiator.sendOperation(OperationCode.GET_OBJECT_HANDLES, storageID);
         List<UINT32> objectHandles = AUINT32.read(ptpInitiator.receiveData());
