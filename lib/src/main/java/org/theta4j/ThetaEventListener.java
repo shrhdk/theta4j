@@ -29,4 +29,6 @@ public interface ThetaEventListener extends EventListener {
     void onRemainingRecordingTimeChanged();
 
     void onStoreFull();
+
+    void onCaptureComplete(UINT32 transactionID);
 }

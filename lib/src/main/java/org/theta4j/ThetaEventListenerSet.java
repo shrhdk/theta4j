@@ -89,6 +89,19 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
         }
     }
 
+    @Override
+    public void onCaptureComplete(UINT32 transactionID) {
+        for (Iterator<ThetaEventListener> i = listeners.iterator(); i.hasNext(); ) {
+            ThetaEventListener listener = i.next();
+            try {
+                listener.onCaptureComplete(transactionID);
+            } catch (RuntimeException e) {
+                LOGGER.error("Unexpected exception in listener", e);
+                i.remove();
+            }
+        }
+    }
+
     // Set
 
     @Override
@@ -131,7 +144,7 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
         } else if (eventCode.equals(EventCode.STORE_FULL.value())) {
             onStoreFull();
         } else if (eventCode.equals(EventCode.CAPTURE_COMPLETE.value())) {
-            LOGGER.debug("CaptureComplete event won't be raised because org.theta4j.Theta#initiateCapture is not async method.");
+            onCaptureComplete(p1);
         } else {
             LOGGER.warn("Unknown EventCode: " + eventCode);
         }
