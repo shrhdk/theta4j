@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * PTP Initiator implementation of PTP-IP
@@ -41,10 +39,6 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
 
     private volatile boolean isClosed = false;
     private final TransactionIDIterator transactionIDIterator = new TransactionIDIterator();
-
-    // EventListener
-
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     // Command Data Connection
 
@@ -119,28 +113,24 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
                         }
 
                         try {
-                            LOGGER.debug("Error occurred while receiving Event packet:" + e);
-                            LOGGER.debug("Try to close PtpIpInitiator");
+                            LOGGER.error("Error occurred while receiving Event packet:" + e);
+                            LOGGER.error("Try to close PtpIpInitiator");
                             close();
                         } catch (IOException e1) {
-                            LOGGER.debug("Error occurred while closing in event receiving thread" + e);
+                            LOGGER.error("Error occurred while closing in event receiving thread" + e);
                         }
-                        break;
+
+                        return;
                     }
 
-                    executor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            listenerSet.onEvent(new Event(
-                                    eventPacket.getEventCode(),
-                                    getSessionID(),
-                                    eventPacket.getTransactionID(),
-                                    eventPacket.getP1(),
-                                    eventPacket.getP2(),
-                                    eventPacket.getP3()
-                            ));
-                        }
-                    });
+                    listenerSet.onEvent(new Event(
+                            eventPacket.getEventCode(),
+                            getSessionID(),
+                            eventPacket.getTransactionID(),
+                            eventPacket.getP1(),
+                            eventPacket.getP2(),
+                            eventPacket.getP3()
+                    ));
                 }
             }
         }).start();
@@ -244,8 +234,5 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
         if (commandDataConnection != null) {
             commandDataConnection.close();
         }
-
-        // (3) Shutdown Listener Executor
-        executor.shutdown();
     }
 }
