@@ -31,11 +31,7 @@ public class BaseThetaTest {
 
     @BeforeClass
     public static void connect() throws IOException {
-        try {
-            theta = new Theta();
-        } catch (IOException e) {
-            theta = new Theta();    // retry one more
-        }
+        theta = new Theta();
         changeStillCaptureModeFast(StillCaptureMode.SINGLE);
     }
 
