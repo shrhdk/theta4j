@@ -218,24 +218,15 @@ public final class Theta implements Closeable {
     }
 
     /**
-     * Exits the all continuous shooting.
+     * Exits a continuous shooting.
      *
-     * @throws IOException
-     * @throws PtpException
-     */
-    public synchronized void terminateOpenCapture() throws IOException {
-        terminateOpenCapture(new UINT32(0xFFFFFFFFL));
-    }
-
-    /**
-     * Exits a continuous shooting specified by TransactionID.
-     *
-     * @param transactionID The TransactionID returned by Theta#initiateOpenCapture().
      * @throws IOException
      * @throws PtpException
      * @see #initiateOpenCapture()
      */
-    public synchronized void terminateOpenCapture(UINT32 transactionID) throws IOException {
+    public synchronized void terminateOpenCapture() throws IOException {
+        UINT32 transactionID = new UINT32(0xFFFFFFFFL);
+
         ptpInitiator.sendOperation(OperationCode.TERMINATE_OPEN_CAPTURE, transactionID);
         ptpInitiator.checkAndReadResponse();
     }
@@ -246,7 +237,7 @@ public final class Theta implements Closeable {
      *
      * @throws IOException
      * @throws PtpException
-     * @see #terminateOpenCapture(UINT32)
+     * @see #terminateOpenCapture()
      */
     public synchronized UINT32 initiateOpenCapture() throws IOException {
         UINT32 transactionID = ptpInitiator.sendOperation(OperationCode.INITIATE_OPEN_CAPTURER);
@@ -269,17 +260,6 @@ public final class Theta implements Closeable {
         ptpInitiator.sendOperation(ThetaOperationCode.GET_RESIZED_IMAGE_OBJECT, objectHandle, new UINT32(2048), new UINT32(1024));
 
         ptpInitiator.receiveData(dst);
-        ptpInitiator.checkAndReadResponse();
-    }
-
-    /**
-     * Turns off the Wireless LAN.
-     *
-     * @throws IOException
-     */
-    public synchronized void turnOffWLAN() throws IOException {
-        ptpInitiator.sendOperation(ThetaOperationCode.WLAN_POWER_CONTROL);
-
         ptpInitiator.checkAndReadResponse();
     }
 
