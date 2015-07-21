@@ -4,6 +4,8 @@
 
 package org.theta4j.ptp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.theta4j.ptp.data.Event;
 import org.theta4j.util.Validators;
 
@@ -13,6 +15,8 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> implements PtpEventListener {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PtpEventListenerSet.class);
+
     private final Set<PtpEventListener> listeners = new CopyOnWriteArraySet<>();
 
     // Set<PtpEventListener>
@@ -48,8 +52,14 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
     public void onEvent(Event event) {
         Validators.notNull("event", event);
 
-        for (PtpEventListener listener : listeners) {
-            listener.onEvent(event);
+        for (Iterator<PtpEventListener> i = listeners.iterator(); i.hasNext(); ) {
+            PtpEventListener listener = i.next();
+            try {
+                listener.onEvent(event);
+            } catch (RuntimeException e) {
+                LOGGER.error("Unexpected exception in listener", e);
+                i.remove();
+            }
         }
     }
 }

@@ -26,36 +26,66 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
 
     @Override
     public void onObjectAdded(UINT32 objectHandle) {
-        for (ThetaEventListener listener : listeners) {
-            listener.onObjectAdded(objectHandle);
+        for (Iterator<ThetaEventListener> i = listeners.iterator(); i.hasNext(); ) {
+            ThetaEventListener listener = i.next();
+            try {
+                listener.onObjectAdded(objectHandle);
+            } catch (RuntimeException e) {
+                LOGGER.error("Unexpected exception in listener", e);
+                i.remove();
+            }
         }
     }
 
     @Override
     public void onCaptureStatusChanged() {
-        for (ThetaEventListener listener : listeners) {
-            listener.onCaptureStatusChanged();
+        for (Iterator<ThetaEventListener> i = listeners.iterator(); i.hasNext(); ) {
+            ThetaEventListener listener = i.next();
+            try {
+                listener.onCaptureStatusChanged();
+            } catch (RuntimeException e) {
+                LOGGER.error("Unexpected exception in listener", e);
+                i.remove();
+            }
         }
     }
 
     @Override
     public void onRecordingTimeChanged() {
-        for (ThetaEventListener listener : listeners) {
-            listener.onRecordingTimeChanged();
+        for (Iterator<ThetaEventListener> i = listeners.iterator(); i.hasNext(); ) {
+            ThetaEventListener listener = i.next();
+            try {
+                listener.onRecordingTimeChanged();
+            } catch (RuntimeException e) {
+                LOGGER.error("Unexpected exception in listener", e);
+                i.remove();
+            }
         }
     }
 
     @Override
     public void onRemainingRecordingTimeChanged() {
-        for (ThetaEventListener listener : listeners) {
-            listener.onRemainingRecordingTimeChanged();
+        for (Iterator<ThetaEventListener> i = listeners.iterator(); i.hasNext(); ) {
+            ThetaEventListener listener = i.next();
+            try {
+                listener.onRemainingRecordingTimeChanged();
+            } catch (RuntimeException e) {
+                LOGGER.error("Unexpected exception in listener", e);
+                i.remove();
+            }
         }
     }
 
     @Override
     public void onStoreFull() {
-        for (ThetaEventListener listener : listeners) {
-            listener.onStoreFull();
+        for (Iterator<ThetaEventListener> i = listeners.iterator(); i.hasNext(); ) {
+            ThetaEventListener listener = i.next();
+            try {
+                listener.onStoreFull();
+            } catch (RuntimeException e) {
+                LOGGER.error("Unexpected exception in listener", e);
+                i.remove();
+            }
         }
     }
 
