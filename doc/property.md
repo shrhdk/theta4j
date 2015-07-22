@@ -1,12 +1,17 @@
 # Device Property
 
+Now writing...
+
 ## Get Device Property
 
 ```java
 BatteryLevel batteryLevel = theta.getBatteryLevel();
 WhiteBalance whiteBalance = theta.getWhiteBalance();
+ISOSpeed iSOSpeed = theta.getExposureIndex();
+ExposureBiasCompensation ebc = theta.getExposureBiasCompensation();
+Date date = theta.getDateTime();
+StillCaptureMode scm = getStillCaptureMode();
 ...
-TBA
 ```
 
 ## Set Device Property
@@ -15,5 +20,4 @@ TBA
 theta.setWhiteBalance(WhiteBalance.AUTO);
 theta.setDateTime(new Date());
 ...
-TBA
 ```

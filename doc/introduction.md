@@ -1,6 +1,8 @@
 # Introduction
 
-Download [theta4j-0.4.0.jar](https://github.com/shrhdk/theta4j/releases/download/0.4.0/theta4j-0.4.0.jar) and add to your project.
+## Add to Your Project
+
+Download [theta4j-0.5.0.jar](https://github.com/shrhdk/theta4j/releases/download/0.4.0/theta4j-0.4.0.jar) and add to your project.
 
 Maven Central is also available.
 
@@ -10,7 +12,7 @@ Maven Central is also available.
 <dependency>
     <groupId>org.theta4j</groupId>
     <artifactId>theta4j</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
 </dependency>
 ```
 
@@ -22,6 +24,6 @@ repositories {
 }
 
 dependencies {
-    compile 'org.theta4j:theta4j:0.4.0'
+    compile 'org.theta4j:theta4j:0.5.0'
 }
 ```

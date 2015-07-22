@@ -7,7 +7,7 @@ Handle asynchronous events using `ThetaEventListener`.
 ```java
 ThetaEventListener listener = new ThetaEventListener() {
     @Override
-    public void onObjectAdded(long objectHandle) {
+    public void onObjectAdded(UINT32 objectHandle) {
         // Capture is completed and the data is ready to download.
     }
     ...
@@ -21,24 +21,24 @@ theta.removeListener(listener);
 
 ## ObjectAdded Event
 
-TBA
+Now writing...
 
 ## CaptureStatusChanged Event
 
-TBA
+Now writing...
 
 ## RecordingTimeChanged Event
 
-TBA
+Now writing...
 
 ## RemainingRecordingTimeChanged Event
 
-TBA
+Now writing...
 
 ## StoreFull Event
 
-TBA
+Now writing...
 
 ## CaptureComplete Event
 
-TBA
+Now writing...

@@ -23,13 +23,13 @@ theta4j aims the followings compared with the official SDK.
 ## User Guide
 
 - [Introduction](doc/introduction.md)
-- [Connect to THETA](doc/connect.md)
-- [Capture Image](doc/capture.md)
-- [Handle Object](doc/object.md)
+- [Connect](doc/connect.md)
+- [Capture](doc/capture.md)
+- [Object](doc/object.md)
 - [Device Property](doc/property.md)
 - [Event](doc/event.md)
 
-## Documents
+## Appendix
 
 - [Javadoc](https://github.com/shrhdk/theta4j/releases)
 - [Sample Application](sample/src/main/java/org/theta4j/sample/ThetaCapturer.java)

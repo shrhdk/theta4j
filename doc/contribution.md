@@ -11,7 +11,7 @@ This repository includes Gradle. So, You don't have to install Gradle.
 A command to build theta4j is below.
 
 ```
-$ ./gradlew assemble
+$ ./gradlew build
 ```
 
 A command to execute unit-test is below
@@ -20,13 +20,12 @@ A command to execute unit-test is below
 $ ./gradlew check
 ```
 
-Other tasks are below.
+A command to execute test using real THETA is below.
+Wi-Fi onnection to THETA must be established before execution.
 
-| Task | Description |
-|------|-------------|
-| assemble | Assemble theta4j. |
-| check | Execute unit-tests and the FindBugs. |
-| integrationTest | Execute tests with real device. A Wi-Fi connection to real THETA must be established before execution. |
+```
+$ ./gradlew integrationTest
+```
 
 ## Continuous Integration
 
