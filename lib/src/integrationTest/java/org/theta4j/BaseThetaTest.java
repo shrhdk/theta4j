@@ -16,6 +16,10 @@ public class BaseThetaTest {
     static void changeStillCaptureModeFast(StillCaptureMode mode) throws IOException {
         StillCaptureMode current = theta.getStillCaptureMode();
 
+        if (current == StillCaptureMode.VIDEO) {
+            return;
+        }
+
         if (current == mode) {
             return;
         }

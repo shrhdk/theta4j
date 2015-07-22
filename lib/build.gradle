@@ -56,6 +56,29 @@ task integrationTest(type: Test) {
 
 test.dependsOn -= integrationTest
 
+// Video Test
+
+sourceSets {
+    videoTest {
+        java.srcDir file('src/videoTest/java')
+        resources.srcDir file('src/videoTest/resources')
+    }
+}
+
+dependencies {
+    videoTestCompile sourceSets.main.output
+    videoTestCompile configurations.testCompile
+    videoTestCompile sourceSets.test.output
+    videoTestCompile sourceSets.integrationTest.output
+    videoTestRuntime configurations.testRuntime
+}
+
+task videoTest(type: Test) {
+    description 'Execute video recording tests with real device. A Wi-Fi connection to real THETA must be established before execution.'
+    testClassesDir = sourceSets.videoTest.output.classesDir
+    classpath = sourceSets.videoTest.runtimeClasspath
+}
+
 // Publish
 
 apply plugin: 'maven'

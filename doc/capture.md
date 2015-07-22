@@ -53,7 +53,9 @@ theta.initiateOpenCapture();        // this is non-blocking
 theta.terminateOpenCapture();
 ```
 
-`onCaptureComplete` event happens when it faces into time limitation. (TO CONFIRM)
+`onObjectAdded` event happens when video file be ready to download.
+`onCaptureComplete` event happens when it faces into time limitation.
+`onCaptureComplete` event doesn't happen when the capturing is stopped by `terminateOpenCapture`.
 `onStoreFull` event happens when storage be full. Then `onCaptureComplete` does not happen. (TO CONFIRM)
 
 See [Event](event.md) for details.
