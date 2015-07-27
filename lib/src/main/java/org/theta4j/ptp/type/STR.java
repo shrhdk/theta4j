@@ -22,6 +22,7 @@ public final class STR {
     public static final int MIN_SIZE_IN_BYTES = 1;
 
     private static final Charset CHARSET = Charset.forName("UTF-16LE");
+    private static final byte[] NULL_TERMINATOR = "\0".getBytes(CHARSET);
 
     private STR() {
         throw new AssertionError();
@@ -30,8 +31,13 @@ public final class STR {
     public static byte[] toBytes(String str) {
         Validators.notNull("str", str);
 
-        byte[] length = new byte[]{(byte) str.length()};
-        return ArrayUtils.join(length, str.getBytes(CHARSET));
+        if (str.isEmpty()) {
+            return new byte[]{0};
+        } else {
+            // length+1 is for null terminator
+            byte[] length = new byte[]{(byte) (str.length() + 1)};
+            return ArrayUtils.join(length, str.getBytes(CHARSET), NULL_TERMINATOR);
+        }
     }
 
     public static String read(InputStream is) throws IOException {
@@ -56,6 +62,6 @@ public final class STR {
             throw new EOFException(message);
         }
 
-        return new String(bytes, CHARSET);
+        return new String(bytes, 0, numBytes - NULL_TERMINATOR.length, CHARSET);
     }
 }

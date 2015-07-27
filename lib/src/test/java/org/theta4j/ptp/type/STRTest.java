@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 
 public class STRTest {
     private static final Charset CHARSET = Charset.forName("UTF-16LE");
+    private static final byte[] NULL_TERMINATOR = "\0".getBytes(CHARSET);
 
     // Constructor
 
@@ -58,8 +59,9 @@ public class STRTest {
 
         // expected
         byte[] expected = ArrayUtils.join(
-                new byte[]{(byte) given.length()},
-                given.getBytes(CHARSET)
+                new byte[]{(byte) (given.length() + 1)},
+                given.getBytes(CHARSET),
+                NULL_TERMINATOR
         );
 
         // act
@@ -137,8 +139,9 @@ public class STRTest {
 
         // arrange
         byte[] givenBytes = ArrayUtils.join(
-                new byte[]{(byte) given.length()},
-                given.getBytes(CHARSET)
+                new byte[]{(byte) (given.length() + 1)},
+                given.getBytes(CHARSET),
+                NULL_TERMINATOR
         );
         InputStream givenInputStream = new ByteArrayInputStream(givenBytes);
 
