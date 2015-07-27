@@ -4,7 +4,9 @@
 
 package org.theta4j;
 
-import org.junit.Ignore;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -12,7 +14,9 @@ import org.theta4j.data.*;
 import org.theta4j.ptp.PtpException;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.TimeZone;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -234,8 +238,21 @@ public class DevicePropTest {
         }
     }
 
-    @Ignore
     public static class GPSInfoTest extends BaseThetaTest {
+        public static Matcher<GPSInfo> almost(final GPSInfo expected) {
+            return new TypeSafeMatcher<GPSInfo>() {
+                @Override
+                public boolean matchesSafely(GPSInfo actual) {
+                    return actual != null && actual.almostEquals(expected);
+                }
+
+                @Override
+                public void describeTo(Description description) {
+                    description.appendText("almost <" + expected + ">");
+                }
+            };
+        }
+
         @Test(expected = NullPointerException.class)
         public void setNull() throws IOException {
             theta.setGPSInfo(null);
@@ -243,9 +260,9 @@ public class DevicePropTest {
 
         @Test
         public void setAndGet() throws IOException {
-            String given = "35.671190,139.764642+000.00m@19630103T000000+0900,WGS84";
+            GPSInfo given = new GPSInfo(new BigDecimal("35.671190"), new BigDecimal("139.764642"), new BigDecimal("0"), new Date(), TimeZone.getTimeZone("JST").getRawOffset());
             theta.setGPSInfo(given);
-            assertThat(theta.getGPSInfo(), is(given));
+            assertThat(theta.getGPSInfo(), is(almost(given)));
         }
     }
 

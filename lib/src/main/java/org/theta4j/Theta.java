@@ -532,19 +532,21 @@ public final class Theta implements Closeable {
         ptpInitiator.setDevicePropValue(DevicePropCode.SHUTTER_SPEED, shutterSpeed.value().bytes());
     }
 
-    // TODO: Add the GPSInfo class and replace String with GPSInfo.
-
     /**
      * Acquires the GPS information.
      *
      * @throws IOException
      * @throws PtpException
      */
-    public synchronized String getGPSInfo() throws IOException {
-        return STR.read(ptpInitiator.getDevicePropValue(DevicePropCode.GPS_INFO));
+    public synchronized GPSInfo getGPSInfo() throws IOException {
+        String gpsInfoStr = STR.read(ptpInitiator.getDevicePropValue(DevicePropCode.GPS_INFO));
+        try {
+            return GPSInfo.parse(gpsInfoStr);
+        } catch (ParseException e) {
+            String message = String.format("THETA returned invalid GPS string: \"%s\"", gpsInfoStr);
+            throw new IOException(message, e);
+        }
     }
-
-    // TODO: Add the GPSInfo class and replace String with GPSInfo.
 
     /**
      * Sets the GPS information.
@@ -554,10 +556,10 @@ public final class Theta implements Closeable {
      * @throws IOException
      * @throws PtpException
      */
-    public synchronized void setGPSInfo(String gpsInfo) throws IOException {
+    public synchronized void setGPSInfo(GPSInfo gpsInfo) throws IOException {
         Validators.notNull("gpsInfo", gpsInfo);
 
-        ptpInitiator.setDevicePropValue(DevicePropCode.GPS_INFO, gpsInfo);
+        ptpInitiator.setDevicePropValue(DevicePropCode.GPS_INFO, gpsInfo.toString());
     }
 
     /**
