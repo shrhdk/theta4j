@@ -22,6 +22,13 @@ public final class Validators {
         }
     }
 
+    public static <T> void rangeEq(String name, T value, Comparable<T> min, Comparable<T> max) {
+        if (min.compareTo(value) == 1 || max.compareTo(value) == -1) {
+            String message = String.format("Expected %s <= %s <= %s, but %2$s was %s.", min, name, max, value);
+            throw new IllegalArgumentException(message);
+        }
+    }
+
     public static void portNumber(int port) {
         if (port < 0 || 65535 < port) {
             String message = String.format("TCP or UDP port number must be in 0-65535, but was %d.", port);
