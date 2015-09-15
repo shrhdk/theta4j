@@ -124,7 +124,7 @@ public class GPSInfoTest {
         }
     }
 
-    public static class getTime {
+    public static class GetTime {
         @Test
         public void fromJST() {
             GPSInfo given = new GPSInfo(bd("0"), bd("0"), bd("0"), getDate(2014, 1, 2, 9, 4, 5), TimeZone.getTimeZone("JST").getRawOffset());

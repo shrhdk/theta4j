@@ -23,7 +23,7 @@ public final class Validators {
     }
 
     public static <T> void rangeEq(String name, T value, Comparable<T> min, Comparable<T> max) {
-        if (min.compareTo(value) == 1 || max.compareTo(value) == -1) {
+        if (0 < min.compareTo(value) || max.compareTo(value) < 0) {
             String message = String.format("Expected %s <= %s <= %s, but %2$s was %s.", min, name, max, value);
             throw new IllegalArgumentException(message);
         }
