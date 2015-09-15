@@ -49,6 +49,7 @@ dependencies {
 }
 
 task integrationTest(type: Test) {
+    group tasks.test.group
     description 'Execute tests with real device. A Wi-Fi connection to real THETA must be established before execution.'
     testClassesDir = sourceSets.integrationTest.output.classesDir
     classpath = sourceSets.integrationTest.runtimeClasspath
@@ -74,6 +75,7 @@ dependencies {
 }
 
 task videoTest(type: Test) {
+    group tasks.test.group
     description 'Execute video recording tests with real device. A Wi-Fi connection to real THETA must be established before execution.'
     testClassesDir = sourceSets.videoTest.output.classesDir
     classpath = sourceSets.videoTest.runtimeClasspath
@@ -85,11 +87,13 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 task javadocJar(type: Jar) {
+    group tasks.build.group
     classifier = 'javadoc'
     from javadoc
 }
 
 task sourcesJar(type: Jar) {
+    group tasks.build.group
     classifier = 'sources'
     from sourceSets.main.allJava
 }
