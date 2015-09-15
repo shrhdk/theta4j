@@ -25,7 +25,7 @@ public class AbstractPtpInitiatorTest {
     private static final UINT32 P3 = new UINT32(3);
     private static final UINT32 P4 = new UINT32(4);
 
-    public static class Base {
+    public static abstract class Base {
         protected PtpInitiator sub;
 
         @Before
