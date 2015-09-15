@@ -10,7 +10,7 @@ import org.theta4j.data.StillCaptureMode;
 
 import java.io.IOException;
 
-public class BaseThetaTest {
+public abstract class BaseThetaTest {
     static Theta theta;
 
     static void changeStillCaptureModeFast(StillCaptureMode mode) throws IOException {
