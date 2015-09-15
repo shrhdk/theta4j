@@ -1,5 +1,26 @@
 # ChangeLog
 
+## 0.5.0
+
+- API changes
+  - `Theta#initiateCapture` is not async method.
+  - `Theta#turnOffWlan` is not available.
+  - Rename constants
+    - `StillCaptureMode#SINGLE_SHOT` -> `SINGLE`
+    - `StillCaptureMode#INTERVAL_SHOT` -> `TIME_LAPSE`
+  - Replace `ThetaException` with `PtpException`.
+  - `PtpException` extends `IOException`.
+  - GPS Information is replaced with GPSInfo class from String.
+- Bugfix
+  - Fix `Theta#getNumObjects`
+  - Fix `Theta#setChannelNumber`.
+  - Fix Transaction ID cycle.
+  - Fix problem with null terminator of PTP String.
+- Improvements
+  - Theta is thread-safe.
+  - All event listener interfaces extend `EventListener`
+  - Add many integration test.
+
 ## 0.4.0
 
 - Project name is determined: `theta4j`
