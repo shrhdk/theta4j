@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * An interface of PTP initiator defined in PTP standard.
+ */
 public interface PtpInitiator extends Closeable {
     // Operation (Base)
 
@@ -22,7 +25,8 @@ public interface PtpInitiator extends Closeable {
      *
      * @param operationCode Operation code
      * @return Transaction ID
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while sending the operation.
+     * @throws NullPointerException if operationCode is null.
      */
     UINT32 sendOperation(Code<UINT16> operationCode) throws IOException;
 
@@ -32,7 +36,8 @@ public interface PtpInitiator extends Closeable {
      * @param operationCode Operation code
      * @param p1            Parameter 1
      * @return Transaction ID
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while sending the operation.
+     * @throws NullPointerException if an argument is null.
      */
     UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1) throws IOException;
 
@@ -43,7 +48,8 @@ public interface PtpInitiator extends Closeable {
      * @param p1            Parameter 1
      * @param p2            Parameter 2
      * @return Transaction ID
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while sending the operation.
+     * @throws NullPointerException if an argument is null.
      */
     UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1, UINT32 p2) throws IOException;
 
@@ -55,7 +61,8 @@ public interface PtpInitiator extends Closeable {
      * @param p2            Parameter 2
      * @param p3            Parameter 3
      * @return Transaction ID
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while sending the operation.
+     * @throws NullPointerException if an argument is null.
      */
     UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1, UINT32 p2, UINT32 p3) throws IOException;
 
@@ -68,7 +75,8 @@ public interface PtpInitiator extends Closeable {
      * @param p3            Parameter 3
      * @param p4            Parameter 4
      * @return Transaction ID
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while sending the operation.
+     * @throws NullPointerException if an argument is null.
      */
     UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4) throws IOException;
 
@@ -82,7 +90,8 @@ public interface PtpInitiator extends Closeable {
      * @param p4            Parameter 4
      * @param p5            Parameter 5
      * @return Transaction ID
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while sending the operation.
+     * @throws NullPointerException if an argument is null.
      */
     UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) throws IOException;
 
@@ -92,7 +101,8 @@ public interface PtpInitiator extends Closeable {
      * Get the DeviceInfo of the PTP-Responder.
      *
      * @return Device information of the PTP-Responder
-     * @throws IOException
+     * @throws IOException  if an I/O error occurs while getting the device information.
+     * @throws PtpException if the PTP response is not OK.
      */
     DeviceInfo getDeviceInfo() throws IOException;
 
@@ -100,14 +110,17 @@ public interface PtpInitiator extends Closeable {
      * Open the session.
      *
      * @param sessionID Session ID
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while opening the session.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if sessionID is null.
      */
     void openSession(UINT32 sessionID) throws IOException;
 
     /**
      * Close the session.
      *
-     * @throws IOException
+     * @throws IOException  if an I/O error occurs while closing the session.
+     * @throws PtpException if the PTP response is not OK.
      */
     void closeSession() throws IOException;
 
@@ -119,7 +132,9 @@ public interface PtpInitiator extends Closeable {
      *
      * @param devicePropCode The code of the device property to get value.
      * @return Device property value
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while getting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if devicePropCode is null.
      */
     InputStream getDevicePropValue(Code<UINT16> devicePropCode) throws IOException;
 
@@ -128,7 +143,9 @@ public interface PtpInitiator extends Closeable {
      *
      * @param devicePropCode The code of the device property to get value.
      * @return Device property value
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while getting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if devicePropCode is null.
      */
     INT8 getDevicePropValueAsINT8(Code<UINT16> devicePropCode) throws IOException;
 
@@ -137,7 +154,9 @@ public interface PtpInitiator extends Closeable {
      *
      * @param devicePropCode The code of the device property to get value.
      * @return Device property value
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while getting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if devicePropCode is null.
      */
     UINT8 getDevicePropValueAsUINT8(Code<UINT16> devicePropCode) throws IOException;
 
@@ -146,7 +165,9 @@ public interface PtpInitiator extends Closeable {
      *
      * @param devicePropCode The code of the device property to get value.
      * @return Device property value
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while getting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if devicePropCode is null.
      */
     INT16 getDevicePropValueAsINT16(Code<UINT16> devicePropCode) throws IOException;
 
@@ -155,7 +176,9 @@ public interface PtpInitiator extends Closeable {
      *
      * @param devicePropCode The code of the device property to get value.
      * @return Device property value
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while getting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if devicePropCode is null.
      */
     UINT16 getDevicePropValueAsUINT16(Code<UINT16> devicePropCode) throws IOException;
 
@@ -164,7 +187,9 @@ public interface PtpInitiator extends Closeable {
      *
      * @param devicePropCode The code of the device property to get value.
      * @return Device property value
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while getting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if devicePropCode is null.
      */
     INT32 getDevicePropValueAsINT32(Code<UINT16> devicePropCode) throws IOException;
 
@@ -173,7 +198,9 @@ public interface PtpInitiator extends Closeable {
      *
      * @param devicePropCode The code of the device property to get value.
      * @return Device property value
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while getting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if devicePropCode is null.
      */
     UINT32 getDevicePropValueAsUINT32(Code<UINT16> devicePropCode) throws IOException;
 
@@ -182,7 +209,9 @@ public interface PtpInitiator extends Closeable {
      *
      * @param devicePropCode The code of the device property to get value.
      * @return Device property value
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while getting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if devicePropCode is null.
      */
     INT64 getDevicePropValueAsINT64(Code<UINT16> devicePropCode) throws IOException;
 
@@ -191,7 +220,9 @@ public interface PtpInitiator extends Closeable {
      *
      * @param devicePropCode The code of the device property to get value.
      * @return Device property value
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while getting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if devicePropCode is null.
      */
     UINT64 getDevicePropValueAsUINT64(Code<UINT16> devicePropCode) throws IOException;
 
@@ -200,7 +231,9 @@ public interface PtpInitiator extends Closeable {
      *
      * @param devicePropCode The code of the device property to get value.
      * @return Device property value
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while getting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if devicePropCode is null.
      */
     INT128 getDevicePropValueAsINT128(Code<UINT16> devicePropCode) throws IOException;
 
@@ -209,7 +242,9 @@ public interface PtpInitiator extends Closeable {
      *
      * @param devicePropCode The code of the device property to get value.
      * @return Device property value
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while getting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if devicePropCode is null.
      */
     UINT128 getDevicePropValueAsUINT128(Code<UINT16> devicePropCode) throws IOException;
 
@@ -218,7 +253,9 @@ public interface PtpInitiator extends Closeable {
      *
      * @param devicePropCode The code of the device property to get value.
      * @return Device property value
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while getting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if devicePropCode is null.
      */
     String getDevicePropValueAsString(Code<UINT16> devicePropCode) throws IOException;
 
@@ -226,7 +263,8 @@ public interface PtpInitiator extends Closeable {
      * Set device property value.
      *
      * @param devicePropCode The code of the device property to set value.
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while setting the device property.
+     * @throws NullPointerException if an argument is null.
      */
     void setDevicePropValue(Code<UINT16> devicePropCode, byte[] value) throws IOException;
 
@@ -234,7 +272,9 @@ public interface PtpInitiator extends Closeable {
      * Set device property value.
      *
      * @param devicePropCode The code of the device property to set value.
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while setting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if an argument is null.
      */
     void setDevicePropValue(Code<UINT16> devicePropCode, PtpInteger value) throws IOException;
 
@@ -242,7 +282,9 @@ public interface PtpInitiator extends Closeable {
      * Set device property value as String.
      *
      * @param devicePropCode The code of the device property to set value.
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while setting the device property.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if an argument is null.
      */
     void setDevicePropValue(Code<UINT16> devicePropCode, String value) throws IOException;
 
@@ -252,7 +294,8 @@ public interface PtpInitiator extends Closeable {
      * Receive the response for previous operation from the PTP-Responder
      *
      * @return The response for previous operation from the PTP-Responder
-     * @throws IOException
+     * @throws IOException           if an I/O error occurs while receiving the response.
+     * @throws IllegalStateException if the transaction sequence is not on the Response Phase.
      */
     Response receiveResponse() throws IOException;
 
@@ -260,8 +303,8 @@ public interface PtpInitiator extends Closeable {
      * Receive response from PTP-Responder,
      * and throw PtpException if response code is not OK.
      *
+     * @throws IOException  if an I/O error occurs while receiving the response.
      * @throws PtpException if response code is not OK
-     * @throws IOException
      */
     Response checkAndReadResponse() throws IOException;
 
@@ -271,7 +314,8 @@ public interface PtpInitiator extends Closeable {
      * Send the PTP-Responder data.
      *
      * @param data Data to send
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while sending data.
+     * @throws NullPointerException if data is null.
      */
     void sendData(byte[] data) throws IOException;
 
@@ -279,7 +323,7 @@ public interface PtpInitiator extends Closeable {
      * Receive data from the PTP-Responder.
      *
      * @return Data which received from the PTP-Responder.
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while receiving data.
      */
     InputStream receiveData() throws IOException;
 
@@ -287,7 +331,8 @@ public interface PtpInitiator extends Closeable {
      * Receive data from the PTP-Responder.
      *
      * @param dst The destination which to write data from the PTP-Responder.
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while receiving data.
+     * @throws NullPointerException if dst is null.
      */
     void receiveData(OutputStream dst) throws IOException;
 
@@ -298,6 +343,7 @@ public interface PtpInitiator extends Closeable {
      *
      * @param listener PtpEventListener to add to the list.
      * @return true if this initiator did not already contain the specified listener
+     * @throws NullPointerException if listener is null.
      */
     boolean addListener(PtpEventListener listener);
 
@@ -306,6 +352,7 @@ public interface PtpInitiator extends Closeable {
      *
      * @param listener PtpEventListener to remove from the list.
      * @return true if this initiator contained the specified listener
+     * @throws NullPointerException if listener is null.
      */
     boolean removeListener(PtpEventListener listener);
 }

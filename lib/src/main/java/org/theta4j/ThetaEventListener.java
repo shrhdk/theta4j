@@ -9,26 +9,36 @@ import org.theta4j.ptp.type.UINT32;
 import java.util.EventListener;
 
 /**
- * The listener interface for the events of RICOH THETA.
+ * An interface for receiving THETA events.
  *
  * @see Theta#addListener(ThetaEventListener)
  * @see Theta#removeListener(ThetaEventListener)
  */
 public interface ThetaEventListener extends EventListener {
     /**
-     * Notification of an object addition
+     * Invoked when a new object is added.
      *
      * @param objectHandle The ObjectHandle of the added object.
      */
     void onObjectAdded(UINT32 objectHandle);
 
+    /**
+     * Invoked when the capture status of THETA is changed.
+     */
     void onCaptureStatusChanged();
 
+    /**
+     * Invoked when video recording time is updated.
+     */
     void onRecordingTimeChanged();
 
+    /**
+     * Invoked when remaining video recording time is updated.
+     */
     void onRemainingRecordingTimeChanged();
 
+    /**
+     * Invoked when the storage of THETA faced into the limit.
+     */
     void onStoreFull();
-
-    void onCaptureComplete(UINT32 transactionID);
 }

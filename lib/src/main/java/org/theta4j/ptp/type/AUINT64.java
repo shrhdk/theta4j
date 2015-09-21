@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A utility class for AUINT64 defined in PTP standard.
+ */
 public class AUINT64 {
     private AUINT64() {
         throw new AssertionError();

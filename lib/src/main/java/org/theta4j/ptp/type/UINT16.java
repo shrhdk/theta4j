@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 
 /**
- * 16 bit unsigned integer value defined in PTP
+ * A class represents UINT16 defined in PTP standard.
  */
 public final class UINT16 extends PtpInteger {
     // Utility Field

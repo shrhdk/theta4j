@@ -20,7 +20,11 @@ dependencies {
 // Javadoc
 
 javadoc {
+    options.locale = 'en_US'
     title = "$archivesBaseName - $version"
+    exclude '**/org/theta4j/ptp/*.java'
+    exclude '**/org/theta4j/ptp/code/*.java'
+    exclude '**/org/theta4j/ptp/io/*.java'
     exclude '**/org/theta4j/util/*.java'
     exclude '**/org/theta4j/ptpip/**/*.java'
 }

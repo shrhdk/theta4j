@@ -17,6 +17,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * An abstract class for implementing PTP initiator. This class exists as convenience for implementing PTP initiator.
+ */
 public abstract class AbstractPtpInitiator implements PtpInitiator {
     // Session ID
 

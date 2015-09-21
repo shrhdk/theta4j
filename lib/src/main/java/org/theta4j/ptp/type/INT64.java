@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 
+/**
+ * A class represents INT64 defined in PTP standard.
+ */
 public class INT64 extends PtpInteger {
     // Utility Field
 

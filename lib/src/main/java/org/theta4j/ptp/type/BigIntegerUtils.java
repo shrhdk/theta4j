@@ -11,6 +11,9 @@ import org.theta4j.util.Validators;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+/**
+ * A utility class for PTP integers.
+ */
 class BigIntegerUtils {
     private BigIntegerUtils() {
         throw new AssertionError();

@@ -48,6 +48,12 @@ public final class Theta implements Closeable {
     private final PtpInitiator ptpInitiator;
     private final ThetaEventListenerSet listenerSet = new ThetaEventListenerSet();
 
+    /**
+     * Connect to THETA.
+     *
+     * @throws IOException  if an I/O error occurs while connecting THETA.
+     * @throws PtpException if the PTP response is not OK.
+     */
     public Theta() throws IOException {
         ptpInitiator = new PtpIpInitiator(UUID.randomUUID(), IP_ADDRESS, TCP_PORT);
 
@@ -66,18 +72,18 @@ public final class Theta implements Closeable {
     /**
      * Returns information and capabilities about THETA.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs while getting the device information.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized DeviceInfo getDeviceInfo() throws IOException {
         return ptpInitiator.getDeviceInfo();
     }
 
     /**
-     * Returns the total number of objects present in the all storage.
+     * Returns the total number of objects.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs while getting the number of objects.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized long getNumObjects() throws IOException {
         UINT32 storageID = new UINT32(0xFFFFFFFFL);
@@ -91,8 +97,8 @@ public final class Theta implements Closeable {
     /**
      * Returns a list of the object handles.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs while getting the list of object handles.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized List<UINT32> getObjectHandles() throws IOException {
         UINT32 storageID = new UINT32(0xFFFFFFFFL);
@@ -108,8 +114,9 @@ public final class Theta implements Closeable {
      * Returns a ObjectInfo for the object specified by the objectHandle.
      *
      * @param objectHandle The ObjectHandle of the object to acquire the ObjectInfo.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs while getting the ObjectInfo.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if objectHandle is null.
      */
     public synchronized ObjectInfo getObjectInfo(UINT32 objectHandle) throws IOException {
         Validators.notNull("objectHandle", objectHandle);
@@ -126,8 +133,9 @@ public final class Theta implements Closeable {
      *
      * @param objectHandle The ObjectHandle of the object to acquire the data.
      * @param dst          The destination for the object's data.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs while receiving data.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if an argument is null.
      */
     public synchronized void getObject(UINT32 objectHandle, OutputStream dst) throws IOException {
         Validators.notNull("objectHandle", objectHandle);
@@ -143,8 +151,9 @@ public final class Theta implements Closeable {
      *
      * @param objectHandle The ObjectHandle of the object to acquire the thumbnail data.
      * @param dst          The destination for the object's thumbnail data.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs while receiving thumbnail data.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if an argument is null.
      */
     public synchronized void getThumb(UINT32 objectHandle, OutputStream dst) throws IOException {
         Validators.notNull("objectHandle", objectHandle);
@@ -159,8 +168,9 @@ public final class Theta implements Closeable {
      * Deletes the object specified by the ObjectHandle.
      *
      * @param objectHandle The ObjectHandle of the object to delete.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs while deleting the object.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if objectHandle is null.
      */
     public synchronized void deleteObject(UINT32 objectHandle) throws IOException {
         Validators.notNull("objectHandle", objectHandle);
@@ -170,10 +180,12 @@ public final class Theta implements Closeable {
     }
 
     /**
-     * Starts shooting.
+     * Captures an image synchronously.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @return The object handle of captured image.
+     * @throws IOException          if an I/O error occurs while capturing an image.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws InterruptedException The invoker thread is interrupted while capturing an image.
      */
     public synchronized UINT32 initiateCapture() throws IOException, InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
@@ -220,8 +232,8 @@ public final class Theta implements Closeable {
     /**
      * Exits a continuous shooting.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs while exiting capturing.
+     * @throws PtpException if the PTP response is not OK.
      * @see #initiateOpenCapture()
      */
     public synchronized void terminateOpenCapture() throws IOException {
@@ -232,11 +244,10 @@ public final class Theta implements Closeable {
     }
 
     /**
-     * Starts the video recording or the interval shooting.
-     * After starts, it can exit by the #terminateOpenCapture(long)
+     * Starts the video recording or the interval shooting. After starts, it can exit by the #terminateOpenCapture(long)
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs while initiating capturing.
+     * @throws PtpException if the PTP response is not OK.
      * @see #terminateOpenCapture()
      */
     public synchronized UINT32 initiateOpenCapture() throws IOException {
@@ -251,7 +262,8 @@ public final class Theta implements Closeable {
      *
      * @param objectHandle The ObjectHandle of the object to acquire the resized data.
      * @param dst          The destination for the object's resized data.
-     * @throws IOException
+     * @throws IOException  if an I/O error occurs receiving resized image.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized void getResizedImageObject(UINT32 objectHandle, OutputStream dst) throws IOException {
         Validators.notNull("objectHandle", objectHandle);
@@ -268,7 +280,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the battery charge level.
      *
-     * @throws IOException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized BatteryLevel getBatteryLevel() throws IOException {
         UINT8 value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.BATTERY_LEVEL);
@@ -278,7 +291,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the white balance.
      *
-     * @throws IOException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized WhiteBalance getWhiteBalance() throws IOException {
         UINT16 value = ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.WHITE_BALANCE);
@@ -287,9 +301,11 @@ public final class Theta implements Closeable {
 
     /**
      * Sets the white balance.
-     * Returns to the default value when the power is turned off.
+     * It returns to the default value when the power is turned off.
      *
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs setting the value.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if whiteBalance is null.
      */
     public synchronized void setWhiteBalance(WhiteBalance whiteBalance) throws IOException {
         Validators.notNull("whiteBalance", whiteBalance);
@@ -300,8 +316,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the ISO sensitivity.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized ISOSpeed getExposureIndex() throws IOException {
         UINT16 value = ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.EXPOSURE_INDEX);
@@ -311,11 +327,12 @@ public final class Theta implements Closeable {
     /**
      * Sets the ISO sensitivity.
      * ISO sensitivity can be changed when ShutterSpeed is AUTO.
-     * Returns to the default value when the power is turned off.
+     * It returns to the default value when the power is turned off.
      *
      * @param isoSpeed An ISO speed
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs setting the value.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if isoSpeed is null.
      */
     public synchronized void setExposureIndex(ISOSpeed isoSpeed) throws IOException {
         Validators.notNull("isoSpeed", isoSpeed);
@@ -326,8 +343,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires or set the exposure bias compensation value.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized ExposureBiasCompensation getExposureBiasCompensation() throws IOException {
         INT16 value = ptpInitiator.getDevicePropValueAsINT16(DevicePropCode.EXPOSURE_BIAS_COMPENSATION);
@@ -339,8 +356,9 @@ public final class Theta implements Closeable {
      * Returns to the default value when the power is turned off.
      *
      * @param exposureBiasCompensation An exposure bias compensation value to set.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs setting the value.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if exposureBiasCompensation is null.
      */
     public synchronized void setExposureBiasCompensation(ExposureBiasCompensation exposureBiasCompensation) throws IOException {
         Validators.notNull("exposureBiasCompensation", exposureBiasCompensation);
@@ -351,8 +369,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the date and time.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized Date getDateTime() throws IOException {
         String str = ptpInitiator.getDevicePropValueAsString(DevicePropCode.DATE_TIME);
@@ -368,8 +386,9 @@ public final class Theta implements Closeable {
      * Sets the date and time.
      *
      * @param dateTime A date and time to set.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs setting the value.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if dateTime is null.
      */
     public synchronized void setDateTime(Date dateTime) throws IOException {
         Validators.notNull("dateTime", dateTime);
@@ -382,8 +401,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the still image shooting method.¥
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized StillCaptureMode getStillCaptureMode() throws IOException {
         UINT16 value = ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.STILL_CAPTURE_MODE);
@@ -395,8 +414,9 @@ public final class Theta implements Closeable {
      * Returns to the default value when the power is turned off or when #initiateOpenCapture() ends.
      *
      * @param stillCaptureMode A still capture mode to set.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs setting the value.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if stillCaptureMode is null.
      */
     public synchronized void setStillCaptureMode(StillCaptureMode stillCaptureMode) throws IOException {
         Validators.notNull("stillCaptureMode", stillCaptureMode);
@@ -407,8 +427,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the upper limit value for interval shooting.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized int getTimelapseNumber() throws IOException {
         return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.TIMELAPSE_NUMBER).intValue();
@@ -421,8 +441,9 @@ public final class Theta implements Closeable {
      * So, this property has to be set before switching the StillCaptureMode to interval shooting mode.
      *
      * @param timelapseNumber The upper limit value for interval shooting. The valid range is in 0 or 2-65535. The 0 means unlimited.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs setting the value.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if timelapseNumber is null.
      */
     public synchronized void setTimelapseNumber(int timelapseNumber) throws IOException {
         if (timelapseNumber < 0 || timelapseNumber == 1 || 65535 < timelapseNumber) {
@@ -438,8 +459,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the shooting interval in msec for interval shooting.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized int getTimelapseInterval() throws IOException {
         return ptpInitiator.getDevicePropValueAsUINT32(DevicePropCode.TIMELAPSE_INTERVAL).intValue();
@@ -452,8 +473,9 @@ public final class Theta implements Closeable {
      * So, this property has to be set before switching the StillCaptureMode to interval shooting mode.
      *
      * @param timelapseInterval The shooting interval in msec for interval shooting. The valid range is in 5000-3600000.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs setting the value.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if timelapseInterval is null.
      */
     public synchronized void setTimelapseInterval(int timelapseInterval) throws IOException {
         if (timelapseInterval < 5000 || 3600000 < timelapseInterval) {
@@ -469,8 +491,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires or set the volume for the shutter sound.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized int getAudioVolume() throws IOException {
         return ptpInitiator.getDevicePropValueAsUINT32(DevicePropCode.AUDIO_VOLUME).intValue();
@@ -481,8 +503,9 @@ public final class Theta implements Closeable {
      * Returns to the default value when the power is turned off. // TODO: Confirm the actual behavior.
      *
      * @param audioVolume The volume for the shutter sound. The valid range is in 0-100.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs setting the value.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if audioVolume is null.
      */
     public synchronized void setAudioVolume(int audioVolume) throws IOException {
         if (audioVolume < 0 || 100 < audioVolume) {
@@ -498,8 +521,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the error information.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized ErrorInfo getErrorInfo() throws IOException {
         UINT32 value = ptpInitiator.getDevicePropValueAsUINT32(DevicePropCode.ERROR_INFO);
@@ -509,8 +532,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the shutter speed.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized ShutterSpeed getShutterSpeed() throws IOException {
         UINT64 value = ptpInitiator.getDevicePropValueAsUINT64(DevicePropCode.SHUTTER_SPEED);
@@ -522,8 +545,9 @@ public final class Theta implements Closeable {
      * Returns to the default value when the power is turned off.
      *
      * @param shutterSpeed The shutter speed to set.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs setting the value.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if shutterSpeed is null.
      */
 
     public synchronized void setShutterSpeed(ShutterSpeed shutterSpeed) throws IOException {
@@ -535,8 +559,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the GPS information.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized GPSInfo getGPSInfo() throws IOException {
         String gpsInfoStr = STR.read(ptpInitiator.getDevicePropValue(DevicePropCode.GPS_INFO));
@@ -553,8 +577,9 @@ public final class Theta implements Closeable {
      * Returns to the default value when the power is turned off.
      *
      * @param gpsInfo The GPS information to set.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs setting the value.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if gpsInfo is null.
      */
     public synchronized void setGPSInfo(GPSInfo gpsInfo) throws IOException {
         Validators.notNull("gpsInfo", gpsInfo);
@@ -565,8 +590,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the time in minutes to start the auto power off.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized int getAutoPowerOffDelay() throws IOException {
         return ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.AUTO_POWER_OFF_DELAY).intValue();
@@ -576,8 +601,9 @@ public final class Theta implements Closeable {
      * Sets the time in minutes to start the auto power off.
      *
      * @param autoPowerOffDelay The time in minutes to start the auto power off. The valid range is in 0-30. The 0 disables the auto power off.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs setting the value.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if autoPowerOffDelay is null.
      */
     public synchronized void setAutoPowerOffDelay(int autoPowerOffDelay) throws IOException {
         if (autoPowerOffDelay < 0 || 30 < autoPowerOffDelay) {
@@ -591,8 +617,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the time in seconds to start sleep.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized int getSleepDelay() throws IOException {
         return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.SLEEP_DELAY).intValue();
@@ -602,8 +628,9 @@ public final class Theta implements Closeable {
      * Sets the time in seconds to start sleep.
      *
      * @param sleepDelay The time in seconds to start sleep. The valid range is in 0-1800. Does not switch to sleep mode with 0.
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException          if an I/O error occurs setting the value.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if sleepDelay is null.
      */
     public synchronized void setSleepDelay(int sleepDelay) throws IOException {
         if (sleepDelay < 0 || 1800 < sleepDelay) {
@@ -617,8 +644,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the wireless LAN channel number.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized ChannelNumber getChannelNumber() throws IOException {
         UINT8 value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.CHANNEL_NUMBER);
@@ -630,7 +657,9 @@ public final class Theta implements Closeable {
      * This operation effects after wireless LAN OFF/ON.
      *
      * @param channelNumber The wireless LAN channel number to set.
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs setting the value.
+     * @throws PtpException         if the PTP response is not OK.
+     * @throws NullPointerException if channelNumber is null.
      */
     public synchronized void setChannelNumber(ChannelNumber channelNumber) throws IOException {
         Validators.notNull("channelNumber", channelNumber);
@@ -641,8 +670,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the camera shooting execution status.
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized CaptureStatus getCaptureStatus() throws IOException {
         UINT8 value = ptpInitiator.getDevicePropValueAsUINT8(DevicePropCode.CAPTURE_STATUS);
@@ -652,8 +681,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the video recording time in seconds. (Model: RICOH THETA m15)
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized int getRecordingTime() throws IOException {
         return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.RECORDING_TIME).intValue();
@@ -662,8 +691,8 @@ public final class Theta implements Closeable {
     /**
      * Acquires the amount of time remaining in seconds for recording video. (Model: RICOH THETA m15)
      *
-     * @throws IOException
-     * @throws PtpException
+     * @throws IOException  if an I/O error occurs getting the value.
+     * @throws PtpException if the PTP response is not OK.
      */
     public synchronized int getRemainingRecordingTime() throws IOException {
         return ptpInitiator.getDevicePropValueAsUINT16(DevicePropCode.REMAINING_RECORDING_TIME).intValue();
@@ -676,6 +705,7 @@ public final class Theta implements Closeable {
      *
      * @param listener An event listener to add.
      * @return true if this instance did not already contain the specified listener.
+     * @throws NullPointerException if listener is null.
      */
     public boolean addListener(ThetaEventListener listener) {
         return listenerSet.add(listener);
@@ -686,6 +716,7 @@ public final class Theta implements Closeable {
      *
      * @param listener An event listener to add.
      * @return true if the instance contained the specified listener.
+     * @throws NullPointerException if listener is null.
      */
     public boolean removeListener(ThetaEventListener listener) {
         return listenerSet.remove(listener);

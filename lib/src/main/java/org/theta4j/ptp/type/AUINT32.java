@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A utility class for AUINT32 defined in PTP standard.
+ */
 public class AUINT32 {
     private AUINT32() {
         throw new AssertionError();

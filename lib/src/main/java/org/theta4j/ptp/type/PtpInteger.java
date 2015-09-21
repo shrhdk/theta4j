@@ -8,6 +8,9 @@ import org.theta4j.util.Validators;
 
 import java.math.BigInteger;
 
+/**
+ * A base class PTP integer classes.
+ */
 public abstract class PtpInteger extends Number implements Comparable<PtpInteger> {
     private final byte[] bytes;
     private final BigInteger bigInteger;

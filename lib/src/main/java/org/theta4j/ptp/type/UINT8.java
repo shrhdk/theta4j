@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 
+/**
+ * A class represents UINT8 defined in PTP standard.
+ */
 public final class UINT8 extends PtpInteger {
     // Utility Field
 

@@ -10,6 +10,9 @@ import org.theta4j.util.Validators;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A set of data types defined in PTP standard.
+ */
 public enum DataType implements Code<UINT16> {
     UNDEF(0x0000),
     INT8(0x0001),

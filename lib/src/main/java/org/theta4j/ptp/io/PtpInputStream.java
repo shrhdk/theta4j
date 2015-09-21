@@ -16,19 +16,20 @@ import java.util.List;
  * InputStream of the generic data type of PTP.
  */
 public final class PtpInputStream extends InputStream {
-    private final InputStream is;
+    private final InputStream in;
 
     // Constructor
 
     /**
      * Wrap InputStream by PtpInputStream.
      *
-     * @param is
+     * @param in The underlying input stream.
+     * @throws NullPointerException if in is null.
      */
-    public PtpInputStream(InputStream is) {
-        Validators.notNull("is", is);
+    public PtpInputStream(InputStream in) {
+        Validators.notNull("in", in);
 
-        this.is = new BufferedInputStream(is);
+        this.in = new BufferedInputStream(in);
     }
 
     // PTP Generic Type (Integer)
@@ -36,91 +37,91 @@ public final class PtpInputStream extends InputStream {
     /**
      * Read INT8 value from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public INT8 readINT8() throws IOException {
-        return INT8.read(is);
+        return INT8.read(in);
     }
 
     /**
      * Read UINT8 value from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public UINT8 readUINT8() throws IOException {
-        return UINT8.read(is);
+        return UINT8.read(in);
     }
 
     /**
      * Read INT16 value from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public INT16 readINT16() throws IOException {
-        return INT16.read(is);
+        return INT16.read(in);
     }
 
     /**
      * Read UINT16 value from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public UINT16 readUINT16() throws IOException {
-        return UINT16.read(is);
+        return UINT16.read(in);
     }
 
     /**
      * Read INT32 value from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public INT32 readINT32() throws IOException {
-        return INT32.read(is);
+        return INT32.read(in);
     }
 
     /**
      * Read UINT32 value from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public UINT32 readUINT32() throws IOException {
-        return UINT32.read(is);
+        return UINT32.read(in);
     }
 
     /**
      * Read INT64 value from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public INT64 readINT64() throws IOException {
-        return INT64.read(is);
+        return INT64.read(in);
     }
 
     /**
      * Read UINT64 value from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public UINT64 readUINT64() throws IOException {
-        return UINT64.read(is);
+        return UINT64.read(in);
     }
 
     /**
      * Read INT128 value from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public INT128 readINT128() throws IOException {
-        return INT128.read(is);
+        return INT128.read(in);
     }
 
     /**
      * Read UINT128 value from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public UINT128 readUINT128() throws IOException {
-        return UINT128.read(is);
+        return UINT128.read(in);
     }
 
     // PTP Generic Type (Array)
@@ -128,91 +129,91 @@ public final class PtpInputStream extends InputStream {
     /**
      * Read list of INT8 from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public List<INT8> readAINT8() throws IOException {
-        return AINT8.read(is);
+        return AINT8.read(in);
     }
 
     /**
      * Read list of UINT8 from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public List<UINT8> readAUINT8() throws IOException {
-        return AUINT8.read(is);
+        return AUINT8.read(in);
     }
 
     /**
      * Read list of INT16 from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public List<INT16> readAINT16() throws IOException {
-        return AINT16.read(is);
+        return AINT16.read(in);
     }
 
     /**
      * Read list of UINT16 from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public List<UINT16> readAUINT16() throws IOException {
-        return AUINT16.read(is);
+        return AUINT16.read(in);
     }
 
     /**
      * Read list of INT32 from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public List<INT32> readAINT32() throws IOException {
-        return AINT32.read(is);
+        return AINT32.read(in);
     }
 
     /**
      * Read list of UINT16 from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public List<UINT32> readAUINT32() throws IOException {
-        return AUINT32.read(is);
+        return AUINT32.read(in);
     }
 
     /**
      * Read list of INT64 from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public List<INT64> readAINT64() throws IOException {
-        return AINT64.read(is);
+        return AINT64.read(in);
     }
 
     /**
      * Read list of UINT64 from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public List<UINT64> readAUINT64() throws IOException {
-        return AUINT64.read(is);
+        return AUINT64.read(in);
     }
 
     /**
      * Read list of INT128 from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public List<INT128> readAINT128() throws IOException {
-        return AINT128.read(is);
+        return AINT128.read(in);
     }
 
     /**
      * Read list of UINT128 from the stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public List<UINT128> readAUINT128() throws IOException {
-        return AUINT128.read(is);
+        return AUINT128.read(in);
     }
 
     // // PTP Generic Type (String)
@@ -220,10 +221,10 @@ public final class PtpInputStream extends InputStream {
     /**
      * Read list of String from the stream as PTP String.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public String readString() throws IOException {
-        return STR.read(is);
+        return STR.read(in);
     }
 
     // read *
@@ -231,8 +232,8 @@ public final class PtpInputStream extends InputStream {
     /**
      * Read data as DataType of specified code.
      *
-     * @param dataType
-     * @throws IOException
+     * @param dataType The type of data to read.
+     * @throws IOException if an I/O error occurs while reading the stream.
      */
     public Object readAs(DataType dataType) throws IOException {
         Validators.notNull("dataType", dataType);
@@ -287,48 +288,75 @@ public final class PtpInputStream extends InputStream {
 
     // InputStream
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int read() throws IOException {
-        return is.read();
+        return in.read();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int read(byte[] b) throws IOException {
-        return is.read(b);
+        return in.read(b);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int read(byte[] b, int off, int len) throws IOException {
-        return is.read(b, off, len);
+        return in.read(b, off, len);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long skip(long n) throws IOException {
-        return is.skip(n);
+        return in.skip(n);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int available() throws IOException {
-        return is.available();
+        return in.available();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close() throws IOException {
-        is.close();
+        in.close();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mark(int readlimit) {
-        is.mark(readlimit);
+        in.mark(readlimit);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void reset() throws IOException {
-        is.reset();
+        in.reset();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean markSupported() {
-        return is.markSupported();
+        return in.markSupported();
     }
 }

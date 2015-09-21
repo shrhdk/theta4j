@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class represents AINT8 defined in PTP standard.
+ */
 public class AINT8 {
     private AINT8() {
         throw new AssertionError();

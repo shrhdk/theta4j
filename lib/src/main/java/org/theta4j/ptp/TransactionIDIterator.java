@@ -29,7 +29,7 @@ public final class TransactionIDIterator implements Iterator<UINT32> {
     @Override
     public UINT32 next() {
         if (0xFFFF_FFFFL <= current) {
-            // Initial value is 0 but cyclic initial value is 1
+            // Initial value is 0, but cyclic initial value is 1.
             current = 1;
         }
 

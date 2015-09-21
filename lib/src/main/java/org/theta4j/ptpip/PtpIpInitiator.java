@@ -24,7 +24,7 @@ import java.net.Socket;
 import java.util.UUID;
 
 /**
- * PTP Initiator implementation of PTP-IP
+ * PTP Initiator implementation according to PTP-IP standard.
  */
 public final class PtpIpInitiator extends AbstractPtpInitiator {
     private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInitiator.class);
@@ -139,21 +139,21 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     // Getter
 
     /**
-     * Get the GUID.
+     * Returns the GUID of current session.
      */
     public UUID getGUID() {
         return guid;
     }
 
     /**
-     * Get the host of responder which the initiator is connecting.
+     * Returns the host of responder which the initiator is connecting of current session.
      */
     public String getHost() {
         return host;
     }
 
     /**
-     * Get the TCP port of responder which the initiator is connecting.
+     * Returns the TCP port of responder which the initiator is connecting of current session.
      */
     public int getPort() {
         return port;
@@ -161,6 +161,9 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
 
     // AbstractPtpInitiator
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UINT32 sendOperation(Code<UINT16> operationCode, UINT32 p1, UINT32 p2, UINT32 p3, UINT32 p4, UINT32 p5) throws IOException {
         Validators.notNull("operationCode", operationCode);
@@ -184,10 +187,13 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
         return transactionID;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Response receiveResponse() throws IOException {
         if (ci.nextType() != PtpIpPacket.Type.OPERATION_RESPONSE) {
-            throw new RuntimeException("Expected OperationResponse but was " + ci.nextType());
+            throw new IllegalStateException("Expected OperationResponse but was " + ci.nextType());
         }
 
         OperationResponsePacket operationResponsePacket = ci.readOperationResponsePacket();
@@ -204,6 +210,9 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sendData(byte[] data) throws IOException {
         Validators.notNull("data", data);
@@ -211,6 +220,9 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
         co.writeData(transactionIDIterator.next(), data);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void receiveData(OutputStream dst) throws IOException {
         Validators.notNull("dst", dst);
@@ -220,6 +232,9 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
 
     // Closeable
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close() throws IOException {
         isClosed = true;

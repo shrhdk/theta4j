@@ -7,6 +7,9 @@ package org.theta4j;
 import org.theta4j.ptp.code.Code;
 import org.theta4j.ptp.type.UINT16;
 
+/**
+ * The set of PTP device property code defined by THETA API v1.
+ */
 enum DevicePropCode implements Code<UINT16> {
     BATTERY_LEVEL(0x5001),
     WHITE_BALANCE(0x5005),
@@ -39,6 +42,9 @@ enum DevicePropCode implements Code<UINT16> {
 
     // Code
 
+    /**
+     * Returns PTP device property code according to THETA API v1.
+     */
     @Override
     public UINT16 value() {
         return value;

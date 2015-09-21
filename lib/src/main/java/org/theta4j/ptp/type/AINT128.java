@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A utility class for AINT128 defined in PTP standard.
+ */
 public class AINT128 {
     private AINT128() {
         throw new AssertionError();

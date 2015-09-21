@@ -19,9 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ObjectInfo data set
- *
- * The ObjectInfo data set defined in PTP
+ * The object information data set defined in PTP standard.
  */
 public class ObjectInfo {
     private final UINT32 storageID;
@@ -46,6 +44,30 @@ public class ObjectInfo {
 
     // Constructor
 
+    /**
+     * Constructs new object information object.
+     *
+     * @param storageID            The storage ID the object stored.
+     * @param objectFormat         The format of the object.
+     * @param protectionStatus     The protection status of the object.
+     * @param objectCompressedSize The compressed size of the object.
+     * @param thumbFormat          The thumbnail format of the object.
+     * @param thumbCompressedSize  The compressed size of the thumbnail of the object.
+     * @param thumbPixWidth        The pixel width of the thumbnail of the object.
+     * @param thumbPixHeight       The pixel height of the thumbnail of the object.
+     * @param imagePixWidth        The image pixel width of the object.
+     * @param imagePixHeight       The image pixel height of the object.
+     * @param imageBitDepth        The image bit depth of the object.
+     * @param parentObject         The parent ID the object stored.
+     * @param associationType      The association type of the object.
+     * @param associationDesc      The association description of the object.
+     * @param sequenceNumber       The sequence number of the object.
+     * @param fileName             The file name of the object.
+     * @param captureDate          The capture date of the object. The format is described in PTP standard.
+     * @param modificationDate     The modification date of the object. The format is described in PTP standard.
+     * @param keywords             Keywords of the object.
+     * @throws NullPointerException if an argument is null.
+     */
     public ObjectInfo(UINT32 storageID, UINT16 objectFormat, ProtectionStatus protectionStatus, UINT32 objectCompressedSize,
                       UINT16 thumbFormat, UINT32 thumbCompressedSize, UINT32 thumbPixWidth, UINT32 thumbPixHeight,
                       UINT32 imagePixWidth, UINT32 imagePixHeight, UINT32 imageBitDepth,
@@ -96,7 +118,10 @@ public class ObjectInfo {
     // Static Factory Method
 
     /**
-     * Construct ObjectInfo from InputStream
+     * Constructs new object information object from InputStream.
+     *
+     * @throws IOException          if an I/O error occurs while reading the stream.
+     * @throws NullPointerException if an argument is null.
      */
     public static ObjectInfo read(InputStream is) throws IOException {
         Validators.notNull("is", is);
@@ -107,9 +132,10 @@ public class ObjectInfo {
     }
 
     /**
-     * Construct ObjectInfo from PtpInputStream.
+     * Constructs new object information object from PtpInputStream.
      *
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while reading the stream.
+     * @throws NullPointerException if an argument is null.
      */
     public static ObjectInfo read(PtpInputStream pis) throws IOException {
         Validators.notNull("pis", pis);
@@ -144,84 +170,144 @@ public class ObjectInfo {
 
     // Getter
 
+    /**
+     * Returns the storage ID the object stored.
+     */
     public UINT32 getStorageID() {
         return storageID;
     }
 
+    /**
+     * Returns the format of the object.
+     */
     public UINT16 getObjectFormat() {
         return objectFormat;
     }
 
+    /**
+     * Returns the protection status of the object.
+     */
     public ProtectionStatus getProtectionStatus() {
         return protectionStatus;
     }
 
+    /**
+     * Returns the compressed size of the object.
+     */
     public UINT32 getObjectCompressedSize() {
         return objectCompressedSize;
     }
 
+    /**
+     * Returns the thumbnail format of the object.
+     */
     public UINT16 getThumbFormat() {
         return thumbFormat;
     }
 
+    /**
+     * Returns the compressed size of the thumbnail of the object.
+     */
     public UINT32 getThumbCompressedSize() {
         return thumbCompressedSize;
     }
 
+    /**
+     * Returns the pixel width of the thumbnail of the object.
+     */
     public UINT32 getThumbPixWidth() {
         return thumbPixWidth;
     }
 
+    /**
+     * Returns the pixel height of the thumbnail of the object.
+     */
     public UINT32 getThumbPixHeight() {
         return thumbPixHeight;
     }
 
+    /**
+     * Returns the image pixel width of the object.
+     */
     public UINT32 getImagePixWidth() {
         return imagePixWidth;
     }
 
+    /**
+     * Returns the image pixel height of the object.
+     */
     public UINT32 getImagePixHeight() {
         return imagePixHeight;
     }
 
+    /**
+     * Returns the image bit depth of the object.
+     */
     public UINT32 getImageBitDepth() {
         return imageBitDepth;
     }
 
+    /**
+     * Returns the parent ID the object stored.
+     */
     public UINT32 getParentObject() {
         return parentObject;
     }
 
+    /**
+     * Returns the association type of the object.
+     */
     public UINT16 getAssociationType() {
         return associationType;
     }
 
+    /**
+     * Returns the association description of the object.
+     */
     public UINT32 getAssociationDesc() {
         return associationDesc;
     }
 
+    /**
+     * Returns the sequence number of the object.
+     */
     public UINT32 getSequenceNumber() {
         return sequenceNumber;
     }
 
+    /**
+     * Returns the file name of the object.
+     */
     public String getFileName() {
         return fileName;
     }
 
+    /**
+     * Returns the capture date of the object. The format is described in PTP standard.
+     */
     public String getCaptureDate() {
         return captureDate;
     }
 
+    /**
+     * Returns the modification date of the object. The format is described in PTP standard.
+     */
     public String getModificationDate() {
         return modificationDate;
     }
 
+    /**
+     * Returns keywords of the object.
+     */
     public String getKeywords() {
         return keywords;
     }
 
     // Basic Method
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -257,6 +343,9 @@ public class ObjectInfo {
                 .isEquals();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
@@ -282,6 +371,9 @@ public class ObjectInfo {
                 .toHashCode();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -290,7 +382,7 @@ public class ObjectInfo {
     // Related Classes
 
     /**
-     * ProtectionStatus in ObjectInfo defined in PTP
+     * ProtectionStatus in ObjectInfo defined in PTP standard.
      */
     public enum ProtectionStatus implements Code<UINT16> {
         NO_PROTECTION(0x0000),
@@ -318,6 +410,9 @@ public class ObjectInfo {
 
         // Code
 
+        /**
+         * Returns the integer value according PTP standard.
+         */
         @Override
         public UINT16 value() {
             return value;
@@ -326,9 +421,7 @@ public class ObjectInfo {
         // valueOf
 
         /**
-         * Get ProtectionStatus from value.
-         *
-         * @param value
+         * Returns ProtectionStatus enum from the value.
          */
         public static ProtectionStatus valueOf(UINT16 value) {
             Validators.notNull("value", value);

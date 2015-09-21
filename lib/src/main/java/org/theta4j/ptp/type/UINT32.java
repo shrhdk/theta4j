@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 
 /**
- * 32 bit unsigned integer value defined in PTP
+ * A class represents UINT32 defined in PTP standard.
  */
 public final class UINT32 extends PtpInteger {
     // Utility Field

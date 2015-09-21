@@ -9,8 +9,13 @@ import org.theta4j.ptp.data.Event;
 import java.util.EventListener;
 
 /**
- * Listener Set for PTP Event.
+ * An interface for receiving PTP event.
  */
 public interface PtpEventListener extends EventListener {
+    /**
+     * Invoked when PTP event is occurred.
+     *
+     * @param event Event object.
+     */
     void onEvent(Event event);
 }

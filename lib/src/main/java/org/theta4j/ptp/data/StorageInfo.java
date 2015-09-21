@@ -17,9 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * StorageInfo data set
- *
- * The StorageInfo data set defined in PTP
+ * The storage information data set defined in PTP standard.
  */
 public class StorageInfo {
     private final UINT16 storageType;
@@ -33,6 +31,17 @@ public class StorageInfo {
 
     // Constructor
 
+    /**
+     * @param storageType        The type of storage.
+     * @param fileSystemType     The file system type of the storage.
+     * @param accessCapability   The access capability of the storage.
+     * @param maxCapacity        The max capacity of the storage.
+     * @param freeSpaceInBytes   The free space in bytes of the storage.
+     * @param freeSpaceInImages  The free space in images of the storage.
+     * @param storageDescription The description of the storage.
+     * @param volumeLabel        The volume label of the storage.
+     * @throws NullPointerException if an argument is null.
+     */
     public StorageInfo(UINT16 storageType, UINT16 fileSystemType,
                        UINT16 accessCapability, UINT64 maxCapacity, UINT64 freeSpaceInBytes, UINT32 freeSpaceInImages,
                        String storageDescription, String volumeLabel
@@ -60,6 +69,9 @@ public class StorageInfo {
 
     /**
      * Construct StorageInfo from InputStream.
+     *
+     * @throws IOException          if an I/O error occurs while reading the stream.
+     * @throws NullPointerException if an argument is null.
      */
     public static StorageInfo read(InputStream is) throws IOException {
         try (PtpInputStream pis = new PtpInputStream(is)) {
@@ -70,7 +82,8 @@ public class StorageInfo {
     /**
      * Construct StorageInfo from PtpInputStream.
      *
-     * @throws IOException
+     * @throws IOException          if an I/O error occurs while reading the stream.
+     * @throws NullPointerException if an argument is null.
      */
     public static StorageInfo read(PtpInputStream pis) throws IOException {
         Validators.notNull("pis", pis);
@@ -92,40 +105,67 @@ public class StorageInfo {
 
     // Getter
 
+    /**
+     * Returns the type of the storage.
+     */
     public UINT16 getStorageType() {
         return storageType;
     }
 
+    /**
+     * Returns the file system type of the storage.
+     */
     public UINT16 getFileSystemType() {
         return fileSystemType;
     }
 
+    /**
+     * Returns the access capability of the storage.
+     */
     public UINT16 getAccessCapability() {
         return accessCapability;
     }
 
+    /**
+     * Returns the max capacity of the storage.
+     */
     public UINT64 getMaxCapacity() {
         return maxCapacity;
     }
 
+    /**
+     * Returns the free space in bytes of the storage.
+     */
     public UINT64 getFreeSpaceInBytes() {
         return freeSpaceInBytes;
     }
 
+    /**
+     * Returns the free space in images of the storage.
+     */
     public UINT32 getFreeSpaceInImages() {
         return freeSpaceInImages;
     }
 
+    /**
+     * Returns the description of the storage.
+     */
     public String getStorageDescription() {
         return storageDescription;
     }
 
+    /**
+     * Returns the volume label of the storage.
+     */
     public String getVolumeLabel() {
         return volumeLabel;
     }
 
     // Basic Method
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -150,6 +190,9 @@ public class StorageInfo {
                 .isEquals();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
@@ -164,6 +207,9 @@ public class StorageInfo {
                 .toHashCode();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);

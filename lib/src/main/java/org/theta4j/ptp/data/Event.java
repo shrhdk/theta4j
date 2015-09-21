@@ -11,6 +11,9 @@ import org.theta4j.ptp.type.UINT16;
 import org.theta4j.ptp.type.UINT32;
 import org.theta4j.util.Validators;
 
+/**
+ * The event class defined in PTP standard.
+ */
 public class Event {
     private final UINT16 eventCode;
     private final UINT32 sessionID;
@@ -19,18 +22,56 @@ public class Event {
 
     // Constructor
 
+    /**
+     * Constructs new event object.
+     *
+     * @param eventCode     The event code of this event.
+     * @param sessionID     The session ID of this event.
+     * @param transactionID The transaction ID of this event.
+     * @throws NullPointerException if an argument is null.
+     */
     public Event(UINT16 eventCode, UINT32 sessionID, UINT32 transactionID) {
         this(eventCode, sessionID, transactionID, UINT32.ZERO);
     }
 
+    /**
+     * Constructs new event object.
+     *
+     * @param eventCode     The event code of this event.
+     * @param sessionID     The session ID of this event.
+     * @param transactionID The transaction ID of this event.
+     * @param p1            The 1st parameter of this event.
+     * @throws NullPointerException if an argument is null.
+     */
     public Event(UINT16 eventCode, UINT32 sessionID, UINT32 transactionID, UINT32 p1) {
         this(eventCode, sessionID, transactionID, p1, UINT32.ZERO);
     }
 
+    /**
+     * Constructs new event object.
+     *
+     * @param eventCode     The event code of this event.
+     * @param sessionID     The session ID of this event.
+     * @param transactionID The transaction ID of this event.
+     * @param p1            The 1st parameter of this event.
+     * @param p2            The 2nd parameter of this event.
+     * @throws NullPointerException if an argument is null.
+     */
     public Event(UINT16 eventCode, UINT32 sessionID, UINT32 transactionID, UINT32 p1, UINT32 p2) {
         this(eventCode, sessionID, transactionID, p1, p2, UINT32.ZERO);
     }
 
+    /**
+     * Constructs new event object.
+     *
+     * @param eventCode     The event code of this event.
+     * @param sessionID     The session ID of this event.
+     * @param transactionID The transaction ID of this event.
+     * @param p1            The 1st parameter of this event.
+     * @param p2            The 2nd parameter of this event.
+     * @param p3            The 3rd parameter of this event.
+     * @throws NullPointerException if an argument is null.
+     */
     public Event(UINT16 eventCode, UINT32 sessionID, UINT32 transactionID, UINT32 p1, UINT32 p2, UINT32 p3) {
         Validators.notNull("eventCode", eventCode);
         Validators.notNull("sessionID", sessionID);
@@ -49,32 +90,53 @@ public class Event {
 
     // Getter
 
+    /**
+     * Returns the event code of this event.
+     */
     public UINT16 getEventCode() {
         return eventCode;
     }
 
+    /**
+     * Returns the session ID of this event.
+     */
     public UINT32 getSessionID() {
         return sessionID;
     }
 
+    /**
+     * Returns the transaction ID of this event.
+     */
     public UINT32 getTransactionID() {
         return transactionID;
     }
 
+    /**
+     * Returns the 1st parameter of this event.
+     */
     public UINT32 getP1() {
         return p1;
     }
 
+    /**
+     * Returns the 2nd parameter of this event.
+     */
     public UINT32 getP2() {
         return p2;
     }
 
+    /**
+     * Returns the 3rd parameter of this event.
+     */
     public UINT32 getP3() {
         return p3;
     }
 
     // Basic Method
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -97,6 +159,9 @@ public class Event {
                 .isEquals();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
@@ -109,6 +174,9 @@ public class Event {
                 .toHashCode();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);

@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 
 /**
- * 64 bit unsigned integer value defined in PTP
+ * A class represents UINT64 defined in PTP standard.
  */
 public final class UINT64 extends PtpInteger {
     // Utility Field

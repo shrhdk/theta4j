@@ -16,19 +16,20 @@ import java.util.List;
  * OutputStream of the generic data type of PTP.
  */
 public class PtpOutputStream extends OutputStream {
-    private final OutputStream os;
+    private final OutputStream out;
 
     // Constructor
 
     /**
      * Wrap OutputStream by PtpOutputStream.
      *
-     * @param os
+     * @param out The underlying output stream.
+     * @throws NullPointerException if out is null.
      */
-    public PtpOutputStream(OutputStream os) {
-        Validators.notNull("os", os);
+    public PtpOutputStream(OutputStream out) {
+        Validators.notNull("out", out);
 
-        this.os = os;
+        this.out = out;
     }
 
     // PTP Generic Type
@@ -36,8 +37,9 @@ public class PtpOutputStream extends OutputStream {
     /**
      * Write PTP Integer value to the stream.
      *
-     * @param integer
-     * @throws IOException
+     * @param integer the integer to write to stream.
+     * @throws IOException          if an I/O error occurs while writing the stream.
+     * @throws NullPointerException if integer is null.
      */
     public void write(PtpInteger integer) throws IOException {
         write(integer.bytes());
@@ -55,8 +57,9 @@ public class PtpOutputStream extends OutputStream {
     /**
      * Write String to the stream as PTP String.
      *
-     * @param str
-     * @throws IOException
+     * @param str the string to write to stream.
+     * @throws IOException          if an I/O error occurs while writing the stream.
+     * @throws NullPointerException if str is null.
      */
     public void write(String str) throws IOException {
         write(STR.toBytes(str));
@@ -64,28 +67,43 @@ public class PtpOutputStream extends OutputStream {
 
     // OutputStream
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void write(int b) throws IOException {
-        os.write(b);
+        out.write(b);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void write(byte[] b) throws IOException {
-        os.write(b);
+        out.write(b);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void write(byte[] b, int off, int len) throws IOException {
-        os.write(b, off, len);
+        out.write(b, off, len);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void flush() throws IOException {
-        os.flush();
+        out.flush();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close() throws IOException {
-        os.close();
+        out.close();
     }
 }

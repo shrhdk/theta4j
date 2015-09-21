@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A utility class for AUINT8 defined in PTP standard.
+ */
 public class AUINT8 {
     private AUINT8() {
         throw new AssertionError();

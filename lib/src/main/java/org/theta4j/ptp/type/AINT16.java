@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class represents AINT16 defined in PTP standard.
+ */
 public class AINT16 {
     private AINT16() {
         throw new AssertionError();

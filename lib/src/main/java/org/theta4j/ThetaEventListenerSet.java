@@ -24,6 +24,9 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
 
     // ThetaEventListener
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onObjectAdded(UINT32 objectHandle) {
         for (Iterator<ThetaEventListener> i = listeners.iterator(); i.hasNext(); ) {
@@ -37,6 +40,9 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCaptureStatusChanged() {
         for (Iterator<ThetaEventListener> i = listeners.iterator(); i.hasNext(); ) {
@@ -50,6 +56,9 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onRecordingTimeChanged() {
         for (Iterator<ThetaEventListener> i = listeners.iterator(); i.hasNext(); ) {
@@ -63,6 +72,9 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onRemainingRecordingTimeChanged() {
         for (Iterator<ThetaEventListener> i = listeners.iterator(); i.hasNext(); ) {
@@ -76,6 +88,9 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onStoreFull() {
         for (Iterator<ThetaEventListener> i = listeners.iterator(); i.hasNext(); ) {
@@ -89,41 +104,43 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
         }
     }
 
-    @Override
-    public void onCaptureComplete(UINT32 transactionID) {
-        for (Iterator<ThetaEventListener> i = listeners.iterator(); i.hasNext(); ) {
-            ThetaEventListener listener = i.next();
-            try {
-                listener.onCaptureComplete(transactionID);
-            } catch (RuntimeException e) {
-                LOGGER.error("Unexpected exception in listener", e);
-                i.remove();
-            }
-        }
-    }
-
     // Set
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean add(ThetaEventListener listener) {
         return listeners.add(listener);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean remove(Object object) {
         return listeners.remove(object);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Iterator<ThetaEventListener> iterator() {
         return listeners.iterator();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
         listeners.clear();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int size() {
         return listeners.size();
@@ -144,7 +161,7 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
         } else if (eventCode.equals(EventCode.STORE_FULL.value())) {
             onStoreFull();
         } else if (eventCode.equals(EventCode.CAPTURE_COMPLETE.value())) {
-            onCaptureComplete(p1);
+            LOGGER.info("Capture Completed: " + p1);
         } else {
             LOGGER.warn("Unknown EventCode: " + eventCode);
         }

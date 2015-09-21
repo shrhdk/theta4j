@@ -14,6 +14,9 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+/**
+ * Set of PtpEventListener
+ */
 public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> implements PtpEventListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(PtpEventListenerSet.class);
 
@@ -21,26 +24,41 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     // Set<PtpEventListener>
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean add(PtpEventListener listener) {
         return listeners.add(listener);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean remove(Object o) {
         return listeners.remove(o);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
         listeners.clear();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Iterator<PtpEventListener> iterator() {
         return listeners.iterator();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int size() {
         return listeners.size();
@@ -48,6 +66,9 @@ public final class PtpEventListenerSet extends AbstractSet<PtpEventListener> imp
 
     // PtpEventListener
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onEvent(Event event) {
         Validators.notNull("event", event);
