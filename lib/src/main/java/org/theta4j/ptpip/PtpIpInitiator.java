@@ -113,11 +113,11 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
                         }
 
                         try {
-                            LOGGER.error("Error occurred while receiving Event packet:" + e);
+                            LOGGER.error("Error occurred while receiving Event packet: " + e);
                             LOGGER.error("Try to close PtpIpInitiator");
                             close();
                         } catch (IOException e1) {
-                            LOGGER.error("Error occurred while closing in event receiving thread" + e);
+                            LOGGER.error("Error occurred while closing in event receiving thread: " + e1);
                         }
 
                         return;
