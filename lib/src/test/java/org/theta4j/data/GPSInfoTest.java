@@ -127,7 +127,7 @@ public class GPSInfoTest {
     public static class GetTime {
         @Test
         public void fromJST() {
-            GPSInfo given = new GPSInfo(bd("0"), bd("0"), bd("0"), getDate(2014, 1, 2, 9, 4, 5), TimeZone.getTimeZone("JST").getRawOffset());
+            GPSInfo given = new GPSInfo(bd("0"), bd("0"), bd("0"), getDate(2014, 1, 2, 9, 4, 5), TimeZone.getTimeZone("GMT+0900").getRawOffset());
             long expected = getDate(2014, 1, 2, 0, 4, 5).getTime();
             long actual = given.getTime();
 
@@ -138,7 +138,7 @@ public class GPSInfoTest {
     public static class ToString {
         @Test
         public void withZero() {
-            GPSInfo given = new GPSInfo(bd("0"), bd("0"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("JST").getRawOffset());
+            GPSInfo given = new GPSInfo(bd("0"), bd("0"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("GMT+0900").getRawOffset());
             String expected = "0.000000,0.000000+0.00m@20140102T030405+0900,WGS84";
             String actual = given.toString();
 
@@ -147,7 +147,7 @@ public class GPSInfoTest {
 
         @Test
         public void withPositiveMax() {
-            GPSInfo given = new GPSInfo(bd("90"), bd("180"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("JST").getRawOffset());
+            GPSInfo given = new GPSInfo(bd("90"), bd("180"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("GMT+0900").getRawOffset());
             String expected = "90.000000,180.000000+0.00m@20140102T030405+0900,WGS84";
             String actual = given.toString();
 
@@ -156,7 +156,7 @@ public class GPSInfoTest {
 
         @Test
         public void withNegativeMax() {
-            GPSInfo given = new GPSInfo(bd("-90"), bd("-180"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("JST").getRawOffset());
+            GPSInfo given = new GPSInfo(bd("-90"), bd("-180"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("GMT+0900").getRawOffset());
             String expected = "-90.000000,-180.000000+0.00m@20140102T030405+0900,WGS84";
             String actual = given.toString();
 
@@ -199,8 +199,8 @@ public class GPSInfoTest {
 
         @Test
         public void withOffset() {
-            GPSInfo gpsInfo1 = new GPSInfo(bd("0"), bd("0"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("JST").getRawOffset());
-            GPSInfo gpsInfo2 = new GPSInfo(bd("0"), bd("0"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("PDT").getRawOffset());
+            GPSInfo gpsInfo1 = new GPSInfo(bd("0"), bd("0"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("GMT+0900").getRawOffset());
+            GPSInfo gpsInfo2 = new GPSInfo(bd("0"), bd("0"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("GMT-0700").getRawOffset());
 
             assertFalse(gpsInfo1.equals(gpsInfo2));
         }
@@ -209,8 +209,8 @@ public class GPSInfoTest {
     public static class Equals {
         @Test
         public void withSameValues() {
-            GPSInfo gpsInfo1 = new GPSInfo(bd("0"), bd("0"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("JST").getRawOffset());
-            GPSInfo gpsInfo2 = new GPSInfo(bd("0"), bd("0"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("JST").getRawOffset());
+            GPSInfo gpsInfo1 = new GPSInfo(bd("0"), bd("0"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("GMT+0900").getRawOffset());
+            GPSInfo gpsInfo2 = new GPSInfo(bd("0"), bd("0"), bd("0"), getDate(2014, 1, 2, 3, 4, 5), TimeZone.getTimeZone("GMT+0900").getRawOffset());
 
             assertTrue(gpsInfo1.equals(gpsInfo2));
         }
