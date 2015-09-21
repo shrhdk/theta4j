@@ -10,10 +10,25 @@ import org.theta4j.util.Validators;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The enum represents the channel number of Wi-Fi.
+ */
 public enum ChannelNumber {
+    /**
+     * Wi-Fi channel is determined at random.
+     */
     RANDOM(0),
+    /**
+     * Wi-Fi channel is 1.
+     */
     CH_1(1),
+    /**
+     * Wi-Fi channel is 6.
+     */
     CH_6(6),
+    /**
+     * Wi-Fi channel is 11.
+     */
     CH_11(11);
 
     // Map for valueOf method
@@ -38,12 +53,18 @@ public enum ChannelNumber {
 
     // Getter
 
+    /**
+     * Returns the integer value according THETA API v1.
+     */
     public UINT8 value() {
         return value;
     }
 
     // valueOf
 
+    /**
+     * Returns the channel number enum from the integer value defined by THETA API v1.
+     */
     public static ChannelNumber valueOf(UINT8 value) {
         Validators.notNull("value", value);
 

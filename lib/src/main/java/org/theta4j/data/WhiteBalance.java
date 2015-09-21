@@ -10,6 +10,9 @@ import org.theta4j.util.Validators;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The enum represents the white balance.
+ */
 public enum WhiteBalance {
     /**
      * Automatic
@@ -74,12 +77,18 @@ public enum WhiteBalance {
 
     // Getter
 
+    /**
+     * Returns the integer value according THETA API v1.
+     */
     public UINT16 value() {
         return value;
     }
 
     // valueOf
 
+    /**
+     * Returns the white balance enum from the integer value defined by THETA API v1.
+     */
     public static WhiteBalance valueOf(UINT16 value) {
         Validators.notNull("value", value);
 

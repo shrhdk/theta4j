@@ -16,6 +16,9 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The enum represents the GPS information.
+ */
 public final class GPSInfo {
     private static final String DATUM = "WGS84";
     private static final String FORMAT_DATE_TIME = "yyyyMMdd'T'HHmmss";
@@ -41,21 +44,45 @@ public final class GPSInfo {
 
     // WGS84 Constants
 
-    public static final BigDecimal LATITUDE_MIN = new BigDecimal("-90.000000");
-    public static final BigDecimal LATITUDE_MAX = new BigDecimal("90.000000");
-    public static final BigDecimal LONGITUDE_MIN = new BigDecimal("-180.000000");
-    public static final BigDecimal LONGITUDE_MAX = new BigDecimal("180.000000");
+    private static final BigDecimal LATITUDE_MIN = new BigDecimal("-90.000000");
+    private static final BigDecimal LATITUDE_MAX = new BigDecimal("90.000000");
+    private static final BigDecimal LONGITUDE_MIN = new BigDecimal("-180.000000");
+    private static final BigDecimal LONGITUDE_MAX = new BigDecimal("180.000000");
 
     // Constructor
 
+    /**
+     * Constructs the new GPS information with current date time.
+     *
+     * @param latitude  latitude value for GPS information. (-90.000000 &lt;= latitude &lt;= 90.000000)
+     * @param longitude longitude value for GPS information. (-180.000000 &lt;= longitude &lt;= 180.000000)
+     * @param altitude  altitude value for GPS information. (0.00 &lt;= altitude &lt;= 999.99)
+     */
     public GPSInfo(BigDecimal latitude, BigDecimal longitude, BigDecimal altitude) {
         this(latitude, longitude, altitude, new Date());
     }
 
+    /**
+     * Constructs the new GPS information with specified date time.
+     *
+     * @param latitude  latitude value for GPS information. (-90.000000 &lt;= latitude &lt;= 90.000000)
+     * @param longitude longitude value for GPS information. (-180.000000 &lt;= longitude &lt;= 180.000000)
+     * @param altitude  altitude value for GPS information. (0.00 &lt;= altitude &lt;= 999.99)
+     * @param dateTime  date time value for GPS information.
+     */
     public GPSInfo(BigDecimal latitude, BigDecimal longitude, BigDecimal altitude, Date dateTime) {
         this(latitude, longitude, altitude, dateTime, 0);
     }
 
+    /**
+     * Constructs the new GPS information with specified date time and timezone offset.
+     *
+     * @param latitude  latitude value for GPS information. (-90.000000 &lt;= latitude &lt;= 90.000000)
+     * @param longitude longitude value for GPS information. (-180.000000 &lt;= longitude &lt;= 180.000000)
+     * @param altitude  altitude value for GPS information. (0.00 &lt;= altitude &lt;= 999.99)
+     * @param dateTime  date time value for GPS information.
+     * @param offset    timezone offset in milliseconds.
+     */
     public GPSInfo(BigDecimal latitude, BigDecimal longitude, BigDecimal altitude, Date dateTime, int offset) {
         Validators.rangeEq("latitude", latitude, LATITUDE_MIN, LATITUDE_MAX);
         Validators.rangeEq("longitude", longitude, LONGITUDE_MIN, LONGITUDE_MAX);
@@ -70,6 +97,13 @@ public final class GPSInfo {
 
     // Static Factory Method
 
+    /**
+     * <p>Returns the GPS information from the string represented in the following format.<p/>
+     * <p>Format: <code>&lt;latitude&gt;,&lt;longitude&gt;&lt;altitude&gt;m@&lt;date-time&gt;&lt;timezone&gt;,&lt;datum&gt;</code>
+     * <p>Example: <code>-90.000000,-180.000000-999.00m@20150921T235959+0900,WGS84</code></p>
+     *
+     * @throws ParseException The given string does not match with the defined format.
+     */
     public static GPSInfo parse(String str) throws ParseException {
         Matcher m = PATTERN_GPS_INFO.matcher(str);
         if (!m.find()) {
@@ -103,32 +137,55 @@ public final class GPSInfo {
 
     // Getter
 
+    /**
+     * Returns the latitude of this GPS information. (-90.000000 &lt;= latitude &lt;= 90.000000)
+     */
     public BigDecimal getLatitude() {
         return latitude;
     }
 
+    /**
+     * Returns the longitude of this GPS information. (-180.000000 &lt;= longitude &lt;= 180.000000)
+     */
     public BigDecimal getLongitude() {
         return longitude;
     }
 
+    /**
+     * Returns the altitude of this GPS information. (0.00 &lt;= altitude &lt;= 999.99)
+     */
     public BigDecimal getAltitude() {
         return altitude;
     }
 
+    /**
+     * Returns the date time of this GPS information.
+     */
     public Date getDateTime() {
         return (Date) dateTime.clone();
     }
 
+    /**
+     * Returns the number of milliseconds of the timezone of this GPS information.
+     */
     public int getOffset() {
         return offset;
     }
 
+    /**
+     * Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT of this GPS information.
+     */
     public long getTime() {
         return DateUtils.addMilliseconds(dateTime, -offset).getTime();
     }
 
     // toString
 
+    /**
+     * <p>Returns the string representation of the GPS information.<p/>
+     * <p>Format: <code>&lt;latitude&gt;,&lt;longitude&gt;&lt;altitude&gt;m@&lt;date-time&gt;&lt;timezone&gt;,&lt;datum&gt;</code>
+     * <p>Example: <code>-90.000000,-180.000000-999.00m@20150921T235959+0900,WGS84</code></p>
+     */
     @Override
     public String toString() {
         if (offset == 0) {
@@ -173,6 +230,9 @@ public final class GPSInfo {
                 .isEquals();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -193,6 +253,9 @@ public final class GPSInfo {
                 .isEquals();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder()

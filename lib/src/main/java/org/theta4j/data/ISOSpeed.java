@@ -10,10 +10,61 @@ import org.theta4j.util.Validators;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The enum represents the  ISO speed.
+ */
 public enum ISOSpeed {
-    ISO_100(100), ISO_125(125), ISO_160(160), ISO_200(200),
-    ISO_250(250), ISO_320(320), ISO_400(400), ISO_500(500),
-    ISO_640(640), ISO_800(800), ISO_1000(1000), ISO_1250(1250),
+    /**
+     * 100
+     */
+    ISO_100(100),
+    /**
+     * 125
+     */
+    ISO_125(125),
+    /**
+     * 160
+     */
+    ISO_160(160),
+    /**
+     * 200
+     */
+    ISO_200(200),
+    /**
+     * 250
+     */
+    ISO_250(250),
+    /**
+     * 320
+     */
+    ISO_320(320),
+    /**
+     * 400
+     */
+    ISO_400(400),
+    /**
+     * 500
+     */
+    ISO_500(500),
+    /**
+     * 640
+     */
+    ISO_640(640),
+    /**
+     * 800
+     */
+    ISO_800(800),
+    /**
+     * 1000
+     */
+    ISO_1000(1000),
+    /**
+     * 1250
+     */
+    ISO_1250(1250),
+    /**
+     * Auto
+     */
     AUTO(0xFFFF);
 
     // Map for valueOf method
@@ -38,12 +89,18 @@ public enum ISOSpeed {
 
     // Getter
 
+    /**
+     * Returns the integer value according THETA API v1.
+     */
     public UINT16 value() {
         return value;
     }
 
     // valueOf
 
+    /**
+     * Returns the ISO speed enum from the integer value defined by THETA API v1.
+     */
     public static ISOSpeed valueOf(UINT16 value) {
         Validators.notNull("value", value);
 

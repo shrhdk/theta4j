@@ -10,6 +10,9 @@ import org.theta4j.util.Validators;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The enum represents the capture status.
+ */
 public enum CaptureStatus {
     /**
      * The camera is ready.
@@ -42,12 +45,18 @@ public enum CaptureStatus {
 
     // Getter
 
+    /**
+     * Returns the integer value according to THETA API v1.
+     */
     public UINT8 value() {
         return value;
     }
 
     // valueOf
 
+    /**
+     * Returns the capture status enum from the integer value defined by THETA API v1.
+     */
     public static CaptureStatus valueOf(UINT8 value) {
         Validators.notNull("value", value);
 

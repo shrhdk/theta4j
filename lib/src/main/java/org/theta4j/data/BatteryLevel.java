@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Battery Level
+ * The enum represents the battery level.
  */
 public enum BatteryLevel {
     /**
@@ -53,12 +53,18 @@ public enum BatteryLevel {
 
     // Getter
 
+    /**
+     * Returns the integer value according to THETA API v1.
+     */
     public UINT8 value() {
         return value;
     }
 
     // valueOf
 
+    /**
+     * Returns the battery level enum from the integer value defined by THETA API v1.
+     */
     public static BatteryLevel valueOf(UINT8 value) {
         Validators.notNull("value", value);
 

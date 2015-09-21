@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 /**
- * Exif2.3 standard RATIONAL
+ * Exif 2.3 standard RATIONAL
  */
 public class Rational implements Serializable {
     private final long molecule;
@@ -49,6 +49,9 @@ public class Rational implements Serializable {
 
     // Static Factory Method
 
+    /**
+     * Returns the
+     */
     public static Rational valueOf(byte[] bytes) {
         Validators.notNull("bytes", bytes);
         Validators.length("bytes", bytes, SIZE_IN_BYTES);
@@ -68,20 +71,32 @@ public class Rational implements Serializable {
 
     // Getter
 
+    /**
+     * Returns the molecule of this rational value.
+     */
     public long getMolecule() {
         return molecule;
     }
 
+    /**
+     * Returns the denominator of this rational value.
+     */
     public long getDenominator() {
         return denominator;
     }
 
+    /**
+     * Returns the byte array according to the Exif 2.3 standard RATIONAL.
+     */
     public byte[] bytes() {
         return bytes.clone();
     }
 
     // Basic Method
 
+    /**
+     * Compares strictly, 1/2 equals to 1/2, but 1/2 does not equal to 2/4.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -100,6 +115,9 @@ public class Rational implements Serializable {
                 .isEquals();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
@@ -108,6 +126,9 @@ public class Rational implements Serializable {
                 .toHashCode();
     }
 
+    /**
+     * Returns the string such as 1/1, 2/2, and 3/5.
+     */
     @Override
     public String toString() {
         return "Rational{" + molecule + "/" + denominator + "}";
