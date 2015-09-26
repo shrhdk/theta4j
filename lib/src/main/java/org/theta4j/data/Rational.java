@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.theta4j.ptp.io.PtpInputStream;
 import org.theta4j.ptp.type.UINT32;
 import org.theta4j.util.ArrayUtils;
+import org.theta4j.util.Closer;
 import org.theta4j.util.Validators;
 
 import java.io.ByteArrayInputStream;
@@ -56,16 +57,19 @@ public class Rational implements Serializable {
         Validators.notNull("bytes", bytes);
         Validators.length("bytes", bytes, SIZE_IN_BYTES);
 
-        try (
-                ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-                PtpInputStream pis = new PtpInputStream(bais)
-        ) {
+        final Closer closer = new Closer();
+        try {
+            final ByteArrayInputStream bais = closer.push(new ByteArrayInputStream(bytes));
+            final PtpInputStream pis = closer.push(new PtpInputStream(bais));
+
             UINT32 molecule = pis.readUINT32();
             UINT32 denominator = pis.readUINT32();
 
             return new Rational(molecule.longValue(), denominator.longValue());
         } catch (IOException e) {
             throw new AssertionError(e);
+        } finally {
+            closer.close();
         }
     }
 

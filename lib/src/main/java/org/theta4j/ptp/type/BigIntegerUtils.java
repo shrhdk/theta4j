@@ -10,6 +10,7 @@ import org.theta4j.util.Validators;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * A utility class for PTP integers.
@@ -38,7 +39,7 @@ class BigIntegerUtils {
 
     private static byte[] padding(byte paddingValue, byte[] bytes, int sizeInBytes) {
         if (sizeInBytes < bytes.length) {
-            String message = String.format("Length of specified bytes (%d) is larger than specified size (%d)", bytes.length, sizeInBytes);
+            String message = String.format(Locale.US, "Length of specified bytes (%d) is larger than specified size (%d)", bytes.length, sizeInBytes);
             throw new IllegalArgumentException(message);
         }
 

@@ -11,6 +11,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.Locale;
 
 /**
  * Converter for java.lang.String and PTP String
@@ -58,7 +59,7 @@ public final class STR {
         byte[] bytes = new byte[numBytes];
         int numReadBytes = is.read(bytes);
         if (numReadBytes != numBytes) {
-            String message = String.format("NumChars is %d (= %d bytes), but actual data is %d bytes.", numChars, numBytes, numReadBytes);
+            String message = String.format(Locale.US, "NumChars is %d (= %d bytes), but actual data is %d bytes.", numChars, numBytes, numReadBytes);
             throw new EOFException(message);
         }
 

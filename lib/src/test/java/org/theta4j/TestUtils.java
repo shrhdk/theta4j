@@ -4,6 +4,8 @@
 
 package org.theta4j;
 
+import org.theta4j.util.Closer;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

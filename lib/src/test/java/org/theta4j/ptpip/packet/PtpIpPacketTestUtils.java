@@ -4,7 +4,7 @@
 
 package org.theta4j.ptpip.packet;
 
-import org.theta4j.Closer;
+import org.theta4j.util.Closer;
 import org.theta4j.ptp.io.PtpOutputStream;
 import org.theta4j.ptp.type.UINT32;
 

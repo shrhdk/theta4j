@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,10 +30,10 @@ public final class GPSInfo {
 
     private static final String PATTERN_DATE = "\\d{8}";
     private static final String PATTERN_TIME = "\\d{6}(?:\\.\\d{1})?";
-    private static final String PATTERN_DATE_TIME = String.format("%sT%s", PATTERN_DATE, PATTERN_TIME);
+    private static final String PATTERN_DATE_TIME = String.format(Locale.US, "%sT%s", PATTERN_DATE, PATTERN_TIME);
 
     private static final Pattern PATTERN_GPS_INFO = Pattern.compile(
-            String.format("(%s),(%s)(%s)m@(%s),(%s)", PATTERN_LATITUDE, PATTERN_LONGITUDE, PATTERN_ALTITUDE, PATTERN_DATE_TIME, DATUM));
+            String.format(Locale.US, "(%s),(%s)(%s)m@(%s),(%s)", PATTERN_LATITUDE, PATTERN_LONGITUDE, PATTERN_ALTITUDE, PATTERN_DATE_TIME, DATUM));
 
     private final BigDecimal latitude;
     private final BigDecimal longitude;
@@ -113,7 +114,7 @@ public final class GPSInfo {
         BigDecimal latitude = new BigDecimal(m.group(1)).setScale(6, ROUNDING_MODE);
         BigDecimal longitude = new BigDecimal(m.group(2)).setScale(6, ROUNDING_MODE);
         BigDecimal altitude = new BigDecimal(m.group(3)).setScale(2, ROUNDING_MODE);
-        Date dateTime = new SimpleDateFormat(FORMAT_DATE_TIME).parse(m.group(4));
+        Date dateTime = new SimpleDateFormat(FORMAT_DATE_TIME, Locale.US).parse(m.group(4));
         String datum = m.group(5);
 
         if (LATITUDE_MIN.compareTo(latitude) == 1 || LATITUDE_MAX.compareTo(latitude) == -1) {
@@ -183,30 +184,30 @@ public final class GPSInfo {
 
     /**
      * <p>Returns the string representation of the GPS information.</p>
-     * <p>Format: <code>&lt;latitude&gt;,&lt;longitude&gt;&lt;altitude&gt;m@&lt;date-time&gt;&lt;timezone&gt;,&lt;datum&gt;</code>
+     * <p>Format: <code>&lt;latitude&gt;,&lt;longitude&gt;&lt;altitude&gt;m@&lt;date-time&gt;&lt;timezone&gt;,&lt;datum&gt;</code></p>
      * <p>Example: <code>-90.000000,-180.000000-999.00m@20150921T235959+0900,WGS84</code></p>
      */
     @Override
     public String toString() {
         if (offset == 0) {
-            return String.format("%sm@%s,%s", toCoordinateString(), toDateTimeString(), DATUM);
+            return String.format(Locale.US, "%sm@%s,%s", toCoordinateString(), toDateTimeString(), DATUM);
         } else {
-            return String.format("%sm@%s%s,%s", toCoordinateString(), toDateTimeString(), toOffsetString(), DATUM);
+            return String.format(Locale.US, "%sm@%s%s,%s", toCoordinateString(), toDateTimeString(), toOffsetString(), DATUM);
         }
     }
 
     private String toCoordinateString() {
-        return String.format("%2.6f,%3.6f%+3.2f", latitude, longitude, altitude);
+        return String.format(Locale.US, "%2.6f,%3.6f%+3.2f", latitude, longitude, altitude);
     }
 
     private String toDateTimeString() {
-        return new SimpleDateFormat(FORMAT_DATE_TIME).format(dateTime);
+        return new SimpleDateFormat(FORMAT_DATE_TIME, Locale.US).format(dateTime);
     }
 
     private String toOffsetString() {
         int offsetMinutes = offset / 1000 / 60 / 60;
         int offsetSeconds = offset / 1000 / 60 % 60;
-        return String.format("+%02d%02d", offsetMinutes, offsetSeconds);
+        return String.format(Locale.US, "+%02d%02d", offsetMinutes, offsetSeconds);
     }
 
     // Basic Method

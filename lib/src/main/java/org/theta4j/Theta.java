@@ -28,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -376,7 +377,7 @@ public final class Theta implements Closeable {
         String str = ptpInitiator.getDevicePropValueAsString(DevicePropCode.DATE_TIME);
 
         try {
-            return new SimpleDateFormat(DATE_TIME_FORMAT).parse(str);
+            return new SimpleDateFormat(DATE_TIME_FORMAT, Locale.US).parse(str);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -393,7 +394,7 @@ public final class Theta implements Closeable {
     public synchronized void setDateTime(Date dateTime) throws IOException {
         Validators.notNull("dateTime", dateTime);
 
-        String str = new SimpleDateFormat(DATE_TIME_FORMAT).format(dateTime);
+        String str = new SimpleDateFormat(DATE_TIME_FORMAT, Locale.US).format(dateTime);
 
         ptpInitiator.setDevicePropValue(DevicePropCode.DATE_TIME, str);
     }

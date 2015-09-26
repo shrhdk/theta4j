@@ -44,7 +44,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 8
+        minSdkVersion 9
         targetSdkVersion 22
         versionCode VersionUtils.semverToInt(rootProject.version)
         versionName rootProject.version
@@ -54,7 +54,8 @@ android {
 }
 
 dependencies {
-    compile project(':lib')
+    compile 'org.apache.commons:commons-lang3:3.3.2'
+    compile 'org.slf4j:slf4j-api:1.7.10'
 
     testCompile 'ch.qos.logback:logback-classic:1.1.2'
     testCompile 'junit:junit:4.12'
