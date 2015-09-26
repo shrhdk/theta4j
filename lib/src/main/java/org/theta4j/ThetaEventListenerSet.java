@@ -104,6 +104,22 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onCaptureComplete(UINT32 transactionID) {
+        for (Iterator<ThetaEventListener> i = listeners.iterator(); i.hasNext(); ) {
+            ThetaEventListener listener = i.next();
+            try {
+                listener.onCaptureComplete(transactionID);
+            } catch (RuntimeException e) {
+                LOGGER.error("Unexpected exception in listener", e);
+                i.remove();
+            }
+        }
+    }
+
     // Set
 
     /**
@@ -161,7 +177,7 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
         } else if (eventCode.equals(EventCode.STORE_FULL.value())) {
             onStoreFull();
         } else if (eventCode.equals(EventCode.CAPTURE_COMPLETE.value())) {
-            LOGGER.info("Capture Completed: " + p1);
+            onCaptureComplete(p1);
         } else {
             LOGGER.warn("Unknown EventCode: " + eventCode);
         }

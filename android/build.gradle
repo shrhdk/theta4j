@@ -39,7 +39,7 @@ android {
         }
 
         androidTest {
-            java.srcDir "${project(':lib').projectDir}/src/test/java"
+            java.srcDir "${project(':lib').projectDir}/src/integrationTest/java"
         }
     }
 

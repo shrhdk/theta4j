@@ -41,4 +41,9 @@ public interface ThetaEventListener extends EventListener {
      * Invoked when the storage of THETA faced into the limit.
      */
     void onStoreFull();
+
+    /**
+     * Invoked when capturing is complete.
+     */
+    void onCaptureComplete(UINT32 transactionID);
 }

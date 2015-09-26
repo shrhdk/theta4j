@@ -44,4 +44,11 @@ public abstract class ThetaEventAdapter implements ThetaEventListener {
     @Override
     public void onStoreFull() {
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onCaptureComplete(UINT32 transactionID) {
+    }
 }
