@@ -35,12 +35,12 @@ apply plugin: 'sonar-runner'
 
 sonarRunner {
     sonarProperties {
-        property "sonar.projectName", archivesBaseName
-        property "sonar.host.url", "http://sonar.shiro.be"
-        property "sonar.jdbc.url", "jdbc:mysql://sonar.shiro.be:3306/sonar"
-        property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
-        property "sonar.jdbc.username", java.lang.System.getenv()['SONAR_DB_USER']
-        property "sonar.jdbc.password", java.lang.System.getenv()['SONAR_DB_PASSWORD']
+        property 'sonar.projectName', archivesBaseName
+        property 'sonar.host.url', 'http://sonar.shiro.be'
+        property 'sonar.jdbc.url', 'jdbc:mysql://sonar.shiro.be:3306/sonar'
+        property 'sonar.jdbc.driverClassName', 'com.mysql.jdbc.Driver'
+        property 'sonar.jdbc.username', java.lang.System.getenv()['SONAR_DB_USER']
+        property 'sonar.jdbc.password', java.lang.System.getenv()['SONAR_DB_PASSWORD']
     }
 }
 
@@ -124,11 +124,11 @@ if (new File('gradle.properties', projectDir).exists()) {
             mavenDeployer {
                 beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
                     authentication(userName: ossrhUsername, password: ossrhPassword)
                 }
 
-                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
                     authentication(userName: ossrhUsername, password: ossrhPassword)
                 }
 
