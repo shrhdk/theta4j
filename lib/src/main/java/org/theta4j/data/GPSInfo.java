@@ -98,7 +98,7 @@ public final class GPSInfo {
     // Static Factory Method
 
     /**
-     * <p>Returns the GPS information from the string represented in the following format.<p/>
+     * <p>Returns the GPS information from the string represented in the following format.</p>
      * <p>Format: <code>&lt;latitude&gt;,&lt;longitude&gt;&lt;altitude&gt;m@&lt;date-time&gt;&lt;timezone&gt;,&lt;datum&gt;</code>
      * <p>Example: <code>-90.000000,-180.000000-999.00m@20150921T235959+0900,WGS84</code></p>
      *
@@ -182,7 +182,7 @@ public final class GPSInfo {
     // toString
 
     /**
-     * <p>Returns the string representation of the GPS information.<p/>
+     * <p>Returns the string representation of the GPS information.</p>
      * <p>Format: <code>&lt;latitude&gt;,&lt;longitude&gt;&lt;altitude&gt;m@&lt;date-time&gt;&lt;timezone&gt;,&lt;datum&gt;</code>
      * <p>Example: <code>-90.000000,-180.000000-999.00m@20150921T235959+0900,WGS84</code></p>
      */
