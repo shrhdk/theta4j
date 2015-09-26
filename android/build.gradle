@@ -30,8 +30,17 @@ android {
     }
 
     sourceSets {
-        test.java.srcDir "${project(':lib').projectDir}/src/test/java"
-        androidTest.java.srcDir "${project(':lib').projectDir}/src/test/java"
+        main {
+            java.srcDir "${project(':lib').projectDir}/src/main/java"
+        }
+
+        test {
+            java.srcDir "${project(':lib').projectDir}/src/test/java"
+        }
+
+        androidTest {
+            java.srcDir "${project(':lib').projectDir}/src/test/java"
+        }
     }
 
     defaultConfig {
