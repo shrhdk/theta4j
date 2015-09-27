@@ -2,9 +2,9 @@
 
 ## Add to Your Project
 
-Download [theta4j-0.5.0.jar](https://github.com/shrhdk/theta4j/releases/download/0.4.0/theta4j-0.4.0.jar) and add to your project.
+Download [theta4j-0.5.0.jar](https://github.com/shrhdk/theta4j/releases/download/0.5.0/theta4j-0.5.0.jar) and add to your project.
 
-Maven Central is also available.
+Maven Central Repository is also available.
 
 ### Maven
 
