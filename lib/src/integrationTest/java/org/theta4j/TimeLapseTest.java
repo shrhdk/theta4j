@@ -20,6 +20,10 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class TimeLapseTest extends BaseThetaTest {
+    private static final int NUM_OF_CAPTURE = 2;
+    private static final int INTERVAL = 5000;
+    private static final int POSTPONEMENT = 1000;
+
     private final CountDownLatch latch = new CountDownLatch(1);
     private final AtomicReference<UINT32> onCaptureCompleteTransactionID = new AtomicReference<>();
     private final List<UINT32> objectHandles = Collections.synchronizedList(new ArrayList<UINT32>());
@@ -28,15 +32,15 @@ public class TimeLapseTest extends BaseThetaTest {
     public void sleepAndDelete() throws IOException, InterruptedException {
         Thread.sleep(TestParameters.INTERVAL_AFTER_TIME_LAPSE);
 
-        for(UINT32 objectHandle : objectHandles) {
+        for (UINT32 objectHandle : objectHandles) {
             theta.deleteObject(objectHandle);
         }
     }
 
     @Test
     public void captureWithTimeLapseNumber() throws IOException, InterruptedException {
-        theta.setTimelapseInterval(5000);
-        theta.setTimelapseNumber(2);
+        theta.setTimelapseInterval(INTERVAL);
+        theta.setTimelapseNumber(NUM_OF_CAPTURE);
 
         theta.setStillCaptureMode(StillCaptureMode.TIME_LAPSE);
 
@@ -58,12 +62,12 @@ public class TimeLapseTest extends BaseThetaTest {
         latch.await();
 
         assertThat(transactionID, is(onCaptureCompleteTransactionID.get()));
-        assertThat(objectHandles.size(), is(2));
+        assertThat(objectHandles.size(), is(NUM_OF_CAPTURE));
     }
 
     @Test
     public void captureWithUnlimitedTimeLapseNumber() throws IOException, InterruptedException {
-        theta.setTimelapseInterval(5000);
+        theta.setTimelapseInterval(INTERVAL);
         theta.setTimelapseNumber(0);
 
         theta.setStillCaptureMode(StillCaptureMode.TIME_LAPSE);
@@ -77,10 +81,10 @@ public class TimeLapseTest extends BaseThetaTest {
 
         theta.initiateOpenCapture();
 
-        Thread.sleep(12500);
+        Thread.sleep(INTERVAL * NUM_OF_CAPTURE + POSTPONEMENT);
 
         theta.terminateOpenCapture();
 
-        assertThat(objectHandles.size(), is(2));
+        assertThat(objectHandles.size(), is(NUM_OF_CAPTURE));
     }
 }

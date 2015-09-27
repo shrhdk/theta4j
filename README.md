@@ -9,16 +9,13 @@
 [gitter-url]:https://gitter.im/shrhdk/theta4j?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [gitter-image]:https://badges.gitter.im/Join%20Chat.svg
 
-theta4j is a library for RICOH THETA written in Java.
+PTP-IP API wrapper for RICOH THETA written in Java.
 
-theta4j aims the followings compared with the official SDK.
+## Supported Environments
 
-- Open Source
-- Maven Integration
-
-## Requirements
-
-- JDK 1.7
+- Java SE 7
+- Android API Level 9+
+  - Tested on `5.1.1` and `2.3.4`
 
 ## User Guide
 
@@ -45,4 +42,3 @@ This software contains works which are distributed under the [Apache License, Ve
 
 - [Apache Commons Lang](https://github.com/apache/commons-lang/blob/master/NOTICE.txt)
 - [SLF4J](http://www.slf4j.org/license.html)
-- [Logback](http://logback.qos.ch/license.html)

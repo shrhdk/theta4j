@@ -5,15 +5,14 @@
 package org.theta4j;
 
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.theta4j.ptp.type.UINT32;
 import org.theta4j.util.Closer;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -22,8 +21,6 @@ import static org.junit.Assert.assertTrue;
 
 public class ObjectTest extends BaseThetaTest {
     private static UINT32 objectHandle;
-
-    private File tempFile;
 
     @BeforeClass
     public static void capture() throws IOException, InterruptedException {
@@ -35,11 +32,6 @@ public class ObjectTest extends BaseThetaTest {
         if (theta != null && objectHandle != null) {
             theta.deleteObject(objectHandle);
         }
-    }
-
-    @Before
-    public void createTempFile() throws IOException {
-        tempFile = File.createTempFile("theta4j-", ".jpg");
     }
 
     @Test
@@ -65,8 +57,8 @@ public class ObjectTest extends BaseThetaTest {
     public void getObject() throws IOException {
         final Closer closer = new Closer();
         try {
-            final FileOutputStream file = closer.push(new FileOutputStream(tempFile));
-            theta.getObject(objectHandle, file);
+            final OutputStream out = closer.push(new ByteArrayOutputStream());
+            theta.getObject(objectHandle, out);
 //            TestUtils.isValidJPEG(tempFile);
         } finally {
             closer.close();
@@ -77,8 +69,8 @@ public class ObjectTest extends BaseThetaTest {
     public void getThumb() throws IOException {
         final Closer closer = new Closer();
         try {
-            final FileOutputStream file = closer.push(new FileOutputStream(tempFile));
-            theta.getThumb(objectHandle, file);
+            final OutputStream out = closer.push(new ByteArrayOutputStream());
+            theta.getThumb(objectHandle, out);
 //            TestUtils.isValidJPEG(tempFile);
         } finally {
             closer.close();
@@ -89,8 +81,8 @@ public class ObjectTest extends BaseThetaTest {
     public void getResizedImageObject() throws IOException {
         final Closer closer = new Closer();
         try {
-            final FileOutputStream file = closer.push(new FileOutputStream(tempFile));
-            theta.getResizedImageObject(objectHandle, file);
+            final OutputStream out = closer.push(new ByteArrayOutputStream());
+            theta.getResizedImageObject(objectHandle, out);
 //            TestUtils.isValidJPEG(tempFile);
         } finally {
             closer.close();
