@@ -1,7 +1,10 @@
-language: java
-sudo: false
+language: android
+
 jdk:
   - oraclejdk7
-cache:
-  directories:
-    - $HOME/.gradle
+android:
+  components:
+    - build-tools-23.0.1
+    - android-22
+script:
+  - ./gradlew test
