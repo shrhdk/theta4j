@@ -2,7 +2,7 @@
  * Copyright (C) 2015 theta4j project
  */
 
-import org.theta4j.build.VersionUtils
+import org.theta4j.android.VersionUtils
 
 buildscript {
     repositories {
