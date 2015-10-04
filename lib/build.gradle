@@ -29,21 +29,6 @@ javadoc {
     exclude '**/org/theta4j/ptpip/**/*.java'
 }
 
-// SonarQube
-
-apply plugin: 'sonar-runner'
-
-sonarRunner {
-    sonarProperties {
-        property 'sonar.projectName', archivesBaseName
-        property 'sonar.host.url', 'http://sonar.shiro.be'
-        property 'sonar.jdbc.url', 'jdbc:mysql://sonar.shiro.be:3306/sonar'
-        property 'sonar.jdbc.driverClassName', 'com.mysql.jdbc.Driver'
-        property 'sonar.jdbc.username', java.lang.System.getenv()['SONAR_DB_USER']
-        property 'sonar.jdbc.password', java.lang.System.getenv()['SONAR_DB_PASSWORD']
-    }
-}
-
 // Integration Test
 
 sourceSets {
@@ -93,28 +78,56 @@ task videoTest(type: Test) {
     classpath = sourceSets.videoTest.runtimeClasspath
 }
 
+// SonarQube
+
+if (project.file('sonar.properties').exists()) {
+    apply plugin: 'sonar-runner'
+
+    Properties sonarProps = new Properties();
+    sonarProps.load(project.file('sonar.properties').newInputStream())
+
+    sonarRunner {
+        sonarProperties {
+            property 'sonar.projectName', archivesBaseName
+            property 'sonar.host.url', sonarProps.getProperty('sonar.host.url')
+            property 'sonar.jdbc.url', sonarProps.getProperty('sonar.jdbc.url')
+            property 'sonar.jdbc.driverClassName', sonarProps.getProperty('sonar.jdbc.driverClassName')
+            property 'sonar.jdbc.username', sonarProps.getProperty('sonar.jdbc.username')
+            property 'sonar.jdbc.password', sonarProps.getProperty('sonar.jdbc.password')
+        }
+    }
+}
+
 // Publish
 
-apply plugin: 'maven'
-apply plugin: 'signing'
+if (project.file('publish.properties').exists()) {
+    apply plugin: 'maven'
+    apply plugin: 'signing'
 
-task javadocJar(type: Jar) {
-    group tasks.build.group
-    classifier = 'javadoc'
-    from javadoc
-}
+    Properties publishProps = new Properties();
+    publishProps.load(project.file('publish.properties').newInputStream())
+    ext.'signing.keyId' = publishProps.getProperty('signing.keyId')
+    ext.'signing.password' = publishProps.getProperty('signing.password')
+    ext.'signing.secretKeyRingFile' = publishProps.getProperty('signing.secretKeyRingFile')
+    ext.ossrhUsername = publishProps.getProperty('ossrhUsername')
+    ext.ossrhPassword = publishProps.getProperty('ossrhPassword')
 
-task sourcesJar(type: Jar) {
-    group tasks.build.group
-    classifier = 'sources'
-    from sourceSets.main.allJava
-}
+    task javadocJar(type: Jar) {
+        group tasks.build.group
+        classifier = 'javadoc'
+        from javadoc
+    }
 
-artifacts {
-    archives jar, javadocJar, sourcesJar
-}
+    task sourcesJar(type: Jar) {
+        group tasks.build.group
+        classifier = 'sources'
+        from sourceSets.main.allJava
+    }
 
-if (new File('gradle.properties', projectDir).exists()) {
+    artifacts {
+        archives jar, javadocJar, sourcesJar
+    }
+
     signing {
         sign configurations.archives
     }

@@ -1,5 +1,6 @@
 secring.gpg
-lib/gradle.properties
+lib/sonar.properties
+lib/publish.properties
 
 ### Windows ###
 # Windows image file caches
@@ -121,6 +122,7 @@ hs_err_pid*
 .gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
+gradle.properties
 
 # Ignore Gradle GUI config
 gradle-app.setting
