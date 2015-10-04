@@ -2,7 +2,8 @@
  * Copyright (C) 2015 theta4j project
  */
 
-import org.theta4j.android.VersionUtils
+
+import org.theta4j.android.Version
 
 buildscript {
     repositories {
@@ -44,10 +45,12 @@ android {
     }
 
     defaultConfig {
+        def version = Version.parse(rootProject.version);
+
         minSdkVersion 9
         targetSdkVersion 22
-        versionCode VersionUtils.semverToInt(rootProject.version)
-        versionName rootProject.version
+        versionCode version.code
+        versionName version.name
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
