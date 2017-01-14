@@ -9,7 +9,7 @@ UINT32 objectHandle = theta.initiateCapture();  // this is blocking
 ```
 
 `objectHandle` is pointer for captured image.
-Download image by [getObject](file.md) method using `objectHandle`.
+Download image by [getObject](object.md) method using `objectHandle`.
 
 ## Time Lapse Capturing
 
