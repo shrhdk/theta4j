@@ -9,7 +9,7 @@
 [gitter-url]:https://gitter.im/shrhdk/theta4j?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [gitter-image]:https://badges.gitter.im/Join%20Chat.svg
 
-PTP-IP API wrapper for RICOH THETA written in Java.
+PTP-IP API implementation for RICOH THETA written in Java.
 
 ## Supported Environments
 
