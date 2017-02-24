@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.theta4j.data.*;
 import org.theta4j.ptp.PtpEventListener;
 import org.theta4j.ptp.PtpException;
-import org.theta4j.ptp.PtpInitiator;
 import org.theta4j.ptp.code.EventCode;
 import org.theta4j.ptp.code.OperationCode;
 import org.theta4j.ptp.code.ResponseCode;
@@ -46,7 +45,7 @@ public final class Theta implements Closeable {
 
     private static final String DATE_TIME_FORMAT = "yyyyMMdd'T'HHmmss";
 
-    private final PtpInitiator ptpInitiator;
+    private final PtpIpInitiator ptpInitiator;
     private final ThetaEventListenerSet listenerSet = new ThetaEventListenerSet();
 
     /**
@@ -65,7 +64,7 @@ public final class Theta implements Closeable {
             }
         });
 
-        ptpInitiator.openSession(SESSION_ID);
+        ptpInitiator.openSession(ptpInitiator.connectionNumber);
     }
 
     // Operation

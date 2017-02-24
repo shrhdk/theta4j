@@ -29,6 +29,8 @@ import java.util.UUID;
 public final class PtpIpInitiator extends AbstractPtpInitiator {
     private static final Logger LOGGER = LoggerFactory.getLogger(PtpIpInitiator.class);
 
+    public final UINT32 connectionNumber;
+
     // Property
 
     private final UUID guid;
@@ -67,7 +69,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
         this.commandDataConnection = new Socket(host, port);
         this.ci = new PtpIpInputStream(commandDataConnection.getInputStream());
         this.co = new PtpIpOutputStream(commandDataConnection.getOutputStream());
-        UINT32 connectionNumber = establishCommandDataConnection();
+        connectionNumber = establishCommandDataConnection();
 
         // Establish Event Connection
         this.eventConnection = new Socket(host, port);
