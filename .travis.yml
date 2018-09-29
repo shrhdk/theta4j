@@ -6,8 +6,6 @@ jdk:
 addons:
   sonarcloud:
     organization: "theta4j"
-    token:
-      secure: "LFDSGFOiwCzYGsROXB8+iTqXTcmGZx+vuTIo+QJjh6HzFyczU/toW94tvCMa6A8lP+jqdETvIER0CkbKmwumBVRYvMddZf5ZuJJ79Uq7EgjwUyMiaJdMRux6g9UybL1xZV6HjVnSWUrkuk2hHpO/vbNBrdkQmqPyNcmXY0qGrwM="
 
 android:
   components:
