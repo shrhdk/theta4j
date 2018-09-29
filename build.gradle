@@ -12,7 +12,7 @@ subprojects {
     targetCompatibility = '1.7'
 
     repositories {
-        mavenCentral()
+        jcenter()
     }
 
     findbugs {

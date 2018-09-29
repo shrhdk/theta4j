@@ -2,10 +2,13 @@
  * Copyright (C) 2015 theta4j project
  */
 
+plugins {
+    id "org.sonarqube" version "2.2"
+}
+
 apply plugin: 'java'
 apply plugin: 'findbugs'
 apply plugin: 'jacoco'
-apply plugin: 'org.sonarqube'
 
 archivesBaseName = 'theta4j'
 version = rootProject.version
