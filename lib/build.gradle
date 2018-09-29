@@ -5,6 +5,7 @@
 apply plugin: 'java'
 apply plugin: 'findbugs'
 apply plugin: 'jacoco'
+apply plugin: 'org.sonarqube'
 
 archivesBaseName = 'theta4j'
 version = rootProject.version
@@ -76,26 +77,6 @@ task videoTest(type: Test) {
     description 'Execute video recording tests with real device. A Wi-Fi connection to real THETA must be established before execution.'
     testClassesDir = sourceSets.videoTest.output.classesDir
     classpath = sourceSets.videoTest.runtimeClasspath
-}
-
-// SonarQube
-
-if (project.file('sonar.properties').exists()) {
-    apply plugin: 'sonar-runner'
-
-    Properties sonarProps = new Properties();
-    sonarProps.load(project.file('sonar.properties').newInputStream())
-
-    sonarRunner {
-        sonarProperties {
-            property 'sonar.projectName', archivesBaseName
-            property 'sonar.host.url', sonarProps.getProperty('sonar.host.url')
-            property 'sonar.jdbc.url', sonarProps.getProperty('sonar.jdbc.url')
-            property 'sonar.jdbc.driverClassName', sonarProps.getProperty('sonar.jdbc.driverClassName')
-            property 'sonar.jdbc.username', sonarProps.getProperty('sonar.jdbc.username')
-            property 'sonar.jdbc.password', sonarProps.getProperty('sonar.jdbc.password')
-        }
-    }
 }
 
 // Publish

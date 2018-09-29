@@ -1,9 +1,0 @@
-#
-# Copyright (C) 2015 theta4j project
-#
-
-sonar.host.url=
-sonar.jdbc.url=
-sonar.jdbc.driverClassName=
-sonar.jdbc.username=
-sonar.jdbc.password=

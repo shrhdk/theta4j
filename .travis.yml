@@ -3,6 +3,12 @@ language: android
 jdk:
   - oraclejdk7
 
+addons:
+  sonarcloud:
+    organization: "theta4j"
+    token:
+      secure: "LFDSGFOiwCzYGsROXB8+iTqXTcmGZx+vuTIo+QJjh6HzFyczU/toW94tvCMa6A8lP+jqdETvIER0CkbKmwumBVRYvMddZf5ZuJJ79Uq7EgjwUyMiaJdMRux6g9UybL1xZV6HjVnSWUrkuk2hHpO/vbNBrdkQmqPyNcmXY0qGrwM="
+
 android:
   components:
     - build-tools-23.0.1
@@ -12,6 +18,7 @@ android:
 
 script:
   - ./gradlew test
+  - ./gradlew sonarqube
 
 before_deploy: ./gradlew build
 
