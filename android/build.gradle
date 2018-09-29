@@ -16,11 +16,15 @@ buildscript {
     }
 }
 
+repositories {
+    google()
+}
+
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '23.0.1'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.2'
 
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
@@ -48,8 +52,8 @@ android {
     defaultConfig {
         def version = Version.parse(rootProject.version);
 
-        minSdkVersion 9
-        targetSdkVersion 22
+        minSdkVersion 19
+        targetSdkVersion 28
         versionCode version.code
         versionName version.name
 
