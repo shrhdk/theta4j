@@ -13,9 +13,8 @@ PTP-IP API implementation for RICOH THETA written in Java.
 
 ## Supported Environments
 
-- Java SE 7
-- Android API Level 9+
-  - Tested on `5.1.1` and `2.3.4`
+- Java SE 8
+- Android API Level 19+
 
 ## Tutorials
 
