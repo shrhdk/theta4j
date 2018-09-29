@@ -58,12 +58,7 @@ public final class Theta implements Closeable {
     public Theta() throws IOException {
         ptpInitiator = new PtpIpInitiator(UUID.randomUUID(), IP_ADDRESS, TCP_PORT);
 
-        ptpInitiator.addListener(new PtpEventListener() {
-            @Override
-            public void onEvent(Event event) {
-                listenerSet.raise(event);
-            }
-        });
+        ptpInitiator.addListener(listenerSet::raise);
 
         ptpInitiator.openSession(SESSION_ID);
     }
@@ -194,20 +189,17 @@ public final class Theta implements Closeable {
         final AtomicReference<UINT32> transactionIDRef = new AtomicReference<>();
         final AtomicReference<UINT32> objectHandleRef = new AtomicReference<>();
 
-        PtpEventListener listener = new PtpEventListener() {
-            @Override
-            public void onEvent(Event event) {
-                if (event.getEventCode().equals(EventCode.OBJECT_ADDED.value())) {
-                    objectHandleRef.set(event.getP1());
-                } else if (event.getEventCode().equals(EventCode.STORE_FULL.value())) {
-                    if (transactionIDRef.get().equals(event.getTransactionID())) {
-                        storeFull.set(true);
-                        latch.countDown();
-                    }
-                } else if (event.getEventCode().equals(EventCode.CAPTURE_COMPLETE.value())) {
-                    if (transactionIDRef.get().equals(event.getP1())) {
-                        latch.countDown();
-                    }
+        PtpEventListener listener = event -> {
+            if (event.getEventCode().equals(EventCode.OBJECT_ADDED.value())) {
+                objectHandleRef.set(event.getP1());
+            } else if (event.getEventCode().equals(EventCode.STORE_FULL.value())) {
+                if (transactionIDRef.get().equals(event.getTransactionID())) {
+                    storeFull.set(true);
+                    latch.countDown();
+                }
+            } else if (event.getEventCode().equals(EventCode.CAPTURE_COMPLETE.value())) {
+                if (transactionIDRef.get().equals(event.getP1())) {
+                    latch.countDown();
                 }
             }
         };

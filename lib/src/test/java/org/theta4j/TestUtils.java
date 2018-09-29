@@ -4,12 +4,6 @@
 
 package org.theta4j;
 
-import org.theta4j.util.Closer;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -49,22 +43,5 @@ public class TestUtils {
         }
 
         return false;
-    }
-
-    public static boolean isValidJPEG(File file) {
-        Closer closer = new Closer();
-        try {
-            InputStream is = closer.push(new FileInputStream(file));
-            return isValidJPEG(is);
-        } catch (IOException e) {
-            return false;
-        } finally {
-            closer.close();
-        }
-    }
-
-    public static boolean isValidJPEG(InputStream is) {
-        // TODO implement
-        return true;
     }
 }

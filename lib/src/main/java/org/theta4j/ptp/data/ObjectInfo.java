@@ -11,7 +11,6 @@ import org.theta4j.ptp.code.Code;
 import org.theta4j.ptp.io.PtpInputStream;
 import org.theta4j.ptp.type.UINT16;
 import org.theta4j.ptp.type.UINT32;
-import org.theta4j.util.Closer;
 import org.theta4j.util.Validators;
 
 import java.io.IOException;
@@ -126,14 +125,7 @@ public class ObjectInfo {
      */
     public static ObjectInfo read(InputStream is) throws IOException {
         Validators.notNull("is", is);
-
-        final Closer closer = new Closer();
-        try {
-            final PtpInputStream pis = closer.push(new PtpInputStream(is));
-            return read(pis);
-        } finally {
-            closer.close();
-        }
+        return read(new PtpInputStream(is));
     }
 
     /**

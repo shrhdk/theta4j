@@ -20,19 +20,13 @@ public final class ArrayUtils {
         }
 
         // Join Byte Arrays
-        final Closer closer = new Closer();
-        try {
-            final ByteArrayOutputStream baos = closer.push(new ByteArrayOutputStream(length));
-
+        try (final ByteArrayOutputStream baos = new ByteArrayOutputStream(length)) {
             for (byte[] bytes : byteArrays) {
                 baos.write(bytes);
             }
-
             return baos.toByteArray();
         } catch (IOException e) {
             throw new AssertionError(e);
-        } finally {
-            closer.close();
         }
     }
 }

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
@@ -22,8 +23,8 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 public class DeviceInfoTest {
-    private static final List<UINT16> LIST_1 = Arrays.asList(UINT16.MIN_VALUE);
-    private static final List<UINT16> LIST_2 = Arrays.asList(UINT16.MAX_VALUE);
+    private static final List<UINT16> LIST_1 = Collections.singletonList(UINT16.MIN_VALUE);
+    private static final List<UINT16> LIST_2 = Collections.singletonList(UINT16.MAX_VALUE);
 
     private static final UINT16 STANDARD_VERSION = new UINT16(0);
     private static final UINT32 VENDOR_EXTENSION_ID = new UINT32(1);

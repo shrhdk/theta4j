@@ -8,7 +8,6 @@ import org.theta4j.ptp.code.Code;
 import org.theta4j.ptp.io.PtpInputStream;
 import org.theta4j.ptp.io.PtpOutputStream;
 import org.theta4j.ptp.type.UINT32;
-import org.theta4j.util.Closer;
 import org.theta4j.util.Validators;
 
 import java.io.ByteArrayOutputStream;
@@ -51,19 +50,14 @@ public abstract class PtpIpPacket {
     public final byte[] bytes() {
         UINT32 length = new UINT32(UINT32.SIZE_IN_BYTES + Type.SIZE_IN_BYTES + getPayload().length);
 
-        final Closer closer = new Closer();
-        try {
-            final ByteArrayOutputStream baos = closer.push(new ByteArrayOutputStream());
-            final PtpOutputStream pos = closer.push(new PtpOutputStream(baos));
-
+        try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            final PtpOutputStream pos = new PtpOutputStream(baos);
             pos.write(length);
             pos.write(getType().value);
             pos.write(getPayload());
             return baos.toByteArray();
         } catch (IOException e) {
             throw new AssertionError(e);
-        } finally {
-            closer.close();
         }
     }
 

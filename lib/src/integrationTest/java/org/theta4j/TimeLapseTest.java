@@ -26,7 +26,7 @@ public class TimeLapseTest extends BaseThetaTest {
 
     private final CountDownLatch latch = new CountDownLatch(1);
     private final AtomicReference<UINT32> onCaptureCompleteTransactionID = new AtomicReference<>();
-    private final List<UINT32> objectHandles = Collections.synchronizedList(new ArrayList<UINT32>());
+    private final List<UINT32> objectHandles = Collections.synchronizedList(new ArrayList<>());
 
     @After
     public void sleepAndDelete() throws IOException, InterruptedException {

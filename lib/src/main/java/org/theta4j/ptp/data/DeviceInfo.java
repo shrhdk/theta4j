@@ -10,7 +10,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.theta4j.ptp.io.PtpInputStream;
 import org.theta4j.ptp.type.UINT16;
 import org.theta4j.ptp.type.UINT32;
-import org.theta4j.util.Closer;
 import org.theta4j.util.Validators;
 
 import java.io.IOException;
@@ -103,13 +102,7 @@ public final class DeviceInfo {
      * @throws IOException if an I/O error occurs while reading the stream.
      */
     public static DeviceInfo read(InputStream is) throws IOException {
-        final Closer closer = new Closer();
-        try {
-            final PtpInputStream pis = closer.push(new PtpInputStream(is));
-            return read(pis);
-        } finally {
-            closer.close();
-        }
+        return read(new PtpInputStream(is));
     }
 
     /**

@@ -99,39 +99,36 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     }
 
     private void startEventHandlerThread() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (; ; ) {
-                    final EventPacket eventPacket;
-                    try {
-                        eventPacket = ei.readEventPacket();
-                    } catch (final IOException e) {
-                        if (isClosed) {
-                            LOGGER.debug("Finished Event Listener Thread.");
-                            return;
-                        }
-
-                        try {
-                            LOGGER.error("Error occurred while receiving Event packet: " + e);
-                            LOGGER.error("Try to close PtpIpInitiator");
-                            close();
-                        } catch (IOException e1) {
-                            LOGGER.error("Error occurred while closing in event receiving thread: " + e1);
-                        }
-
+        new Thread(() -> {
+            for (; ; ) {
+                final EventPacket eventPacket;
+                try {
+                    eventPacket = ei.readEventPacket();
+                } catch (final IOException e) {
+                    if (isClosed) {
+                        LOGGER.debug("Finished Event Listener Thread.");
                         return;
                     }
 
-                    listenerSet.onEvent(new Event(
-                            eventPacket.getEventCode(),
-                            getSessionID(),
-                            eventPacket.getTransactionID(),
-                            eventPacket.getP1(),
-                            eventPacket.getP2(),
-                            eventPacket.getP3()
-                    ));
+                    try {
+                        LOGGER.error("Error occurred while receiving Event packet: " + e);
+                        LOGGER.error("Try to close PtpIpInitiator");
+                        close();
+                    } catch (IOException e1) {
+                        LOGGER.error("Error occurred while closing in event receiving thread: " + e1);
+                    }
+
+                    return;
                 }
+
+                listenerSet.onEvent(new Event(
+                        eventPacket.getEventCode(),
+                        getSessionID(),
+                        eventPacket.getTransactionID(),
+                        eventPacket.getP1(),
+                        eventPacket.getP2(),
+                        eventPacket.getP3()
+                ));
             }
         }).start();
     }

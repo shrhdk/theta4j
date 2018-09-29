@@ -3,7 +3,7 @@
  */
 package org.theta4j.android;
 
-public final class Version {
+final class Version {
     private static final int BIT_PER_NUM = 10;
     private static final int MAX = (1 << BIT_PER_NUM) - 1;
 
@@ -15,7 +15,7 @@ public final class Version {
         this.code = code;
     }
 
-    public static Version parse(String semver) {
+    static Version parse(String semver) {
         final com.github.zafarkhaja.semver.Version ver = com.github.zafarkhaja.semver.Version.valueOf(semver);
         final int major = ver.getMajorVersion();
         final int minor = ver.getMinorVersion();
@@ -26,16 +26,16 @@ public final class Version {
             throw new IllegalArgumentException(message);
         }
 
-        final int code = major << BIT_PER_NUM * 2 | minor << BIT_PER_NUM * 1 | patch << BIT_PER_NUM * 0;
+        final int code = major << BIT_PER_NUM * 2 | minor << BIT_PER_NUM | patch;
 
         return new Version(semver, code);
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public int getCode() {
+    int getCode() {
         return code;
     }
 }

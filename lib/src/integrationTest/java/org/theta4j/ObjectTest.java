@@ -8,7 +8,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.theta4j.ptp.type.UINT32;
-import org.theta4j.util.Closer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -55,37 +54,22 @@ public class ObjectTest extends BaseThetaTest {
 
     @Test
     public void getObject() throws IOException {
-        final Closer closer = new Closer();
-        try {
-            final OutputStream out = closer.push(new ByteArrayOutputStream());
+        try (final OutputStream out = new ByteArrayOutputStream()) {
             theta.getObject(objectHandle, out);
-//            TestUtils.isValidJPEG(tempFile);
-        } finally {
-            closer.close();
         }
     }
 
     @Test
     public void getThumb() throws IOException {
-        final Closer closer = new Closer();
-        try {
-            final OutputStream out = closer.push(new ByteArrayOutputStream());
+        try (final OutputStream out = new ByteArrayOutputStream()) {
             theta.getThumb(objectHandle, out);
-//            TestUtils.isValidJPEG(tempFile);
-        } finally {
-            closer.close();
         }
     }
 
     @Test
     public void getResizedImageObject() throws IOException {
-        final Closer closer = new Closer();
-        try {
-            final OutputStream out = closer.push(new ByteArrayOutputStream());
+        try (final OutputStream out = new ByteArrayOutputStream()) {
             theta.getResizedImageObject(objectHandle, out);
-//            TestUtils.isValidJPEG(tempFile);
-        } finally {
-            closer.close();
         }
     }
 }
