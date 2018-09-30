@@ -1,7 +1,5 @@
 # Device Property
 
-Now writing...
-
 ## Get Device Property
 
 ```java

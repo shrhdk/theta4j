@@ -16,18 +16,18 @@ PTP-IP API implementation for RICOH THETA written in Java.
 - Java SE 8
 - Android API Level 19+
 
-## Tutorials
+## Tutorials for v1 API
 
-- [Introduction](doc/introduction.md)
-- [Connect](doc/connect.md)
-- [Capture](doc/capture.md)
-- [Object](doc/object.md)
-- [Device Property](doc/property.md)
-- [Event](doc/event.md)
+- [Introduction](doc/v1/introduction.md)
+- [Connect](doc/v1/connect.md)
+- [Capture](doc/v1/capture.md)
+- [Object](doc/v1/object.md)
+- [Device Property](doc/v1/property.md)
+- [Event](doc/v1/event.md)
 
 ## Documents
 
-- [Javadoc](http://theta4j.org/javadoc/0.5.0/)
+- [Javadoc](https://theta4j.org/javadoc/0.5.0/)
 - [Sample Application](sample/src/main/java/org/theta4j/sample/ThetaCapturer.java)
 - [Contribution Guide](doc/contribution.md)
 
