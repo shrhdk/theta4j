@@ -23,7 +23,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
 
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
@@ -36,20 +36,20 @@ android {
 
     sourceSets {
         main {
-            java.srcDir "${project(':lib').projectDir}/src/main/java"
+            java.srcDir "${project(':v1').projectDir}/src/main/java"
         }
 
         test {
-            java.srcDir "${project(':lib').projectDir}/src/test/java"
+            java.srcDir "${project(':v1').projectDir}/src/test/java"
         }
 
         androidTest {
-            java.srcDir "${project(':lib').projectDir}/src/integrationTest/java"
+            java.srcDir "${project(':v1').projectDir}/src/integrationTest/java"
         }
     }
 
     defaultConfig {
-        def version = Version.parse(rootProject.version);
+        def version = Version.parse(rootProject.version)
 
         minSdkVersion 19
         targetSdkVersion 28

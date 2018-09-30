@@ -4,4 +4,4 @@
 
 rootProject.name = 'theta4j'
 
-include 'lib', 'sample', 'android'
+include 'v1', 'v1-sample', 'v1-android-test'

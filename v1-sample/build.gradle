@@ -6,7 +6,7 @@ apply plugin: 'java'
 apply plugin: 'findbugs'
 
 dependencies {
-    compile project(':lib')
+    compile project(':v1')
     compile 'ch.qos.logback:logback-classic:1.1.11'
 }
 
