@@ -2,10 +2,6 @@
 layout: default
 ---
 
-# Device Property
-
-Now writing...
-
 ## Get Device Property
 
 ```java
