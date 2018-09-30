@@ -1,4 +1,6 @@
-# theta4j
+---
+layout: default
+---
 
 [![Build Status][travis-image]][travis-url] [![Coverage][sonar-image]][sonar-url] [![Chat][gitter-image]][gitter-url]
 
@@ -11,9 +13,30 @@
 
 PTP-IP implementation for RICOH THETA written in Java.
 
-## Documents
+## Supported Environments
 
-https://theta4j.org
+- Java SE 8
+- Android API Level 19+
+
+## User Guide
+
+- [Introduction](doc/introduction.html)
+- [Connect](doc/connect.html)
+- [Capture](doc/capture.html)
+- [Object](doc/object.html)
+- [Device Property](doc/property.html)
+- [Event](doc/event.html)
+
+## Javadoc
+
+- [0.5.0](javadoc/0.5.0)
+- [0.4.0](javadoc/0.4.0)
+- [0.3.0](javadoc/0.3.0)
+
+## Appendix
+
+- [Sample Application](https://github.com/shrhdk/theta4j/blob/master/sample/src/main/java/org/theta4j/sample/ThetaCapturer.java)
+- [Contribution Guide](doc/contribution.html)
 
 ## License
 

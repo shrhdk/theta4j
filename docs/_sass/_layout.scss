@@ -1,0 +1,110 @@
+/**
+ * base styles
+ */
+
+$logo-size: 90px;
+$title-size: 32px;
+
+header {
+    background: #333;
+    color: #fff;
+
+    .wrapper {
+        max-width: $content-width;
+        height: $logo-size;
+        margin: 0 auto;
+        padding: $spacing-unit 1rem;
+
+        .project-logo {
+            width: $logo-size;
+            height: $logo-size;
+            padding-right: $spacing-unit;
+            float: left;
+        }
+
+        .project-name {
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0;
+            font-size: $title-size;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: bold;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .github-mark {
+            display: inline-block;
+            vertical-align: middle;
+            width: $title-size;
+            height: $title-size;
+            margin-left: $spacing-unit / 2;
+        }
+
+        .project-description {
+            margin: 0;
+            padding-top: 1em;
+            font-size: $title-size / 2;
+            font-family: 'Roboto', sans-serif;
+        }
+    }
+}
+
+#page-content {
+    max-width: $content-width;
+    margin: 0 auto;
+    padding: 1rem;
+    padding-top: 0;
+    color: $text-color;
+}
+
+@media screen and (max-width: 480px) {
+    $title-size: 20px;
+
+    h1 {
+        font-size: 140%;
+    }
+
+    h2 {
+        font-size: 120%;
+    }
+
+    h3 {
+        font-size: 120%;
+    }
+
+    h4 {
+        font-size: 110%;
+    }
+
+    header {
+        .wrapper {
+            height: $logo-size / 2;
+            padding: $spacing-unit;
+
+            .project-logo {
+                width: $logo-size / 2;
+                height: $logo-size / 2;
+            }
+
+            .project-name {
+                font-size: $title-size;
+            }
+
+            .github-mark {
+                width: $title-size;
+                height: $title-size;
+            }
+
+            .project-description {
+                padding-top: 0.5em;
+                font-size: $title-size / 2;
+            }
+        }
+    }
+
+    #page-content {
+        padding: $spacing-unit;
+        padding-top: 0;
+    }
+}

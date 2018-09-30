@@ -1,0 +1,14 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+
+// Variables
+
+$content-width:    1000px;
+$spacing-unit:     10px;
+$text-color:       #333;
+
+@import "base";
+@import "layout";
+@import "syntax-highlighting";

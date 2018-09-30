@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="90" width="90" viewBox="0 0 180 180">
+ <defs>
+  <clipPath id="canvas">
+   <circle cy="90" cx="90" r="89"/>
+  </clipPath>
+ </defs>
+ <g clip-path="url(#canvas)">
+  <circle cy="90" cx="90" r="90" fill="#6dc904"/>
+  <path d="m153 98v-40c0-7-11-24-63-24s-63 17-63 24v40"/>
+  <path d="m153 180v-82h-126v82" fill="#fff"/>
+  <circle cy="98" cx="90" r="32" fill="#f00"/>
+  <ellipse rx="10" ry="6" cx="80" cy="92" fill="#fff"/>
+  <path d="m81 151v9h18v-9c0-5-4-9-9-9s-9 4-9 9z" fill="#2a7fff"/>
+ </g>
+ <circle cx="90" cy="90" r="86" fill="none" stroke="#000" stroke-width="8"/>
+</svg>
