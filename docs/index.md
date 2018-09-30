@@ -35,7 +35,7 @@ PTP-IP implementation for RICOH THETA written in Java.
 
 ## Appendix
 
-- [Sample Application](https://github.com/shrhdk/theta4j/blob/master/sample/src/main/java/org/theta4j/sample/ThetaCapturer.java)
+- [Sample Application](https://github.com/shrhdk/theta4j/blob/master/v1-sample/src/main/java/org/theta4j/sample/ThetaCapturer.java)
 - [Contribution Guide](doc/contribution.html)
 
 ## License
