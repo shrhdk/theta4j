@@ -3,6 +3,8 @@
  */
 package org.theta4j.android;
 
+import java.util.Locale;
+
 final class Version {
     private static final int BIT_PER_NUM = 10;
     private static final int MAX = (1 << BIT_PER_NUM) - 1;
@@ -22,7 +24,7 @@ final class Version {
         final int patch = ver.getPatchVersion();
 
         if (MAX < major || MAX < minor || MAX < patch) {
-            final String message = String.format("Each number in version name must be %d or less, but given is %s.", MAX, semver);
+            final String message = String.format(Locale.US, "Each number in version name must be %d or less, but given is %s.", MAX, semver);
             throw new IllegalArgumentException(message);
         }
 
