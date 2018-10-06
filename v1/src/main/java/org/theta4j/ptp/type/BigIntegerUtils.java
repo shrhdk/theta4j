@@ -130,10 +130,6 @@ class BigIntegerUtils {
         return new BigInteger("+7f" + StringUtils.repeat("ff", size - 1), 16);
     }
 
-    public static BigInteger minOfUnsigned() {
-        return BigInteger.ZERO;
-    }
-
     public static BigInteger maxOfUnsigned(int size) {
         return new BigInteger("+ff" + StringUtils.repeat("ff", size - 1), 16);
     }

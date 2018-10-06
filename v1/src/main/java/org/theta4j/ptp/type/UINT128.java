@@ -20,7 +20,7 @@ public final class UINT128 extends PtpInteger {
      */
     public static final int SIZE_IN_BYTES = 16;
 
-    public static final UINT128 MIN_VALUE = new UINT128(BigIntegerUtils.minOfUnsigned());
+    public static final UINT128 MIN_VALUE = new UINT128(BigInteger.ZERO);
     public static final UINT128 MAX_VALUE = new UINT128(BigIntegerUtils.maxOfUnsigned(SIZE_IN_BYTES));
 
     public static final UINT128 ZERO = new UINT128(0);

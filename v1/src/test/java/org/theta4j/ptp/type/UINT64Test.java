@@ -17,7 +17,7 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 public class UINT64Test {
-    private static final BigInteger MIN_INTEGER_VALUE = BigIntegerUtils.minOfUnsigned(UINT64.SIZE_IN_BYTES);
+    private static final BigInteger MIN_INTEGER_VALUE = BigInteger.ZERO;
     private static final BigInteger MAX_INTEGER_VALUE = BigIntegerUtils.maxOfUnsigned(UINT64.SIZE_IN_BYTES);
 
     private static final UINT64 V1 = new UINT64(1);

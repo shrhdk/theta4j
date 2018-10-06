@@ -41,15 +41,6 @@ public class BigIntegerUtilsTest {
     }
 
     @Test
-    public void testMinOfUnsigned() {
-        assertThat(minOfUnsigned(1), is(BigInteger.ZERO));
-        assertThat(minOfUnsigned(2), is(BigInteger.ZERO));
-        assertThat(minOfUnsigned(4), is(BigInteger.ZERO));
-        assertThat(minOfUnsigned(8), is(BigInteger.ZERO));
-        assertThat(minOfUnsigned(16), is(BigInteger.ZERO));
-    }
-
-    @Test
     public void testMaxOfUnsigned() {
         assertThat(maxOfUnsigned(1), is(BigInteger.valueOf(0xff)));
         assertThat(maxOfUnsigned(2), is(BigInteger.valueOf(0xffff)));
