@@ -81,10 +81,10 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     private UINT32 establishCommandDataConnection() throws IOException {
         InitCommandRequestPacket initCommandRequest = new InitCommandRequestPacket(guid, "test", ProtocolVersions.REV_1_0);
         co.write(initCommandRequest);
-        LOGGER.debug("Sent InitCommandRequest: " + initCommandRequest);
+        LOGGER.debug("Sent InitCommandRequest: {}", initCommandRequest);
 
         InitCommandAckPacket initCommandAck = ci.readInitCommandAckPacket();
-        LOGGER.debug("Command Data Connection is established: " + initCommandAck);
+        LOGGER.debug("Command Data Connection is established: {}", initCommandAck);
 
         return initCommandAck.getConnectionNumber();
     }
@@ -92,10 +92,10 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
     private void establishEventConnection(UINT32 connectionNumber) throws IOException {
         InitEventRequestPacket initEventRequest = new InitEventRequestPacket(connectionNumber);
         eo.write(initEventRequest);
-        LOGGER.debug("Sent InitEventRequest: " + initEventRequest);
+        LOGGER.debug("Sent InitEventRequest: {}", initEventRequest);
 
         InitEventAckPacket initEventAck = ei.readInitEventAckPacket();
-        LOGGER.debug("Event Connection is established: " + initEventAck);
+        LOGGER.debug("Event Connection is established: {}", initEventAck);
     }
 
     private void startEventHandlerThread() {
@@ -111,11 +111,11 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
                     }
 
                     try {
-                        LOGGER.error("Error occurred while receiving Event packet: " + e);
+                        LOGGER.error("Error occurred while receiving Event packet", e);
                         LOGGER.error("Try to close PtpIpInitiator");
                         close();
                     } catch (IOException e1) {
-                        LOGGER.error("Error occurred while closing in event receiving thread: " + e1);
+                        LOGGER.error("Error occurred while closing in event receiving thread", e1);
                     }
 
                     return;
@@ -179,7 +179,7 @@ public final class PtpIpInitiator extends AbstractPtpInitiator {
                 p1, p2, p3, p4, p5
         );
         co.write(operationRequestPacket);
-        LOGGER.debug("Sent OperationRequest: " + operationRequestPacket);
+        LOGGER.debug("Sent OperationRequest: {}", operationRequestPacket);
 
         return transactionID;
     }

@@ -179,7 +179,7 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
         } else if (eventCode.equals(EventCode.CAPTURE_COMPLETE.value())) {
             onCaptureComplete(p1);
         } else {
-            LOGGER.warn("Unknown EventCode: " + eventCode);
+            LOGGER.warn("Unknown EventCode: {}", eventCode);
         }
     }
 
@@ -191,7 +191,7 @@ final class ThetaEventListenerSet extends AbstractSet<ThetaEventListener> implem
         } else if (DevicePropCode.REMAINING_RECORDING_TIME.value().equals(devicePropCode)) {
             onRemainingRecordingTimeChanged();
         } else {
-            LOGGER.warn("Unknown DevicePropCode: " + devicePropCode);
+            LOGGER.warn("Unknown DevicePropCode: {}", devicePropCode);
         }
     }
 }
