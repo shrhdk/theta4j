@@ -117,11 +117,11 @@ public final class GPSInfo {
         Date dateTime = new SimpleDateFormat(FORMAT_DATE_TIME, Locale.US).parse(m.group(4));
         String datum = m.group(5);
 
-        if (LATITUDE_MIN.compareTo(latitude) == 1 || LATITUDE_MAX.compareTo(latitude) == -1) {
+        if (LATITUDE_MIN.compareTo(latitude) > 0 || LATITUDE_MAX.compareTo(latitude) < 0) {
             throw new ParseException("Expected: -90 <= latitude <= 90, but was: " + str, m.start(1));
         }
 
-        if (LONGITUDE_MIN.compareTo(longitude) == 1 || LONGITUDE_MAX.compareTo(longitude) == -1) {
+        if (LONGITUDE_MIN.compareTo(longitude) > 0 || LONGITUDE_MAX.compareTo(longitude) < 0) {
             throw new ParseException("Expected: -180 <= latitude <= 180, but was: " + str, m.start(2));
         }
 
