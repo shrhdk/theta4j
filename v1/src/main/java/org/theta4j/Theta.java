@@ -14,7 +14,6 @@ import org.theta4j.ptp.code.EventCode;
 import org.theta4j.ptp.code.OperationCode;
 import org.theta4j.ptp.code.ResponseCode;
 import org.theta4j.ptp.data.DeviceInfo;
-import org.theta4j.ptp.data.Event;
 import org.theta4j.ptp.data.ObjectInfo;
 import org.theta4j.ptp.data.Response;
 import org.theta4j.ptp.type.*;
