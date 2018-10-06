@@ -20,7 +20,7 @@ public final class UINT64 extends PtpInteger {
      */
     public static final int SIZE_IN_BYTES = 8;
 
-    public static final UINT64 MIN_VALUE = new UINT64(BigIntegerUtils.minOfUnsigned(SIZE_IN_BYTES));
+    public static final UINT64 MIN_VALUE = new UINT64(BigIntegerUtils.minOfUnsigned());
     public static final UINT64 MAX_VALUE = new UINT64(BigIntegerUtils.maxOfUnsigned(SIZE_IN_BYTES));
 
     public static final UINT64 ZERO = new UINT64(0);

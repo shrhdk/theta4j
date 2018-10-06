@@ -20,7 +20,7 @@ public final class UINT32 extends PtpInteger {
      */
     public static final int SIZE_IN_BYTES = 4;
 
-    public static final UINT32 MIN_VALUE = new UINT32(BigIntegerUtils.minOfUnsigned(SIZE_IN_BYTES));
+    public static final UINT32 MIN_VALUE = new UINT32(BigIntegerUtils.minOfUnsigned());
     public static final UINT32 MAX_VALUE = new UINT32(BigIntegerUtils.maxOfUnsigned(SIZE_IN_BYTES));
 
     public static final UINT32 ZERO = new UINT32(0);

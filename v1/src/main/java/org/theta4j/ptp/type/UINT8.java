@@ -17,7 +17,7 @@ public final class UINT8 extends PtpInteger {
 
     public static final int SIZE_IN_BYTES = 1;
 
-    public static final UINT8 MIN_VALUE = new UINT8(BigIntegerUtils.minOfUnsigned(SIZE_IN_BYTES));
+    public static final UINT8 MIN_VALUE = new UINT8(BigIntegerUtils.minOfUnsigned());
     public static final UINT8 MAX_VALUE = new UINT8(BigIntegerUtils.maxOfUnsigned(SIZE_IN_BYTES));
 
     public static final UINT8 ZERO = new UINT8(0);

@@ -20,7 +20,7 @@ public final class UINT16 extends PtpInteger {
      */
     public static final int SIZE_IN_BYTES = 2;
 
-    public static final UINT16 MIN_VALUE = new UINT16(BigIntegerUtils.minOfUnsigned(SIZE_IN_BYTES));
+    public static final UINT16 MIN_VALUE = new UINT16(BigIntegerUtils.minOfUnsigned());
     public static final UINT16 MAX_VALUE = new UINT16(BigIntegerUtils.maxOfUnsigned(SIZE_IN_BYTES));
 
     public static final UINT16 ZERO = new UINT16(0);

@@ -60,7 +60,7 @@ public abstract class PtpInteger extends Number implements Comparable<PtpInteger
         if (isSigned()) {
             return BigIntegerUtils.minOfSigned(sizeInBytes());
         } else {
-            return BigIntegerUtils.minOfUnsigned(sizeInBytes());
+            return BigIntegerUtils.minOfUnsigned();
         }
     }
 
