@@ -19,8 +19,6 @@ import java.io.IOException;
  * Data Packet defined in PTP-IP
  */
 public final class DataPacket extends PtpIpPacket {
-    private static final int MIN_SIZE_IN_BYTES = UINT32.SIZE_IN_BYTES;
-
     private final UINT32 transactionID;
     private final byte[] dataPayload;
 

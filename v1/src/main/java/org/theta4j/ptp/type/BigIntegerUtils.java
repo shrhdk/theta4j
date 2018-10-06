@@ -130,7 +130,7 @@ class BigIntegerUtils {
         return new BigInteger("+7f" + StringUtils.repeat("ff", size - 1), 16);
     }
 
-    public static BigInteger minOfUnsigned(int size) {
+    public static BigInteger minOfUnsigned() {
         return BigInteger.ZERO;
     }
 
