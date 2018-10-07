@@ -7,7 +7,7 @@ layout: default
 [travis-url]:https://travis-ci.org/shrhdk/theta4j
 [travis-image]:https://travis-ci.org/shrhdk/theta4j.svg?branch=master
 [sonar-url]:https://sonarcloud.io/organizations/theta4j
-[sonar-image]:https://sonarcloud.io/api/project_badges/measure?project=theta4j:lib&metric=alert_status
+[sonar-image]:https://sonarcloud.io/api/project_badges/measure?project=theta4j:v1&metric=alert_status
 [gitter-url]:https://gitter.im/shrhdk/theta4j?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [gitter-image]:https://badges.gitter.im/Join%20Chat.svg
 
