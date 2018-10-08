@@ -1,5 +1,8 @@
 language: android
 
+git:
+  depth: false # disable shallow clone because SonarQube needs blame information.
+
 jdk:
   - oraclejdk8
 
